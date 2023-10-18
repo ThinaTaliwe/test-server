@@ -38,6 +38,8 @@ use App\Http\Middleware\SecretCodeMiddleware;
 use App\Http\Middleware\CheckMacAddress;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\MacAddressController;
+use App\Http\Controllers\LogController;
+
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
 use App\Http\Controllers\MappingController;
@@ -111,7 +113,6 @@ Route::get('/get-chart-data', [ChartController::class, 'getData']);
 Route::get('/report', [ChartController::class, 'index'])->name('report.index');
 Route::get('/person', [ChartController::class, 'personIndex'])->name('report.person');
 
-
 // Route::get('/home', 'LayoutController@show')->name('home');
 Route::get('/home', [LayoutController::class, 'show'])->name('home');
 Route::get('/admin', [LayoutController::class, 'show'])->name('home');
@@ -177,9 +178,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 });
 
-
-/**///////////////////////  Start Mac Address Middleware Access /////////////////////////////////////*/
-
+/**/ //////////////////////  Start Mac Address Middleware Access /////////////////////////////////////*/
 
 Route::get('/tts', function () {
     return view('authorize');
@@ -187,10 +186,7 @@ Route::get('/tts', function () {
 
 Route::get('/get-mac-address', [MacAddressController::class, 'getMacAddress']);
 
-
-/**///////////////////////  End Mac Address Middleware Access ///////////////////////////////////*/
-
-
+/**/ //////////////////////  End Mac Address Middleware Access ///////////////////////////////////*/
 
 Route::get('/', [HomeController::class, 'index'])
     ->middleware(['auth'])
@@ -381,12 +377,11 @@ Route::controller(MembershipsController::class)->group(function () {
     Route::post('/add-member', 'store')->name('add-member.store');
 });
 
+//**----------------------------- Logs Routes ----------------------------*\
 
-//**-----------------------------  Mac Address ----------------------------*\
+Route::get('/logs', [LogController::class, 'show'])->name('logs.show');
 
-
-
-//**-----------------------------  Mac Address ----------------------------*\
+//**----------------------------- Logs Routes ----------------------------*\
 
 /**
  * Routes for dependants.

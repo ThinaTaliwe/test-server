@@ -65,7 +65,7 @@ return [
     'sales' => 'Verkope',
     'commissions' => 'Kommissies',
     'profile' => 'Profiel',
-    'own_style' => 'Eie Styl'
-    
+    'own_style' => 'Eie Styl',
+    'logs' => 'Logboeke',
     // ...
 ];

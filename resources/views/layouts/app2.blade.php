@@ -12,11 +12,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.1/introjs.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.1/introjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.0.1/intro.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/intro.js@7.0.1/minified/introjs.min.css" rel="stylesheet">
 @endpush
 
 
@@ -92,13 +87,13 @@
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
                             ['url' => '/fixer', 'title' => __('messages.sanitizer')],
                             ['url' => '/mapper', 'title' => __('messages.mapping')],
+                            ['url' => '/logs', 'title' => __('messages.logs')],
                         ]" />
                         <!--end:Menu item-->
                     @endcanany
                     <!--begin:Menu item-->
                     <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[
                         ['url' => '/testingview', 'title' => __('messages.Developments')],
-                    
                         ['url' => '/contact', 'title' => __('messages.Find Us')],
                         ['url' => '/settings', 'title' => __('messages.Customize')],
                     ]" />
@@ -250,21 +245,21 @@
                         data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end">
                         <!-- <i class="ki-duotone ki-night-day theme-light-show fs-1">
-                                                       <span class="path1"></span>
-                                                       <span class="path2"></span>
-                                                       <span class="path3"></span>
-                                                       <span class="path4"></span>
-                                                       <span class="path5"></span>
-                                                       <span class="path6"></span>
-                                                       <span class="path7"></span>
-                                                       <span class="path8"></span>
-                                                       <span class="path9"></span>
-                                                       <span class="path10"></span>
-                                                      </i> -->
+                                                           <span class="path1"></span>
+                                                           <span class="path2"></span>
+                                                           <span class="path3"></span>
+                                                           <span class="path4"></span>
+                                                           <span class="path5"></span>
+                                                           <span class="path6"></span>
+                                                           <span class="path7"></span>
+                                                           <span class="path8"></span>
+                                                           <span class="path9"></span>
+                                                           <span class="path10"></span>
+                                                          </i> -->
                         <!-- <i class="ki-duotone ki-moon theme-dark-show fs-1">
-                                                       <span class="path1"></span>
-                                                       <span class="path2"></span>
-                                                      </i> -->
+                                                           <span class="path1"></span>
+                                                           <span class="path2"></span>
+                                                          </i> -->
                         <i class="ki-duotone ki-night-day fs-1">
                             <span class="path1"></span>
                             <span class="path2"></span>

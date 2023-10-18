@@ -99,7 +99,7 @@
 
 
             <form action="{{ route('report.person') }}" method="GET"
-                style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted; color: #000;" class="bg-primary">
+                style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px grey dotted; color: #000;" class="bg-primary">
                 <!-- Existing filters -->
                 <label for="">From: </label>
                 <input type="date" name="date_from" value="{{ $filters['date_from'] }}">

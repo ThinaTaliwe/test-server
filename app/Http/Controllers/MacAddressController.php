@@ -56,13 +56,13 @@ class MacAddressController extends Controller
             return response()->json(['Already Exist' => $existingEntry->id]);
         } elseif ($macAddress) {
             // Store into the database
-
             $newEntry = new MacAddress();
             $newEntry->user_id = $userId; // Add the user ID
             $newEntry->ip_address = $clientIpAddress;
             $newEntry->mac_address = $macAddress;
             $newEntry->save();
-            // dd('Here');
+            
+
 
             // SweetAlert message
             // return redirect()

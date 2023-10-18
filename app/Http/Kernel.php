@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verify.secret.key' => \App\Http\Middleware\VerifySecretKey::class,
         'checkMacAddress' => \App\Http\Middleware\CheckMacAddress::class,
+        'admin' => \App\Http\Middleware\CheckAdmin::class,
     ];
 }

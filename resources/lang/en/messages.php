@@ -65,6 +65,6 @@ return [
     'commissions' => 'Commissions',
     'profile' => 'Profile',
     'own_style' => 'Own Style',
-
+    'logs' => 'Logs',
     // ...
 ];

@@ -939,7 +939,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         {{-- End Gender-Wise Count --}}
 

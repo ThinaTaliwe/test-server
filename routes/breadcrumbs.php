@@ -179,3 +179,9 @@ Breadcrumbs::for('sales.create', function ($trail) {
     $trail->parent('sales.index');
     $trail->push(__('breadcrumbs.Create'), route('sales.create'));
 });
+
+// Logs Show
+Breadcrumbs::for('logs.show', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Logs'), route('logs.show'));
+});

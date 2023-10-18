@@ -32,4 +32,5 @@ return [
     'Commissions' => 'Commissions',
     'Sales' => 'Sales',
     'Create' => 'Create',
+    'Logs' => 'Logs',
 ];

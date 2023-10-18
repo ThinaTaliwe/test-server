@@ -140,14 +140,23 @@ class ChartController extends Controller
             '3' => 'Age : [56+]',
         ];
 
-        $highestValue = max($membershipsByType->pluck('count')->toArray());
-        $lowestValue = min($membershipsByType->pluck('count')->toArray());
+        // $highestValue = max($membershipsByType->pluck('count')->toArray());
+        // $lowestValue = min($membershipsByType->pluck('count')->toArray());
 
-        $highestValueActive = max($membershipsByTypeActive->pluck('count')->toArray());
-        $lowestValueActive = min($membershipsByTypeActive->pluck('count')->toArray());
+        // $highestValueActive = max($membershipsByTypeActive->pluck('count')->toArray());
+        // $lowestValueActive = min($membershipsByTypeActive->pluck('count')->toArray());
 
-        $highestValueDeleted = max($membershipsByTypeDeleted->pluck('count')->toArray());
-        $lowestValueDeleted = min($membershipsByTypeDeleted->pluck('count')->toArray());
+        // $highestValueDeleted = max($membershipsByTypeDeleted->pluck('count')->toArray());
+        // $lowestValueDeleted = min($membershipsByTypeDeleted->pluck('count')->toArray());
+
+        $highestValue = $this->getMaxValueOrDefault($membershipsByType);
+        $lowestValue = $this->getMinValueOrDefault($membershipsByType);
+
+        $highestValueActive = $this->getMaxValueOrDefault($membershipsByTypeActive);
+        $lowestValueActive = $this->getMinValueOrDefault($membershipsByTypeActive);
+
+        $highestValueDeleted = $this->getMaxValueOrDefault($membershipsByTypeDeleted);
+        $lowestValueDeleted = $this->getMinValueOrDefault($membershipsByTypeDeleted);
 
         // $genderOwingCounts = GenderCount::all(); // Replace with your query logic
 
@@ -325,4 +334,30 @@ class ChartController extends Controller
             'maritalValues' => $maritalReport->getValues(),
         ]);
     }
+
+    ///////////////////////////// Start Helper functions    //////////////////////////////
+    /**
+     * Get the maximum value from an array with a default fallback.
+     *
+     * @param  \Illuminate\Support\Collection  $collection
+     * @return int
+     */
+    private function getMaxValueOrDefault($collection): int
+    {
+        $values = $collection->pluck('count')->toArray();
+        return empty($values) ? 0 : max($values);
+    }
+
+    /**
+     * Get the minimum value from an array with a default fallback.
+     *
+     * @param  \Illuminate\Support\Collection  $collection
+     * @return int
+     */
+    private function getMinValueOrDefault($collection): int
+    {
+        $values = $collection->pluck('count')->toArray();
+        return empty($values) ? 0 : min($values);
+    }
+    // ////////////////////////  End Helper Functions //////////////////////////////////////////////
 }

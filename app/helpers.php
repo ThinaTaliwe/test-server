@@ -12,53 +12,63 @@ use Illuminate\Support\Facades\DB;
 
 //This Changes the background color of the age (Green/Yellow/Red)
 
-    # code...
-    if (!function_exists('changeAgeBackground')) {
-        function changeAgeBackground($age)
-        {
-            if ($age < 15) {
-                return 'bg-gradient-success';
-            } elseif ($age < 20 ) {
-                return 'bg-gradient-warning';
-            } else {
-                return 'bg-gradient-danger';
-            }
+# code...
+if (!function_exists('changeAgeBackground')) {
+    function changeAgeBackground($age)
+    {
+        if ($age < 15) {
+            return 'bg-gradient-success';
+        } elseif ($age < 20) {
+            return 'bg-gradient-warning';
+        } else {
+            return 'bg-gradient-danger';
         }
     }
+}
 
-    //This returns the age of a person from their date of birth
-    if (!function_exists('ageFromDOB')) {
-        function ageFromDOB($dob)
-        {
-            return Carbon::parse($dob)->diff(Carbon::now())->y;
-        }
+//This returns the age of a person from their date of birth
+if (!function_exists('ageFromDOB')) {
+    function ageFromDOB($dob)
+    {
+        return Carbon::parse($dob)->diff(Carbon::now())->y;
     }
+}
 
+if (!function_exists('dobBreakdown')) {
     function dobBreakdown($dob)
     {
         return new Carbon($dob);
     }
+}
 
-    //These call a stored procedure in the database to check if a record exists, if it doesnt exist it is then added
-    //Stored Procedure Call For Country
+//These call a stored procedure in the database to check if a record exists, if it doesnt exist it is then added
+//Stored Procedure Call For Country
+if (!function_exists('checkCountry')) {
     function checkCountry($countryName)
     {
         DB::select('CALL store_country(?)', [$countryName]);
     }
+}
 
+if (!function_exists('checkProvince')) {
     //Stored Procedure Call For Province
     function checkProvince($provinceName, $countryID)
     {
         DB::select('CALL store_province(?,?)', [$provinceName, $countryID]);
     }
+}
 
+if (!function_exists('checkCity')) {
     //Stored Procedure Call For City
     function checkCity($cityName, $countryID, $provinceID)
     {
         DB::select('CALL store_city(?,?,?)', [$cityName, $countryID, $provinceID]);
     }
+}
 
-    //SA ID Validation
+//SA ID Validation
+
+if (!function_exists('verify_id_number')) {
     function verify_id_number($id_number)
     {
         $validated = false;
@@ -107,4 +117,4 @@ use Illuminate\Support\Facades\DB;
 
         return $validated;
     }
-
+}

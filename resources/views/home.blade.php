@@ -10,19 +10,6 @@
 @endpush
 
 @section('row_content')
-    {{-- @include('layout-selector', ['layout' => $layout]) --}}
-
-    {{-- @if (App::environment('local'))
-        <form method="POST" action="/setlayout">
-            @csrf
-            <select name="layout" onchange="this.form.submit()">
-                <option value="layout1" {{ $layout == 'layout1' ? 'selected' : '' }}>Layout 1</option>
-                <option value="layout2" {{ $layout == 'layout2' ? 'selected' : '' }}>Layout 2</option>
-                <option value="app2" {{ $layout == 'app2' ? 'selected' : '' }}>Main</option>
-            </select>
-        </form>
-    @endif  --}}
-
     <!-- begin::Col-->
     <div class="col-12 col-xxl-12 col-md-12 mb-xxl-10">
 
@@ -32,7 +19,7 @@
                 <!-- Button container -->
                 <div style="position: absolute; top: 0; right: 0; z-index: 2;">
                     @canany(['user edit', 'role edit', 'permission edit'])
-                    <button id="btnImage" style="margin-right: 10px;" class="btn btn-sm btn-light m-5">Export</button>
+                        <button id="btnImage" style="margin-right: 10px;" class="btn btn-sm btn-light m-5">Export</button>
                     @endcanany
                 </div>
                 <canvas id="kt_chartjs_1" class="mh-400px"></canvas>
