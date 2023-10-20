@@ -14,7 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 @endpush
 
-
 @section('themeMode')
     <x-theme.theme-mode />
 @endsection
@@ -149,32 +148,6 @@
                 </div>
             </div>
             <!-- end::Solid input group style-->
-
-            {{-- @include('layout-selector', ['layout' => $layout]) --}}
-            {{-- <form action="/set-layout" method="POST">
-                @csrf
-                <select name="selectedLayoutIndex">
-                    @foreach ($layouts as $index => $layout)
-                        <option value="{{ $index }}" {{ $index == $selectedLayoutIndex ? 'selected' : '' }}>{{ $layout->name }}</option>
-                    @endforeach
-                </select>
-                <input type="submit" value="Set Layout">
-            </form> --}}
-
-            {{-- <!--begin::Solid input group style-->
-            <div class="input-group input-group-solid" style="width: 190px; font-size: 0.8rem;">
-                <div class="overflow-hidden flex-grow-1">
-                    <form action="/set-layout" method="POST" class="w-100">
-                        @csrf
-                        <select name="selectedLayoutIndex" class="form-select form-select-solid" data-control="select2" data-placeholder="Select a Layout" onchange="this.form.submit();">
-                            @foreach ($layouts as $index => $layout)
-                                <option value="{{ $index }}" {{ $index == $selectedLayoutIndex ? 'selected' : '' }}>{{ $layout->name }}</option>
-                            @endforeach
-                        </select>
-                    </form>
-                </div>
-            </div>
-            <!--end::Solid input group style--> --}}
 
             @canany(['user edit', 'role edit', 'permission edit'])
 
@@ -530,13 +503,7 @@
             <!--begin::Row-->
             <div class="row g-5 g-lg-10">
 
-
-
-
-
-
-
-
+                {{-- Start Checking If The User Is Owing --}}
                 @if (Auth::check() && ucfirst(Auth::user()->email) === 'Owing@user.com')
                     <!--begin::Alert-->
                     <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row p-5 mb-10">
@@ -614,14 +581,7 @@
                     </div>
                     <!--end::Alert-->
                 @endif
-
-
-
-
-
-
-
-
+                {{-- End Checking If The User Is Owing --}}
 
                 @yield('row_content')
             </div>
@@ -797,7 +757,6 @@
     </div>
 </div>
 <!--end::Activities drawer-->
-
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 

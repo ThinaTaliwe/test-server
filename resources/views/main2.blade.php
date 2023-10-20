@@ -456,6 +456,8 @@
         <!--begin::App settings Side Menue-->
     </div>
     <!--end::Col-->
+    
+    <x-button>Hello world</x-button>
 
     <div id="kt_content_container">
         <!--begin::Layout Builder Notice-->

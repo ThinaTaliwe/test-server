@@ -134,24 +134,6 @@ Route::get('users/export', [UsersController::class, 'export']);
 // Route::get('recentlyAddedPersons', 'ChartController@recentlyAddedPersons');
 Route::get('/person', [ChartController::class, 'personIndex'])->name('report.person');
 
-// Route::get(
-//     '/', function () {
-//         return view('landing');
-//     }
-// );
-
-// Route::get('/login', function () {
-//     return View('auth.login');
-// })->name('login');
-
-// Route::get('/register', function () {
-//     return View('auth.register');
-// })->name('register');
-
-// Route::post('register', [RegisteredUserController::class, 'store']);
-
-// Route::post('login', [AuthenticatedSessionController::class, 'store']);
-
 Route::group(['middleware' => ['web']], function () {
     /**
      * Route for displaying the login view.
@@ -197,33 +179,7 @@ Route::get('/', [HomeController::class, 'index'])
  */
 Route::get('/admin/edit-account-info', function () {
     return view('user.show');
-})
-    ->middleware(['auth'])
-    ->name('usershow');
-
-// This will change the LAYOUT variable in the .env file, which will change the current layout.
-// Route::post('/setlayout', function (Request $request) {
-//     // Debugbar::info('start');
-
-//     Artisan::call('config:cache'); // Clear the config cache
-//     Debugbar::info('end');
-//     $envFile = app()->environmentFilePath();
-//     $str = file_get_contents($envFile);
-//     Debugbar::info($envFile);
-//     Debugbar::info($str);
-
-//     $oldValue = 'LAYOUT=' . config('layout.current');
-//     $newValue = 'LAYOUT=' . $request->layout;
-
-//     $str = str_replace($oldValue, $newValue, $str);
-
-//     if (!file_put_contents($envFile, $str)) {
-//         return back()->with('error', 'Unable to write to .env file.');
-//         Debugbar::info('error');
-//     }
-
-//     return redirect('http://192.168.1.8/')->with('success', 'Layout changed successfully.');
-// })->middleware(['auth']);
+})->middleware(['auth'])->name('usershow');
 
 Route::post('/direction-switch', function () {
     request()->validate([
@@ -267,15 +223,6 @@ Route::post('commission/store', [CommissionRateController::class, 'store'])->nam
 Route::get('/user/{user}', [App\Http\Controllers\UserController::class, 'show']);
 
 Route::post('/save-styles', [App\Http\Controllers\UserController::class, 'saveStyles']);
-
-/**
- * Route for customizing theme options
- */
-// Route::get(
-//     '/customize', function () {
-//         return view('customize-theme');
-//     }
-// )->middleware(['auth'])->name('customize');
 
 Route::get('/customize', [App\Http\Controllers\UserController::class, 'index'])->name('customize');
 

@@ -77,15 +77,7 @@
 
 @section('content')
     <div class="card p-8 m-16">
-                {{-- Start Test --}}
-                {{-- <div class="dropdown">
-                    <img src="img_5terre.jpg" alt="Cinque Terre" width="100" height="50">
-                    <div class="dropdown-content">
-                    <img src="img_5terre.jpg" alt="Cinque Terre" width="300" height="200">
-                    <div class="desc">Beautiful Cinque Terre</div>
-                    </div>
-                  </div> --}}
-                {{-- End Test --}}
+
         {{-- Start Sheperd Intro Guide --}}
         <button id="start-tour" class="btn btn-info btn-sm mb-4">Click Me!</button>
         {{-- End Sheperd Intro Guide --}}
