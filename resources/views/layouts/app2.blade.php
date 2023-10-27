@@ -93,6 +93,7 @@
                     <!--begin:Menu item-->
                     <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[
                         ['url' => '/testingview', 'title' => __('messages.Developments')],
+                        ['url' => '/whatsapp', 'title' => __('WhatsApp')],
                         ['url' => '/contact', 'title' => __('messages.Find Us')],
                         ['url' => '/settings', 'title' => __('messages.Customize')],
                     ]" />

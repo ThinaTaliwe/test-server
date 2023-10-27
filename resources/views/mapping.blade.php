@@ -19,7 +19,7 @@
 @section('content')
     {{-- START - Mapping  --}}
 
-    <div class="container">
+    <div class="container bg-gradient rounded">
         <h1 class="my-9"  style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
 
         <div class="modal fade" id="addWarehouseModal" tabindex="-1" role="dialog" aria-labelledby="addWarehouseModalLabel"
@@ -28,9 +28,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addWarehouseModalLabel">Add Warehouse</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <x-button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="btnAddWarehouse" text="Add Warehouse">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                        </x-button>
                     </div>
                     <div class="modal-body">
                         <form id="addWarehouseForm">
@@ -83,7 +83,7 @@
                                     <option value="0">No</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-dark">Add Warehouse</button>
+                            <x-button type="submit" class="btn-dark" id="btnAddingWarehouse" text="Adding Warehouse">Add Warehouse</x-button>
                         </form>
                     </div>
                 </div>
@@ -131,8 +131,8 @@
                             @endforeach
                         </select>
 
-                        <button type="submit" id="delete-preset-button" class="btn btn-dark mt-2">Delete
-                            Preset</button>
+                        <x-button type="submit" id="delete-preset-button" class="btn-dark mt-2" text="Delete Preset">Delete
+                            Preset</x-button>
                         <a id="toggle-button" class="btn btn-primary mt-2">Create Preset</a>
                     </form>
                     <!-- End form -->
@@ -208,7 +208,7 @@
                             placeholder="Name for Preset (Optional)">
                     </div>
 
-                    <button type="submit" class="btn btn-dark">Save Preset</button>
+                    <x-button type="submit" class="btn-dark" id="btnSavePreset" text="Save Preset">Save Preset</x-button>
                 </form>
             </div>
         </div>
@@ -273,7 +273,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-dark">Save Mapping</button>
+                    <x-button type="submit" class="btn-dark" id="btnSaveMapping" text="Save Mapping">Save Mapping</x-button>
                 </form>
 
                 <div class="row">

@@ -17,7 +17,7 @@ class Button extends Component
     /**
      * Create a new component instance.
      */
-    public function construct($type = 'button', $class = '', $id = '', $text = 'Click')
+    public function __construct($type = 'button', $class = '', $id = '', $text)
     {
         $this->type = $type;
         $this->class = $this->defaultClass . ' ' . $class;  // Append any additional classes
@@ -28,7 +28,7 @@ class Button extends Component
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render()
     {
         return view('components.button');
     }

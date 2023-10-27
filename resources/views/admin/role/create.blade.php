@@ -1,10 +1,10 @@
 @extends('layouts.app2')
 @section('row_content')
 
-
-    <div class="modal-content">
+    <div class="modal-content bg-info-subtle border rounded">
         <div class="modal-header">
-            <h1 class="fw-bold">{{ __('Create role') }}</h1>
+            <h1 class="fw-bold mt-6 center-content border-bottom border-4 border-info" style="margin-left: auto; margin-right: auto; width: fit-content;">
+                {{ __('Create Role') }}</h1>
             @if ($errors->any())
                 <ul class="text-danger fw-semibold">
                     @foreach ($errors->all() as $error)
@@ -23,7 +23,9 @@
                             class="form-control form-control-solid" />
                     </div>
                     <div class="fv-row">
-                        <h3 class="fs-5 fw-bold form-label mb-2">Permissions</h3>
+                        <h3 class="fs-2 fw-bold form-label border-bottom border-dark">
+                            Select Permissions
+                        </h3>
                         <div class="table-responsive">
                             <table class="table align-middle table-row-dashed fs-6 gy-5">
                                 <tbody class="text-gray-600 fw-semibold">

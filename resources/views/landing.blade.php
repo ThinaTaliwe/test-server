@@ -284,7 +284,7 @@
                   <div class="error-message"></div>
                   <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                  <button type="submit">Send E-Mail</button>
+                  <x-button id="btnSendEmail" type="submit" class="btn-primary" text="Send E-Mail">Send E-Mail</x-button>
                 </div>
 
               </div>

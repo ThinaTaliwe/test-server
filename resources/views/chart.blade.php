@@ -166,12 +166,11 @@
                 <form id="exportPdfForm" method="POST" action="{{ route('generate-pdf') }}">
                     @csrf
                     <input type="hidden" name="imgData" id="imgDataInput">
-                    <button type="submit" id="exportPdfBtn" class="btn btn-danger hover-scale m-2">Export to
-                        PDF</button>
+                    <x-button type="submit" id="exportPdfBtn" class="btn-danger hover-scale m-2" text="Export to PDF"></x-button>
                     <button type="submit" id="exportPdfBtn2" class="btn btn-danger hover-scale m-2">Export to
-                        PDF</button>
+                        Excel</button>
                     <button type="submit" id="exportPdfBtn3" class="btn btn-danger hover-scale m-2">Export to
-                        PDF</button>
+                        CSV</button>
                 </form>
             </div>
             <!--end::Col-->

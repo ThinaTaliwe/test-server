@@ -39,6 +39,7 @@ use App\Http\Middleware\CheckMacAddress;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\MacAddressController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\WhatsAppController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -227,6 +228,13 @@ Route::post('/save-styles', [App\Http\Controllers\UserController::class, 'saveSt
 Route::get('/customize', [App\Http\Controllers\UserController::class, 'index'])->name('customize');
 
 Route::get('/dynamic_styles', [App\Http\Controllers\UserController::class, 'index2'])->name('dynamic_styles');
+
+// ------------------------ Start WhatsApp Routes ----------------------------------------------
+
+Route::get('/whatsapp', [WhatsAppController::class, 'showForm'])->name('whatsapp');
+Route::post('/whatsapp/send', [WhatsAppController::class, 'sendMessage'])->name('sendWhatsAppMessage');
+
+// ------------------------  End WhatsApp Routes ---------------------------------------------
 
 Route::get('/settings', function () {
     return view('settings');

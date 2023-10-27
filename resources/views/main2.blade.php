@@ -5,8 +5,8 @@
 @endpush
 
 @section('row_content')
-    <button type="button" id="kt_docs_sweetalert_basic" class="btn btn-primary">Toggle SweetAlert</button>
-
+    <x-button type="button" id="kt_docs_sweetalert_basic" class="btn-primary" text="Toggle SweetAlert"></x-button>
+    
     <div id="kt_docs_jkanban_basic"></div>
 
     <!--begin::Col-->
@@ -47,11 +47,11 @@
     <!--begin::Col-->
     <div class="col-xxl-8 col-md-8 mb-xxl-10">
         <!--begin::App settings toggle-->
-        <button id="kt_app_layout_builder_toggle" class="btn btn-info app-layout-builder-toggle lh-1 py-4"
+        <x-button type="button" text="Customize" id="kt_app_layout_builder_toggle" class="btn btn-info app-layout-builder-toggle lh-1 py-4"
             data-bs-custom-class="tooltip-inverse" data-bs-placement="left" data-bs-dismiss="click" data-bs-trigger="hover"
             data-bs-original-title="Metronic Builder" data-kt-initialized="1">
             <i class="ki-outline ki-setting-4 fs-4 me-1"></i> Customize
-        </button>
+        </x-button>
         <!--end::App settings toggle-->
 
 
@@ -456,8 +456,6 @@
         <!--begin::App settings Side Menue-->
     </div>
     <!--end::Col-->
-    
-    <x-button>Hello world</x-button>
 
     <div id="kt_content_container">
         <!--begin::Layout Builder Notice-->
@@ -497,7 +495,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3 class="modal-title" id="exampleModalLabel">reCaptcha Verification</h3>
-
                         <button class="btn btn-sm btn-icon btn-light btn-hover-primary" data-bs-dismiss="modal"
                             aria-label="Close">
                             <i class="ki ki-close fs-4 text-muted"></i>
@@ -635,8 +632,7 @@
                                             <!--end::Image-->
 
                                             <!--begin::Check-->
-                                            <div
-                                                class="form-check form-check-custom form-check-solid form-check-sm form-check-success">
+                                            <div class="form-check form-check-custom form-check-solid form-check-sm form-check-success">
                                                 <input class="form-check-input" type="radio" value="dark"
                                                     name="theme_mode" id="kt_layout_builder_theme_mode_dark">
 

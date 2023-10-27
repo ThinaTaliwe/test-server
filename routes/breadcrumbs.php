@@ -185,3 +185,9 @@ Breadcrumbs::for('logs.show', function ($trail) {
     $trail->parent('home');
     $trail->push(__('Logs'), route('logs.show'));
 });
+
+// Logs Show
+Breadcrumbs::for('whatsapp', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('WhatsApp'), route('whatsapp'));
+});

@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="container rounded bg-gradient">
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">
                 <h2 class="mt-9" style="margin-left: auto; margin-right: auto; width: fit-content;">Data Sanitizer</h2>

@@ -2,18 +2,17 @@
 
 @section('row_content')
 
-
-<div class="modal-content">
+<div class="modal-content border rounded bg-gradient">
     <div class="modal-header" id="kt_modal_add_user_header">
-        <h1 class="fw-bold">{{ __('Update user') }}</h1>
-        <a href="{{route('user.index')}}">{{ __('<< Back to all users') }}</a>
-        {{--        @if ($errors->any())--}}
-{{--          <ul class="fv-row mb-7">--}}
-{{--            @foreach ($errors->all() as $error)--}}
-{{--              <li>{{ $error }}</li>--}}
-{{--            @endforeach--}}
-{{--          </ul>--}}
-{{--        @endif--}}
+        <h1 class="fw-bold mt-6" style="margin-left: auto; margin-right: auto; width: fit-content;">{{ __('Update User') }}</h1>
+        <a href="{{route('user.index')}}" class="border m-6 p-4 bg-gradient">{{ __('<< Back') }}</a>
+            {{--        @if ($errors->any())--}}
+            {{--          <ul class="fv-row mb-7">--}}
+            {{--            @foreach ($errors->all() as $error)--}}
+            {{--              <li>{{ $error }}</li>--}}
+            {{--            @endforeach--}}
+            {{--          </ul>--}}
+            {{--        @endif--}}
         <script>
           @if ($errors->any())
           var errors = [
@@ -70,6 +69,8 @@
             <button type='submit' class='btn btn-primary'>
                 {{ __('Update') }}
             </button>
+            <!-- In your Blade file -->
+            <x-button id="btnBack" class="btn-secondary " type="button" text="Back"><a href="{{route('user.index')}}"></a></x-button>
         </div>
         </form>
     </div>

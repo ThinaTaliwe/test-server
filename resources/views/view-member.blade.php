@@ -273,13 +273,11 @@
 															"" }}/>
 															<label class="btn btn-secondary" for="Divorced">Divorced</label>
 														  </div>
-								
-														</div>
-								
+														</div>								
 													  </div>
 								
 													  <hr class="dark horizontal mt-2 mb-0">
-								
+
 													  <div class="col-md-12">
 														<div class="dropdown">
 														  <select name="memtype" id="memtype"
@@ -296,22 +294,18 @@
 														  </select>
 														</div>
 													  </div>
-								
-								
-								
-								
-								
+											
 													  <div class="col-8 mx-auto">
 														<div class="text-center  d-flex justify-content-center align-items-center ">
-														  <button type="submit" class="btn bg-gradient-success w-100 my-4 mb-4"><i
-															  class="material-icons opacity-10 pe-2">save</i>Update</button>
+														  <x-button type="submit" text="Update" class="btn bg-gradient-success w-100 my-4 mb-4" id="btnUpdate"><i
+															  class="material-icons opacity-10 pe-2">save</i>Update</x-button>
 														</div>
 													  </div>
 								
 													</fieldset>
 												</div>
 												<div class="button-row d-flex mt-4">
-													<button class="btn bg-primary ms-auto mb-0 js-btn-next" type="button" title="Next">Next</button>
+													<x-button text="Next" id="btnNext" class="btn bg-primary ms-auto mb-0 js-btn-next" type="button" title="Next">Next</x-button>
 												</div>
 											</div>
 
@@ -540,8 +534,8 @@
 														<div class="row mt-4">
 														<div class="col-6 mx-auto">
 															<div class="text-center  d-flex justify-content-center align-items-center ">
-															<button type="submit" class="btn bg-gradient-success w-100 my-4 mb-4"><i
-																class="material-icons opacity-10">add</i> Add</button>
+															<x-button id="btnAdd" text="Add" type="submit" class="bg-gradient-success w-100 my-4 mb-4"><i
+																class="material-icons opacity-10">add</i> Add</x-button>
 															</div>
 														</div>
 														</div>
@@ -554,8 +548,8 @@
 												<!-- End Add Dependant Block -->
 												</div>
 												<div class="button-row d-flex mt-4">
-												<button class="btn bg-primary mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
-												<button class="btn bg-primary ms-auto mb-0 js-btn-next" type="button" title="Next">Next</button>
+												<x-button id="btnPrev" class="bg-primary mb-0 js-btn-prev" type="button" title="Prev" text="Prev">Prev</x-button>
+												<x-button id="btnNext" class="bg-primary ms-auto mb-0 js-btn-next" type="button" title="Next" text="Next">Next</x-button>
 												</div>
 										  </div>
 							  
@@ -624,7 +618,7 @@
 														  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 															<div class=" shadow-dark border-radius-lg pt-3 pb-2">
 															  <h6 class="text-white text-capitalize ps-3"><i
-																  class="material-icons me-2 text-lg">add_location_alt</i>Add Address</h6>
+																  class="material-icons me-2 text-lg"></i>Add Address</h6>
 															</div>
 														  </div>
 														  <!-- {{-- <fieldset  id="addAddress" action="{{ route('address.store') }}"
@@ -738,8 +732,8 @@
 															  </div>
 															  <div class="button-row d-flex mt-4">
 										
-																<button class="btn bg-gradient-success mx-auto mb-0 w-100" type="button"
-																  title="Add New Address">Add</button>
+																<x-button id="btnAddAddr" class="btn bg-gradient-success mx-auto mb-0 w-100" type="button"
+																  title="Add New Address" text="Add">Add</x-button>
 															  </div>
 															</div>
 														  <!-- </fieldset> -->
@@ -749,9 +743,8 @@
 
 											  <div class="row">
 												<div class="button-row d-flex mt-4 col-12">
-												  <button class="btn bg-primary mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
-												  <button class="btn bg-primary ms-auto mb-0 js-btn-next" type="button"
-													title="Next">Next</button>
+												  <x-button id="btnPrev" class="bg-primary mb-0 js-btn-prev" type="button" title="Prev" text="Prev">Prev</x-button>
+												  <x-button id="btnNext" class="bg-primary ms-auto mb-0 js-btn-next" type="button" title="Next" text="Next">Next</x-button>
 												</div>
 											  </div>
 											</div>
@@ -777,7 +770,7 @@
 											</div>										
 											<div class="multisteps-form__content mt-3">
 											  <div class="button-row d-flex mt-4">
-												<button class="btn bg-primary mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
+												<x-button id="btnPrev" class="bg-primary mb-0 js-btn-prev" type="button" title="Prev" text="Prev">Prev</x-button>
 											  </div>
 											</div>
 										  </div>

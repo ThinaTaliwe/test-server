@@ -19,7 +19,7 @@
                 <!-- Button container -->
                 <div style="position: absolute; top: 0; right: 0; z-index: 2;">
                     @canany(['user edit', 'role edit', 'permission edit'])
-                        <button id="btnImage" style="margin-right: 10px;" class="btn btn-sm btn-light m-5">Export</button>
+                        <x-button type="button" id="btnImage" style="margin-right: 10px;" class="btn-sm btn-light m-5" text="Export">Export</x-button>
                     @endcanany
                 </div>
                 <canvas id="kt_chartjs_1" class="mh-400px"></canvas>

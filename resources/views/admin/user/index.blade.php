@@ -3,7 +3,7 @@
 @section('row_content')
 							<div class="card">
 								<div class="card-header border-0 pt-6">
-									<h2>All Users</h2>
+									<h2 style="margin-left: auto; margin-right: auto; width: fit-content;">All Users</h2>
 								</div>
 								@if(session()->has('message'))
 								<p>
