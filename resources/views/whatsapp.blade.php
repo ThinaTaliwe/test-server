@@ -21,7 +21,7 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-success float-right">Send</button>
         </form>
     </div>
 @endsection

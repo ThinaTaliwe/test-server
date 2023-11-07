@@ -19,8 +19,8 @@
 @section('content')
     {{-- START - Mapping  --}}
 
-    <div class="container bg-gradient rounded">
-        <h1 class="my-9"  style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
+    <div class="container rounded bg-info-subtle">
+        <h1 class="my-9" style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
 
         <div class="modal fade" id="addWarehouseModal" tabindex="-1" role="dialog" aria-labelledby="addWarehouseModalLabel"
             aria-hidden="true">

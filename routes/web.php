@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\MacAddressController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\WhatsAppWebhookController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */

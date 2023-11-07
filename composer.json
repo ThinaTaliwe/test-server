@@ -8,6 +8,8 @@
         "php": "^8.0.2",
         "babdev/laravel-breadcrumbs": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
+        "beyondcode/laravel-websockets": "^1.14",
+        "cboden/ratchet": "^0.4.4",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
