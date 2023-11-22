@@ -41,6 +41,7 @@ use App\Http\Controllers\MacAddressController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\WhatsAppWebhookController;
+use App\Http\Controllers\ReportController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -54,6 +55,20 @@ use App\Http\Controllers\PresetController;
 
 /* These Are For Presets */
 use App\Http\Controllers\TransferLogController;
+
+//--------------------------------- Start lededata Routes --------------------------------------------------------------------
+Route::get('/reports/membership-growth-retention', [ReportController::class, 'membershipGrowthAndRetentionReport']);
+Route::get('/member/profile', [ReportController::class, 'profileReport']);
+Route::get('/member/demographic', [ReportController::class, 'demographicReport']);
+
+Route::get('/member/geographic', [ReportController::class, 'geographicReport']);
+Route::get('/member/financial', [ReportController::class, 'financialReport']);
+Route::get('/member/lifecycle', [ReportController::class, 'lifecycleReport']);
+
+Route::get('/member/insurance-claims', [ReportController::class, 'insuranceClaimsReport']);
+Route::get('/member/communication', [ReportController::class, 'communicationReport']);
+Route::get('/member/audit', [ReportController::class, 'auditReport']);
+//--------------------------------- End lededata Routes --------------------------------------------------------------------
 
 /* These Are For Mappings */
 Route::get('/mapper', [MappingController::class, 'showMappingAndPreset'])->name('mapper.index');
@@ -181,7 +196,9 @@ Route::get('/', [HomeController::class, 'index'])
  */
 Route::get('/admin/edit-account-info', function () {
     return view('user.show');
-})->middleware(['auth'])->name('usershow');
+})
+    ->middleware(['auth'])
+    ->name('usershow');
 
 Route::post('/direction-switch', function () {
     request()->validate([
@@ -234,6 +251,9 @@ Route::get('/dynamic_styles', [App\Http\Controllers\UserController::class, 'inde
 
 Route::get('/whatsapp', [WhatsAppController::class, 'showForm'])->name('whatsapp');
 Route::post('/whatsapp/send', [WhatsAppController::class, 'sendMessage'])->name('sendWhatsAppMessage');
+
+Route::get('/whatsapp/webhook', [WhatsAppController::class, 'receiveMessage']);
+Route::get('/whatsapp/messages', [WhatsAppController::class, 'showMessages'])->name('whatsappMessages');
 
 // ------------------------  End WhatsApp Routes ---------------------------------------------
 

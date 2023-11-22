@@ -18,9 +18,6 @@ class DataTransferController extends Controller
         return view('transfer');
     }
 
-
-
-
     public function getMappingsForTable($mapping)
     {
         $parts = explode(' -> ', $mapping);

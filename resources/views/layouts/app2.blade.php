@@ -60,6 +60,20 @@
                     <x-aside.aside-menu :menu-title="__('messages.Dependants')" :menu-icon="'ki-duotone ki-abstract-26 fs-2'" :menu-items="[['url' => '/dependants', 'title' => __('messages.AllDependants')]]" />
                     <!--end:Menu item-->
                     @canany(['user edit', 'role edit', 'permission edit'])
+                                             <!--begin:Menu item-->
+                        <x-aside.aside-menu :menu-title="__('Lede Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
+                            ['url' => '/lededata/overview.html', 'title' => __('Profiles Report')],
+                            ['url' => '/', 'title' => __('Status Report')],
+                            ['url' => '/', 'title' => __('Demographics Report')],
+                            ['url' => '/', 'title' => __('Geographic Distribution Report')],
+                            ['url' => '/', 'title' => __('Financial Reports')],
+                            ['url' => '/', 'title' => __('Membership Growth and Retention Reports')],
+                            ['url' => '/', 'title' => __('Insurance and Claims Report')],
+                            ['url' => '/', 'title' => __('Communication Preferences Report')],
+                            ['url' => '/', 'title' => __('Audit and Data Integrity Reports')],
+                            ['url' => '/', 'title' => __('Membership Lifecycle Reports')],
+                        ]" />
+                        <!--end:Menu item-->
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.Admin Space')" :menu-icon="'ki-duotone ki-briefcase fs-2'" :menu-items="[
                             ['url' => '/admin/user', 'title' => __('messages.Users')],
@@ -151,7 +165,6 @@
             <!-- end::Solid input group style-->
 
             @canany(['user edit', 'role edit', 'permission edit'])
-
                 <!--begin::Solid input group style-->
                 <div class="input-group input-group-solid" style="width: 190px; font-size: 0.8rem;">
                     <div class="overflow-hidden flex-grow-1">

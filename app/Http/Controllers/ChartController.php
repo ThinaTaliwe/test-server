@@ -164,6 +164,11 @@ class ChartController extends Controller
         $minCount = $genderOwingCounts->min('member_count');
         $averageCount = $genderOwingCounts->avg('member_count'); // Calculate average
 
+
+        // Get all the Total data in membership table
+        //$newtotalMemberships =DB::connection('mapping')->table('lededata')->first();
+        //dd($newtotalMemberships);
+        
         return view('report.index', compact('data', 'averageCount', 'genderOwingCounts', 'maxCount', 'minCount', 'lowestValueDeleted', 'highestValueDeleted', 'lowestValueActive', 'highestValueActive', 'highestValue', 'lowestValue', 'membershipTypeMapping', 'genderOwingCounts', 'unpaidMembersGrouped', 'membershipsEndedByReason', 'yearlyMembershipTrends', 'yearlyMembershipTrendsActive', 'yearlyMembershipTrendsDeleted', 'averageFeeByRegion', 'averageFeeByRegionActive', 'averageFeeByRegionDeleted', 'totalMemberships', 'totalMembershipsActive', 'totalMembershipsDeleted', 'membershipsByGender', 'membershipsByGenderActive', 'membershipsByGenderDeleted', 'membershipsByType', 'membershipsByTypeActive', 'membershipsByTypeDeleted', 'filters', 'oldest', 'maleMembers', 'femaleMembers', 'enMembers', 'afMembers'));
     }
 

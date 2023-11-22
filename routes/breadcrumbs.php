@@ -191,3 +191,16 @@ Breadcrumbs::for('whatsapp', function ($trail) {
     $trail->parent('home');
     $trail->push(__('WhatsApp'), route('whatsapp'));
 });
+
+// // Logs Show
+// Breadcrumbs::for('messages', function ($trail) {
+//     $trail->parent('home');
+//     $trail->push(__('Messages'), route('whatsappMessages2'));
+// });
+
+
+// Home > WhatsApp Messages
+Breadcrumbs::for('whatsappMessages', function ($trail) {
+    $trail->parent('home');
+    $trail->push('WhatsApp Messages', route('whatsappMessages'));
+});
