@@ -137,47 +137,47 @@ License: For each use you must have a valid license purchased only from above li
 									<ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5 active" href="account/overview.html">Overview</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/profile">Profile</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/profile">Settings</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5 active" href="member/growth-retention">Growth Retention</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/security.html">Security</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/demographic">Demographic</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/activity.html">Activity</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/financial">Finance</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/billing.html">Billing</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/geographic">Geographic</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/statements.html">Statements</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/insurance-claims">Insurance Claims</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/referrals.html">Referrals</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/communication">Communication</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/api-keys.html">API Keys</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/audit">Audit</a>
 										</li>
 										<!--end::Nav item-->
 										<!--begin::Nav item-->
 										<li class="nav-item mt-2">
-											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="account/logs.html">Logs</a>
+											<a class="nav-link text-active-primary ms-0 me-10 py-5" href="member/lifecycle">Life Cycle</a>
 										</li>
 										<!--end::Nav item-->
 									</ul>
@@ -302,49 +302,51 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end::Input group-->
 
 									<h1>Membership Growth and Retention Report</h1>
+									<section>
+        
+                                        {{-- 
+                                            @if($membershipData)
+                                                <div class="membership-details">
+                                                    <p><strong>LIDNO:</strong> {{ $membershipData->LIDNO }}</p>
+                                                    <p><strong>Surname:</strong> {{ $membershipData->SUR }}</p>
+                                                    <p><strong>Initials:</strong> {{ $membershipData->INI }}</p>
+                                                    <p><strong>Membership Type:</strong> {{ $membershipData->LIDTIPE }}</p>
+                                                    <p><strong>Region:</strong> {{ $membershipData->STREEK }}</p>
+                                                    <p><strong>Birth Date:</strong> {{ $membershipData->GEBDAT }}</p>
+                                                    <p><strong>Join Date:</strong> {{ $membershipData->AANSTDAT }}</p>
+                                                    <p><strong>Marital Status:</strong> {{ $membershipData->TROUSTAT }}</p>
+                                                    <p><strong>Postal Address:</strong> {{ $membershipData->POBOX }}</p>
+                                                    <p><strong>Street:</strong> {{ $membershipData->STREET }}</p>
+                                                    <p><strong>City:</strong> {{ $membershipData->CITY }}</p>
+                                                    <p><strong>ZIP:</strong> {{ $membershipData->ZIP }}</p>
 
-							@if($membershipData)
-								<div class="membership-details">
-									<p><strong>LIDNO:</strong> {{ $membershipData->LIDNO }}</p>
-									<p><strong>Surname:</strong> {{ $membershipData->SUR }}</p>
-									<p><strong>Initials:</strong> {{ $membershipData->INI }}</p>
-									<p><strong>Membership Type:</strong> {{ $membershipData->LIDTIPE }}</p>
-									<p><strong>Region:</strong> {{ $membershipData->STREEK }}</p>
-									<p><strong>Birth Date:</strong> {{ $membershipData->GEBDAT }}</p>
-									<p><strong>Join Date:</strong> {{ $membershipData->AANSTDAT }}</p>
-									<p><strong>Marital Status:</strong> {{ $membershipData->TROUSTAT }}</p>
-									<p><strong>Postal Address:</strong> {{ $membershipData->POBOX }}</p>
-									<p><strong>Street:</strong> {{ $membershipData->STREET }}</p>
-									<p><strong>City:</strong> {{ $membershipData->CITY }}</p>
-									<p><strong>ZIP:</strong> {{ $membershipData->ZIP }}</p>
-
-													
-									<p><strong>ID Number:</strong> {{ $membershipData->IDNO }}</p>
-									<p><strong>Sex:</strong> {{ $membershipData->SEX == '1' ? 'Male' : 'Female' }}</p>
-									<p><strong>Language:</strong> {{ $membershipData->TAAL }}</p>
-									<p><strong>Group:</strong> {{ $membershipData->GROEP }}</p>
-									<p><strong>Telephone Home:</strong> {{ $membershipData->TELH }}</p>
-									<p><strong>Telephone Work:</strong> {{ $membershipData->TELW }}</p>
-									<p><strong>Insurance Code:</strong> {{ $membershipData->VersekerKode }}</p>
-									<p><strong>Last Payment Date:</strong> {{ $membershipData->BETDAT }}</p>
-									<p><strong>Claim Date:</strong> {{ $membershipData->EISDAT }}</p>
-									<p><strong>Credit:</strong> {{ $membershipData->KREDIET }}</p>
-									<p><strong>Active Status:</strong> {{ $membershipData->AKTIEF == 1 ? 'Active' : 'Inactive' }}</p>
-									<p><strong>Join Age:</strong> {{ $membershipData->JOINAGE }}</p>
-									<p><strong>Membership Status:</strong> {{ $membershipData->STATUS }}</p>
-									<p><strong>Method of Payment:</strong> {{ $membershipData->BETMET }}</p>
-									<p><strong>Premium:</strong> {{ $membershipData->PREMIE }}</p>
-									<p><strong>Number of Dependents:</strong> {{ $membershipData->AANTAFH }}</p>
-									<p><strong>Receipt Number:</strong> {{ $membershipData->KWITNO }}</p>
-									<p><strong>Deceased Date:</strong> {{ $membershipData->LIDDOOD }}</p>
-									<p><strong>Adress Date:</strong> {{ $membershipData->DATADR }}</p>
-									<p><strong>Pension:</strong> {{ $membershipData->Pensioen == 1 ? 'Yes' : 'No' }}</p>
-									<p><strong>Email:</strong> {{ $membershipData->Email }}</p>
-									<p><strong>Cell:</strong> {{ $membershipData->Cell }}</p>
-								</div>
-							@else
-								<p>No membership data found.</p>
-							@endif
+                                                                    
+                                                    <p><strong>ID Number:</strong> {{ $membershipData->IDNO }}</p>
+                                                    <p><strong>Sex:</strong> {{ $membershipData->SEX == '1' ? 'Male' : 'Female' }}</p>
+                                                    <p><strong>Language:</strong> {{ $membershipData->TAAL }}</p>
+                                                    <p><strong>Group:</strong> {{ $membershipData->GROEP }}</p>
+                                                    <p><strong>Telephone Home:</strong> {{ $membershipData->TELH }}</p>
+                                                    <p><strong>Telephone Work:</strong> {{ $membershipData->TELW }}</p>
+                                                    <p><strong>Insurance Code:</strong> {{ $membershipData->VersekerKode }}</p>
+                                                    <p><strong>Last Payment Date:</strong> {{ $membershipData->BETDAT }}</p>
+                                                    <p><strong>Claim Date:</strong> {{ $membershipData->EISDAT }}</p>
+                                                    <p><strong>Credit:</strong> {{ $membershipData->KREDIET }}</p>
+                                                    <p><strong>Active Status:</strong> {{ $membershipData->AKTIEF == 1 ? 'Active' : 'Inactive' }}</p>
+                                                    <p><strong>Join Age:</strong> {{ $membershipData->JOINAGE }}</p>
+                                                    <p><strong>Membership Status:</strong> {{ $membershipData->STATUS }}</p>
+                                                    <p><strong>Method of Payment:</strong> {{ $membershipData->BETMET }}</p>
+                                                    <p><strong>Premium:</strong> {{ $membershipData->PREMIE }}</p>
+                                                    <p><strong>Number of Dependents:</strong> {{ $membershipData->AANTAFH }}</p>
+                                                    <p><strong>Receipt Number:</strong> {{ $membershipData->KWITNO }}</p>
+                                                    <p><strong>Deceased Date:</strong> {{ $membershipData->LIDDOOD }}</p>
+                                                    <p><strong>Adress Date:</strong> {{ $membershipData->DATADR }}</p>
+                                                    <p><strong>Pension:</strong> {{ $membershipData->Pensioen == 1 ? 'Yes' : 'No' }}</p>
+                                                    <p><strong>Email:</strong> {{ $membershipData->Email }}</p>
+                                                    <p><strong>Cell:</strong> {{ $membershipData->Cell }}</p>
+                                                </div>
+                                            @else
+                                                <p>No membership data found.</p>
+                                            @endif --}}
 								</div>
 								<!--end::Card body-->
 							</div>

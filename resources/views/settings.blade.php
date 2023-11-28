@@ -12,9 +12,11 @@
                 <!--begin::Number-->
                 <img src="{{ asset('giphy.gif') }}" alt="working">
                 <!--end::Number-->
+
             </div>
             <!--end::Phone-->
         </div>
         <!--end::Body-->
     </div>
 @endsection
+

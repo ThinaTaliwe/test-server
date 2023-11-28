@@ -9,8 +9,8 @@ class PresetController extends Controller
 {
     public function store(Request $request)
     {
-         // This line will log a message when the function is called.
-    \Log::info('Store function in PresetController was called.');
+        // This line will log a message when the function is called.
+        //\Log::info('Store function in PresetController was called.');
         $data = $request->all();
         $preset = Preset::create($data);
         return response()->json($preset, 201);
@@ -25,8 +25,6 @@ class PresetController extends Controller
     public function destroy(Preset $preset)
     {
         $preset->delete();
-    
         return response()->json(['status' => 'success'], 200);
     }
-    
 }

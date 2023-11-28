@@ -198,9 +198,49 @@ Breadcrumbs::for('whatsapp', function ($trail) {
 //     $trail->push(__('Messages'), route('whatsappMessages2'));
 // });
 
-
 // Home > WhatsApp Messages
 Breadcrumbs::for('whatsappMessages', function ($trail) {
     $trail->parent('home');
     $trail->push('WhatsApp Messages', route('whatsappMessages'));
 });
+
+//--------------------------- Start Lededata Breadcrumbs --------------------------------------
+Breadcrumbs::for('lededata.audit', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Audit'), route('lededata.audit'));
+});
+Breadcrumbs::for('lededata.communication', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Communication'), route('lededata.communication'));
+});
+Breadcrumbs::for('lededata.insurance', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Insurance Claims'), route('lededata.insurance'));
+});
+
+Breadcrumbs::for('lededata.lifecycle', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Life Cycle'), route('lededata.lifecycle'));
+});
+Breadcrumbs::for('lededata.financial', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Finance'), route('lededata.financial'));
+});
+Breadcrumbs::for('lededata.geographic', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Geographic'), route('lededata.geographic'));
+});
+
+Breadcrumbs::for('lededata.demographic', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Demographic'), route('lededata.demographic'));
+});
+Breadcrumbs::for('lededata.profile', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Profile'), route('lededata.profile'));
+});
+Breadcrumbs::for('lededata.growth', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Growth Retention'), route('lededata.growth'));
+});
+//--------------------------- Start Lededata Breadcrumbs --------------------------------------

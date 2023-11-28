@@ -57,17 +57,17 @@ use App\Http\Controllers\PresetController;
 use App\Http\Controllers\TransferLogController;
 
 //--------------------------------- Start lededata Routes --------------------------------------------------------------------
-Route::get('/reports/membership-growth-retention', [ReportController::class, 'membershipGrowthAndRetentionReport']);
-Route::get('/member/profile', [ReportController::class, 'profileReport']);
-Route::get('/member/demographic', [ReportController::class, 'demographicReport']);
+Route::get('/member/growth-retention', [ReportController::class, 'membershipGrowthAndRetentionReport'])->name('lededata.growth');
+Route::get('/member/profile', [ReportController::class, 'memberProfilesReport'])->name('lededata.profile');
+Route::get('/member/demographic', [ReportController::class, 'demographicReport'])->name('lededata.demographics');
 
-Route::get('/member/geographic', [ReportController::class, 'geographicReport']);
-Route::get('/member/financial', [ReportController::class, 'financialReport']);
-Route::get('/member/lifecycle', [ReportController::class, 'lifecycleReport']);
+Route::get('/member/geographic', [ReportController::class, 'geographicReport'])->name('lededata.geographic');
+Route::get('/member/financial', [ReportController::class, 'financialReport'])->name('lededata.finance');
+Route::get('/member/lifecycle', [ReportController::class, 'lifecycleReport'])->name('lededata.lifecycle');
 
-Route::get('/member/insurance-claims', [ReportController::class, 'insuranceClaimsReport']);
-Route::get('/member/communication', [ReportController::class, 'communicationReport']);
-Route::get('/member/audit', [ReportController::class, 'auditReport']);
+Route::get('/member/insurance-claims', [ReportController::class, 'insuranceClaimsReport'])->name('lededata.insurance');
+Route::get('/member/communication', [ReportController::class, 'communicationReport'])->name('lededata.communication');
+Route::get('/member/audit', [ReportController::class, 'auditReport'])->name('lededata.audit');
 //--------------------------------- End lededata Routes --------------------------------------------------------------------
 
 /* These Are For Mappings */

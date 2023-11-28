@@ -90,7 +90,7 @@ public function runScript(Request $request)
     $table_pair = $request->input('table');
     list($source_table, $target_table) = explode(' -> ', $table_pair);
 
-    $process = new Process(['/bin/python3', '/home/siya/projects/mysql-scripts/transferdata-v7.0.py', $source_database, $source_table, $target_table]);
+    $process = new Process(['/bin/python3', '/home/siya/projects/mysql-scripts/Data Transfer/transferdata-v8.1-stable.py', $source_database, $source_table, $target_table]);
     $process->run();
 
     $outputLines = explode("\n", $process->getOutput());

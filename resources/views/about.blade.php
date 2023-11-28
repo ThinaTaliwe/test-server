@@ -1,147 +1,35 @@
-@extends('layouts.app2')
+<!DOCTYPE html>
+<html lang="en">
 
-@push('styles')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Database Mapping</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <!-- Add the jQuery CDN here -->
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .select2-container--open {
             z-index: 1055 !important;
             /* Must be higher than modal's z-index which is often 1050 */
         }
     </style>
-@endpush
+</head>
 
-@section('content')
+<body>
+
+
     {{-- START - Mapping  --}}
+
     <div class="container rounded bg-info-subtle">
-        <h1 class="my-9" style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
+        <h1 class="my-4" style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
 
-        <div class="modal fade" id="addWarehouseModal" tabindex="-1" role="dialog" aria-labelledby="addWarehouseModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addWarehouseModalLabel">Add Warehouse</h5>
-                        <x-button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
-                            id="btnAddWarehouse" text="Add Warehouse">
-                            <span aria-hidden="true">&times;</span>
-                        </x-button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addWarehouseForm">
-                            <!-- Existing Fields -->
-                            <div class="mb-3">
-                                <label for="bu" class="form-label">Bu</label>
-                                <select id="bu" name="bu_id" class="form-select select2">
-                                    @foreach ($bus as $bu)
-                                        <option value="{{ $bu->id }}" data-name="{{ $bu->bu_name }}">
-                                            {{ $bu->id }}-{{ $bu->bu_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- New Fields -->
-                            <div class="mb-3">
-                                <label for="site" class="form-label">Site ID</label>
-                                <select id="site" name="site_id" class="form-select select2">
-                                    @foreach ($sites as $site)
-                                        <option value="{{ $site->id }}" data-name="{{ $site->site_name }}">
-                                            {{ $site->id }}-{{ $site->site_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="short_code" class="form-label">Short Code</label>
-                                <input type="text" id="short_code" name="short_code" required class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" id="name" name="name" required class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <input type="text" id="description" name="description" required class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Address ID</label>
-                                <select id="address" name="address_id" class="form-select select2">
-                                    @foreach ($addresses as $address)
-                                        <option value="{{ $address->id }}" data-name="{{ $address->address_name }}">
-                                            {{ $address->id }}-{{ $address->address_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="intransit_warehouse" class="form-label">Intransit Warehouse</label>
-                                <select id="intransit_warehouse" name="intransit_warehouse" class="form-select select2">
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                            <x-button type="submit" class="btn-dark" id="btnAddingWarehouse" text="Adding Warehouse">Add
-                                Warehouse</x-button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Address Modal -->
-        <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addAddressForm">
-                            <input type="text" id="addressName" name="addressName" placeholder="Address Name"
-                                required>
-                            <button type="submit" class="btn btn-dark">Add Address</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="mb-4">
-                    <h3>Select Preset</h3>
-
-                    <!-- Start form -->
-                    <form method="POST" action="" id="delete-form">
-                        @csrf
-                        @method('DELETE')
-
-                        <select class="form-select" id="preset-select" required name="preset">
-                            <option selected>Choose...</option>
-                            @foreach ($presets as $preset)
-                                <option value="{{ $preset->id }}">{{ $preset->id }} - {{ $preset->name }} -
-                                    [{{ $preset->description }}]</option>
-                            @endforeach
-                        </select>
-
-                        <x-button type="submit" id="delete-preset-button" class="btn-dark mt-2"
-                            text="Delete Preset">Delete
-                            Preset</x-button>
-                        <a id="toggle-button" class="btn btn-primary mt-2">Create Preset</a>
-                    </form>
-                    <!-- End form -->
-                </div>
-            </div>
-        </div>
-
-        <div id="preset-form-container" class="card mb-4" style="display: none;">
+        <div class="card mb-4" style="background-color: #f8f9fa;">
             <div class="card-body">
                 <form id="preset-form" class="mb-4">
                     <h3>Create Preset</h3>
@@ -209,17 +97,138 @@
                             placeholder="Name for Preset (Optional)">
                     </div>
 
-                        <button type="submit" class="btn btn-dark">Save Preset</button>
+                    <button type="submit" class="btn btn-dark">Save Preset</button>
                 </form>
             </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="modal fade" id="addWarehouseModal" tabindex="-1" role="dialog"
+            aria-labelledby="addWarehouseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addWarehouseModalLabel">Add Warehouse</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addWarehouseForm">
+                            <!-- Existing Fields -->
+                            <div class="mb-3">
+                                <label for="bu" class="form-label">Bu</label>
+                                <select id="bu" name="bu_id" class="form-select select2">
+                                    @foreach ($bus as $bu)
+                                        <option value="{{ $bu->id }}" data-name="{{ $bu->bu_name }}">
+                                            {{ $bu->id }}-{{ $bu->bu_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- New Fields -->
+                            <div class="mb-3">
+                                <label for="site" class="form-label">Site ID</label>
+                                <select id="site" name="site_id" class="form-select select2">
+                                    @foreach ($sites as $site)
+                                        <option value="{{ $site->id }}" data-name="{{ $site->site_name }}">
+                                            {{ $site->id }}-{{ $site->site_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="short_code" class="form-label">Short Code</label>
+                                <input type="text" id="short_code" name="short_code" required
+                                    class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" id="name" name="name" required class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" id="description" name="description" required
+                                    class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address ID</label>
+                                <select id="address" name="address_id" class="form-select select2">
+                                    @foreach ($addresses as $address)
+                                        <option value="{{ $address->id }}"
+                                            data-name="{{ $address->address_name }}">
+                                            {{ $address->id }}-{{ $address->address_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intransit_warehouse" class="form-label">Intransit Warehouse</label>
+                                <select id="intransit_warehouse" name="intransit_warehouse"
+                                    class="form-select select2">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-dark">Add Warehouse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Address Modal -->
+        <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
+            aria-labelledby="addAddressModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addAddressForm">
+                            <input type="text" id="addressName" name="addressName" placeholder="Address Name"
+                                required>
+                            <button type="submit" class="btn btn-dark">Add Address</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4" style="background-color: #f1f3f5;">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h3>Select Preset</h3>
+
+                    <!-- Start form -->
+                    <form method="POST" action="" id="">
+                        @csrf
+                        @method('DELETE')
+
+                        <select class="form-select" id="preset-select" required name="preset">
+                            <option selected>Choose...</option>
+                            @foreach ($presets as $preset)
+                                <option value="{{ $preset->id }}">{{ $preset->id }} - {{ $preset->name }} -
+                                    [{{ $preset->description }}]</option>
+                            @endforeach
+                        </select>
+
+                        <button type="submit" id="delete-preset-button" class="btn btn-dark mt-2">Delete
+                            Preset</button>
+                    </form>
+                    <!-- End form -->
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4" style="background-color: #e9ecef ;">
             <div class="card-body">
                 <form id="mapping-form" class="mb-4">
                     <div class="row">
                         <div class="col">
-                            <h2 class="mb-5" style="text-decoration: underline;">Source</h2>
+                            <h3>Source</h3>
                             <div class="mb-3">
                                 <label for="source-db" class="form-label">Database</label>
                                 <select class="form-select" id="source-db">
@@ -240,7 +249,7 @@
                             </div>
                         </div>
                         <div class="col">
-                            <h2 class="mb-5" style="text-decoration: underline;">Target</h2>
+                            <h3>Target</h3>
                             <div class="mb-3">
                                 <label for="target-db" class="form-label">Database</label>
                                 <select class="form-select" id="target-db">
@@ -274,26 +283,21 @@
                             </div>
                         </div>
                     </div>
-                    <x-button type="submit" class="btn-dark" id="btnSaveMapping" text="Save Mapping">Save
-                        Mapping</x-button>
+                    <button type="submit" class="btn btn-dark">Save Mapping</button>
                 </form>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card" style="border: gray solid 2px;">
-                            <div class="card-header">
-                                <h1 class="mt-5">Source Mappings</h1>
-                            </div>
+                        <div class="card">
+                            <div class="card-header">Source Mappings</div>
                             <div class="card-body" id="source-mappings-card-body">
                                 <div id="source-column-mappings"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card" style="border: gray solid 2px;">
-                            <div class="card-header">
-                                <h1 class="mt-5">Target Mappings</h1>
-                            </div>
+                        <div class="card">
+                            <div class="card-header">Target Mappings</div>
                             <div class="card-body" id="target-mappings-card-body">
                                 <div id="target-column-mappings"></div>
                             </div>
@@ -304,8 +308,8 @@
         </div>
 
         <!-- Add New Model Modal -->
-        <div class="modal fade" id="addModelModal" tabindex="-1" role="dialog" aria-labelledby="addModelModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="addModelModal" tabindex="-1" role="dialog"
+            aria-labelledby="addModelModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -363,242 +367,15 @@
                 </div>
             </div>
         </div>
-
-        {{-- <form action="#">
-            <!--begin::Card-->
-            <div class="card mb-7">
-                <!--begin::Card body-->
-                <div class="card-body">
-                    <!--begin::Compact form-->
-                    <div class="d-flex align-items-center">
-                        <!--begin::Input group-->
-                        <div class="position-relative w-md-400px me-md-2">
-                            <i
-                                class="ki-duotone ki-magnifier fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <input type="text" class="form-control form-control-solid ps-10" name="search"
-                                value="" placeholder="Search" />
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin:Action-->
-                        <div class="d-flex align-items-center">
-                            <button type="submit" class="btn btn-primary me-5">Search</button>
-                            <a id="kt_horizontal_search_advanced_link" class="btn btn-link" data-bs-toggle="collapse"
-                                href="#kt_advanced_search_form">Advanced Search</a>
-                        </div>
-                        <!--end:Action-->
-                    </div>
-                    <!--end::Compact form-->
-                    <!--begin::Advance form-->
-                    <div class="collapse" id="kt_advanced_search_form">
-                        <!--begin::Separator-->
-                        <div class="separator separator-dashed mt-9 mb-6"></div>
-                        <!--end::Separator-->
-                        <!--begin::Row-->
-                        <div class="row g-8 mb-8">
-                            <!--begin::Col-->
-                            <div class="col-xxl-7">
-                                <label class="fs-6 form-label fw-bold text-dark">Tags</label>
-                                <input type="text" class="form-control form-control form-control-solid" name="tags"
-                                    value="products, users, events" />
-                            </div>
-                            <!--end::Col-->
-                            <!--begin::Col-->
-                            <div class="col-xxl-5">
-                                <!--begin::Row-->
-                                <div class="row g-8">
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6">
-                                        <label class="fs-6 form-label fw-bold text-dark">Team Type</label>
-                                        <!--begin::Select-->
-                                        <select class="form-select form-select-solid" data-control="select2"
-                                            data-placeholder="In Progress" data-hide-search="true">
-                                            <option value=""></option>
-                                            <option value="1">Not started</option>
-                                            <option value="2" selected="selected">In Progress</option>
-                                            <option value="3">Done</option>
-                                        </select>
-                                        <!--end::Select-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6">
-                                        <label class="fs-6 form-label fw-bold text-dark">Select Group</label>
-                                        <!--begin::Radio group-->
-                                        <div class="nav-group nav-group-fluid">
-                                            <!--begin::Option-->
-                                            <label>
-                                                <input type="radio" class="btn-check" name="type" value="has"
-                                                    checked="checked" />
-                                                <span
-                                                    class="btn btn-sm btn-color-muted btn-active btn-active-primary fw-bold px-4">All</span>
-                                            </label>
-                                            <!--end::Option-->
-                                            <!--begin::Option-->
-                                            <label>
-                                                <input type="radio" class="btn-check" name="type" value="users" />
-                                                <span
-                                                    class="btn btn-sm btn-color-muted btn-active btn-active-primary fw-bold px-4">Users</span>
-                                            </label>
-                                            <!--end::Option-->
-                                            <!--begin::Option-->
-                                            <label>
-                                                <input type="radio" class="btn-check" name="type" value="orders" />
-                                                <span
-                                                    class="btn btn-sm btn-color-muted btn-active btn-active-primary fw-bold px-4">Orders</span>
-                                            </label>
-                                            <!--end::Option-->
-                                        </div>
-                                        <!--end::Radio group-->
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Row-->
-                            </div>
-                            <!--end::Col-->
-                        </div>
-                        <!--end::Row-->
-                        <!--begin::Row-->
-                        <div class="row g-8">
-                            <!--begin::Col-->
-                            <div class="col-xxl-7">
-                                <!--begin::Row-->
-                                <div class="row g-8">
-                                    <!--begin::Col-->
-                                    <div class="col-lg-4">
-                                        <label class="fs-6 form-label fw-bold text-dark">Min. Amount</label>
-                                        <!--begin::Dialer-->
-                                        <div class="position-relative" data-kt-dialer="true" data-kt-dialer-min="1000"
-                                            data-kt-dialer-max="50000" data-kt-dialer-step="1000"
-                                            data-kt-dialer-prefix="$" data-kt-dialer-decimals="2">
-                                            <!--begin::Decrease control-->
-                                            <button type="button"
-                                                class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 start-0"
-                                                data-kt-dialer-control="decrease">
-                                                <i class="ki-duotone ki-minus-circle fs-1">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </button>
-                                            <!--end::Decrease control-->
-                                            <!--begin::Input control-->
-                                            <input type="text" class="form-control form-control-solid border-0 ps-12"
-                                                data-kt-dialer-control="input" placeholder="Amount" name="manageBudget"
-                                                readonly="readonly" value="$50" />
-                                            <!--end::Input control-->
-                                            <!--begin::Increase control-->
-                                            <button type="button"
-                                                class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 end-0"
-                                                data-kt-dialer-control="increase">
-                                                <i class="ki-duotone ki-plus-circle fs-1">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </button>
-                                            <!--end::Increase control-->
-                                        </div>
-                                        <!--end::Dialer-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-4">
-                                        <label class="fs-6 form-label fw-bold text-dark">Max. Amount</label>
-                                        <!--begin::Dialer-->
-                                        <div class="position-relative" data-kt-dialer="true" data-kt-dialer-min="1000"
-                                            data-kt-dialer-max="50000" data-kt-dialer-step="1000"
-                                            data-kt-dialer-prefix="$" data-kt-dialer-decimals="2">
-                                            <!--begin::Decrease control-->
-                                            <button type="button"
-                                                class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 start-0"
-                                                data-kt-dialer-control="decrease">
-                                                <i class="ki-duotone ki-minus-circle fs-1">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </button>
-                                            <!--end::Decrease control-->
-                                            <!--begin::Input control-->
-                                            <input type="text" class="form-control form-control-solid border-0 ps-12"
-                                                data-kt-dialer-control="input" placeholder="Amount" name="manageBudget"
-                                                readonly="readonly" value="$100" />
-                                            <!--end::Input control-->
-                                            <!--begin::Increase control-->
-                                            <button type="button"
-                                                class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 end-0"
-                                                data-kt-dialer-control="increase">
-                                                <i class="ki-duotone ki-plus-circle fs-1">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </button>
-                                            <!--end::Increase control-->
-                                        </div>
-                                        <!--end::Dialer-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-4">
-                                        <label class="fs-6 form-label fw-bold text-dark">Team Size</label>
-                                        <input type="text" class="form-control form-control form-control-solid"
-                                            name="city" />
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Row-->
-                            </div>
-                            <!--end::Col-->
-                            <!--begin::Col-->
-                            <div class="col-xxl-5">
-                                <!--begin::Row-->
-                                <div class="row g-8">
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6">
-                                        <label class="fs-6 form-label fw-bold text-dark">Category</label>
-                                        <!--begin::Select-->
-                                        <select class="form-select form-select-solid" data-control="select2"
-                                            data-placeholder="In Progress" data-hide-search="true">
-                                            <option value=""></option>
-                                            <option value="1">Not started</option>
-                                            <option value="2" selected="selected">Select</option>
-                                            <option value="3">Done</option>
-                                        </select>
-                                        <!--end::Select-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6">
-                                        <label class="fs-6 form-label fw-bold text-dark">Status</label>
-                                        <div class="form-check form-switch form-check-custom form-check-solid mt-1">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexSwitchChecked" checked="checked" />
-                                            <label class="form-check-label" for="flexSwitchChecked">Active</label>
-                                        </div>
-                                    </div>
-                                    <!--end::Col-->
-                                </div>
-                                <!--end::Row-->
-                            </div>
-                            <!--end::Col-->
-                        </div>
-                        <!--end::Row-->
-                    </div>
-                    <!--end::Advance form-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Card-->
-        </form> --}}
     </div>
+
 
     {{-- END - Mapping  --}}
 
-@endsection
 
-@push('scripts')
+
     <!-- Include Select2 JS -->
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -619,7 +396,7 @@
             const addressSelect = document.getElementById("address");
 
             presetForm.addEventListener("submit", function(event) {
-                
+                event.preventDefault();
 
                 // Get the selected option texts
                 const erpSystemName = erpSystemSelect.options[erpSystemSelect.selectedIndex].getAttribute(
@@ -781,7 +558,7 @@
 
 
         document.querySelector('#delete-preset-button').addEventListener('click', function(event) {
-            
+            event.preventDefault();
             let presetId = document.getElementById('preset-select').value;
             if (presetId) {
                 fetch('/presets/' + presetId, {
@@ -829,12 +606,12 @@
             const targetColumnSelect = document.getElementById("target-column");
             const mappingForm = document.getElementById("mapping-form");
 
+            //This is where I name the databases
             const databases = {
-                "ACopySysproCompanyBC": 'mysql1', //This is where I name the databases
+                //Please make sure the name is exactly the same as the Database name. (Left Value)
+                //Also make sure the connection name is the same as config/database and in env file (Right Value)
+                "gbadata": 'gbadata',
                 "1office_0_2": '1office',
-                "GBAData": 'gbadata',
-
-
             };
 
             function populateDatabaseSelect(selectElement) {
@@ -1138,7 +915,7 @@
 
 
             mappingForm.addEventListener("submit", function(event) {
-                
+                event.preventDefault();
 
                 console.log('Preset value:', presetSelect.value);
                 // Checking sourceDb, sourceTable and sourceColumn
@@ -1258,7 +1035,7 @@
         // This is for the add model modal
 
         document.getElementById('saveModel').addEventListener('click', function(event) {
-            
+            event.preventDefault();
 
             // Get form values
             let modelName = document.getElementById('modelName').value;
@@ -1319,24 +1096,11 @@
         });
     </script>
     <!-- Bootstrap Bundle with Popper.js -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const toggleButton = document.getElementById("toggle-button");
-            const presetFormContainer = document.getElementById("preset-form-container");
+</body>
 
-            toggleButton.addEventListener("click", function() {
-                if (presetFormContainer.style.display === "none" || presetFormContainer.style.display ===
-                    "") {
-                    presetFormContainer.style.display = "block";
-                } else {
-                    presetFormContainer.style.display = "none";
-                }
-            });
-        });
-    </script>
-@endpush
+</html>

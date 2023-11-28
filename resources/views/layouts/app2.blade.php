@@ -42,12 +42,12 @@
         <!--begin::Aside menu-->
         <div class="aside-menu flex-column-fluid ps-3 ps-lg-5 pe-1 mb-9" id="kt_aside_menu">
             <!--begin::Aside Menu-->
-            <div class="w-100 hover-scroll-overlay-y pe-2 me-2" id="kt_aside_menu_wrapper" data-kt-scroll="true"
-                data-kt-scroll-activate="{default: false, lg: true}"
+            <div class="w-100 hover-scroll-y pe-2 me-2" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+                data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
                 data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_user, #kt_aside_footer"
                 data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu, #kt_aside_menu_wrapper" data-kt-scroll-offset="0">
                 <!--begin::Menu-->
-                <div class="menu menu-column menu-rounded menu-sub-indention menu-active-bg fw-semibold" id="#kt_aside_menu"
+                <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold" id="#kt_aside_menu"
                     data-kt-menu="true">
                     <!--begin:Menu item-->
                     <x-aside.aside-menu menu-title="{{ __('messages.Memberships') }}" menu-icon="ki-duotone ki-home-2 fs-2"
@@ -60,18 +60,21 @@
                     <x-aside.aside-menu :menu-title="__('messages.Dependants')" :menu-icon="'ki-duotone ki-abstract-26 fs-2'" :menu-items="[['url' => '/dependants', 'title' => __('messages.AllDependants')]]" />
                     <!--end:Menu item-->
                     @canany(['user edit', 'role edit', 'permission edit'])
-                                             <!--begin:Menu item-->
+                        <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('Lede Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
-                            ['url' => '/lededata/overview.html', 'title' => __('Profiles Report')],
-                            ['url' => '/', 'title' => __('Status Report')],
-                            ['url' => '/', 'title' => __('Demographics Report')],
-                            ['url' => '/', 'title' => __('Geographic Distribution Report')],
-                            ['url' => '/', 'title' => __('Financial Reports')],
-                            ['url' => '/', 'title' => __('Membership Growth and Retention Reports')],
-                            ['url' => '/', 'title' => __('Insurance and Claims Report')],
-                            ['url' => '/', 'title' => __('Communication Preferences Report')],
-                            ['url' => '/', 'title' => __('Audit and Data Integrity Reports')],
-                            ['url' => '/', 'title' => __('Membership Lifecycle Reports')],
+                            ['url' => '/member/profile', 'title' => __('Profiles Report')],
+                            ['url' => '/member/status', 'title' => __('Status Report')],
+                            ['url' => '/member/demographic', 'title' => __('Demographics Report')],
+                            ['url' => '/member/geographic', 'title' => __('Geographic Distribution Report')],
+                            ['url' => '/member/financial', 'title' => __('Financial Reports')],
+                            [
+                                'url' => '/member/growth-retention',
+                                'title' => __('Membership Growth and Retention Reports'),
+                            ],
+                            ['url' => '/member/insurance-claims', 'title' => __('Insurance and Claims Report')],
+                            ['url' => '/member/communication', 'title' => __('Communication Preferences Report')],
+                            ['url' => '/member/audit', 'title' => __('Audit and Data Integrity Reports')],
+                            ['url' => '/member/lifecycle', 'title' => __('Membership Lifecycle Reports')],
                         ]" />
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
@@ -100,6 +103,7 @@
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
                             ['url' => '/fixer', 'title' => __('messages.sanitizer')],
                             ['url' => '/mapper', 'title' => __('messages.mapping')],
+                            ['url' => '/classifications', 'title' => __('Classifications')],
                             ['url' => '/logs', 'title' => __('messages.logs')],
                         ]" />
                         <!--end:Menu item-->
@@ -119,7 +123,7 @@
         </div>
         <!--end::Aside menu-->
         <!--begin::Footer-->
-        <div class="aside-footer  px-6 px-lg-9" id="kt_aside_footer">
+        <div class="aside-footer flex-column-auto px-6 px-lg-9" id="kt_aside_footer">
             <!--begin::User panel-->
             <div class="d-flex flex-stack ms-7">
                 <!--begin::Link-->
@@ -232,21 +236,21 @@
                         data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end">
                         <!-- <i class="ki-duotone ki-night-day theme-light-show fs-1">
-                                                           <span class="path1"></span>
-                                                           <span class="path2"></span>
-                                                           <span class="path3"></span>
-                                                           <span class="path4"></span>
-                                                           <span class="path5"></span>
-                                                           <span class="path6"></span>
-                                                           <span class="path7"></span>
-                                                           <span class="path8"></span>
-                                                           <span class="path9"></span>
-                                                           <span class="path10"></span>
-                                                          </i> -->
+                                                                           <span class="path1"></span>
+                                                                           <span class="path2"></span>
+                                                                           <span class="path3"></span>
+                                                                           <span class="path4"></span>
+                                                                           <span class="path5"></span>
+                                                                           <span class="path6"></span>
+                                                                           <span class="path7"></span>
+                                                                           <span class="path8"></span>
+                                                                           <span class="path9"></span>
+                                                                           <span class="path10"></span>
+                                                                          </i> -->
                         <!-- <i class="ki-duotone ki-moon theme-dark-show fs-1">
-                                                           <span class="path1"></span>
-                                                           <span class="path2"></span>
-                                                          </i> -->
+                                                                           <span class="path1"></span>
+                                                                           <span class="path2"></span>
+                                                                          </i> -->
                         <i class="ki-duotone ki-night-day fs-1">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -502,6 +506,19 @@
                 </div>
                 <!--end::Theme mode-->
                 <!--begin::Sidebar Toggler-->
+                <!--begin::Activities-->
+                <div class="d-flex align-items-center ms-3 ms-lg-4">
+                    <!--begin::Drawer toggle-->
+                    <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px"><a
+                            href="/logout"><i class="ki-duotone ki-exit-left fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i></a>
+                    </div>
+                    <!--end::Drawer toggle-->
+                </div>
+                <!--end::Activities-->
                 <!--end::Sidebar Toggler-->
             </div>
             <!--end::Topbar-->
@@ -628,151 +645,7 @@
 @endsection
 
 @section('drawer')
-
 @endsection
-
-<!--begin::Activities drawer-->
-<div id="kt_activities" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="activities"
-    data-kt-drawer-activate="true" data-kt-drawer-overlay="true"
-    data-kt-drawer-width="{default:'170px', 'lg': '700px'}" data-kt-drawer-direction="end"
-    data-kt-drawer-toggle="#kt_activities_toggle" data-kt-drawer-close="#kt_activities_close">
-    <div class="card shadow-none border-0 rounded-0">
-        <!--begin::Header-->
-        <div class="card-header" id="kt_activities_header">
-            <h3 class="card-title fw-bold text-dark">Activity Logs</h3>
-            <div class="card-toolbar">
-                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5"
-                    id="kt_activities_close">
-                    <i class="ki-duotone ki-cross fs-1">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                    </i>
-                </button>
-            </div>
-        </div>
-        <!--end::Header-->
-        <!--begin::Body-->
-        <div class="card-body position-relative" id="kt_activities_body">
-            <!--begin::Content-->
-            <div id="kt_activities_scroll" class="position-relative scroll-y me-n5 pe-5" data-kt-scroll="true"
-                data-kt-scroll-height="auto" data-kt-scroll-wrappers="#kt_activities_body"
-                data-kt-scroll-dependencies="#kt_activities_header, #kt_activities_footer"
-                data-kt-scroll-offset="5px">
-                <!--begin::Timeline items-->
-                <div class="timeline">
-                    <!--begin::Timeline item-->
-
-                    <!--end::Timeline item-->
-                    <!--begin::Timeline item-->
-                    <div class="timeline-item">
-                        <!--begin::Timeline line-->
-                        <div class="timeline-line w-40px"></div>
-                        <!--end::Timeline line-->
-                        <!--begin::Timeline icon-->
-                        <div class="timeline-icon symbol symbol-circle symbol-40px">
-                            <div class="symbol-label bg-light">
-                                <i class="ki-duotone ki-flag fs-2 text-gray-500">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                            </div>
-                        </div>
-                        <!--end::Timeline icon-->
-                        <!--begin::Timeline content-->
-                        <div class="timeline-content mb-10 mt-n2">
-                            <!--begin::Timeline heading-->
-                            <div class="overflow-auto pe-3">
-                                <!--begin::Title-->
-                                <div class="fs-5 fw-semibold mb-2">Invitation for crafting engaging designs that speak
-                                    human workshop</div>
-                                <!--end::Title-->
-                                <!--begin::Description-->
-                                <div class="d-flex align-items-center mt-1 fs-6">
-                                    <!--begin::Info-->
-                                    <div class="text-muted me-2 fs-7">Sent at 4:23 PM by</div>
-                                    <!--end::Info-->
-                                    <!--begin::User-->
-                                    <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
-                                        data-bs-boundary="window" data-bs-placement="top" title="Alan Nilson">
-                                        <!--begin::User-->
-                                        <a href="#" class="text-primary fw-bold me-1">Alice Tan</a>
-                                        <!--end::User-->
-                                    </div>
-                                    <!--end::User-->
-                                </div>
-                                <!--end::Description-->
-                            </div>
-                            <!--end::Timeline heading-->
-                        </div>
-                        <!--end::Timeline content-->
-                    </div>
-                    <!--end::Timeline item-->
-                    <!--begin::Timeline item-->
-
-                    <!--end::Timeline item-->
-                    <!--begin::Timeline item-->
-                    <div class="timeline-item">
-                        <!--begin::Timeline line-->
-                        <div class="timeline-line w-40px"></div>
-                        <!--end::Timeline line-->
-                        <!--begin::Timeline icon-->
-                        <div class="timeline-icon symbol symbol-circle symbol-40px">
-                            <div class="symbol-label bg-light">
-                                <i class="ki-duotone ki-sms fs-2 text-gray-500">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                            </div>
-                        </div>
-                        <!--end::Timeline icon-->
-                        <!--begin::Timeline content-->
-                        <div class="timeline-content mb-10 mt-n1">
-                            <!--begin::Timeline heading-->
-                            <div class="pe-3 mb-5">
-                                <!--begin::Title-->
-                                <div class="fs-5 fw-semibold mb-2">New case
-                                    <a href="#" class="text-primary fw-bold me-1">#67890</a>is assigned to you
-                                    in Multi-platform Database Design project
-                                </div>
-                                <!--end::Title-->
-                                <!--begin::Description-->
-                                <div class="overflow-auto pb-5">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex align-items-center mt-1 fs-6">
-                                        <!--begin::Info-->
-                                        <div class="text-muted me-2 fs-7">Added at 4:23 PM by</div>
-                                        <!--end::Info-->
-                                        <!--begin::User-->
-                                        <a href="#" class="text-primary fw-bold me-1">Alice Tan</a>
-                                        <!--end::User-->
-                                    </div>
-                                    <!--end::Wrapper-->
-                                </div>
-                                <!--end::Description-->
-                            </div>
-                            <!--end::Timeline heading-->
-                        </div>
-                        <!--end::Timeline content-->
-                    </div>
-                    <!--end::Timeline item-->
-                    <!--end::Timeline item-->
-                </div>
-                <!--end::Timeline items-->
-            </div>
-            <!--end::Content-->
-        </div>
-        <!--end::Body-->
-        <!--begin::Footer-->
-        <div class="card-footer py-5 text-center" id="kt_activities_footer">
-            <a href="#" class="btn btn-bg-body text-primary">End Of Activities.
-            </a>
-        </div>
-        <!--end::Footer-->
-    </div>
-</div>
-<!--end::Activities drawer-->
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 @push('scripts')
     <script>
@@ -811,13 +684,6 @@
     <!--end::Javascript-->
 
 
-
-
-
-
-
-
-
     <script src="{{ asset('js/plugins/datatables.js') }}"></script>
     <!-- Datatables Js -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -828,34 +694,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <!-- Core JS Files -->
     <script src="{{ asset('js/core/popper.min.js') }}"></script>
@@ -934,27 +772,6 @@
         });
     </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!--  Not sure   -->
     <script>
         $('input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea')
@@ -968,51 +785,10 @@
             });
         //$('input[type=email]').val('test').siblings('label').addClass('is-filled');
     </script>
+
+
     <script src="{{ asset('js/plugins/dragula/dragula.min.js') }}"></script>
     <script src="{{ asset('js/plugins/jkanban/jkanban.js') }}"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- ID: #datatable-search -->
@@ -1106,52 +882,6 @@
             }
         });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- Google maps auto-complete form -->
@@ -1257,55 +987,6 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places&callback=initAutocomplete">
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     {{-- //This is for the member form - original --}}
     <script>
@@ -1423,47 +1104,6 @@
         }
     </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {{-- This is for the dependent form --}}
     <script>
         function getDOBDep(IDNumber) {
@@ -1560,35 +1200,6 @@
         }
     </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {{-- <script>
         // autologout.js
 
@@ -1607,39 +1218,6 @@
             $("body").trigger("mousemove");
         });
     </script> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <script>
         function isNumberKey(evt) {
@@ -1661,12 +1239,6 @@
         }
     </script>
 
-
-
-
-
-
-
     {{-- Start Redirect Back Function --}}
     <script>
         function goBack() {
@@ -1674,20 +1246,6 @@
         }
     </script>
     {{-- End Redirect Back Function --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -1724,8 +1282,8 @@
         introJs().start();
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-    <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+    {{-- <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script> --}}
     <!--end::Global Javascript Bundle-->
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>

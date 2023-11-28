@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="description" content="The most advanced Group Burial Association.">
 		<meta name="keywords" content="Burial, Associations">
 		<meta name="viewport" content="width=device-width, initial-scale=1">

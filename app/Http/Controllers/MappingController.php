@@ -82,7 +82,6 @@ class MappingController extends Controller
         return response()->json(['message' => 'Mapping saved successfully']);
     }
 
-
     public function getMappings()
     {
         try {
@@ -107,6 +106,4 @@ class MappingController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
 }
