@@ -42,6 +42,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Classifications\CustomerClassController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -379,4 +380,26 @@ Route::get('/remove-dependant/{id}', 'App\Http\Controllers\DependantsController@
     ->middleware(['auth'])
     ->name('remove-dependant');
 
+
+/////////////////////////////////////// Start Classification Routes //////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('/classification', [CustomerClassController::class, 'index'])->name('classification');
+
+Route::middleware('auth')->group(function () {
+
+    // Route::resource('customers', 'CustomerController');
+    Route::resource('customer_classes', CustomerClassController::class);
+    Route::resource('customer-class-types', CustomerClassTypeController::class);
+    Route::resource('customer-class-type-lists', CustomerClassTypeListController::class);
+
+
+    Route::get('/get-class-type-list/{id}', [CustomerClassController::class, 'getClassTypeList']);
+
+    // Gets all the classifications for a customer
+    Route::get('customer_classes/customer/{customer}', [CustomerClassController::class, 'classesForCustomer']);
+
+
+    Route::post('/update-current-bu', [UserController::class, 'updateCurrentBu'])->name('users.updateCurrentBu');
+});
+////////////////////////////////////// End Classification Routes //////////////////////////////////////////////////////////////////////////////////////////////
 require __DIR__ . '/auth.php';

@@ -91,7 +91,7 @@ class UserController extends Controller
                 'paragraph_margin' => $styles['paragraphMargin'],
                 'div_margin' => $styles['divMargin'],
                 'div_padding' => $styles['divPadding'],
-
+                
                 //     'body_color' => $styles['bodyColor'],
                 // 'page_bg' => $styles['pageBg'],
                 // 'body_color_rgb' => $styles['bodyColorRgb'],
@@ -124,5 +124,21 @@ class UserController extends Controller
             ->with('success', 'User styles saved!');
         // return redirect()->route('user.show', ['id' => $userId])->with('message', 'Styles saved successfully!');
         // return redirect()->route('show', ['user' => Auth::id()])->with('message', 'Styles saved successfully!');
+    }
+
+    /**
+     * Update the user's current_bu_id
+     */
+    public function updateCurrentBu(Request $request)
+    {
+        // Retrieve the currently authenticated user
+        $user = Auth::user();
+
+        // Update the user's current_bu_id
+        $user->current_bu_id = $request->input('current_bu_id');
+        $user->save();
+
+        // Redirect back to the previous page with a success message
+        return redirect()->back()->with('success', 'Business Unit updated successfully!');
     }
 }

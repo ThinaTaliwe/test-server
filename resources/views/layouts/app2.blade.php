@@ -103,7 +103,7 @@
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
                             ['url' => '/fixer', 'title' => __('messages.sanitizer')],
                             ['url' => '/mapper', 'title' => __('messages.mapping')],
-                            ['url' => '/classifications', 'title' => __('Classifications')],
+                            ['url' => '/classification', 'title' => __('Classifications')],
                             ['url' => '/logs', 'title' => __('messages.logs')],
                         ]" />
                         <!--end:Menu item-->

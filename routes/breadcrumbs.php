@@ -151,6 +151,11 @@ Breadcrumbs::for('mapper.index', function ($trail) {
     $trail->push(__('breadcrumbs.Mapper'), route('mapper.index'));
 });
 
+// Classification Index
+Breadcrumbs::for('classification', function ($trail) {
+    $trail->push(__('Classification'), route('classification'));
+});
+
 // Reporting
 Breadcrumbs::for('reporting', function ($trail) {
     $trail->parent('home');

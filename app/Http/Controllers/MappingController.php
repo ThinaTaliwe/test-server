@@ -21,24 +21,23 @@ use App\Models\SourceErpSystem;
 class MappingController extends Controller
 {
     public function showMappingAndPreset()
-{
-    $erp_systems = SourceErpSystem::all();
-    $models = OneoModel::all();
-    $modules = Module::all();
-    $components = Component::all();
+    {
+        $erp_systems = SourceErpSystem::all();
+        $models = OneoModel::all();
+        $modules = Module::all();
+        $components = Component::all();
 
-    $systems = System::all();
-    $companies = Company::all();
-    $bus = Bu::all();
-    $warehouses = Warehouse::all();
-    $addresses = Address::all();
+        $systems = System::all();
+        $companies = Company::all();
+        $bus = Bu::all();
+        $warehouses = Warehouse::all();
+        $addresses = Address::all();
 
-    $presets = Preset::all();
-    $sites = Site::all();
+        $presets = Preset::all();
+        $sites = Site::all();
 
-    return view('mapping', compact('erp_systems','systems','companies','bus','warehouses','addresses','presets', 'sites', 'models', 'modules', 'components' /*, other variables...*/));
-}
-
+        return view('mapping', compact('erp_systems', 'systems', 'companies', 'bus', 'warehouses', 'addresses', 'presets', 'sites', 'models', 'modules', 'components' /*, other variables...*/));
+    }
 
     public function getTables($connection)
     {
@@ -53,7 +52,9 @@ class MappingController extends Controller
     public function getColumns($connection, $table)
     {
         try {
-            $columns = DB::connection($connection)->getSchemaBuilder()->getColumnListing($table);
+            $columns = DB::connection($connection)
+                ->getSchemaBuilder()
+                ->getColumnListing($table);
             return response()->json($columns);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -77,7 +78,9 @@ class MappingController extends Controller
             'oo_model_id' => 'required',
         ]);
 
-        $mapping = DB::connection('1office')->table('column_mappings')->insert($data);
+        $mapping = DB::connection('1office')
+            ->table('column_mappings')
+            ->insert($data);
 
         return response()->json(['message' => 'Mapping saved successfully']);
     }
@@ -85,7 +88,9 @@ class MappingController extends Controller
     public function getMappings()
     {
         try {
-            $mappings = DB::connection('1office')->table('column_mappings')->get();
+            $mappings = DB::connection('1office')
+                ->table('column_mappings')
+                ->get();
             return response()->json($mappings);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -102,7 +107,7 @@ class MappingController extends Controller
             } else {
                 return response()->json(['error' => 'Mapping not found'], 404);
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
