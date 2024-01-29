@@ -424,7 +424,8 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) { // Add error handling
                     if (jqXHR.status ===
-                        409) { // Assuming the server returns a 409 conflict status if the item already exists
+                        409
+                    ) { // Assuming the server returns a 409 conflict status if the item already exists
                         Swal.fire({
                             title: 'Error!',
                             text: 'Customer class type already exists.',
@@ -491,12 +492,11 @@
             });
         });
     </script>
-
 </body>
 
 </html>
 
-@extends('layouts.app2')
+{{-- @extends('layouts.app2')
 
 @section('row_content')
     <div class="card">
@@ -516,4 +516,4 @@
         </div>
         <!--end::Body-->
     </div>
-@endsection
+@endsection --}}

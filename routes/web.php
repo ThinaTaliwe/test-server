@@ -31,8 +31,10 @@ use Barryvdh\Debugbar\Facade as Debugbar;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LayoutController;
 use App\Models\LayoutPreference;
+use App\Models\Classifications\Customer\CustomerClass;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ChartController;
+
 use App\Http\Controllers\AmChartController;
 use App\Http\Middleware\SecretCodeMiddleware;
 use App\Http\Middleware\CheckMacAddress;
@@ -42,7 +44,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\Classifications\CustomerClassController;
+use App\Http\Controllers\CustomerClassController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -71,7 +73,7 @@ Route::get('/member/communication', [ReportController::class, 'communicationRepo
 Route::get('/member/audit', [ReportController::class, 'auditReport'])->name('lededata.audit');
 //--------------------------------- End lededata Routes --------------------------------------------------------------------
 
-/* These Are For Mappings */
+//----------------------------------- These Are For Mappings --------------------------------------------------------------//
 Route::get('/mapper', [MappingController::class, 'showMappingAndPreset'])->name('mapper.index');
 
 Route::get('/tables/{connection}', [MappingController::class, 'getTables']);
@@ -82,14 +84,17 @@ Route::get('/mappings', [MappingController::class, 'getMappings']);
 Route::delete('/delete-mapping/{id}', [MappingController::class, 'deleteMapping']);
 
 /* These Are For Transfers */
-Route::get('/transfer', [DataTransferController::class, 'showTransferForm']);
+Route::match(['get', 'post'], '/transfer', [DataTransferController::class, 'showTransferForm']);//NEW
+Route::get('/get-script-output', [DataTransferController::class, 'getScriptOutput']); //NEW
+Route::get('/check-script-status', [DataTransferController::class, 'checkScriptStatus']);//NEW
+Route::get('/get-latest-script-error', [DataTransferController::class, 'getLatestScriptError']);//NEW by Siya
 // Route::post('/transfer', [DataTransferController::class, 'transferData']);
 Route::post('/mappings', [DataTransferController::class, 'mappings']); //this used to be transfer
 
 // Route::get('/get-mappings/{table}', [DataTransferController::class, 'getMappingsForTable']);
 Route::get('/get-mappings/{mapping}', [DataTransferController::class, 'getMappingsForTable']);
 
-Route::post('/run-script', [DataTransferController::class, 'runScript']);
+
 Route::get('/get-databases', [DataTransferController::class, 'getDatabases']);
 Route::get('/get-tables/{database}', [DataTransferController::class, 'getTablesForDatabase']);
 
@@ -114,7 +119,7 @@ Route::get('/modules/{module}/components/{component}/logs', [TransferLogControll
 
 Route::post('/fixer/fix_log/{log}', [TransferLogController::class, 'fixLog']);
 
-// ---------------- Sanitizer -----------------------------------------
+// ---------------- Sanitizer ----------------------------------------- //
 
 Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
 Route::get('/reports/{report}', [ReportsController::class, 'show'])->name('reports.show');
@@ -228,7 +233,7 @@ Route::get('/testingview', function () {
     return view('main2');
 })->name('testingview');
 
-// ----------------Start Sales commissions------------------------
+// ---------------- Start Sales commissions ------------------------
 Route::get('commissions', [CommissionRateController::class, 'index'])->name('commission.index');
 Route::get('sales', [SalesTransactionController::class, 'index'])->name('sales.index');
 Route::get('sales/report', [SalesTransactionController::class, 'generateReport'])->name('sales.report');
@@ -238,7 +243,7 @@ Route::post('sales/store', [SalesTransactionController::class, 'store'])->name('
 
 Route::get('commission/create', [CommissionRateController::class, 'create'])->name('commission.create');
 Route::post('commission/store', [CommissionRateController::class, 'store'])->name('commission.store');
-// ----------------End Sales commissions----------------------------
+// ---------------- End Sales commissions ----------------------------
 
 Route::get('/user/{user}', [App\Http\Controllers\UserController::class, 'show']);
 
@@ -357,6 +362,7 @@ Route::controller(MembershipsController::class)->group(function () {
 //**----------------------------- Logs Routes ----------------------------*\
 
 Route::get('/logs', [LogController::class, 'show'])->name('logs.show');
+Route::get('/logs2', [LogController::class, 'show2'])->name('logs.show2');
 
 //**----------------------------- Logs Routes ----------------------------*\
 
@@ -380,26 +386,31 @@ Route::get('/remove-dependant/{id}', 'App\Http\Controllers\DependantsController@
     ->middleware(['auth'])
     ->name('remove-dependant');
 
-
-/////////////////////////////////////// Start Classification Routes //////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------- Start Classification Routes ------------------------------------------------------------------------------------------//
 
 Route::get('/classification', [CustomerClassController::class, 'index'])->name('classification');
 
 Route::middleware('auth')->group(function () {
-
     // Route::resource('customers', 'CustomerController');
     Route::resource('customer_classes', CustomerClassController::class);
     Route::resource('customer-class-types', CustomerClassTypeController::class);
     Route::resource('customer-class-type-lists', CustomerClassTypeListController::class);
-
 
     Route::get('/get-class-type-list/{id}', [CustomerClassController::class, 'getClassTypeList']);
 
     // Gets all the classifications for a customer
     Route::get('customer_classes/customer/{customer}', [CustomerClassController::class, 'classesForCustomer']);
 
-
     Route::post('/update-current-bu', [UserController::class, 'updateCurrentBu'])->name('users.updateCurrentBu');
 });
-////////////////////////////////////// End Classification Routes //////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------- End Classification Routes -------------------------------------------------------------------------------------------//
+
+
+//------------------------------------------ Start Resolution Routes --------------------------------------------------------------------------------------------//
+use App\Http\Controllers\ResolutionController;
+
+Route::get('/Duplicates', [ResolutionController::class, 'duplicates'])->name('duplicates');
+Route::get('/FailedInserts', [ResolutionController::class, 'failedInserts'])->name('failedInserts');
+Route::get('/unknownFixes', [ResolutionController::class, 'unknownFixes'])->name('unknownFixes');
+//------------------------------------------ End Resolution Routes ----------------------------------------------------------------------------------------------//
 require __DIR__ . '/auth.php';

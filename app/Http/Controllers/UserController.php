@@ -57,6 +57,7 @@ class UserController extends Controller
         // dd($styles);
         return view('home', compact('styles'));
     }
+    
     /**
      * Display the specified user.
      *

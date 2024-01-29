@@ -61,7 +61,7 @@
                     <!--end:Menu item-->
                     @canany(['user edit', 'role edit', 'permission edit'])
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('Lede Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
+                        {{-- <x-aside.aside-menu :menu-title="__('Lede Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
                             ['url' => '/member/profile', 'title' => __('Profiles Report')],
                             ['url' => '/member/status', 'title' => __('Status Report')],
                             ['url' => '/member/demographic', 'title' => __('Demographics Report')],
@@ -75,7 +75,7 @@
                             ['url' => '/member/communication', 'title' => __('Communication Preferences Report')],
                             ['url' => '/member/audit', 'title' => __('Audit and Data Integrity Reports')],
                             ['url' => '/member/lifecycle', 'title' => __('Membership Lifecycle Reports')],
-                        ]" />
+                        ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.Admin Space')" :menu-icon="'ki-duotone ki-briefcase fs-2'" :menu-items="[
@@ -103,15 +103,17 @@
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
                             ['url' => '/fixer', 'title' => __('messages.sanitizer')],
                             ['url' => '/mapper', 'title' => __('messages.mapping')],
-                            ['url' => '/classification', 'title' => __('Classifications')],
-                            ['url' => '/logs', 'title' => __('messages.logs')],
+                            {{-- ['url' => '/class', 'title' => __('Classifications')], --}}
+                            {{-- ['url' => '/logs', 'title' => __('messages.logs')], --}}
+                            {{-- ['url' => '/logs', 'title' => __('Drag and Drop 1')],
+                            ['url' => '/logs2', 'title' => __('Drag and Drop 2')], --}}
                         ]" />
                         <!--end:Menu item-->
                     @endcanany
                     <!--begin:Menu item-->
                     <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[
                         ['url' => '/testingview', 'title' => __('messages.Developments')],
-                        ['url' => '/whatsapp', 'title' => __('WhatsApp')],
+                        {{-- ['url' => '/whatsapp', 'title' => __('WhatsApp')], --}}
                         ['url' => '/contact', 'title' => __('messages.Find Us')],
                         ['url' => '/settings', 'title' => __('messages.Customize')],
                     ]" />

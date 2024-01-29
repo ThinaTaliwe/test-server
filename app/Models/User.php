@@ -27,8 +27,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 
-
-
 /**
  * User Model class
  */
@@ -66,6 +64,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     /**
@@ -86,6 +85,26 @@ class User extends Authenticatable
         return $this->hasOne(UserCustomStyles::class);
     }
 
+    // COPY FROM HERE
+
+    public function businessUnits()
+    {
+        return $this->belongsToMany(
+            BU::class,
+            'users_has_bu',
+            'users_id',
+            'bu_id'
+        );
+    }
+
+    public function fetchBUIds() {
+        $bu_ids = UserHasBU::where('users_id', $this->id)
+                    ->where('has_access', 1) // Considering only those BUs where user has access
+                    ->pluck('bu_id')
+                    ->toArray();
+        return $bu_ids;
+    }
+    
 }
 
 

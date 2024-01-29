@@ -10,7 +10,12 @@ class LogController extends Controller
     public function show()
     {
         $logs = $this->getLogs();
-        return view('logs.show', compact('logs'));
+        return view('logs.show2', compact('logs'));
+    }
+
+    public function show2()
+    {
+        return view('logs.show');
     }
 
     private function getLogs(): string
@@ -22,5 +27,4 @@ class LogController extends Controller
 
         return 'Log file does not exist.';
     }
-
 }

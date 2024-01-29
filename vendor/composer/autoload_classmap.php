@@ -29,7 +29,6 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisteredUserController' => $baseDir . '/app/Http/Controllers/Auth/RegisteredUserController.php',
     'App\\Http\\Controllers\\Auth\\VerifyEmailController' => $baseDir . '/app/Http/Controllers/Auth/VerifyEmailController.php',
     'App\\Http\\Controllers\\ChartController' => $baseDir . '/app/Http/Controllers/ChartController.php',
-    'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassController' => $baseDir . '/app/Http/Controllers/Classifications/Customer/CustomerClassController.php',
     'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassTypeController' => $baseDir . '/app/Http/Controllers/Classifications/Customer/CustomerClassTypeController.php',
     'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassTypeListController' => $baseDir . '/app/Http/Controllers/Classifications/Customer/CustomerClassTypeListController.php',
     'App\\Http\\Controllers\\CommissionRateController' => $baseDir . '/app/Http/Controllers/CommissionRateController.php',

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Classifications\Customer;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\BU;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\DB;
 use App\Models\Classifications\Customer\CustomerClass;
 use App\Models\Classifications\Customer\CustomerClassType;
 use App\Models\Classifications\Customer\CustomerClassTypeList;
@@ -23,7 +23,7 @@ class CustomerClassController extends Controller
     public function classesForCustomer(Customer $customer)
     {
         // Get all customer classes for the specified customer
-        // $classes = $customer->customerClasses;
+        $classes = $customer->customerClasses;
 
         $classes = CustomerClass::where('customer_id', $customer->id)
                 ->with([
@@ -35,6 +35,7 @@ class CustomerClassController extends Controller
         // Return the classes in JSON format
         return response()->json($classes);
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -43,11 +44,11 @@ class CustomerClassController extends Controller
     public function index()
     {
         $user = auth()->user(); // Get the current logged in user
-       // $bu_id = $user->current_bu_id ?? config('bu_ids')[0]; // Get the current business unit id from user or the first one from config
+        $bu_id = $user->current_bu_id ?? config('bu_ids')[0]; // Get the current business unit id from user or the first one from config
     
 
         $businessUnits = BU::whereIn('id', config('bu_ids'))->get();
-        // $customers = Customer::where('bu_id', $bu_id)->with(['customerClassTypeLists', 'customerClasses'])->get();
+        $customers = Customer::where('bu_id', $bu_id)->with(['customerClassTypeLists', 'customerClasses'])->get();
         $customers = Customer::where('bu_id', $bu_id)
                 ->with([
                     'customerClasses', 
@@ -82,7 +83,6 @@ class CustomerClassController extends Controller
     public function store(Request $request)
     {
     
-    
         // Validate the request data
         $validated = $request->validate([
             'customerId' => 'required',
@@ -106,9 +106,6 @@ class CustomerClassController extends Controller
     
         return response()->json($response);
     }
-    
-    
-    
 
     /**
      * Display the specified resource.
@@ -120,8 +117,6 @@ class CustomerClassController extends Controller
     {
         return view('customer_classes.show', compact('customerClass')); // replace with your actual view path
     }
-
-
 
     /**
      * Show the form for editing the specified resource.

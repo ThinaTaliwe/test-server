@@ -8,7 +8,7 @@
 
 @section('row_content')
     <!--begin::Card-->
-    <div class="card">
+    <div class="card rounded bg-secondary">
         <!--begin::Card body-->
         <div class="card-body">
             <!--begin::Stepper-->

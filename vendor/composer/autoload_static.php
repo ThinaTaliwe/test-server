@@ -750,7 +750,6 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'App\\Http\\Controllers\\Auth\\RegisteredUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisteredUserController.php',
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\ChartController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChartController.php',
-        'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassController' => __DIR__ . '/../..' . '/app/Http/Controllers/Classifications/Customer/CustomerClassController.php',
         'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Classifications/Customer/CustomerClassTypeController.php',
         'App\\Http\\Controllers\\Classifications\\Customer\\CustomerClassTypeListController' => __DIR__ . '/../..' . '/app/Http/Controllers/Classifications/Customer/CustomerClassTypeListController.php',
         'App\\Http\\Controllers\\CommissionRateController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommissionRateController.php',

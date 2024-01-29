@@ -3,7 +3,6 @@
 
 {{-- @extends('layouts.app2') --}}
 
-
 @push('styles')
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     {{-- <link href="{{ auth()->user()->layout->css_file_path }}" rel="stylesheet"> --}}
@@ -11,7 +10,7 @@
 
 @section('row_content')
     <!-- begin::Col-->
-    <div class="col-12 col-xxl-12 col-md-12 mb-xxl-10">
+    <div class="col-12 col-xxl-12 col-md-12 mb-xxl-10 rounded">
 
         <!--begin::Mixed Widget 5-->
         <div class="card card-bordered">
@@ -572,7 +571,6 @@
         // Append new data every 3 minutes (180000 milliseconds)
         setInterval(appendData, 180000);
     </script>
-
 
     <script type="text/javascript">
         function startIntro() {
