@@ -94,10 +94,10 @@
                         ]" />
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('messages.sales_commission')" :menu-icon="'ki-duotone ki-tag'" :menu-items="[
+                        {{-- <x-aside.aside-menu :menu-title="__('messages.sales_commission')" :menu-icon="'ki-duotone ki-tag'" :menu-items="[
                             ['url' => '/sales', 'title' => __('messages.sales')],
                             ['url' => '/commission/create', 'title' => __('messages.commissions')],
-                        ]" />
+                        ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
@@ -112,7 +112,7 @@
                     @endcanany
                     <!--begin:Menu item-->
                     <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[
-                        ['url' => '/testingview', 'title' => __('messages.Developments')],
+                        {{-- ['url' => '/testingview', 'title' => __('messages.Developments')], --}}
                         {{-- ['url' => '/whatsapp', 'title' => __('WhatsApp')], --}}
                         ['url' => '/contact', 'title' => __('messages.Find Us')],
                         ['url' => '/settings', 'title' => __('messages.Customize')],

@@ -79,7 +79,7 @@
 			@endif
 		</script>
         <!--end::Javascript-->
-
+		
 	</body>
 <!--end::Body-->
 </html>

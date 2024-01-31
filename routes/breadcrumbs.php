@@ -249,3 +249,18 @@ Breadcrumbs::for('lededata.growth', function ($trail) {
     $trail->push(__('Growth Retention'), route('lededata.growth'));
 });
 //--------------------------- Start Lededata Breadcrumbs --------------------------------------
+
+Breadcrumbs::for('duplicates', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('Duplicates', route('duplicates')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('failedInserts', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('FailedInserts', route('failedInserts')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('unknownFixes', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('UnknownFixes', route('unknownFixes')); // Assuming you have a named route 'duplicates'
+});

@@ -30,8 +30,7 @@ class MembershipsController extends Controller
     public function index()
     {
         $memberships = Membership::all()->sortByDesc('created_at')->values();
-
-        return view('memberships', ['memberships' => $memberships]);
+        return view('memberships', compact(memberships));
     }
 
     public function create()

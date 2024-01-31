@@ -409,8 +409,8 @@ Route::middleware('auth')->group(function () {
 //------------------------------------------ Start Resolution Routes --------------------------------------------------------------------------------------------//
 use App\Http\Controllers\ResolutionController;
 
-Route::get('/Duplicates', [ResolutionController::class, 'duplicates'])->name('duplicates');
-Route::get('/FailedInserts', [ResolutionController::class, 'failedInserts'])->name('failedInserts');
+Route::get('/duplicates', [ResolutionController::class, 'duplicates'])->name('duplicates');
+Route::get('/failedInserts', [ResolutionController::class, 'failedInserts'])->name('failedInserts');
 Route::get('/unknownFixes', [ResolutionController::class, 'unknownFixes'])->name('unknownFixes');
 //------------------------------------------ End Resolution Routes ----------------------------------------------------------------------------------------------//
 require __DIR__ . '/auth.php';
