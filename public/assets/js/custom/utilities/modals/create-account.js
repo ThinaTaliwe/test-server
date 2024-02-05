@@ -311,7 +311,7 @@ var KTCreateAccount = function () {
 							stringLength: {
 								min: 3,
 								max: 4,
-								message: 'CVV must contain 3 to 4 digits only'
+								message: 'CVV must contain 13 to 4 digits only'
 							}
 						}
 					}

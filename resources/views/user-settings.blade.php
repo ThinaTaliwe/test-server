@@ -148,7 +148,7 @@
         </div>
         <br><br>
 		{{-- Start Overlayed Layout Content--}}
-        <div class="card bg-gradient extended-width" style="border: 1px solid gray;">
+        {{-- <div class="card bg-gradient extended-width" style="border: 1px solid gray;">
             <div class="card-body p-lg-17">
                 <div class="row mb-3">
                     <div class="col-md-6 pe-lg-10">
@@ -180,7 +180,7 @@
                     <!-- You can keep the other part of the code as it is, or remove it based on your requirements -->
                 </div>
             </div>
-        </div>
+        </div> --}}
 		{{-- End Overlayed Layout content --}}
     </div>
 @endsection

@@ -26,19 +26,25 @@
         <!--begin::Brand-->
         <div class="d-flex justify-content-center p-4 mb-10">
             <a href="{{ route('home') }}">
-                <h1 class="text-center">{{ __('messages.GBASystem') }}</h1>
+                {{-- <h1 class="text-center">{{ __('messages.GBASystem') }}</h1> --}}
+                <a href="#">
+							<img alt="Logo" src="{{ asset('img/GBA-LOGO-white.png') }}" class="h-90px logo theme-light-show">
+							<img alt="Logo" src="{{ asset('img/GBA-LOGO-white.png') }}" class="h-90px logo theme-dark-show">
+						</a>
             </a>
         </div>
         <!--end::Brand-->
         <!--begin::Aside user-->
-        <div class="aside-user mb-5 mb-lg-10" id="kt_aside_user">
+        <div class="aside-user mb-5 mb-lg-10 p-6" id="kt_aside_user">
             <!--begin::User-->
             <x-aside.profile name="{{ ucfirst(Auth::user()->name) }}" profileLink="{{ route('admin.account.info') }}"
                 profileImg="{{ asset('assets/media/avatars/blank.png') }}" description="{{ ucfirst(Auth::user()->email) }}"
-                class="additional-css-classes" />
+                class="additional-css-classes" /> 
+            
             <!--end::User-->
         </div>
         <!--end::Aside user-->
+        
         <!--begin::Aside menu-->
         <div class="aside-menu flex-column-fluid ps-3 ps-lg-5 pe-1 mb-9" id="kt_aside_menu">
             <!--begin::Aside Menu-->
@@ -86,10 +92,13 @@
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
-                            ['url' => '/chart', 'title' => __('messages.dashboard')],
-                            ['url' => '/report', 'title' => __('messages.membership')],
-                            ['url' => '/person', 'title' => __('messages.persons')],
-                            // ['url' => '/reports', 'title' => __('All Reports')],
+                            {{-- ['url' => '/chart', 'title' => __('messages.dashboard')], --}}
+                            {{-- ['url' => '/report', 'title' => __('messages.membership')], --}}
+                            {{-- ['url' => '/person', 'title' => __('messages.persons')], --}}
+                            {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
+                            ['url' => '/pivotGrid', 'title' => __('Grid')],
+                            ['url' => '/pivotScroll', 'title' => __('Scroll')],
+                            ['url' => '/pivotTables', 'title' => __('Table')],
                             ['url' => '/reporting', 'title' => __('messages.real_time_updates')],
                         ]" />
                         <!--end:Menu item-->
@@ -124,8 +133,9 @@
             <!--end::Aside Menu-->
         </div>
         <!--end::Aside menu-->
+
         <!--begin::Footer-->
-        <div class="aside-footer flex-column-auto px-6 px-lg-9" id="kt_aside_footer">
+        <div class="aside-footer flex-column-auto px-6 px-lg-9 pb-16" id="kt_aside_footer">
             <!--begin::User panel-->
             <div class="d-flex flex-stack ms-7">
                 <!--begin::Link-->
@@ -625,7 +635,7 @@
 @endsection
 
 @section('footer')
-    <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+    <div class="footer py-4 d-flex flex-lg-column" id="kt_footer" style="height: 150px;">
         <!--begin::Container-->
         <div class="container-fluid d-flex flex-column flex-md-row flex-stack">
             <!--begin::Copyright-->
@@ -648,6 +658,147 @@
 
 @section('drawer')
 @endsection
+
+<!--begin::Activities drawer-->
+<div id="kt_activities" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="activities"
+    data-kt-drawer-activate="true" data-kt-drawer-overlay="true"
+    data-kt-drawer-width="{default:'170px', 'lg': '700px'}" data-kt-drawer-direction="end"
+    data-kt-drawer-toggle="#kt_activities_toggle" data-kt-drawer-close="#kt_activities_close">
+    <div class="card shadow-none border-0 rounded-0">
+        <!--begin::Header-->
+        <div class="card-header" id="kt_activities_header">
+            <h3 class="card-title fw-bold text-dark">Activity Logs</h3>
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5"
+                    id="kt_activities_close">
+                    <i class="ki-duotone ki-cross fs-1">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body position-relative" id="kt_activities_body">
+            <!--begin::Content-->
+            <div id="kt_activities_scroll" class="position-relative scroll-y me-n5 pe-5" data-kt-scroll="true"
+                data-kt-scroll-height="auto" data-kt-scroll-wrappers="#kt_activities_body"
+                data-kt-scroll-dependencies="#kt_activities_header, #kt_activities_footer"
+                data-kt-scroll-offset="5px">
+                <!--begin::Timeline items-->
+                <div class="timeline">
+                    <!--begin::Timeline item-->
+
+                    <!--end::Timeline item-->
+                    <!--begin::Timeline item-->
+                    <div class="timeline-item">
+                        <!--begin::Timeline line-->
+                        <div class="timeline-line w-40px"></div>
+                        <!--end::Timeline line-->
+                        <!--begin::Timeline icon-->
+                        <div class="timeline-icon symbol symbol-circle symbol-40px">
+                            <div class="symbol-label bg-light">
+                                <i class="ki-duotone ki-flag fs-2 text-gray-500">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </div>
+                        </div>
+                        <!--end::Timeline icon-->
+                        <!--begin::Timeline content-->
+                        <div class="timeline-content mb-10 mt-n2">
+                            <!--begin::Timeline heading-->
+                            <div class="overflow-auto pe-3">
+                                <!--begin::Title-->
+                                <div class="fs-5 fw-semibold mb-2">Invitation for crafting engaging designs that speak
+                                    human workshop</div>
+                                <!--end::Title-->
+                                <!--begin::Description-->
+                                <div class="d-flex align-items-center mt-1 fs-6">
+                                    <!--begin::Info-->
+                                    <div class="text-muted me-2 fs-7">Sent at 4:23 PM by</div>
+                                    <!--end::Info-->
+                                    <!--begin::User-->
+                                    <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
+                                        data-bs-boundary="window" data-bs-placement="top" title="Alan Nilson">
+                                        <!--begin::User-->
+                                        <a href="#" class="text-primary fw-bold me-1">Alice Tan</a>
+                                        <!--end::User-->
+                                    </div>
+                                    <!--end::User-->
+                                </div>
+                                <!--end::Description-->
+                            </div>
+                            <!--end::Timeline heading-->
+                        </div>
+                        <!--end::Timeline content-->
+                    </div>
+                    <!--end::Timeline item-->
+                    <!--begin::Timeline item-->
+
+                    <!--end::Timeline item-->
+                    <!--begin::Timeline item-->
+                    <div class="timeline-item">
+                        <!--begin::Timeline line-->
+                        <div class="timeline-line w-40px"></div>
+                        <!--end::Timeline line-->
+                        <!--begin::Timeline icon-->
+                        <div class="timeline-icon symbol symbol-circle symbol-40px">
+                            <div class="symbol-label bg-light">
+                                <i class="ki-duotone ki-sms fs-2 text-gray-500">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </div>
+                        </div>
+                        <!--end::Timeline icon-->
+                        <!--begin::Timeline content-->
+                        <div class="timeline-content mb-10 mt-n1">
+                            <!--begin::Timeline heading-->
+                            <div class="pe-3 mb-5">
+                                <!--begin::Title-->
+                                <div class="fs-5 fw-semibold mb-2">New case
+                                    <a href="#" class="text-primary fw-bold me-1">#67890</a>is assigned to you
+                                    in Multi-platform Database Design project
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Description-->
+                                <div class="overflow-auto pb-5">
+                                    <!--begin::Wrapper-->
+                                    <div class="d-flex align-items-center mt-1 fs-6">
+                                        <!--begin::Info-->
+                                        <div class="text-muted me-2 fs-7">Added at 4:23 PM by</div>
+                                        <!--end::Info-->
+                                        <!--begin::User-->
+                                        <a href="#" class="text-primary fw-bold me-1">Alice Tan</a>
+                                        <!--end::User-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                                <!--end::Description-->
+                            </div>
+                            <!--end::Timeline heading-->
+                        </div>
+                        <!--end::Timeline content-->
+                    </div>
+                    <!--end::Timeline item-->
+                    <!--end::Timeline item-->
+                </div>
+                <!--end::Timeline items-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Body-->
+        <!--begin::Footer-->
+        <div class="card-footer py-5 text-center" id="kt_activities_footer">
+            <a href="#" class="btn btn-bg-body text-primary">End Of Activities.
+            </a>
+        </div>
+        <!--end::Footer-->
+    </div>
+</div>
+<!--end::Activities drawer-->
 
 @push('scripts')
     <script>

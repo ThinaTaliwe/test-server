@@ -248,7 +248,7 @@ Breadcrumbs::for('lededata.growth', function ($trail) {
     $trail->parent('home');
     $trail->push(__('Growth Retention'), route('lededata.growth'));
 });
-//--------------------------- Start Lededata Breadcrumbs --------------------------------------
+//--------------------------- End Lededata Breadcrumbs --------------------------------------
 
 Breadcrumbs::for('duplicates', function ($trail) {
     $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
@@ -263,4 +263,15 @@ Breadcrumbs::for('failedInserts', function ($trail) {
 Breadcrumbs::for('unknownFixes', function ($trail) {
     $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
     $trail->push('UnknownFixes', route('unknownFixes')); // Assuming you have a named route 'duplicates'
+});
+
+//-----------------------------------------------------------------------------------------------
+Breadcrumbs::for('pivotGrid', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('pivotGrid', route('pivotGrid')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('pivotScroll', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('pivotScroll', route('pivotScroll')); // Assuming you have a named route 'duplicates'
 });

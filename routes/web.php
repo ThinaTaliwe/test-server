@@ -413,4 +413,12 @@ Route::get('/duplicates', [ResolutionController::class, 'duplicates'])->name('du
 Route::get('/failedInserts', [ResolutionController::class, 'failedInserts'])->name('failedInserts');
 Route::get('/unknownFixes', [ResolutionController::class, 'unknownFixes'])->name('unknownFixes');
 //------------------------------------------ End Resolution Routes ----------------------------------------------------------------------------------------------//
+
+//------------------------------------------ Start Pivot Routes --------------------------------------------------------------------------------------------//
+use App\Http\Controllers\PivotGridController;
+
+Route::get('/pivotGrid', [PivotGridController::class, 'pivotGrid'])->name('pivotGrid');
+Route::get('/pivotScroll', [PivotGridController::class, 'pivotScroll'])->name('pivotScroll');
+Route::get('/pivotTables', [PivotGridController::class, 'pivotTables'])->name('pivotTables');
+//------------------------------------------ End Pivot Routes ----------------------------------------------------------------------------------------------//
 require __DIR__ . '/auth.php';
