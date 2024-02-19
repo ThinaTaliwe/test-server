@@ -110,6 +110,7 @@
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
+                            ['url' => '/resolutionhub', 'title' => __('messages.resolution')],
                             ['url' => '/fixer', 'title' => __('messages.sanitizer')],
                             ['url' => '/mapper', 'title' => __('messages.mapping')],
                             {{-- ['url' => '/class', 'title' => __('Classifications')], --}}

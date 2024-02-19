@@ -265,6 +265,11 @@ Breadcrumbs::for('unknownFixes', function ($trail) {
     $trail->push('UnknownFixes', route('unknownFixes')); // Assuming you have a named route 'duplicates'
 });
 
+Breadcrumbs::for('resolutionHub', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('resolutionHub', route('resolutionHub')); // Assuming you have a named route 'duplicates'
+});
+
 //-----------------------------------------------------------------------------------------------
 Breadcrumbs::for('pivotGrid', function ($trail) {
     $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent

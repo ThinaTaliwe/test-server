@@ -412,6 +412,7 @@ use App\Http\Controllers\ResolutionController;
 Route::get('/duplicates', [ResolutionController::class, 'duplicates'])->name('duplicates');
 Route::get('/failedInserts', [ResolutionController::class, 'failedInserts'])->name('failedInserts');
 Route::get('/unknownFixes', [ResolutionController::class, 'unknownFixes'])->name('unknownFixes');
+Route::get('/resolutionhub', [ResolutionController::class, 'resolutionHub'])->name('resolutionHub');
 //------------------------------------------ End Resolution Routes ----------------------------------------------------------------------------------------------//
 
 //------------------------------------------ Start Pivot Routes --------------------------------------------------------------------------------------------//

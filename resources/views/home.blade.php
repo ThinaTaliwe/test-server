@@ -6,6 +6,7 @@
 @push('styles')
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     {{-- <link href="{{ auth()->user()->layout->css_file_path }}" rel="stylesheet"> --}}
+        <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('row_content')

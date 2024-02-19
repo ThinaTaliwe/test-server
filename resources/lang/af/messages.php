@@ -67,5 +67,6 @@ return [
     'profile' => 'Profiel',
     'own_style' => 'Eie Styl',
     'logs' => 'Logboeke',
+    'resolution' => 'Resolusie',
     // ...
 ];

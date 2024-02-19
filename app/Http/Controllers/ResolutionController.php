@@ -29,4 +29,9 @@ class ResolutionController extends Controller
         //$unknownFixes = ResolutionFailedInsert::take(10)->get();
         return view('resolutions.unknownFixes', compact('unknownFixes'));
     }
+
+        public function resolutionHub()
+    {  
+        return view('resolutions.resolutionhub');
+    }
 }

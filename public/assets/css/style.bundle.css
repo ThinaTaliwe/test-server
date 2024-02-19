@@ -92,7 +92,7 @@
   --bs-tertiary-color-rgb: 24, 28, 50;
   --bs-tertiary-bg: #F9F9F9;
   --bs-tertiary-bg-rgb: 249, 249, 249;
-  --bs-body-bg: #ffffff;
+  --bs-body-bg: #adc2b45e;
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-heading-color: #181C32;
   --bs-link-color: #009ef7;
@@ -4949,6 +4949,7 @@ textarea.form-control-lg {
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-card-border-radius);
   box-shadow: var(--bs-card-box-shadow);
+  border: black solid 4px;
 }
 .card > hr {
   margin-right: 0;
@@ -47513,7 +47514,7 @@ body[data-kt-sticky-landing-header=on] {
   --bs-header-desktop-bottom: ;
   --bs-header-tablet-and-mobile: #ffffff;
   --bs-header-tablet-and-mobile-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.08);
-  --bs-aside-bg-color: #EFE9E1;
+  --bs-aside-bg-color: #adc2b4c4;
   --bs-aside-scrollbar-hover-color: #e6ddd0;
 }
 
