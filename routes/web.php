@@ -46,6 +46,8 @@ use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerClassController;
 
+use App\Http\Controllers\GbaController;
+
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
 use App\Http\Controllers\MappingController;
@@ -314,13 +316,6 @@ Route::get('onboarding/{user}', [WelcomeController::class, 'showAddUserInfoForm'
     ->middleware(['auth'])
     ->name('onboarding');
 
-/**
- * Routes for memberships.
- */
-Route::get('/memberships', 'App\Http\Controllers\MembershipsController@index')
-    ->middleware(['auth'])
-    ->name('memberships');
-
 Route::controller(MembershipsController::class)->group(function () {
     /**
      * Route for displaying the membership index.
@@ -423,3 +418,18 @@ Route::get('/pivotScroll', [PivotGridController::class, 'pivotScroll'])->name('p
 Route::get('/pivotTables', [PivotGridController::class, 'pivotTables'])->name('pivotTables');
 //------------------------------------------ End Pivot Routes ----------------------------------------------------------------------------------------------//
 require __DIR__ . '/auth.php';
+
+
+
+
+Route::get('/resolutionhub', [GbaController::class, 'showGroupedRecords']);
+
+Route::post('/handle-main-record-action', [GbaController::class, 'handleMainRecordAction'])->name('handleMainRecordAction');
+
+// Error records
+Route::post('/process-record-action', [GbaController::class, 'processRecordAction'])->name('process.record.action');
+
+// Dependents section
+// Routes for dependent actions
+Route::post('/mark-dependent-complete/{dependentId}', [GbaController::class, 'markAsComplete'])->name('dependent.markAsComplete');
+Route::post('/remove-dependent/{dependentId}', [GbaController::class, 'removeDependent'])->name('dependent.remove');

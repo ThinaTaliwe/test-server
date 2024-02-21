@@ -65,9 +65,9 @@ class Person extends Model
 
         // Update the sorted records (if necessary)
         // For example, you might want to update a 'rank' column
-        foreach ($persons as $index => $person) {
-            $person->update(['rank' => $index + 1]);
-        }
+        //foreach ($persons as $index => $person) {
+         //   $person->update(['rank' => $index + 1]);
+        //}
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

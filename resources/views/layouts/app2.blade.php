@@ -84,23 +84,23 @@
                         ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('messages.Admin Space')" :menu-icon="'ki-duotone ki-briefcase fs-2'" :menu-items="[
+                        {{-- <x-aside.aside-menu :menu-title="__('messages.Admin Space')" :menu-icon="'ki-duotone ki-briefcase fs-2'" :menu-items="[
                             ['url' => '/admin/user', 'title' => __('messages.Users')],
                             ['url' => '/admin/role', 'title' => __('messages.Roles')],
                             ['url' => '/admin/permission', 'title' => __('messages.Permissions')],
-                        ]" />
+                        ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('messages.Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[
+                        {{-- <x-aside.aside-menu :menu-title="__('messages.Reporting')" :menu-icon="'ki-duotone ki-chart-line-up'" :menu-items="[ --}}
                             {{-- ['url' => '/chart', 'title' => __('messages.dashboard')], --}}
                             {{-- ['url' => '/report', 'title' => __('messages.membership')], --}}
                             {{-- ['url' => '/person', 'title' => __('messages.persons')], --}}
                             {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
-                            ['url' => '/pivotGrid', 'title' => __('Grid')],
+                            {{-- ['url' => '/pivotGrid', 'title' => __('Grid')],
                             ['url' => '/pivotScroll', 'title' => __('Scroll')],
                             ['url' => '/pivotTables', 'title' => __('Table')],
-                            ['url' => '/reporting', 'title' => __('messages.real_time_updates')],
-                        ]" />
+                            ['url' => '/reporting', 'title' => __('messages.real_time_updates')], --}}
+                        {{-- ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
                         {{-- <x-aside.aside-menu :menu-title="__('messages.sales_commission')" :menu-icon="'ki-duotone ki-tag'" :menu-items="[
@@ -111,8 +111,8 @@
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.interfaces')" :menu-icon="'ki-duotone ki-technology-4'" :menu-items="[
                             ['url' => '/resolutionhub', 'title' => __('messages.resolution')],
-                            ['url' => '/fixer', 'title' => __('messages.sanitizer')],
-                            ['url' => '/mapper', 'title' => __('messages.mapping')],
+                            {{-- ['url' => '/fixer', 'title' => __('messages.sanitizer')], --}}
+                            {{-- ['url' => '/mapper', 'title' => __('messages.mapping')], --}}
                             {{-- ['url' => '/class', 'title' => __('Classifications')], --}}
                             {{-- ['url' => '/logs', 'title' => __('messages.logs')], --}}
                             {{-- ['url' => '/logs', 'title' => __('Drag and Drop 1')],
@@ -121,12 +121,12 @@
                         <!--end:Menu item-->
                     @endcanany
                     <!--begin:Menu item-->
-                    <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[
+                    {{-- <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[ --}}
                         {{-- ['url' => '/testingview', 'title' => __('messages.Developments')], --}}
                         {{-- ['url' => '/whatsapp', 'title' => __('WhatsApp')], --}}
-                        ['url' => '/contact', 'title' => __('messages.Find Us')],
-                        ['url' => '/settings', 'title' => __('messages.Customize')],
-                    ]" />
+                        {{-- ['url' => '/contact', 'title' => __('messages.Find Us')], --}}
+                        {{-- ['url' => '/settings', 'title' => __('messages.Customize')], --}}
+                    {{-- ]" /> --}}
                     <!--end:Menu item-->
                 </div>
                 <!--end::Menu-->
@@ -324,7 +324,7 @@
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="graytheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -343,10 +343,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Gray') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="browntheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -365,10 +365,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Brown') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="pinktheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -387,10 +387,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Pink') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="redtheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -409,10 +409,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Red') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="bluetheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -431,10 +431,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Blue') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="yellowtheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -453,11 +453,11 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Yellow') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
 
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="ki-duotone ki-night-day fs-2">
@@ -475,10 +475,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.System') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
                                 data-kt-value="owntheme">
                                 <span class="menu-icon" data-kt-element="icon">
@@ -497,10 +497,10 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.own_style') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
+                        {{-- <div class="menu-item px-3 my-0">
                             <a href="{{ route('customize') }}" class="menu-link px-3 py-2">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="ki-duotone ki-screen fs-2">
@@ -512,7 +512,7 @@
                                 </span>
                                 <span class="menu-title">{{ __('messages.Customize') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                         <!--end::Menu item-->
                     </div>
                     <!--end::Menu-->

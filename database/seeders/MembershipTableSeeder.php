@@ -50,4 +50,5 @@ class MembershipTableSeeder extends Seeder
             ]);
         }
     }
+    
 }
