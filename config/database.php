@@ -107,7 +107,7 @@ return [
 
         //-------------------------- Start Resolution Databases ---------------------------------------//
 
-        'oo_duplicate_records_db' => [
+        'oo_duplicate' => [
             'driver' => 'mysql',
             'host' => env('DB_DUPLICATE_RECORDS_HOST', '127.0.0.1'),
             'port' => env('DB_DUPLICATE_RECORDS_PORT', '3306'),
@@ -128,7 +128,7 @@ return [
                 : [],
         ],
 
-        'oo_error_fields_db' => [
+        'oo_error' => [
             'driver' => 'mysql',
             'host' => env('DB_ERROR_FIELDS_HOST', '127.0.0.1'),
             'port' => env('DB_ERROR_FIELDS_PORT', '3306'),
@@ -149,7 +149,7 @@ return [
                 : [],
         ],
 
-        'oo_success_logs_db' => [
+        'oo_success' => [
             'driver' => 'mysql',
             'host' => env('DB_SUCCESS_LOGS_HOST', '127.0.0.1'),
             'port' => env('DB_SUCCESS_LOGS_PORT', '3306'),
