@@ -698,8 +698,7 @@
 
 
 
-<script>
-  // autologout.js
+{{-- <script>
 
   $(document).ready(function () {
     const timeout = 900000;  // 300000 ms = 5 minutes
@@ -714,7 +713,8 @@
     $("body").trigger("mousemove");
   });
 
-</script>
+</script> --}}
+ {{-- autologout.js --}}
 
 <script>
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

@@ -27,8 +27,7 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
- --bs-primary: #730f21;
-  /* --bs-primary: #4CAF51; */
+  --bs-primary: #4CAF51;
   --bs-secondary: #7b809a;
   --bs-success: #4CAF50;
   --bs-info: #1A73E8;
@@ -36,9 +35,9 @@
   --bs-danger: #F44335;
   --bs-light: #f0f2f5;
   --bs-dark: #344767;
-  --bs-white: #fff;
+  --bs-white: #fff000;
   --bs-primary-rgb: 233, 30, 99;
-  --bs-secondary-rgb: , 128, 154;
+  --bs-secondary-rgb: 55, 128, 154;
   --bs-success-rgb: 76, 175, 80;
   --bs-info-rgb: 26, 115, 232;
   --bs-warning-rgb: 251, 140, 0;
@@ -46,9 +45,8 @@
   --bs-light-rgb: 240, 242, 245;
   --bs-dark-rgb: 52, 71, 103;
   --bs-white-rgb: 255, 255, 255;
-  --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-body-color-rgb: , 128, 154;
+  --bs-body-color-rgb: 0, 128, 154;
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-font-sans-serif: "Roboto", Helvetica, Arial, sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;

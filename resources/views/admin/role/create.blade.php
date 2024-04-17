@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 @section('row_content')
 
-    <div class="modal-content bg-info-subtle border rounded">
+    <div class="modal-content bg-gray-300 border rounded mb-4">
         <div class="modal-header">
             <h1 class="fw-bold mt-6 center-content border-bottom border-4 border-info" style="margin-left: auto; margin-right: auto; width: fit-content;">
                 {{ __('Create Role') }}</h1>
@@ -49,10 +49,11 @@
                     </div>
                 </div>
                 <div class="text-center pt-15">
-                    <button type="reset" class="btn btn-light me-3">Discard</button>
-                    <button type='submit' class='btn btn-primary' id='kt_docs_sweetalert_basic'>
+                    
+                    <button type='submit' class='btn bg-gba' id='kt_docs_sweetalert_basic'>
                         {{ __('Create') }}
                     </button>
+                    <button type="reset" class="btn btn-light me-3">Discard</button>
                 </div>
             </form>
         </div>

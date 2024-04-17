@@ -187,6 +187,12 @@ Breadcrumbs::for('logs.show', function ($trail) {
 });
 
 // Logs Show
+Breadcrumbs::for('logs.showtable', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Logs-table'), route('logs.showtable'));
+});
+
+// Logs Show
 Breadcrumbs::for('whatsapp', function ($trail) {
     $trail->parent('home');
     $trail->push(__('WhatsApp'), route('whatsapp'));
@@ -244,3 +250,83 @@ Breadcrumbs::for('lededata.growth', function ($trail) {
     $trail->push(__('Growth Retention'), route('lededata.growth'));
 });
 //--------------------------- Start Lededata Breadcrumbs --------------------------------------
+
+Breadcrumbs::for('resolutionhub', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('resolutionhub', route('resolutionhub')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('resolutionhub2', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('resolutionhub2', route('resolutionhub2')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('payments', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('payments', route('payments')); // Assuming you have a named route 'duplicates'
+});
+
+Breadcrumbs::for('saveBankDetails', function ($trail) {
+    $trail->parent('home'); // Set 'home' as the parent breadcrumb, or choose another appropriate parent
+    $trail->push('saveBankDetails', route('saveBankDetails')); // Assuming you have a named route 'duplicates'
+});
+
+//------------------------ Start Death Breadcrums  -------------------------------------
+
+// Home > Deaths
+Breadcrumbs::for('deaths.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Deaths'), route('deaths.index'));
+});
+
+// Home > Deaths > Create Death
+Breadcrumbs::for('deaths.create', function ($trail) {
+    $trail->parent('deaths.index');
+    $trail->push(__('Create Death'), route('deaths.create'));
+});
+
+// Home > Deaths > [Death Name]
+Breadcrumbs::for('deaths.show', function ($trail, $death) {
+    $trail->parent('deaths.index');
+    $trail->push($death->name, route('deaths.show', $death));
+});
+
+// Home > Deaths > [Death Name] > Edit
+Breadcrumbs::for('deaths.edit', function ($trail, $death) {
+    $trail->parent('deaths.show', $death);
+    $trail->push(__('Edit'), route('deaths.edit', $death));
+});
+
+
+
+//------------------------ Start Funeral Breadcrums  -------------------------------------
+
+// Home > funerals
+Breadcrumbs::for('funerals.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('Funerals'), route('funerals.index'));
+});
+
+// Home > funerals > funeral Death
+Breadcrumbs::for('funerals.create', function ($trail) {
+    $trail->parent('funerals.index');
+    $trail->push(__('Create Funeral'), route('funerals.create'));
+});
+
+// Home > funerals > [funeral Name]
+Breadcrumbs::for('funerals.show', function ($trail, $death) {
+    $trail->parent('funerals.index');
+    $trail->push($death->name, route('funerals.show', $death));
+});
+
+// Home > funerals > [funeral Name] > Edit
+Breadcrumbs::for('funerals.edit', function ($trail, $death) {
+    $trail->parent('funerals.show', $death);
+    $trail->push(__('Edit'), route('funerals.edit', $death));
+});
+
+
+Breadcrumbs::for('pivotGrid', function ($trail) {
+    $trail->parent('home');  // Make sure 'home' is defined as a breadcrumb somewhere in this file
+    $trail->push('Pivot Grid', route('pivotGrid'));  // Ensure that 'pivotGrid' is a named route in your routes file
+});

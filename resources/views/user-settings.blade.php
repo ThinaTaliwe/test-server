@@ -115,7 +115,10 @@
                             <h1 class="text-dark fw-bold my-5">Let’s Speak</h1>
                             <!--end::Subtitle-->
                             <!--begin::Number-->
-                            <div class="text-gray-700 fw-semibold fs-2">1 (833) 597-7538</div>
+                            <div class="text-gray-700 fw-semibold fs-2">011 873-8630 (Tel)</div>
+                            <div class="text-gray-700 fw-semibold fs-2">011 825 1493 (Office)</div>
+                            <div class="text-gray-700 fw-semibold fs-2">072 857 2033 (WhatsApp)</div><br>
+                            <div class="text-gray-700 fw-semibold fs-2">info@gba.co.za (Email)</div>
                             <!--end::Number-->
                         </div>
                         <!--end::Phone-->
@@ -132,10 +135,10 @@
                             </i>
                             <!--end::Icon-->
                             <!--begin::Subtitle-->
-                            <h1 class="text-dark fw-bold my-5">Our Head Office</h1>
+                            <h1 class="text-dark fw-bold my-5">Our Office</h1>
                             <!--end::Subtitle-->
                             <!--begin::Description-->
-                            <div class="text-gray-700 fs-3 fw-semibold">Churchill-laan 16 II, Gauteng</div>
+                            <div class="text-gray-700 fs-3 fw-semibold"> 49 Joubert St, Germiston, Johannesburg, 1401</div>
                             <!--end::Description-->
                         </div>
                         <!--end::Address-->
@@ -148,7 +151,7 @@
         </div>
         <br><br>
 		{{-- Start Overlayed Layout Content--}}
-        <div class="card bg-gradient extended-width" style="border: 1px solid gray;">
+        {{-- <div class="card bg-gradient extended-width" style="border: 1px solid gray;">
             <div class="card-body p-lg-17">
                 <div class="row mb-3">
                     <div class="col-md-6 pe-lg-10">
@@ -180,7 +183,7 @@
                     <!-- You can keep the other part of the code as it is, or remove it based on your requirements -->
                 </div>
             </div>
-        </div>
+        </div> --}}
 		{{-- End Overlayed Layout content --}}
     </div>
 @endsection

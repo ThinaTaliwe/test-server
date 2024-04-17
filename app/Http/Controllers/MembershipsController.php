@@ -23,6 +23,9 @@ use App\Models\Person;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class MembershipsController extends Controller
 {
@@ -30,7 +33,11 @@ class MembershipsController extends Controller
     public function index()
     {
         $memberships = Membership::all()->sortByDesc('created_at')->values();
-
+            // Check if memberships collection is empty
+            if ($memberships->isEmpty()) {
+                // If the database is empty, provide an appropriate response to the user
+                return view('emptyPage');
+            }
         return view('memberships', ['memberships' => $memberships]);
     }
 
@@ -42,83 +49,132 @@ class MembershipsController extends Controller
         return view('add-member', ['memtypes' => $memtypes, 'countries' => $countries]);
     }
 
+
     public function store(StoreMembershipRequest $request, StorePerson $storePerson, StoreAddress $storeAddress)
     {
-
-        //And also dont mass assign e.g create([..,..]);
-        //Always request input individually
-
-        if ($request->language != null) {
-            $language = 2;
-        } else {
-            $language = 1;
-        };
-
-        //Person Action Method injection
-        $person = $storePerson->handle((object) $request->all());
-
-        //Address
-        $address = $storeAddress->handle((object) $request->all());
-
-        //Membership
-
-        $membership = new Membership();
-        //TODO - Membership code format from GBA
-        $membership->membership_code = 1212121;
-        $membership->name = ucfirst($request->Name);
-        $membership->initials = ucfirst(substr($request->Name, 0, 1)) . "." . ucfirst(substr($request->Surname, 0, 1));
-        $membership->surname = ucfirst($request->Surname);
-        $membership->id_number = $request->IDNumber;
-        // $membership->join_date = $request->input('');
-        // $membership->end_date = $request->input('');
-        // $membership->end_reason = $request->input('');
-        $membership->gender_id = $request->radioGender;
-        $membership->bu_membership_type_id = $request->memtype;
-        $membership->bu_membership_region_id = 1;
-        $membership->bu_membership_status_id = 1;
-        $membership->language_id = $language;
-        $membership->person_id = $person->id;
-        //$membership->previous_membership_id = 1;
-
-        $membership->primary_contact_number = $request->Telephone;
-        $membership->secondaty_contact_number = $request->WorkTelephone;
-        // $membership->terciary_contact_number = $request->email;
-        $membership->sms_number = $request->Telephone;
-        $membership->primary_e_mail_address = $request->Email;
-        // $membership->secondary_e_mail_address = $request->email;
-        // $membership->membership_fee = $request->email;
-        $membership->fee_currency_id = 149;
-        // $membership->last_payment_date = $request->email;
-        //$membership->paid_till_date = $request->email;
+        DB::beginTransaction(); // Start the transaction
 
         try {
+            // Convert request data to object if necessary or directly pass $request
+            $requestData = (object) $request->all();
+    
+            // Person Action Method injection
+            $person = $storePerson->handle($requestData);
+    
+            // Address Action Method injection
+            $address = $storeAddress->handle($requestData);
+    
+            // Assuming you have language logic handled appropriately
+            $language = $request->language != null ? 2 : 1;
+    
+            // Membership creation
+            $membership = new Membership();
+            $membership->fill([
+                'membership_code' => 1212121, // Example code
+                'name' => ucfirst($request->Name),
+                'initials' => ucfirst(substr($request->Name, 0, 1)) . "." . ucfirst(substr($request->Surname, 0, 1)),
+                'surname' => ucfirst($request->Surname),
+                'id_number' => $request->IDNumber,
+                'gender_id' => $request->radioGender,
+                'join_date' => Carbon::today(),
+                'bu_id' => 7,
+                'bu_membership_type_id' => $request->memtype,
+                'bu_membership_region_id' => 1,
+                'bu_membership_status_id' => 1,
+                'language_id' => $language,
+                'person_id' => $person->id, // Ensure StorePerson action returns saved Person
+                'primary_contact_number' => $request->Telephone,
+                'secondary_contact_number' => $request->WorkTelephone,
+                'sms_number' => $request->Telephone,
+                'primary_e_mail_address' => $request->Email,
+                'preferred_payment_method_id' => 1, //$request->paymentMethod
+                'fee_currency_id' => 149,
+            ]);
+    
             $membership->save();
-        } catch (\Exception$exception) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'There was a problem while creating membership');
+            Log::info("Saved membership");
+    
+            // Membership Has Address
+            $membershipAddress = new MembershipAddress([
+                'membership_id' => $membership->id,
+                'address_id' => $address->id,
+                'adress_type_id' => 1, // 1 = Residential
+                'start_date' => Carbon::today(), // Carbon today
+            ]);
+    
+            $membershipAddress->save();
+
+            DB::commit(); // Commit the transaction
+    
+            return redirect("/edit-member/$membership->id")->with('success', 'Membership Added Successfully!');
+        } catch (\Exception $exception) {
+            DB::rollBack(); // Rollback the transaction on any error
+            Log::error("Error processing membership: " . $exception->getMessage());
+            return redirect()->back()->with('error', 'Failed to process membership: ' . $exception->getMessage())->withInput();
         }
-
-        //Membership Has Address
-        $membership_address = new MembershipAddress();
-
-        $membership_address->membership_id = $membership->id;
-        $membership_address->address_id = $address->id;
-        $membership_address->adress_type_id = 1; //1 = Residential
-        $membership_address->start_date = Carbon::today(); //Carbon today
-
-        $membership_address->save();
-
-        // return redirect("/edit-member/$membership->id")->withSuccess('Membership Added Successfully!');
-        return redirect("/edit-member/$membership->id")->with('success', 'Membership Added Successfully!!!!!');
-
-
-
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        Log::info('Update method called for membership ID: ' . $id);
 
+        
+        
+        $request->validate([
+            'Name' => 'required|string|max:255',
+            'Surname' => 'required|string|max:255',
+            'IDNumber' => 'required',
+            'Telephone' => 'nullable',
+            'WorkTelephone' => 'nullable',
+            'Email' => 'nullable|email',
+            'inputDay' => 'required|numeric|min:1|max:31',
+            'inputMonth' => 'required|numeric|min:1|max:12',
+            'inputYear' => 'required|numeric|min:1900|max:2100',
+            'language' => 'nullable',
+            'radioGender' => 'required',
+            'marital_status' => 'required',
+            'memtype' => 'required',
+            // Add other fields and rules as needed
+        ]);
+
+        $membership = Membership::findOrFail($id);
+        Log::info('Found membership', ['id' => $id]);
+
+        // Assign new values from the request
+        $membership->language_id = $request->language;
+        $membership->name = $request->Name;
+        $membership->surname = $request->Surname;
+        $membership->id_number = $request->IDNumber;
+        $membership->gender_id = $request->radioGender;
+        $membership->primary_contact_number = $request->Telephone;
+        $membership->secondary_contact_number = $request->WorkTelephone;
+        $membership->primary_e_mail_address = $request->Email;
+        $membership->bu_membership_type_id = $request->memtype;
+
+
+        // Log the old and new values to see what's being attempted to update
+        Log::info('Old membership data', $membership->getOriginal());
+        Log::info('New membership data', $request->all());
+
+        // Assuming you have a relationship set up for the person details
+        $membership->person->birth_date = $request->inputYear . '-' . $request->inputMonth . '-' . $request->inputDay;
+        $membership->person->married_status = $request->marital_status;
+
+        // Check if any of the membership or related person model's fields are dirty
+        if ($membership->isDirty() || $membership->person->isDirty()) {
+            // Save changes if there are any
+            $membership->push(); // Saves the model and all of its relationships
+           
+            Log::info('Membership and/or related person model was dirty and has been saved.', ['membership_id' => $membership->id]);
+
+            // return redirect("/edit-member/$membership->id")->with('success', 'Membership updated successfully.');
+            return redirect()->back()->withSuccess('Membership updated successfully!');
+        } else {
+            Log::info('No changes detected for membership.', ['membership_id' => $membership->id]);
+        }
+        // If no changes were detected
+        // return back()->with('info', 'No changes were detected.');
+        redirect()->back()->withInfo('No changes were detected');
     }
 
     public function show($id)
@@ -157,7 +213,7 @@ class MembershipsController extends Controller
 
         $disabled = '';
 
-        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses])->with('success', 'Updated Successfully!!!!!');;
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses])->with('success', 'Updated Successfully!!!!!');
     }
     
     /**
@@ -190,6 +246,12 @@ class MembershipsController extends Controller
 
         return redirect()->back()->withSuccess('Membership Has Been Cancelled!');
 
+    }
+
+    public function getData()
+    {
+        $memberships = Membership::all()->sortByDesc('created_at')->values();
+        return response()->json($memberships);
     }
 
 }

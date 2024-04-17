@@ -20,7 +20,8 @@
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^5.7",
         "spatie/laravel-welcome-notification": "^2.3",
-        "twilio/sdk": "^7.12"
+        "twilio/sdk": "^7.12",
+        "yajra/laravel-datatables-oracle": "^10.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

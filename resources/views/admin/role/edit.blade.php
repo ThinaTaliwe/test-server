@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 @section('row_content')
 
-    <div class="modal-content border bg-primary-subtle rounded">
+    <div class="modal-content border bg-primary-subtle rounded mb-4">
         <div class="modal-header">
             <h1 class="fw-bold mt-6 border-bottom border-3" style="margin-left: auto; margin-right: auto; width: fit-content;">{{ __('Update role') }}</h1>
             @if ($errors->any())
@@ -30,9 +30,9 @@
                                     <tbody class="text-gray-600 fw-semibold">
                                         @forelse ($permissions as $permission)
                                             <tr>
-                                                <td class="text-gray-800">{{ $permission->name }}</td>
-                                                <td>
-                                                    <label class="form-check form-check-custom form-check-solid me-9">
+                                                <td class="text-black text-center">{{ $permission->name }}</td>
+                                                <td class="text-black text-center">
+                                                    <label class="form-check form-check-custom form-check-solid me-9 text-black text-center">
                                                         <input type="checkbox" name="permissions[]"
                                                             value="{{ $permission->name }}"
                                                             {{ in_array($permission->id, $roleHasPermissions) ? 'checked' : '' }}
@@ -51,7 +51,7 @@
                     @endunless
                 </div>
                 <div class="text-center pt-15">
-                    <button type='submit' class='btn btn-primary'>
+                    <button type='submit' class='btn bg-gba'>
                         {{ __('Update') }}
                     </button>
                 </div>

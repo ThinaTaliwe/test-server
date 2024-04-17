@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\DependantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,8 @@ Route::middleware(['verify.secret.key'])->group(function () {
     // Your routes here
     Route::get('/reporting', [ReportsController::class, 'getReport']);
 });
+
+
+Route::get('/dependants', [DependantsController::class, 'indexx']);
+
 

@@ -176,39 +176,43 @@
 
 
 
-<!--begin::Alert-->
-<div class="alert alert-dismissible bg-light-danger d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
-    <!--begin::Close-->
-    <button type="button" class="position-absolute top-0 end-0 m-2 btn btn-icon btn-icon-danger" data-bs-dismiss="alert">
-        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-    </button>
-    <!--end::Close-->
-  
-    <!--begin::Icon-->
-    <i class="ki-duotone ki-information-5 fs-5tx text-danger mb-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-    <!--end::Icon-->
-  
-    <!--begin::Wrapper-->
-    <div class="text-center">
-        <!--begin::Title-->
-        <h1 class="fw-bold mb-5">Important Note!</h1>
-        <!--end::Title-->
-  
-        <!--begin::Separator-->
-        <div class="separator separator-dashed border-danger opacity-25 mb-5"></div>
-        <!--end::Separator-->
-  
-        <!--begin::Content-->
-        <div class="mb-9 text-dark">
-            Please make sure to save your edits and customizations for them to exist for future use <strong>within this system</strong>.<br/>
-            Navigate to the <a href="/contact" class="fw-bold me-1">contact section</a>, should you want to contact the onwers.
-        </div>
-        <!--end::Content-->
+            <!--begin::Alert-->
+            <div class="alert alert-dismissible bg-light-danger d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
+                <!--begin::Close-->
+                <button type="button" class="position-absolute top-0 end-0 m-2 btn btn-icon btn-icon-danger"
+                    data-bs-dismiss="alert">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </button>
+                <!--end::Close-->
 
-    </div>
-    <!--end::Wrapper-->
-  </div>
-  <!--end::Alert-->
+                <!--begin::Icon-->
+                <i class="ki-duotone ki-information-5 fs-5tx text-danger mb-5"><span class="path1"></span><span
+                        class="path2"></span><span class="path3"></span></i>
+                <!--end::Icon-->
+
+                <!--begin::Wrapper-->
+                <div class="text-center">
+                    <!--begin::Title-->
+                    <h1 class="fw-bold mb-5">Important Note!</h1>
+                    <!--end::Title-->
+
+                    <!--begin::Separator-->
+                    <div class="separator separator-dashed border-danger opacity-25 mb-5"></div>
+                    <!--end::Separator-->
+
+                    <!--begin::Content-->
+                    <div class="mb-9 text-dark">
+                        Please make sure to save your edits and customizations for them to exist for future use
+                        <strong>within this system</strong>.<br />
+                        Navigate to the <a href="/contact" class="fw-bold me-1">contact section</a>, should you want to
+                        contact the onwers.
+                    </div>
+                    <!--end::Content-->
+
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
 
 
 
@@ -329,21 +333,21 @@
                     </div>
 
                     <!-- <div class="page border border-solid">
-                                                <div class="asidee" style="background-color: ;">
-                                                    <p>This is the PRIMARY color</p>
-                                                </div>
-                                                <div class="main">
-                                                    <p>This is the SECONDARY color</p>
-                                                    <div class="sub-main">
-                                                        <p>This is the TETIARY color</p>
-                                                        <div class="previewer button test">
-                                                            <button onclick="changeStyles()">Change Styles</button>
-                                                            <p class="pt-5">This is how your text will show.</p>
-                                                            <button onclick="saveStyles()">Save Styles</button>
+                                                    <div class="asidee" style="background-color: ;">
+                                                        <p>This is the PRIMARY color</p>
+                                                    </div>
+                                                    <div class="main">
+                                                        <p>This is the SECONDARY color</p>
+                                                        <div class="sub-main">
+                                                            <p>This is the TETIARY color</p>
+                                                            <div class="previewer button test">
+                                                                <button onclick="changeStyles()">Change Styles</button>
+                                                                <p class="pt-5">This is how your text will show.</p>
+                                                                <button onclick="saveStyles()">Save Styles</button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div> -->
+                                                </div> -->
 
                     <div class="grid-container" style="grid-column: span 2;">
                         <h1>New Theme Settings</h1>
@@ -359,8 +363,7 @@
         <!--end::Container-->
 
         <!--end::Content-->
-
-    @endsection
+@endsection
 
     @push('scripts')
         <script>

@@ -9,6 +9,30 @@
 
     <title>Data Transfer</title>
 
+    <style>
+        .script-output-container {
+            position: relative; /* Needed to contain the absolute positioned pre tag */
+            padding: 0;
+            border: 1px solid #dee2e6; /* Match Bootstrap's card body border */
+            height: 300px; /* Fixed height for the output area */
+            overflow-y: auto; /* Enable vertical scrolling */
+            background-color: #f8f9fa; /* Match Bootstrap's card body background */
+        }
+    
+        #script-output {
+            position: absolute; /* Absolute position within the container */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0; /* Remove default margin */
+            padding: 0.75rem; /* Add some padding */
+            border: none; /* Remove default border */
+            white-space: pre-wrap; /* Ensures the text wraps */
+            overflow-wrap: break-word; /* Breaks the words to prevent horizontal scrolling */
+        }
+    </style>
+    
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,7 +47,7 @@
                     <div class="card-header">Data Transfer</div>
 
                     <div class="card-body">
-                        <form method="POST" action="/run-script">
+                        <form method="POST" action="/transfer">
                             @csrf
                             <div class="form-group">
                                 <label for="database">Select database:</label>
@@ -41,19 +65,37 @@
                             <button type="submit" class="btn btn-primary">Run Script</button>
                         </form>
 
+
+                        <div id="script-status" class="alert alert-success" style="{{ empty($success) ? 'display: none;' : '' }}">
+                            {{ $success ?? 'Waiting for script to run...' }}
+                        </div>
                         
 
-                        @if (!empty($output))
+
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">Script Output</div>
+                                    <!-- Add a custom class to the script output container for styling -->
+                                    <div class="card-body script-output-container">
+                                        <pre id="script-output">Output will appear here...</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- @if (!empty($output))
                             <h3>Script Output</h3>
                             <pre>{{ $output }}</pre>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>
         </div>
 
 
-    @if(!empty($error))
+    {{-- @if(!empty($error))
     <div class="alert alert-danger">
         <ul>
             @foreach ($error as $line)
@@ -61,7 +103,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif --}}
 
 
         <div class="row justify-content-center mt-4">
@@ -133,6 +175,130 @@
             });
         });
         </script>
+
+
+
+
+
+
+
+
+
+<script>
+    let scriptStarted = false; // Flag to track if the script has started
+    let fetchingOutput = false; // Flag to track if the output is being fetched
+
+    function updateOutput() {
+        if (fetchingOutput) return; // Skip if already fetching output
+        fetchingOutput = true;
+        console.log("Fetching script output...");
+        fetch('/get-script-output')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok for get-script-output');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Output received:", data);
+                if (data.output) {
+                    let outputElement = document.getElementById('script-output');
+                    outputElement.textContent += data.output;
+                    outputElement.scrollTop = outputElement.scrollHeight;
+                }
+                fetchingOutput = false; // Reset flag after fetching
+            })
+            .catch(error => {
+                console.error('Error fetching script output:', error);
+                fetchingOutput = false; // Reset flag on error
+            });
+    }
+
+    function checkScriptStatus() {
+        console.log("Checking script status...");
+        fetch('/check-script-status')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok for check-script-status');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Script status:", data.status);
+                if (data.status === 'completed') {
+                    document.getElementById('script-status').textContent = 'Script has completed.';
+                    clearInterval(intervalId);
+                    clearInterval(errorIntervalId);
+                }
+            })
+            .catch(error => console.error('Error checking script status:', error));
+    }
+
+    function checkForScriptError() {
+        if (!scriptStarted || fetchingOutput) return; // Skip if script hasn't started or output is being fetched
+        fetch('/get-latest-script-error')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error && data.error !== 'No error found.') {
+                    let statusElement = document.getElementById('script-status');
+                    statusElement.textContent = 'Error: ' + data.error;
+                    statusElement.classList.remove('alert-success');
+                    statusElement.classList.add('alert-danger');
+                    statusElement.style.display = 'block';
+                    clearInterval(intervalId);
+                    clearInterval(errorIntervalId);
+                }
+            })
+            .catch(error => console.error('Error fetching script error:', error));
+    }
+
+    function updateUI() {
+        updateOutput();
+        checkScriptStatus();
+    }
+
+    let intervalId = setInterval(updateUI, 3000); 
+    let errorIntervalId = setInterval(checkForScriptError, 5000); 
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize script-status element
+        const scriptStatusElement = document.getElementById('script-status');
+        scriptStatusElement.style.display = 'none';
+        scriptStatusElement.textContent = '';
+
+        const form = document.querySelector('form');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok for /transfer');
+                }
+                return response.json();
+            })
+            .then(data => {
+                scriptStatusElement.style.display = 'block';
+                scriptStatusElement.textContent = data.success || 'Script is running...';
+                scriptStarted = true;
+                updateUI();
+            })
+            .catch(error => {
+                console.error('Error during form submission:', error);
+            });
+        });
+    });
+</script>
+
+
         
     
 </body>

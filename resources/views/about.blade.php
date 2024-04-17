@@ -23,7 +23,6 @@
 
 <body>
 
-
     {{-- START - Mapping  --}}
 
     <div class="container rounded bg-info-subtle">

@@ -10,5 +10,5 @@ function logout() {
 
 function resetTimer() {
     clearTimeout(timeout);
-    timeout = setTimeout(logout, 300000); // 300000 ms = 5 minutes
+    timeout = setTimeout(logout, 1800000); // 300000 ms = 5 minutes , 1800000 = 30 minutes
 }

@@ -9,6 +9,7 @@
  * @copyright 2023 1Office
  * @license   MIT License
  * @link      https://github.com/alexmnguni57/1Office-GBA
+ *
  */
 
 use Illuminate\Support\Facades\Artisan;
@@ -42,6 +43,12 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\GbaController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\MembershipBankDetailController;
+use App\Http\Controllers\DeathController;
+use App\Http\Controllers\FuneralController;
+
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -81,14 +88,18 @@ Route::get('/mappings', [MappingController::class, 'getMappings']);
 Route::delete('/delete-mapping/{id}', [MappingController::class, 'deleteMapping']);
 
 /* These Are For Transfers */
-Route::get('/transfer', [DataTransferController::class, 'showTransferForm']);
+Route::match(['get', 'post'], '/transfer', [DataTransferController::class, 'showTransferForm']);//NEW
+Route::get('/get-script-output', [DataTransferController::class, 'getScriptOutput']); //NEW
+Route::get('/check-script-status', [DataTransferController::class, 'checkScriptStatus']);//NEW
+Route::get('/get-latest-script-error', [DataTransferController::class, 'getLatestScriptError']);//NEW
+
 // Route::post('/transfer', [DataTransferController::class, 'transferData']);
 Route::post('/mappings', [DataTransferController::class, 'mappings']); //this used to be transfer
 
 // Route::get('/get-mappings/{table}', [DataTransferController::class, 'getMappingsForTable']);
 Route::get('/get-mappings/{mapping}', [DataTransferController::class, 'getMappingsForTable']);
 
-Route::post('/run-script', [DataTransferController::class, 'runScript']);
+
 Route::get('/get-databases', [DataTransferController::class, 'getDatabases']);
 Route::get('/get-tables/{database}', [DataTransferController::class, 'getTablesForDatabase']);
 
@@ -323,6 +334,11 @@ Route::controller(MembershipsController::class)->group(function () {
         ->middleware(['auth'])
         ->name('memberships');
 
+        Route::get('/membershipsData', 'getData')
+        ->middleware(['auth'])
+        ->name('membershipsData');
+
+
     /**
      * Route for displaying a member.
      */
@@ -336,6 +352,15 @@ Route::controller(MembershipsController::class)->group(function () {
     Route::get('/edit-member/{id}', 'edit')
         ->middleware(['auth'])
         ->name('edit-member');
+
+     /**
+     * Route for updating a member. This handles the form submission from the edit page.
+     */
+    Route::put('/update-member/{id}', 'update') // Using PUT method as it's for updating resources
+    ->middleware(['auth'])
+    ->name('update-member');
+
+
 
     /**
      * Route for cancelling a member.
@@ -356,13 +381,18 @@ Route::controller(MembershipsController::class)->group(function () {
 //**----------------------------- Logs Routes ----------------------------*\
 
 Route::get('/logs', [LogController::class, 'show'])->name('logs.show');
+Route::get('/logs-table', [LogController::class, 'showtable'])->name('logs.showtable');
+
+
+Route::get('/dependants', [DependantsController::class, 'index']);
+Route::get('/dependantsData', [DependantsController::class, 'indexx'])->name('dependantsData');
 
 //**----------------------------- Logs Routes ----------------------------*\
 
 /**
  * Routes for dependants.
  */
-// Route::get('/dependants', 'App\Http\Controllers\DependantsController@index')->middleware(['auth'])->name('dependants');
+Route::get('/dependants', 'App\Http\Controllers\DependantsController@index')->middleware(['auth'])->name('dependants');
 Route::middleware('auth')->group(function () {
     Route::get('/dependants', [DependantsController::class, 'index'])->name('dependants');
 });
@@ -370,7 +400,8 @@ Route::middleware('auth')->group(function () {
 /**
  * Route for adding a dependant.
  */
-Route::post('/add-dependant', 'App\Http\Controllers\DependantsController@store')->name('add-dependant.store');
+//Route::post('/add-dependant', 'App\Http\Controllers\DependantsController@store')->name('add-dependant.store');
+Route::post('/add-dependant', [DependantsController::class, 'store'])->name('add-dependant.store');
 
 /**
  * Route for removing a dependant.
@@ -378,5 +409,52 @@ Route::post('/add-dependant', 'App\Http\Controllers\DependantsController@store')
 Route::get('/remove-dependant/{id}', 'App\Http\Controllers\DependantsController@delete')
     ->middleware(['auth'])
     ->name('remove-dependant');
+
+//**----------------------- Resolution Hub Routes --------------------------------------------------**/
+
+Route::get('/resolutionhub', [GbaController::class, 'showGroupedRecords'])->name('resolutionhub');
+
+Route::post('/handle-main-record-action', [GbaController::class, 'handleMainRecordAction'])->name('handleMainRecordAction');
+
+// Error records
+Route::post('/process-record-action', [GbaController::class, 'processRecordAction'])->name('process.record.action');
+
+// Dependents section
+// Routes for dependent actions
+Route::post('/mark-dependent-complete/{dependentId}', [GbaController::class, 'markAsComplete'])->name('dependent.markAsComplete');
+Route::post('/remove-dependent/{dependentId}', [GbaController::class, 'removeDependent'])->name('dependent.remove');
+
+/**--------------------------------------- Start Pivot Reports --------------------------------------------------------------------------*/
+Route::get('/pivotGrid', [ReportsController::class, 'pivotGrid'])->name('pivotGrid');
+/**---------------------------------------- End Pivot Reports ----------------------------------------------------------------------------*/
+
+    /**
+     * Route for user authentication.
+     */
+    Route::post('/add-address', [AddressController::class, 'store'])->name('address.store');
+
+/**------------------------------------------------------------------------------------------*/
+use App\Http\Controllers\PaymentController;
+
+Route::get('/payments', [PaymentController::class, 'index'])->name('payments');
+/**-------------------------------------------------------------------------------------------*/
+
+
+Route::get('/memberships/search', [PaymentController::class, 'search'])->name('payments');
+Route::post('/save-bank-details', [MembershipBankDetailController::class, 'saveBankDetails'])->name('saveBankDetails');
+Route::post('/save-cash-details', [MembershipBankDetailController::class, 'saveCashPaymentDetails'])->name('saveCashPaymentDetails');
+Route::post('/save-data-via-details', [MembershipBankDetailController::class, 'saveDataViaDetails'])->name('saveDataViaDetails');
+
+
+
+
+//Deaths Routes
+Route::resource('deaths', DeathController::class);
+
+
+//Funerals Routes
+Route::resource('funerals', FuneralController::class);
+Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
+Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 
 require __DIR__ . '/auth.php';

@@ -64,6 +64,12 @@ class Address extends Model
         return $this->hasMany(MembershipAddress::class, 'address_id', 'id');
     }
 
+    public function addressType()
+    {
+        return $this->belongsTo(AddressType::class, 'adress_type_id', 'id');
+    }
+    
+
     use HasFactory;
-    protected $connection = '1office';
+    protected $connection = 'mysql';
 }

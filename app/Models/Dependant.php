@@ -20,6 +20,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**----------------------------------------------------------------------
+*
+*   Must be merged with person has person model.
+*
+*---------------------------------------------------------------------**/
+
+
 /**
  * Class Dependant
  *
@@ -42,6 +49,7 @@ class Dependant extends Model
      *
      * @var string
      */
+    protected $connection = 'mysql';
     public $table = 'person_has_person';
 
     /**
@@ -78,5 +86,19 @@ class Dependant extends Model
     public function personMain()
     {
         return $this->belongsTo(Person::class, 'primary_person_id', 'id');
+    }
+
+    public function secondaryPerson()
+    {
+        return $this->belongsTo(Person::class, 'secondary_person_id');
+    }
+
+
+    /**
+     * Get the relationship type associated with the dependant.
+     */
+    public function relationshipType()
+    {
+        return $this->belongsTo(PersonRelationship::class, 'person_relationship_id', 'id');
     }
 }

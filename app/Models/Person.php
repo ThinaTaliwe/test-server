@@ -34,49 +34,15 @@ class Person extends Model
      */
     protected $guarded = [];
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-     /**
-     * The attributes for $fillable attributes.
-     *
-     * @var array
-     */
-     protected $fillable = ['first_name', 'last_name'];
-
-     protected static function boot()
-    {
-        parent::boot();
-
-        // Whenever a new record is saved (created or updated)
-        static::saved(function ($model) {
-            self::resortTable();
-        });
-        
-        // Whenever a record is deleted
-        static::deleted(function ($model) {
-            self::resortTable();
-        });
-    }
-
-    public static function resortTable()
-    {
-        // Sort the table by 'created_at' in descending order
-        $persons = self::orderBy('created_at', 'desc')->get();
-
-        // Update the sorted records (if necessary)
-        // For example, you might want to update a 'rank' column
-        foreach ($persons as $index => $person) {
-            $person->update(['rank' => $index + 1]);
-        }
-    }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
+
+    use HasFactory;
     public $table = 'person';
+    protected $connection = 'mysql';
 
     use HasFactory, SoftDeletes;
 

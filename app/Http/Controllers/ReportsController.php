@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Report;
 use DB;
+use Carbon\Carbon;
+
 
 class ReportsController extends Controller
 {
@@ -119,4 +121,21 @@ class ReportsController extends Controller
         return view('report.person', ['results' => $results,'filters' => ['interval' => $interval,'date_from' => $dateFrom,'date_to' => $dateTo]]);
     }
 
+    public function pivotGrid()
+    {
+        $sales = [
+            'id'=> 10248,
+            'region'=> 'North America',
+            'country'=> 'United States of America',
+            'city'=> 'New York',
+            'amount'=> 1740,
+            'date' => 'new Date("2013-01-06")',
+        ];
+      // dd($sales);
+
+        $banks = DB::connection('mysql')->table('bank')->get();
+        $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
+    
+        return view('pivotGrid', compact('banks', 'sales', 'branchCodes'));
+    }
 }

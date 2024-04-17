@@ -3,14 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
-    public function show()
+
+    public function show(Request $request)
     {
-        $logs = $this->getLogs();
-        return view('logs.show', compact('logs'));
+        //$logs = $this->getLogs();
+        //return view('logs.show', compact('logs'));
+
+
+        
+
+            $addresses = Address::all();
+            //dd($addresses);
+            return response()->json($addresses);
+            //return view('logs.show', compact('addresses'));
+
     }
 
     private function getLogs(): string
@@ -23,4 +34,9 @@ class LogController extends Controller
         return 'Log file does not exist.';
     }
 
+    public function showtable(Request $request)
+    {
+        return view('logs.showtable');
+    }
+    
 }

@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<meta name="description" content="The most advanced Group Burial Association.">
+		<meta name="description" content="Group Burial Association.">
 		<meta name="keywords" content="Burial, Associations">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta property="og:locale" content="en_US">
@@ -15,6 +15,7 @@
 		<meta property="og:url" content="{{ secure_url('/') }}">
 		<meta property="og:site_name" content="GBA System | Group Burial Association">
 		<title>@yield('title', 'GBA System')</title>
+
 		<link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
 		<!--begin::Fonts(mandatory for all pages)-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
@@ -43,7 +44,7 @@
 				@yield('aside')
 				<!--end::Aside-->
 				<!--begin::Wrapper-->
-				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper" style="transition: 0.5s ease-out; padding-left: 0px !important; padding-top: 0px !important;">
 					<!--begin::Header-->
 					@yield('header')
 					<!--end::Header-->
@@ -69,8 +70,8 @@
 		@stack('scripts')
 		<script src="{{ asset('js/custom/auto-logout.js') }}"></script>
         <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-        <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
-        <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+        {{-- <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script> --}}
+        {{-- <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script> --}}
         <!--end::Global Javascript Bundle-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 		<script>

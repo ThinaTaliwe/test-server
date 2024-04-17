@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 
 @section('row_content')
-    <div class="modal-content border pt-4 border-solid bg-secondary-subtle rounded">
+    <div class="modal-content border pt-4 border-solid bg-gba-light rounded">
         <div class="modal-header">
             <h2 class="fw-bold border-bottom border-3 border-primary" style="margin-left: auto; margin-right: auto; width: fit-content;">{{ __('Update permission') }}</h2>
             <a href="{{ route('permission.index') }}"
@@ -67,7 +67,7 @@
                 </div>
                 <div class="text-center pt-15">
                     <button onclick="goBack()" class="btn btn-secondary">{{ __('Back') }}</button>
-                    <button type='submit' class="btn btn-primary">{{ __('Update') }}</button>
+                    <button type='submit' class="btn bg-gba">{{ __('Update') }}</button>
                 </div>
             </form>
         </div>

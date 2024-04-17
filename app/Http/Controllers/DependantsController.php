@@ -28,6 +28,13 @@ class DependantsController extends Controller
         $dependants = Dependant::all();
         return view('dependants', ['dependants' => $dependants]);
     }
+   
+    public function indexx()
+    {
+        $dependants = Dependant::all();
+        return response()->json($dependants);
+    }
+
 
     /**
      * Store a newly created dependant in storage.
@@ -37,6 +44,7 @@ class DependantsController extends Controller
      */
     public function store(StoreDependantRequest $request)
     {
+        
         // Get the first letter of the first name and surname for initials
         $initials = ucfirst(substr($request->Name, 0, 1)) . "." . ucfirst(substr($request->Surname, 0, 1));
 
@@ -52,10 +60,11 @@ class DependantsController extends Controller
         $person->birth_date = $request->inputYearDep . "-" . $request->inputMonthDep . "-" . $request->inputDayDep;
         $person->gender_id = $request->radioGenderDep;
         $person->residence_country_id = 197;
-
+        \Log::info('Memory usage before operation: ' . memory_get_usage());
         // Save the person
         $person->save();
-
+        \Log::info('Memory usage after operation: ' . memory_get_usage());
+    
         // Create a new dependant object
         $dependant = new Dependant();
 

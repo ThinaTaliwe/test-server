@@ -16,6 +16,9 @@ use App\Models\Address;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Province;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Class StoreAddress
@@ -33,6 +36,8 @@ class StoreAddress
      */
     public function handle($data): Address
     {
+
+        Log::alert("I got to the address");
 
         $country = strtoupper($data->Country);
 
@@ -72,9 +77,12 @@ class StoreAddress
 
         $address = new Address();
 
+        
+        // Check if $addressType is set and not NULL, otherwise default to 1
+        $address->adress_type_id = isset($data->addressType) && $data->addressType != NULL ? $data->addressType : 1;
 
-
-        $address->adress_type_id = 1;
+        // Check if $data->PlaceName is set and not NULL, otherwise default to an empty string
+        $address->name = isset($data->PlaceName) && $data->PlaceName != NULL ? $data->PlaceName : '';
 
         $address->line1 = $data->Line1;
 

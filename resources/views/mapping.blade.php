@@ -4,7 +4,14 @@
     <title>Database Mapping</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include Select2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" /> --}}
+
+    <!-- Head -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Before closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
 
     <!-- Add the jQuery CDN here -->
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
@@ -18,7 +25,7 @@
 
 @section('content')
     {{-- START - Mapping  --}}
-    <div class="container rounded bg-info-subtle">
+    <div class="rounded bg-secondary mx-8">
         <h1 class="my-9" style="margin-left: auto; margin-right: auto; width: fit-content;">Database Mapping</h1>
 
         <div class="modal fade" id="addWarehouseModal" tabindex="-1" role="dialog" aria-labelledby="addWarehouseModalLabel"
@@ -113,7 +120,7 @@
             </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 mx-8">
             <div class="card-body">
                 <div class="mb-4">
                     <h3>Select Preset</h3>
@@ -141,13 +148,14 @@
             </div>
         </div>
 
-        <div id="preset-form-container" class="card mb-4" style="display: none;">
+        <div id="preset-form-container" class="card mb-4 mx-8" style="display: none;">
             <div class="card-body">
                 <form id="preset-form" class="mb-4">
                     <h3>Create Preset</h3>
+
                     <div class="mb-3">
                         <label for="source-erp-system" class="form-label">Source ERP System</label>
-                        <select id="source-erp-system" class="form-select select2">
+                        <select id="source-erp-system" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($erp_systems as $erp_system)
                                 <option value="{{ $erp_system->id }}" data-name="{{ $erp_system->name }}">
                                     {{ $erp_system->id }}-{{ $erp_system->name }}</option>
@@ -156,7 +164,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="system" class="form-label">System</label>
-                        <select id="system" class="form-select select2">
+                        <select id="system" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($systems as $system)
                                 <option value="{{ $system->id }}" data-name="{{ $system->system_name }}">
                                     {{ $system->id }}-{{ $system->system_name }}</option>
@@ -165,7 +173,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="company" class="form-label">Company</label>
-                        <select id="company" class="form-select select2">
+                        <select id="company" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($companies as $company)
                                 <option value="{{ $company->id }}" data-name="{{ $company->name }}">
                                     {{ $company->id }}-{{ $company->name }}</option>
@@ -174,7 +182,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="bu" class="form-label">Bu</label>
-                        <select id="bu" class="form-select select2">
+                        <select id="bu" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($bus as $bu)
                                 <option value="{{ $bu->id }}" data-name="{{ $bu->bu_name }}">
                                     {{ $bu->id }}-{{ $bu->bu_name }}</option>
@@ -183,7 +191,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="warehouse" class="form-label">Warehouse</label>
-                        <select id="warehouse" class="form-select select2">
+                        <select id="warehouse" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($warehouses as $warehouse)
                                 <option value="{{ $warehouse->id }}" data-name="{{ $warehouse->name }}">
                                     {{ $warehouse->id }}-{{ $warehouse->name }}</option>
@@ -194,7 +202,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
-                        <select id="address" class="form-select select2">
+                        <select id="address" class="form-select" data-control="select2" data-placeholder="Select an option">
                             @foreach ($addresses as $address)
                                 <option value="{{ $address->id }}" data-name="{{ $address->name }}">
                                     {{ $address->id }}-{{ $address->name }}</option>
@@ -208,13 +216,13 @@
                         <input type="text" class="form-control" id="presetName"
                             placeholder="Name for Preset (Optional)">
                     </div>
-
-                        <button type="submit" class="btn btn-dark">Save Preset</button>
+                    
+                    <button type="submit" class="btn btn-dark">Save Preset</button>
                 </form>
             </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-8 mx-8">
             <div class="card-body">
                 <form id="mapping-form" class="mb-4">
                     <div class="row">
@@ -593,7 +601,6 @@
     </div>
 
     {{-- END - Mapping  --}}
-
 @endsection
 
 @push('scripts')
@@ -602,9 +609,23 @@
 
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
+            $('.select2').select2({
+                width: 'resolve' // This helps with adjusting the width of select elements
+            });
         });
     </script>
+
+    <script>
+        $('#your-select-element').select2({
+            ajax: {
+                url: 'path-to-your-data-source',
+                dataType: 'json',
+                // Additional AJAX parameters go here
+            },
+            // other settings
+        });
+    </script>
+
 
     {{-- This is for the Preset form --}}
     <script>
@@ -619,7 +640,7 @@
             const addressSelect = document.getElementById("address");
 
             presetForm.addEventListener("submit", function(event) {
-                
+
 
                 // Get the selected option texts
                 const erpSystemName = erpSystemSelect.options[erpSystemSelect.selectedIndex].getAttribute(
@@ -781,7 +802,7 @@
 
 
         document.querySelector('#delete-preset-button').addEventListener('click', function(event) {
-            
+
             let presetId = document.getElementById('preset-select').value;
             if (presetId) {
                 fetch('/presets/' + presetId, {
@@ -1138,7 +1159,7 @@
 
 
             mappingForm.addEventListener("submit", function(event) {
-                
+
 
                 console.log('Preset value:', presetSelect.value);
                 // Checking sourceDb, sourceTable and sourceColumn
@@ -1258,7 +1279,7 @@
         // This is for the add model modal
 
         document.getElementById('saveModel').addEventListener('click', function(event) {
-            
+
 
             // Get form values
             let modelName = document.getElementById('modelName').value;

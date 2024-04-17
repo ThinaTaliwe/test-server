@@ -1,13 +1,12 @@
         @extends('layouts.app2')
+
         @section('row_content')
-            <div class="p-3 bg-secondary-subtle rounded border">
+            <div class="p-3 bg-gba-light rounded border mb-4">
                 @if (session()->has('message'))
-                    <div class="mb-8 text-success font-bold">
+                    <div class="mb-2 text-success font-bold">
                         {{ session()->get('message') }}
                     </div>
                 @endif
-                <div class="min-w-full border-b border-gray-200 shadow">
-
                     <div class="row row-cols-3 row-cols-md-3 row-cols-xl-3 g-5 g-xl-9" id="datatable-roles">
                         @foreach ($roles as $role)
                             <!--begin::Col-->
@@ -26,14 +25,14 @@
                                     <!--begin::Card body-->
                                     <div class="card-body pt-1">
                                         <!--begin::Users-->
-                                        <div class="fw-bold text-gray-600 mb-5">Total users with this role:
+                                        <div class="fw-bold text-green mb-5">Total users with this role:
                                             {{ $role->users->count() }}</div>
                                         <!--end::Users-->
                                         <!--begin::Permissions-->
-                                        <div class="d-flex flex-column text-gray-600">
+                                        <div class="d-flex flex-column text-green">
                                             @foreach ($role->permissions as $permission)
                                                 <div class="d-flex align-items-center py-2">
-                                                    <span class="bullet bg-primary me-3"></span>{{ $permission->name }}
+                                                    <span class="bullet bg-gba me-3"></span><div class="">{{ $permission->name }}</div>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -48,14 +47,14 @@
                                             <form action="{{ route('role.destroy', $role->id) }}" method="POST">
                                                 @can('role edit')
                                                     <a href="{{ route('role.edit', $role->id) }}"
-                                                        class="btn btn-light btn-active-primary my-1 me-2">
+                                                        class="btn bg-gba my-1 me-2">
 
                                                         {{ __('Edit Role') }}
                                                     </a>
                                                     @endcan @can('role delete')
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-light btn-active-light-primary my-1">
+                                                    <button class="btn btn-danger my-1">
                                                         {{ __('Delete Role') }}
                                                     </button>
                                                 @endcan
@@ -72,7 +71,7 @@
                         <!--begin::Add new card-->
                         <div class="col-3">
                             <!--begin::Card-->
-                            <div class="card h-md-100 bg-gradient border">
+                            <div class="card h-md-100 bg-gba border">
                                 <!--begin::Card body-->
                                 <div class="card-body d-flex flex-center">
                                     <!--begin::Button-->
@@ -596,6 +595,5 @@
                     </div>
                     <!--end::Modal - Update role-->
                     <!--end::Modals-->
-                </div>
             </div>
         @endsection

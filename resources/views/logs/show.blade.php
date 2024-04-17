@@ -1,39 +1,66 @@
-<!-- resources/views/logs/show.blade.php -->
+@extends('layouts.app2')
 
-@extends('layouts.app2') <!-- Assuming you have a main layout -->
+@push('styles')
+@endpush
 
 @section('content')
-    <div class="container">
-        <div class="bg-secondary m-4 px-4 pb-2 rounded-2">
-            <h1 class="mt-9 pt-2" style="margin-left: auto; margin-right: auto; width: fit-content;">Data Logs</h1>
-            @if (!empty($logs))
-                {{-- <pre>{{ extractLogMessages($logs) }}</pre> --}}
-                {!! extractLogMessages($logs) !!}
-            @else
-                <p>No logs found.</p>
-            @endif
-        </div>
-    </div>
+<h1>Hello</h1>
+
+@foreach ($addresses as $address)
+    <p>{{ $address->address_line }}</p> {{-- Adjust based on your actual column name --}}
+@endforeach
+<div id="table-container"></div>
+    <!-- Address data will be loaded here dynamically -->
+    <!-- resources/views/addresses/list.blade.php -->
+</div>
+<h1>Hello boo</h1>
+
 @endsection
 
-@php
-    function extractLogMessages($logs)
-    {
-        // Split logs into lines
-        $lines = explode("\n", $logs);
+@push('scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        // Collect the first line of each log entry
-        $logMessages = [];
+<script>
+$(document).ready(function() {
+    // The URL from which to fetch the data
+    var url = 'http://192.168.1.7/logs';
 
-        foreach ($lines as $line) {
-            // Check if the line starts with "[DATE]" which indicates a new log entry
-            if (preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $line)) {
-                $logMessages[] .= '<div class="card my-2 p-3">';
-                $logMessages[] .= $line . ' by: ' . auth()->user()->name;
-                $logMessages[] .= '</div>';
-            }
+    // AJAX request to fetch the data
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Call the function to build the table
+            var table = buildTable(data);
+            // Insert the table into the div with id="table-container"
+            $('#table-container').html(table);
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+            $('#table-container').html('<p>Error loading data</p>');
         }
+    });
 
-        return implode("\n", $logMessages);
+    // Function to dynamically build the table based on the data
+    function buildTable(data) {
+        var table = '<table border="1"><tr><th>ID</th><th>Address Type ID</th><th>Line 1</th><th>Suburb</th><th>City</th><th>ZIP</th><th>District</th><th>Province</th></tr>';
+        $.each(data, function(index, item) {
+            table += '<tr>' +
+                        '<td>' + item.id + '</td>' +
+                        '<td>' + item.adress_type_id + '</td>' +
+                        '<td>' + item.line1 + '</td>' +
+                        '<td>' + item.suburb + '</td>' +
+                        '<td>' + item.city + '</td>' +
+                        '<td>' + item.ZIP + '</td>' +
+                        '<td>' + item.district + '</td>' +
+                        '<td>' + item.province + '</td>' +
+                     '</tr>';
+        });
+        table += '</table>';
+        return table;
     }
-@endphp
+});
+</script>
+
+@endpush

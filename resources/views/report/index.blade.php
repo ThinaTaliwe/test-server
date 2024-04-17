@@ -158,7 +158,8 @@
 
 
             <form action="{{ route('report.index') }}" method="GET"
-                style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted" class="bg-primary">
+                style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted"
+                class="bg-primary">
                 <!-- Date Range filters -->
 
                 <label for="">From: </label>
@@ -189,7 +190,7 @@
                     </option>
                 </select>
 
-            {{-- <!-- Language filter -->
+                {{-- <!-- Language filter -->
             <label for="language_id">Language: </label>
             <select name="language_id" id="language_id" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true">
                 <option value="" {{ empty($filters['language_id']) ? 'selected' : '' }}>All</option>
@@ -942,6 +943,15 @@
         </div>
         {{-- End Gender-Wise Count --}}
 
+
+        <div id="drag-container" class="border border-solid">
+            @foreach ($items as $item)
+                <div draggable="true" id="item-{{ $item->id }}" class="draggable-item">
+                    {{ $item->name }}
+                </div>
+            @endforeach
+        </div>
+
     </div>
 @endsection
 
@@ -1097,4 +1107,35 @@
     <!--end::Custom Javascript-->
     <!--end::Javascript-->
     <!--end::Custom Javascript-->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let draggables = document.querySelectorAll('.draggable-item');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(event) {
+                    event.dataTransfer.setData("text/plain", event.target.id);
+                });
+            });
+
+            let container = document.getElementById('drag-container');
+            container.addEventListener('dragover', function(event) {
+                event.preventDefault();
+            });
+
+            container.addEventListener('drop', function(event) {
+                event.preventDefault();
+                let data = event.dataTransfer.getData("text");
+                let droppedElement = document.getElementById(data);
+                container.appendChild(droppedElement);
+                // Call function to update order in backend
+                updateOrderOnBackend(droppedElement.id);
+            });
+        });
+
+        function updateOrderOnBackend(itemId) {
+            // AJAX request to Laravel backend
+            // Example: axios.post('/update-order', { itemId: itemId })
+        }
+    </script>
 @endpush

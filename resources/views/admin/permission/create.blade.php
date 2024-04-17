@@ -2,10 +2,10 @@
 
 @section('row_content')
 
-		<div class="modal-content rounded bg-gradient border">
+		<div class="modal-content rounded bg-gba-light border">
 			<div class="modal-header">
 			  <h2 class="fw-bold mt-6 border-bottom border-white border-3" style="margin-left: auto; margin-right: auto; width: fit-content;">{{ __('Create Permission') }}</h2>
-			  <a href="{{route('permission.index')}}" class="btn-icon btn-sm btn-active-icon-primary bg-info-subtle border rounded border-white p-2">{{ __('<< Back') }}</a>
+			  <a href="{{route('permission.index')}}" class="btn-icon btn-sm btn-active-icon-primary bg-gba-light border rounded border-white p-2">{{ __('<< Back') }}</a>
 				<script>
 					@if ($errors->any())
 					var errors = [
@@ -30,7 +30,7 @@
 				  <input id="name" type="text" name="name" value="{{ old('name') }}" class="form-control form-control-solid" placeholder="Enter a permission name"/>
 				</div>
 				<div class="text-center pt-15">
-				  <button type='submit' class='btn btn-primary'>{{ __('Create') }}</button>
+				  <button type='submit' class='btn bg-gba'>{{ __('Create') }}</button>
 				  <x-button id="btnCreate" type="submit" class="btn-secondary border border-white" text="Cancel"></x-button>
 				</div>
 			  </form>
