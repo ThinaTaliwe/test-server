@@ -426,6 +426,7 @@ Route::post('/remove-dependent/{dependentId}', [GbaController::class, 'removeDep
 
 /**--------------------------------------- Start Pivot Reports --------------------------------------------------------------------------*/
 Route::get('/pivotGrid', [ReportsController::class, 'pivotGrid'])->name('pivotGrid');
+Route::get('/dependantsGrid', [ReportsController::class, 'dependantsGrid'])->name('dependantsGrid');
 /**---------------------------------------- End Pivot Reports ----------------------------------------------------------------------------*/
 
     /**

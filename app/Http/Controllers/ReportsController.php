@@ -123,19 +123,11 @@ class ReportsController extends Controller
 
     public function pivotGrid()
     {
-        $sales = [
-            'id'=> 10248,
-            'region'=> 'North America',
-            'country'=> 'United States of America',
-            'city'=> 'New York',
-            'amount'=> 1740,
-            'date' => 'new Date("2013-01-06")',
-        ];
-      // dd($sales);
+        return view('pivotGrid');
+    }
 
-        $banks = DB::connection('mysql')->table('bank')->get();
-        $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
-    
-        return view('pivotGrid', compact('banks', 'sales', 'branchCodes'));
+    public function dependantsGrid()
+    {
+        return view('dependantsGrid');
     }
 }

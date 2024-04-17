@@ -3,8 +3,6 @@
 @section('title', 'GBA System')
 
 @push('styles')
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('css/app.css') }}"></script>
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
     {{-- <link href="{{ asset('css/dynamic_styles.css') }}" rel="stylesheet"> --}}
@@ -218,6 +216,7 @@
                             {{-- ['url' => '/person', 'title' => __('messages.persons')], --}}
                             {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
                             ['url' => '/pivotGrid', 'title' => __('Memberships')],
+                            ['url' => '/dependantsGrid', 'title' => __('Dependants')],
                             {{-- ['url' => '/pivotScroll', 'title' => __('Scroll')], --}}
                             {{-- ['url' => '/pivotTables', 'title' => __('Table')], --}}
                             {{-- ['url' => '/reporting', 'title' => __('messages.real_time_updates')], --}}
@@ -1042,27 +1041,8 @@
     <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('js/plugins/smooth-scrollbar.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/plugins/datatables.js') }}"></script> --}}
     <script src="{{ asset('js/plugins/chartjs.min.js') }}"></script>
     <script src="{{ asset('js/plugins/choices.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/plugins/multistep-form.js') }}"></script> --}}
-
-    {{-- Start Verification --}}
-    {{-- <script>
-        const SECRET_KEY = "your_randomly_generated_secret_key";
-
-        fetch("http://192.168.1.8/", {
-            method: "GET",
-            headers: {
-                "SECRET_KEY": SECRET_KEY,
-                // other headers
-            },
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log('Error:', error));
-    </script> --}}
-    {{-- End  Verification --}}
 
     <script>
         $(function () {

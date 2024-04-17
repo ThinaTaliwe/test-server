@@ -330,3 +330,8 @@ Breadcrumbs::for('pivotGrid', function ($trail) {
     $trail->parent('home');  // Make sure 'home' is defined as a breadcrumb somewhere in this file
     $trail->push('Pivot Grid', route('pivotGrid'));  // Ensure that 'pivotGrid' is a named route in your routes file
 });
+
+Breadcrumbs::for('dependantsGrid', function ($trail) {
+    $trail->parent('home');  // Make sure 'home' is defined as a breadcrumb somewhere in this file
+    $trail->push('Dependants Grid', route('dependantsGrid'));  // Ensure that 'pivotGrid' is a named route in your routes file
+});
