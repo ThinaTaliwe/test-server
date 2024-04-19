@@ -386,6 +386,9 @@ Route::get('/logs-table', [LogController::class, 'showtable'])->name('logs.showt
 
 Route::get('/dependants', [DependantsController::class, 'index']);
 Route::get('/dependantsData', [DependantsController::class, 'indexx'])->name('dependantsData');
+// Define the route for fetching address data
+Route::get('/addressData', [AddressController::class, 'data'])->name('addressData');
+
 
 //**----------------------------- Logs Routes ----------------------------*\
 
@@ -457,5 +460,6 @@ Route::resource('deaths', DeathController::class);
 Route::resource('funerals', FuneralController::class);
 Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
+Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
 
 require __DIR__ . '/auth.php';

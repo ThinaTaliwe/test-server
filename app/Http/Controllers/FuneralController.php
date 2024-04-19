@@ -227,6 +227,71 @@ class FuneralController extends Controller
             return response()->json(['error' => 'Failed to store address', 'message' => $e->getMessage()], 500);
         }
     }
+
+
+    protected function StoreFuneralBeneficiary(Request $request, StoreAddress $storeAddress)
+    {
+        Log::info('Starting StoreFuneralBeneficiary transaction.');
+    
+        DB::beginTransaction(); // Start the transaction
+    
+        try {
+            // Log the incoming request data
+            Log::info('Received data for StoreFuneralBeneficiary:', $request->all());
+    
+            // Address Action Method injection
+            $address = $storeAddress->handle($request);
+            Log::info('Address handle method executed.');
+    
+            if (!$address) {
+                Log::error('Address creation failed, address object is null.');
+                throw new \Exception("The address could not be saved.");
+            }
+
+
+            //Now we store the beneficiary
+
+
+            
+
+
+
+
+
+    
+            // Ensure address type is loaded to include in the response
+            $address->load('addressType');
+            Log::info('Address type loaded.', ['addressTypeId' => $address->adress_type_id]);
+    
+            if (!$address->addressType) {
+                Log::error('Failed to load address type details.');
+                throw new \Exception("Failed to load address type.");
+            }
+    
+            DB::commit(); // Commit the transaction if everything is okay
+            Log::info('Transaction committed successfully.');
+    
+            // Return a detailed response for the frontend
+            return response()->json([
+                'id' => $address->id,
+                'name' => $address->name,
+                'suburb' => $address->suburb,
+                'city' => $address->city,
+                'line1' => $address->line1,
+                'ZIP' => $address->ZIP,
+                'type' => $address->addressType->name
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack(); // Roll back the transaction on error
+            Log::error('Transaction rolled back due to an error.', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            return response()->json(['error' => 'Failed to store address', 'message' => $e->getMessage()], 500);
+        }
+    }
+    
     
     
     

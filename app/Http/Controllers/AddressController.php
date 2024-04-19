@@ -24,9 +24,17 @@ class AddressController extends Controller
         return response()->json($address);
     }
 
+    public function data(Request $request)
+    {
+        // Fetch all addresses from the database
+        $addresses = Address::all(); // Make sure you have the Address model created and it is properly linked to your database table
+
+        // Return the addresses as a JSON response
+        return response()->json($addresses);
+    }
+
     public function store(Request $request, StoreAddress $storeAddress)
     {
-
         //Address
         $address = $storeAddress->handle((object) $request->all());
 

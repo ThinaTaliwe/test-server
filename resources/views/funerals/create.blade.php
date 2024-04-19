@@ -261,61 +261,94 @@
         {{-- <h1 class="my-4" style="margin-left: auto; margin-right: auto; width: fit-content;">Funeral</h1> --}}
         {{-- <h2>Grouped Records by Membership ID</h2> --}}
         <div class="card mb-3 mt-4 bg-light">
-            <div class="card-header">
-                <h3 class="card-title">Funeral Checklist</h3>
+            <div class="card-header" style="background-color: #448C74">
+                <h3 class="card-title text-white">Funeral Checklist</h3>
             </div>
             <div class="card-body">
 
 
+                <div class="py-0">
+                    <div class="table-responsive">
+                        <table class="table   border rounded table-row-bordered  fs-6 g-5 gs-5 " style="width:100%; background-color: #ffffff">
+                            <thead>
+                                <tr class="fw-bold fs-6 text-gray-800">
+                                    <th style="width: 50%; text-align: center;">Checklist Item</th>
+                                    <th style="width: 50%; text-align: center;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                <div style="display: flex; justify-content: space-around;">
-                    <div class="form-check form-check-custom form-check-success form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="successCheckbox" checked style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="successCheckbox">
-                            Item #
-                        </label>
+                                <tr>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Forms Signed</td>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="1"/>
+                                                Not Done
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="2"/>
+                                                In Progress
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm active" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" checked="checked" value="3"/>
+                                                Complete
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Item #2</td>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm active" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" checked="checked" value="1"/>
+                                                Not Done
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="2"/>
+                                                In Progress
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="3"/>
+                                                Complete
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+
+        
+                                <tr>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Item #3</td>
+                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="1"/>
+                                                Not Done
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm active" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" checked="checked" value="2"/>
+                                                In Progress
+                                            </label>
+                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm" data-kt-button="true">
+                                                <input class="btn-check" type="radio" name="method" value="3"/>
+                                                Complete
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <div class="form-check form-check-custom form-check-danger form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="dangerCheckbox" checked style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="dangerCheckbox">
-                            Item #
-                        </label>
-                    </div>
-                    
-                    <div class="form-check form-check-custom form-check-warning form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="warningCheckbox" checked style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="warningCheckbox">
-                            Item #
-                        </label>
-                    </div>
-
-                    <div class="form-check form-check-custom form-check-success form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="successCheckbox"  style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="successCheckbox">
-                            Item #
-                        </label>
-                    </div>
-
-                    <div class="form-check form-check-custom form-check-success form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="successCheckbox"  style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="successCheckbox">
-                            Item #
-                        </label>
-                    </div>
-
-
-                    <div class="form-check form-check-custom form-check-success form-check-solid" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="checkbox" value="" id="successCheckbox"  style="margin-right: 10px;" />
-                        <label class="form-check-label pl-4" for="successCheckbox">
-                            Item #
-                        </label>
-                    </div>
-
-
                 </div>
                 
-                <div class="row mt-4">
+                
+
+
+                
+                <div class="row">
                     <div class="col">
                         <label for="checklist_notes" class="form-label">Checklist notes:</label>
                         <textarea class="form-control" id="checklist_notes" name="checklist_notes" rows="3"></textarea>
@@ -325,6 +358,7 @@
 
             </div>
         </div>
+        <div class="separator border-light my-8"></div>
 
 
         @if ($errors->any())
@@ -1116,41 +1150,29 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                    <input type="text" class="form-control" placeholder="Name & Surname" id="beneficiary_name" name="beneficiary_name">
+                                                                Name & Surname        
                                                             </td>
                                                             <td>
-                                                                <div class="input-group mx-auto">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="payout_amount" name="payout_amount" >
-                                                                </div>
+                                                                R1800
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control" placeholder="Address" id="beneficiary_address" name="beneficiary_address">
+                                                                line 1 </br>
+                                                                suburb </br>
+                                                                town </br>
+                                                                postal code
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control" placeholder="Name & Surname" id="beneficiary_name" name="beneficiary_name">
+                                                                1534850245
                                                             </td>
                                                             <td>
-                                                                
-                                                                    <select id="churchSelect" name="churchSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Church" data-allow-clear="true" style="margin-right: 10px;">
-                                                                        <option></option> <!-- Placeholder option for user prompt -->
-                                                                        @foreach ($churches as $church)
-                                                                            <option value="{{ $church->id }}">
-                                                                                {{ $church->name }} ({{ $church->line1 }} - {{ $church->suburb }}, {{ $church->city }}, {{ $church->ZIP }})
-                                                                            </option>
-                                                                        @endforeach
-                                                                        @if ($churches->isEmpty())
-                                                                            <option disabled>No churches available</option>
-                                                                        @endif
-                
-                                                                    </select>
-             
+                                                                Capitec Bank
                                                             </td>
                                                             <td>
-                                                                <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Church">
-                                                                    edit
+                                                                <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
+                                                                    Edit
+                                                                </button> 
+                                                                <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
+                                                                    Remove
                                                                 </button> 
                                                             </td>
                                                         </tr>
@@ -1250,12 +1272,12 @@
                                 <!-- Start Beneficiary Modal -->
                                 <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
                                     <div class="modal-dialog modal-dialog-centered modal-xl">
-                                        <div class="modal-content">
+                                        <div class="modal-content" style="background-color: #448C74">
                                             <div class="modal-header">
-                                                <h3 class="modal-title">Add Beneficiary</h3>
+                                                <h3 class="modal-title text-white">Add Beneficiary</h3>
                                 
                                                 <!--begin::Close-->
-                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                                <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal" aria-label="Close">
                                                     <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                                                 </div>
                                                 <!--end::Close-->
@@ -1275,15 +1297,15 @@
                                                      <!-- Row 1 -->
                                                      <div class="row my-3">
                                                         <div class="col">
-                                                            <label for="beneficiary_name" class="form-label">Name:</label>
+                                                            <label for="beneficiary_name" class="form-label text-white">Name:</label>
                                                             <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name">
                                                         </div>
                                                         <div class="col">
-                                                            <label for="beneficiary_surname" class="form-label">Surname:</label>
+                                                            <label for="beneficiary_surname" class="form-label text-white">Surname:</label>
                                                             <input type="tel" class="form-control" id="beneficiary_surname" name="beneficiary_surname">
                                                         </div>
                                                         <div class="col">
-                                                            <label for="payout_amount" class="form-label">Amount:</label>
+                                                            <label for="payout_amount" class="form-label text-white">Amount:</label>
                                                             <div class="input-group mx-auto">
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text" style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
@@ -1432,11 +1454,11 @@
                                                      <!-- Payout Payment Details -->
                                                      <div class="row my-3">
                                                         <div class="col">
-                                                            <label for="payout_acc_number" class="form-label">Account number:</label>
+                                                            <label for="payout_acc_number" class="form-label text-white">Account number:</label>
                                                             <input type="number" class="form-control" id="payout_acc_number" name="payout_acc_number">
                                                         </div>
                                                         <div class="col">
-                                                            <label for="bankSelect" class="form-label">Bank:</label>
+                                                            <label for="bankSelect" class="form-label text-white">Bank:</label>
                                                             <select id="bankSelect" name="bankSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Bank" data-allow-clear="true" style="margin-right: 10px;">
                                                                 <option></option> <!-- Placeholder option for user prompt -->
                                                                 @foreach ($banks as $bank)

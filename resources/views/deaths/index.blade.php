@@ -214,6 +214,9 @@
 
         </table>
     </div>
+
+
+
 @endsection
 
 
@@ -254,5 +257,6 @@
         });
     });
 </script>
+
 @endpush
 

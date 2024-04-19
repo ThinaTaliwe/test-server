@@ -92,7 +92,7 @@
                 fieldChooser: {
                     enabled: true,
                     height: 400
-                }
+                },export: {enabled: true}  // Enable exporting
             }).dxPivotGrid('instance');
 
             const pivotGridChart = $('#pivotgrid-chart').dxChart({
@@ -113,7 +113,7 @@
                 },
                 adaptiveLayout: {
                     width: 450
-                }
+                },export: {enabled: true}  // Enable exporting
             }).dxChart('instance');
 
             pivotGrid.bindChart(pivotGridChart, {
@@ -122,7 +122,6 @@
             });
         }
     </script>
-
 @endpush
 
 

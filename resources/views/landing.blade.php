@@ -94,7 +94,7 @@
   <script src="assets/landingassets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/landingassets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/landingassets/vendor/aos/aos.js"></script>
-  <script src="assets/landingassets/vendor/php-email-form/validate.js"></script>
+  {{-- <script src="assets/landingassets/vendor/php-email-form/validate.js"></script> --}}
 
   <!-- Template Main JS File -->
   <script src="assets/landingassets/js/main.js"></script>

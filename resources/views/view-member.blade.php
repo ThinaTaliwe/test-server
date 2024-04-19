@@ -11,6 +11,7 @@
 @endpush
 
 @section('row_content')
+    <!-- Stacked Modal End -->
     <div class="modal bg-body fade" tabindex="-1" id="kt_modal_2" style="margin-right: 12px !important;">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content shadow-none">
@@ -43,9 +44,9 @@
                     <!-- Membership Details View-Only Section -->
                     <div id="membership" class="container bg-gba-light m-6 text-center mx-auto border-gba">
                         <div class="card">
-                                <div class="card-title bg-gba my-0">
-                                    <h2 class="text-center">Membership Details</h2>
-                                </div>
+                            <div class="card-title bg-gba my-0">
+                                <h2 class="text-center">Membership Details</h2>
+                            </div>
 
                             <div class="card-body fs-6 bg-gba-light">
                                 <!-- Preferred Language Section -->
@@ -108,9 +109,6 @@
         </div>
     </div>
 
-    {{-- End Stacked Modal --}}
-    <!-- Stacked Modal Start -->
-
     <div class="modal fade" tabindex="-1" id="kt_modal_stacked_2">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -126,68 +124,34 @@
                         <h2>Dependants Content</h2>
                         <p class="text-dark fw-semibold fs-6">See all your dependant details.</p>
 
-
-                        <!-- Check if the dependants list is empty -->
-                        <!-- Example check, replace with your actual data checking logic -->
-                        <!--begin::Alert-->
-                        <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row p-5 mb-10"
-                            style="display: none;" id="noDataAlert">
-                            <!--begin::Icon-->
-                            <i class="ki-duotone ki-search-list fs-2hx text-light me-4 mb-5 mb-sm-0"><span
-                                    class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                            <!--end::Icon-->
-
-                            <!--begin::Wrapper-->
-                            <div class="d-flex flex-column text-light pe-0 pe-sm-10">
-                                <!--begin::Title-->
-                                <h4 class="mb-2 light">No Dependants Found</h4>
-                                <!--end::Title-->
-
-                                <!--begin::Content-->
-                                <span>Your list of dependants is currently empty.</span>
-                                <!--end::Content-->
-                            </div>
-                            <!--end::Wrapper-->
-
-                            <!--begin::Close-->
-                            <button type="button"
-                                class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-                                data-bs-dismiss="alert">
-                                <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
-                                        class="path2"></span></i>
-                            </button>
-                            <!--end::Close-->
+                        <!-- Alert for no data -->
+                        <div class="alert alert-danger d-none" id="noDataAlert">
+                            <strong>No Dependants Found:</strong> Your list of dependants is currently empty.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <!--end::Alert-->
-
 
                         <!-- Dependants List -->
-                        <div class="card mt-4 bg-secondary">
-                            <div class="card-header card-header-stretch border-bottom border-gray-200">
-                                <div class="card-title">
-                                    <h3 class="fw-bold m-0">Dependants List</h3>
-                                </div>
+                        <div class="card bg-secondary">
+                            <div class="card-header">
+                                <h3 class="fw-bold">Dependants List</h3>
                             </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-row-bordered align-middle gy-4 gs-9">
-                                        <thead
-                                            class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>ID</th>
-                                                <th>Gender</th>
-                                                <th>Relationship</th>
-                                                <th>DOB</th>
-                                                <th>Age</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="fw-semibold text-gray-600">
-                                            <!-- Dynamically populated rows here -->
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="card-body">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>ID</th>
+                                            <th>Gender</th>
+                                            <th>Relationship</th>
+                                            <th>DOB</th>
+                                            <th>Age</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dependantsBody">
+                                        <!-- Rows will be added here dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -198,13 +162,9 @@
             </div>
         </div>
     </div>
-
     <!-- Stacked Modal End -->
 
-    {{-- End Stacked Modal --}}
-
     <!-- Start Stacked Modal for Address Management -->
-    
     <div class="modal fade" tabindex="-1" id="kt_modal_stacked_3">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -214,56 +174,39 @@
                         data-bs-dismiss="modal" aria-label="Close">
                         <span class="path1"></span><span class="path2"></span>
                     </button>
-                    <!--begin::Icon-->
-                    <i class="ki-duotone ki-search-list fs-2hx text-light me-4 mb-5 mb-sm-0"><span
-                            class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                    <!--end::Icon-->
                 </div>
                 <div class="modal-body">
                     <div id="addresses">
                         <p class="text-dark fw-semibold fs-6 mx-auto">See all your address details.</p>
 
                         <!-- Alert for No Addresses Found (hidden by default) -->
-                        <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row p-5 mb-10"
-                            style="display: none;" id="noAddressesAlert">
-                            <i class="ki-duotone ki-search-list fs-2hx text-light me-4 mb-5 mb-sm-0"></i>
-                            <div class="d-flex flex-column text-light pe-0 pe-sm-10">
-                                <h4 class="mb-2 light">No Addresses Found</h4>
-                                <span>Your list of addresses is currently empty.</span>
-                            </div>
-                            <button type="button"
-                                class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-                                data-bs-dismiss="alert">
-                                <i class="ki-duotone ki-cross fs-1 text-light"></i>
-                            </button>
+                        <div class="alert alert-danger d-none" id="noAddressesAlert">
+                            <strong>No Addresses Found:</strong> Your list of addresses is currently empty.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
 
                         <!-- Addresses List -->
-                        <div class="card mt-4 bg-secondary">
-                            <div class="card-header card-header-stretch border-bottom border-gray-200">
-                                <div class="card-title">
-                                    <h3 class="fw-bold m-0">Existing Addresses</h3>
-                                </div>
+                        <div class="card bg-secondary">
+                            <div class="card-header">
+                                <h3 class="fw-bold">Existing Addresses</h3>
                             </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-row-bordered align-middle gy-4 gs-9">
-                                        <thead
-                                            class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
-                                            <tr>
-                                                <th>Address</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Country</th>
-                                                <th>Postal Code</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="fw-semibold text-gray-600">
-                                            <!-- Dynamically populated rows for addresses -->
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="card-body">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Country</th>
+                                            <th>Postal Code</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="addressesBody">
+                                        <!-- Rows will be added here dynamically -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -274,12 +217,11 @@
             </div>
         </div>
     </div>
-
     <!-- End Stacked Modal -->
-
 
     {{-- Start Stacked Modal --}}
 
+    <!-- Payment Details Modal Start -->
     <div class="modal fade" tabindex="-1" id="kt_modal_stacked_4">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -295,52 +237,31 @@
                         <h2>Payments Content</h2>
                         <p class="text-dark fw-semibold fs-6">See all your payment details.</p>
 
-                        <!-- Billing History -->
+                        <!-- Billing History Card -->
                         <div class="card mt-4 bg-secondary">
-                            <div class="card-header card-header-stretch border-bottom border-gray-200">
-                                <div class="card-title">
-                                    <h3 class="fw-bold m-0">Billing History</h3>
-                                </div>
+                            <div class="card-header">
+                                <h3 class="fw-bold">Billing History</h3>
                             </div>
 
-                            <!-- Tab Content -->
-                            <div class="tab-content">
-                                <!-- Tab panel -->
-                                <div class="card-body p-0 tab-pane fade show active" role="tabpanel">
-                                    <div class="table-responsive">
-                                        <table class="table table-row-bordered align-middle gy-4 gs-9">
-                                            <thead
-                                                class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Description</th>
-                                                    <th>Amount</th>
-                                                    <th>Invoice</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="fw-semibold text-gray-600">
-                                                <tr>
-                                                    <td>Jun 17, 2020</td>
-                                                    <td>Paypal</td>
-                                                    <td>R523.09</td>
-                                                    <td>PDF</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jun 01, 2020</td>
-                                                    <td>Cash</td>
-                                                    <td>R123.79</td>
-                                                    <td>PDF</td>
-                                                </tr>
-                                                <!-- Additional rows as needed -->
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-row-bordered align-middle">
+                                        <thead class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Invoice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="billingHistoryBody">
+                                            <!-- Dynamically populated rows will go here -->
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- Additional tabs for Year and All Time as needed, similar to the above format -->
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -348,14 +269,13 @@
             </div>
         </div>
     </div>
+    <!-- Payment Details Modal End -->
 
     {{-- End Stacked Modal --}}
-
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> --}}
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
 
 @push('scripts')
@@ -469,5 +389,107 @@
         });
     </script>
 
-    {{-- No Data List Found  Alert --}}
+    {{-- Start dependants population --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('kt_modal_stacked_2');
+
+            modal.addEventListener('shown.bs.modal', function() {
+                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.getElementById('dependantsBody');
+                        tbody.innerHTML = ''; // Clear existing rows
+                        if (data.length === 0) {
+                            document.getElementById('noDataAlert').classList.remove('d-none');
+                        } else {
+                            data.forEach(dep => {
+                                const row = `<tr>
+                            <td>${dep.name}</td>
+                            <td>${dep.id}</td>
+                            <td>${dep.gender}</td>
+                            <td>${dep.relationship}</td>
+                            <td>${dep.dob}</td>
+                            <td>${dep.age}</td>
+                            <td><button class="btn bg-gba">Edit</button></td>
+                        </tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error loading the dependants data:', error));
+            });
+        });
+    </script>
+    {{-- End dependants population --}}
+
+    {{-- Start Address population --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('kt_modal_stacked_3');
+
+            modal.addEventListener('shown.bs.modal', function() {
+                fetch('http://192.168.1.7/addressData') // Adjust the API endpoint as needed
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.getElementById('addressesBody');
+                        tbody.innerHTML = ''; // Clear existing rows
+                        if (data.length === 0) {
+                            document.getElementById('noAddressesAlert').classList.remove('d-none');
+                        } else {
+                            data.forEach(addr => {
+                                const row = `<tr>
+                            <td>${addr.address}</td>
+                            <td>${addr.city}</td>
+                            <td>${addr.state}</td>
+                            <td>${addr.country}</td>
+                            <td>${addr.postalCode}</td>
+                            <td><button class="btn btn-info">Edit</button></td>
+                        </tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error loading the addresses data:', error));
+            });
+        });
+    </script>
+    {{-- End Address population --}}
+
+    {{-- Start script to populate they table for billing --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var paymentModal = document.getElementById('kt_modal_stacked_4');
+
+            paymentModal.addEventListener('shown.bs.modal', function() {
+                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.getElementById('billingHistoryBody');
+                        tbody.innerHTML = ''; // Clear existing rows
+                        if (data && data.length > 0) {
+                            data.forEach(payment => {
+                                const row = `<tr>
+                            <td>${payment.date}</td>
+                            <td>${payment.description}</td>
+                            <td>${payment.amount}</td>
+                            <td><a href="#" target="_blank">View</a></td>
+                        </tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        } else {
+                            tbody.innerHTML =
+                                '<tr><td colspan="4" class="text-center">No payment details available</td></tr>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading the payment data:', error);
+                        const tbody = document.getElementById('billingHistoryBody');
+                        tbody.innerHTML =
+                            '<tr><td colspan="4" class="text-center">Failed to load data</td></tr>';
+                    });
+            });
+        });
+    </script>
+    {{-- End script to populate they table for billing --}}
 @endpush

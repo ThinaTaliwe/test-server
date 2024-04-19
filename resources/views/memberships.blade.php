@@ -8,20 +8,28 @@
     <!-- Buttons extension for DataTables -->
     <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
     <style>
-    .dt-buttons{
-        padding-top: 15px;
-    }
-    .dt-buttons .buttons-copy, .dt-buttons .buttons-csv, .dt-buttons .buttons-excel, .dt-buttons .buttons-pdf, .dt-buttons .buttons-print{
-        background-color: forestgreen;
-    }
-    .membership-page .dataTables_filter label{
-        color: black;
-        padding-top: 2px;
-    }
-    .dataTables_filter .form-control{
-        background-color: white;
-    }
-            /* CSS to change the background color of even rows in the table */
+        .dt-buttons {
+            padding-top: 15px;
+        }
+
+        .dt-buttons .buttons-copy,
+        .dt-buttons .buttons-csv,
+        .dt-buttons .buttons-excel,
+        .dt-buttons .buttons-pdf,
+        .dt-buttons .buttons-print {
+            background-color: forestgreen;
+        }
+
+        .membership-page .dataTables_filter label {
+            color: black;
+            padding-top: 2px;
+        }
+
+        .dataTables_filter .form-control {
+            background-color: white;
+        }
+
+        /* CSS to change the background color of even rows in the table */
         tbody tr.odd {
             background-color: white;
             /* Light gray background */
@@ -49,6 +57,12 @@
         ul.pagination li.paginate_button.active a:hover {
             background-color: darkgreen;
             /* Darkens the red on hover for a nice effect */
+        }
+    </style>
+
+    <style>
+        #pivotgrid {
+            background-color: red;
         }
     </style>
 @endpush
@@ -138,42 +152,41 @@
                 </tbody>
             </table>
         </div> --}}
-            <div class="panel mt-4 bg-gba-light ">
-                <div class="panel-heading">
-                    <h2 class="bg-gba p-3 rounded text-center">Comprehensive Memberships Data Table</h2>
-                </div>
-                <div class="panel-body">
-                    <table class="table table-bordered bordered table-striped table-condensed bg-gba-light"
-                        id="comprehensive-memberships-table">
-                        <thead class="thead-light">
-                            <tr class="fw-bold text-dark bg-gba p-3">
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Membership Code</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Initials</th>
-                                <th class="text-center">Surname</th>
-                                <th class="text-center">ID Number</th>
-                                <th class="text-center">Gender</th>
-                                <th class="text-center">Telephone</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Join Date</th>
-                                <th class="text-center">End Date</th>
-                                <th class="text-center">Manage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Dynamically generated rows will be inserted here -->
-                        </tbody>
-                    </table>
-                </div>
+        
+        <div class="panel mt-4 bg-gba-light ">
+            <div class="panel-heading">
+                <h2 class="bg-gba p-3 rounded text-center">Comprehensive Memberships Data Table</h2>
             </div>
+            <div class="panel-body">
+                <table class="table table-bordered bordered table-striped table-condensed bg-gba-light"
+                    id="comprehensive-memberships-table">
+                    <thead class="thead-light">
+                        <tr class="fw-bold text-dark bg-gba p-3">
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Membership Code</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Initials</th>
+                            <th class="text-center">Surname</th>
+                            <th class="text-center">ID Number</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center">Telephone</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Join Date</th>
+                            <th class="text-center">End Date</th>
+                            <th class="text-center">Manage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically generated rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 @endsection
 
 @push('scripts')
-
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="sweetalert2.all.min.js"></script>
     <script>
         window.deleteConfirm = function(membershipId) {
             Swal.fire({
@@ -257,7 +270,9 @@
                 dataType: 'json',
                 success: function(data) {
                     $.each(data, function(index, item) {
-                        var genderText = item.gender_id == 'M' ? '<i class="bi bi-gender-male"></i>Male' : (item.gender_id == 'F' ? '<i class="bi bi-gender-female"></i>female' : "Other");
+                        var genderText = item.gender_id == 'M' ?
+                            '<i class="bi bi-gender-male"></i>Male' : (item.gender_id == 'F' ?
+                                '<i class="bi bi-gender-female"></i>female' : "Other");
                         // Directly using `item.status_name` assuming it's included in the response
                         var row = $('<tr>').append(
                             $('<td class="text-center">').text(item.id),
@@ -268,16 +283,22 @@
                             $('<td class="text-center">').text(item.id_number),
                             $('<td class="text-center">').html(genderText),
                             $('<td class="text-center">').text(item.primary_contact_number),
-                            $('<td class="text-center">').text(item.primary_e_mail_address ? item
+                            $('<td class="text-center">').text(item.primary_e_mail_address ?
+                                item
                                 .primary_e_mail_address : 'N/A'),
-                            $('<td class="text-center">').text(item.join_date ? new Date(item.join_date)
+                            $('<td class="text-center">').text(item.join_date ? new Date(
+                                    item.join_date)
                                 .toLocaleDateString() : 'N/A'),
-                            $('<td class="text-center">').text(item.end_date ? new Date(item.end_date)
+                            $('<td class="text-center">').text(item.end_date ? new Date(item
+                                    .end_date)
                                 .toLocaleDateString() : 'N/A'),
-                            $('<td class="text-center">').html('<a href="/view-member/' + item.id +
-                                '" class="btn-sm btn-success rounded">View</a> | <a href="/edit-member/' + item.id +
+                            $('<td class="text-center">').html('<a href="/view-member/' +
+                                item.id +
+                                '" class="btn-sm btn-success rounded">View</a> | <a href="/edit-member/' +
+                                item.id +
                                 '" class="btn-sm btn-warning rounded">Edit</a> | <a href="#" onclick="deleteConfirm(\'/cancel-member/' +
-                                item.id + '\')" class="btn-sm btn-danger rounded">Delete</a>')
+                                item.id +
+                                '\')" class="btn-sm btn-danger rounded">Delete</a>')
                         );
                         $('#comprehensive-memberships-table tbody').append(row);
                     });
