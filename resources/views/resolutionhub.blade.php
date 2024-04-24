@@ -1507,7 +1507,7 @@
     </div>
     </div>
 
-    </form>
+</form>
     @endforeach
 @else
     <p>No records found.</p>

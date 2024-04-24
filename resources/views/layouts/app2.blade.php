@@ -1014,9 +1014,9 @@
 
     </script>
 
-    <script>
+    {{-- <script>
         var hostUrl = "{{ asset('assets/') }}";
-    </script>
+    </script> --}}
 
     {{-- Start Sweet Alert for all success messages redirect --}}
     <script>
@@ -1106,100 +1106,6 @@
                 }
             });
         //$('input[type=email]').val('test').siblings('label').addClass('is-filled');
-    </script>
-
-
-
-    <!-- ID: #datatable-search -->
-    <script>
-        $(document).ready(function () {
-            $('#datatable-search').DataTable();
-        });
-    </script>
-    <script>
-        $('#datatable-search').DataTable({
-            order: [
-                [6, 'desc'],
-                [0, 'desc']
-            ],
-            dom: 'Bfrtip',
-            buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5'
-            ],
-            paging: true,
-            searching: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search...",
-                paginate: {
-                    previous: '‹',
-                    next: '›'
-                },
-                aria: {
-                    paginate: {
-                        previous: 'Previous',
-                        next: 'Next'
-                    }
-                }
-            }
-        });
-    </script>
-
-    <!-- ID: #datatable in dependant-->
-    <script>
-        $(document).ready(function () {
-            $('#datatable-dependant').DataTable();
-        });
-    </script>
-    <script>
-        $('#datatable-dependant').DataTable({
-            paging: true,
-            searching: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search...",
-                paginate: {
-                    previous: '‹',
-                    next: '›'
-                },
-                aria: {
-                    paginate: {
-                        previous: 'Previous',
-                        next: 'Next'
-                    }
-                }
-            }
-        });
-    </script>
-
-    <!-- ID: #datatable in admin-->
-    <script>
-        $(document).ready(function () {
-            $('#datatable-admin').DataTable();
-        });
-    </script>
-    <script>
-        $('#datatable-admin').DataTable({
-            paging: true,
-            searching: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search...",
-                paginate: {
-                    previous: '‹',
-                    next: '›'
-                },
-                aria: {
-                    paginate: {
-                        previous: 'Previous',
-                        next: 'Next'
-                    }
-                }
-            }
-        });
     </script>
 
 
@@ -1549,9 +1455,7 @@
 
 
     <!--begin::Javascript-->
-    <script>
-        var hostUrl = "{{ asset('assets/') }}";
-    </script>
+
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
@@ -1582,27 +1486,16 @@
       }
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-    {{-- <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script> --}}
     <!--end::Global Javascript Bundle-->
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js?v=7.2.9') }}"></script>
 
     <!--end::Vendors Javascript-->
     <!--begin::Custom Javascript(used for this page only)-->
-    {{-- <script src="{{ asset('assets/js/custom/account/settings/signin-methods.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/account/settings/profile-details.js') }}"></script> --}}
+
     <script src="{{ asset('assets/js/custom/account/settings/deactivate-account.js') }}"></script>
     <script src="{{ asset('assets/js/custom/pages/user-profile/general.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/widgets.bundle.js') }}"></script> --}}
     <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/js/custom/utilities/modals/offer-a-deal/type.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/utilities/modals/offer-a-deal/details.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/utilities/modals/offer-a-deal/finance.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/utilities/modals/offer-a-deal/complete.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/utilities/modals/offer-a-deal/main.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/custom/utilities/modals/two-factor-authentication.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script> --}}
+
     <!--end::Custom Javascript-->
 @endpush

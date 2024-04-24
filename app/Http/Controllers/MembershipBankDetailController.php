@@ -103,4 +103,29 @@ class MembershipBankDetailController extends Controller
 
         return redirect()->back()->withSuccess('Data Via Payment Details Submitted Successfully');
     }
+
+        public function saveEFTDetails(Request $request)
+    {
+    // Validate the incoming data
+    $validated = $request->validate([
+        'membership_id' => 'required|integer',
+        'accountHolder' => 'required',
+        'receipt_value' => 'required|numeric',
+        'bankName' => 'required|string',
+        'branchCode' => 'required|numeric',
+        'transaction_description' => 'required|numeric',
+        'bu_id' => 'required|integer',
+        'transaction_type_id' => 'required|integer',
+        'payment_method_id' => 'required|integer',
+        'currency_id' => 'required|integer',
+        'accountType' => 'required|string'
+    ]);
+
+
+        $paymentReceipt = new MembershipPaymentReceipt($validated);
+        $paymentReceipt->save();
+
+
+        return redirect()->back()->withSuccess('EFT Payment Details Submitted Successfully');
+    }
 }

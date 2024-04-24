@@ -11,8 +11,11 @@
  * @link      https://github.com/alexmnguni57/1Office-GBA
  *
  */
-
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\MyWelcomeController;
@@ -20,13 +23,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MembershipsController;
 use App\Http\Middleware\WelcomesNewUsers as MiddlewareWelcomesNewUsers;
 use App\Models\User;
-use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomeController;
 use App\Http\Controllers\DependantsController;
 use App\Http\Controllers\SalesTransactionController;
 use App\Http\Controllers\CommissionRateController;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use App\Http\Controllers\UsersController;
@@ -37,7 +37,6 @@ use App\Http\Controllers\ChartController;
 use App\Http\Controllers\AmChartController;
 use App\Http\Middleware\SecretCodeMiddleware;
 use App\Http\Middleware\CheckMacAddress;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\MacAddressController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\WhatsAppController;
@@ -49,17 +48,13 @@ use App\Http\Controllers\MembershipBankDetailController;
 use App\Http\Controllers\DeathController;
 use App\Http\Controllers\FuneralController;
 
-
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
 use App\Http\Controllers\MappingController;
-
 /* These Are For Transfers */
 use App\Http\Controllers\DataTransferController;
-
 /* These Are For Presets */
 use App\Http\Controllers\PresetController;
-
 /* These Are For Presets */
 use App\Http\Controllers\TransferLogController;
 
@@ -98,7 +93,6 @@ Route::post('/mappings', [DataTransferController::class, 'mappings']); //this us
 
 // Route::get('/get-mappings/{table}', [DataTransferController::class, 'getMappingsForTable']);
 Route::get('/get-mappings/{mapping}', [DataTransferController::class, 'getMappingsForTable']);
-
 
 Route::get('/get-databases', [DataTransferController::class, 'getDatabases']);
 Route::get('/get-tables/{database}', [DataTransferController::class, 'getTablesForDatabase']);
@@ -148,11 +142,9 @@ Route::get('/admin', [LayoutController::class, 'show'])->name('home');
 Route::post('/selectLayout', [LayoutController::class, 'selectLayout'])
     ->middleware('role')
     ->name('selectLayout');
-
 Route::post('/set-layout', function (Request $request) {
     // Save the selected layout index to the session
     $request->session()->put('selectedLayoutIndex', $request->selectedLayoutIndex);
-
     return back();
 });
 
@@ -441,6 +433,11 @@ Route::get('/dependantsGrid', [ReportsController::class, 'dependantsGrid'])->nam
 use App\Http\Controllers\PaymentController;
 
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments');
+
+use App\Http\Controllers\MembershipHasAddressController;
+
+Route::get('/memberAddressData', [MembershipHasAddressController::class, 'index'])->name('memberAddressData');
+
 /**-------------------------------------------------------------------------------------------*/
 
 
@@ -448,12 +445,12 @@ Route::get('/memberships/search', [PaymentController::class, 'search'])->name('p
 Route::post('/save-bank-details', [MembershipBankDetailController::class, 'saveBankDetails'])->name('saveBankDetails');
 Route::post('/save-cash-details', [MembershipBankDetailController::class, 'saveCashPaymentDetails'])->name('saveCashPaymentDetails');
 Route::post('/save-data-via-details', [MembershipBankDetailController::class, 'saveDataViaDetails'])->name('saveDataViaDetails');
-
-
+Route::post('/save-EFTdetails', [MembershipBankDetailController::class, 'saveEFTDetails'])->name('saveEFTDetails');
 
 
 //Deaths Routes
 Route::resource('deaths', DeathController::class);
+Route::get('/person-details/{id}', [DeathController::class, 'getPersonDetails'])->name('person.details.ajax');
 
 
 //Funerals Routes

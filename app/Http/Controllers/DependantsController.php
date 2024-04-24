@@ -7,12 +7,14 @@ use App\Models\Dependant;
 use App\Models\Membership;
 use App\Models\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Dependants Controller
- * 
+ *
  * This controller handles the creation, deletion and listing of dependants.
- * 
+ *
  * @category Controller
  * @package  App\Http\Controllers
  */
@@ -28,12 +30,7 @@ class DependantsController extends Controller
         $dependants = Dependant::all();
         return view('dependants', ['dependants' => $dependants]);
     }
-   
-    public function indexx()
-    {
-        $dependants = Dependant::all();
-        return response()->json($dependants);
-    }
+
 
 
     /**
@@ -44,9 +41,8 @@ class DependantsController extends Controller
      */
     public function store(StoreDependantRequest $request)
     {
-        
         // Get the first letter of the first name and surname for initials
-        $initials = ucfirst(substr($request->Name, 0, 1)) . "." . ucfirst(substr($request->Surname, 0, 1));
+        $initials = ucfirst(substr($request->Name, 0, 1)) . '.' . ucfirst(substr($request->Surname, 0, 1));
 
         // Create a new person object
         $person = new Person();
@@ -55,16 +51,16 @@ class DependantsController extends Controller
         $person->first_name = ucfirst($request->Name);
         $person->initials = $initials;
         $person->last_name = ucfirst($request->Surname);
-        $person->screen_name = $request->Name . " " . ucfirst($request->Surname);
+        $person->screen_name = $request->Name . ' ' . ucfirst($request->Surname);
         $person->id_number = $request->IDNumberDep;
-        $person->birth_date = $request->inputYearDep . "-" . $request->inputMonthDep . "-" . $request->inputDayDep;
+        $person->birth_date = $request->inputYearDep . '-' . $request->inputMonthDep . '-' . $request->inputDayDep;
         $person->gender_id = $request->radioGenderDep;
         $person->residence_country_id = 197;
         \Log::info('Memory usage before operation: ' . memory_get_usage());
         // Save the person
         $person->save();
         \Log::info('Memory usage after operation: ' . memory_get_usage());
-    
+
         // Create a new dependant object
         $dependant = new Dependant();
 
@@ -78,7 +74,6 @@ class DependantsController extends Controller
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Dependant Added Successfully!!!');
-
     }
 
     /**

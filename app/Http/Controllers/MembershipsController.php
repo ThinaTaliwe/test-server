@@ -26,18 +26,21 @@ use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-
 class MembershipsController extends Controller
 {
-    
-    public function index()
+    public function index(Request $request)
     {
         $memberships = Membership::all()->sortByDesc('created_at')->values();
-            // Check if memberships collection is empty
-            if ($memberships->isEmpty()) {
-                // If the database is empty, provide an appropriate response to the user
-                return view('emptyPage');
-            }
+        // Check if memberships collection is empty
+        if ($memberships->isEmpty()) {
+            // If the database is empty, provide an appropriate response to the user
+            return view('emptyPage');
+        }
+
+        $membership = Membership::where('id', $request->id)->first();
+        // $dependants = Dependant::where('primary_person_id', $membership->person_id)->get();
+         //dd($memberships);
+
         return view('memberships', ['memberships' => $memberships]);
     }
 
@@ -49,7 +52,6 @@ class MembershipsController extends Controller
         return view('add-member', ['memtypes' => $memtypes, 'countries' => $countries]);
     }
 
-
     public function store(StoreMembershipRequest $request, StorePerson $storePerson, StoreAddress $storeAddress)
     {
         DB::beginTransaction(); // Start the transaction
@@ -57,22 +59,22 @@ class MembershipsController extends Controller
         try {
             // Convert request data to object if necessary or directly pass $request
             $requestData = (object) $request->all();
-    
+
             // Person Action Method injection
             $person = $storePerson->handle($requestData);
-    
+
             // Address Action Method injection
             $address = $storeAddress->handle($requestData);
-    
+
             // Assuming you have language logic handled appropriately
             $language = $request->language != null ? 2 : 1;
-    
+
             // Membership creation
             $membership = new Membership();
             $membership->fill([
                 'membership_code' => 1212121, // Example code
                 'name' => ucfirst($request->Name),
-                'initials' => ucfirst(substr($request->Name, 0, 1)) . "." . ucfirst(substr($request->Surname, 0, 1)),
+                'initials' => ucfirst(substr($request->Name, 0, 1)) . '.' . ucfirst(substr($request->Surname, 0, 1)),
                 'surname' => ucfirst($request->Surname),
                 'id_number' => $request->IDNumber,
                 'gender_id' => $request->radioGender,
@@ -90,10 +92,10 @@ class MembershipsController extends Controller
                 'preferred_payment_method_id' => 1, //$request->paymentMethod
                 'fee_currency_id' => 149,
             ]);
-    
+
             $membership->save();
-            Log::info("Saved membership");
-    
+            Log::info('Saved membership');
+
             // Membership Has Address
             $membershipAddress = new MembershipAddress([
                 'membership_id' => $membership->id,
@@ -101,16 +103,19 @@ class MembershipsController extends Controller
                 'adress_type_id' => 1, // 1 = Residential
                 'start_date' => Carbon::today(), // Carbon today
             ]);
-    
+
             $membershipAddress->save();
 
             DB::commit(); // Commit the transaction
-    
+
             return redirect("/edit-member/$membership->id")->with('success', 'Membership Added Successfully!');
         } catch (\Exception $exception) {
             DB::rollBack(); // Rollback the transaction on any error
-            Log::error("Error processing membership: " . $exception->getMessage());
-            return redirect()->back()->with('error', 'Failed to process membership: ' . $exception->getMessage())->withInput();
+            Log::error('Error processing membership: ' . $exception->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Failed to process membership: ' . $exception->getMessage())
+                ->withInput();
         }
     }
 
@@ -118,8 +123,6 @@ class MembershipsController extends Controller
     {
         Log::info('Update method called for membership ID: ' . $id);
 
-        
-        
         $request->validate([
             'Name' => 'required|string|max:255',
             'Surname' => 'required|string|max:255',
@@ -151,7 +154,6 @@ class MembershipsController extends Controller
         $membership->primary_e_mail_address = $request->Email;
         $membership->bu_membership_type_id = $request->memtype;
 
-
         // Log the old and new values to see what's being attempted to update
         Log::info('Old membership data', $membership->getOriginal());
         Log::info('New membership data', $request->all());
@@ -164,7 +166,7 @@ class MembershipsController extends Controller
         if ($membership->isDirty() || $membership->person->isDirty()) {
             // Save changes if there are any
             $membership->push(); // Saves the model and all of its relationships
-           
+
             Log::info('Membership and/or related person model was dirty and has been saved.', ['membership_id' => $membership->id]);
 
             // return redirect("/edit-member/$membership->id")->with('success', 'Membership updated successfully.');
@@ -177,7 +179,7 @@ class MembershipsController extends Controller
         redirect()->back()->withInfo('No changes were detected');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $membership = Membership::where('id', $id)->first();
 
@@ -187,12 +189,16 @@ class MembershipsController extends Controller
 
         $countries = DB::select('select * from country');
 
+        $payments = DB::select('select * from membership_payment_receipts');
+
         $addresses = $membership->address;
 
         $disabled = 'inert';
 
-        // dd($membership);
-        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses]);
+        $billings = DB::select('select * from membership_payment_receipts');
+
+        // dd($billings);
+        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings]);
     }
 
     public function edit($id)
@@ -215,7 +221,7 @@ class MembershipsController extends Controller
 
         return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses])->with('success', 'Updated Successfully!!!!!');
     }
-    
+
     /**
      * A delete by id function
      *
@@ -224,7 +230,6 @@ class MembershipsController extends Controller
      */
     public function delete($id)
     {
-
         $memId = Membership::where('id', $id)->first();
 
         //This deletes the membership
@@ -242,10 +247,9 @@ class MembershipsController extends Controller
 
         foreach ($deps as $dep) {
             Person::where('id', $dep->secondary_person_id)->delete();
-        };
+        }
 
         return redirect()->back()->withSuccess('Membership Has Been Cancelled!');
-
     }
 
     public function getData()
@@ -253,5 +257,4 @@ class MembershipsController extends Controller
         $memberships = Membership::all()->sortByDesc('created_at')->values();
         return response()->json($memberships);
     }
-
 }

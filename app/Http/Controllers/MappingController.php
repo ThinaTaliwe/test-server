@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 use App\Models\System;
 use App\Models\Company;
@@ -62,24 +64,35 @@ class MappingController extends Controller
 
     public function saveMapping(Request $request)
     {
-        $data = $request->validate([
-            'system_id' => 'required',
-            'company_id' => 'required',
-            'bu_id' => 'required',
-            'source_db' => 'required',
-            'source_table' => 'required',
-            'source_column' => 'required',
-            'target_db' => 'required',
-            'target_table' => 'required',
-            'target_column' => 'required',
-            'database_presets_id' => 'required',
-            'source_erp_system_id' => 'required',
-            'oo_model_id' => 'required',
-        ]);
+        Log::info('Starting to save mapping', ['request' => $request->all()]);
+    
+        try {
+            $data = $request->validate([
+                'system_id' => 'required',
+                'company_id' => 'required',
+                'bu_id' => 'required',
+                'source_db' => 'required',
+                'source_table' => 'required',
+                'source_column' => 'required',
+                'target_db' => 'required',
+                'target_table' => 'required',
+                'target_column' => 'required',
+                'database_presets_id' => 'required',
+                'source_erp_system_id' => 'required',
+                'oo_model_id' => 'required',
+            ]);
 
-        $mapping = DB::connection('1office')->table('column_mappings')->insert($data);
-
-        return response()->json(['message' => 'Mapping saved successfully']);
+            Log::info('Before trying to save', ['data' => $data]);
+    
+            $mapping = DB::connection('1office')->table('column_mappings')->insert($data);
+            
+            Log::info('Mapping saved successfully', ['data' => $data]);
+    
+            return response()->json(['message' => 'Mapping saved successfully']);
+        } catch (\Exception $e) {
+            Log::error('Failed to save mapping', ['error' => $e->getMessage(), 'request' => $request->all()]);
+            return response()->json(['message' => 'Failed to save mapping', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function getMappings()

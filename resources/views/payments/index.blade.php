@@ -205,21 +205,20 @@
 
         {{-- Start Payment Method --}}
         <div class="card mt-4 border-gba">
-
             <div class="accordion my-4" id="paymentMethodsAccordion">
-                <h1 class="text-center my-4">Payments Methods</h1>
+                <h1 class="text-center my-4" style="color: green;">Payments Methods</h1>
 
                 <!-- Cash Payment Method -->
                 <div class="accordion-item border-gba m-1">
-                    <h2 class="accordion-header" id="headingCash">
-                        <button class="accordion-button collapsed bg-gba-light" type="button" data-bs-toggle="collapse"
+                    <h2 class="accordion-header mx-auto" id="headingCash">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseCash" aria-expanded="false" aria-controls="collapseCash">
                             Cash
                         </button>
                     </h2>
                     <div id="collapseCash" class="accordion-collapse collapse" aria-labelledby="headingCash"
                         data-bs-parent="#paymentMethodsAccordion">
-                        <div class="accordion-body bg-gba-light">
+                        <div class="accordion-body bg-light">
                             <form id="cashPaymentForm" action="{{ route('saveCashPaymentDetails') }}" method="POST"
                                 class="payment-section border-gba card p-0 m-0">
 
@@ -313,7 +312,7 @@
                 <!-- Debit Order Payment Method -->
                 <div class="accordion-item border-gba m-1">
                     <h2 class="accordion-header" id="headingDebitOrder">
-                        <button class="accordion-button collapsed bg-gba-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseDebitOrder" aria-expanded="false"
                             aria-controls="collapseDebitOrder">
                             Debit Order
@@ -321,7 +320,7 @@
                     </h2>
                     <div id="collapseDebitOrder" class="accordion-collapse collapse" aria-labelledby="headingDebitOrder"
                         data-bs-parent="#paymentMethodsAccordion">
-                        <div class="accordion-body bg-gba-light">
+                        <div class="accordion-body bg-light">
                             <!-- Content for Debit Order Payment Method -->
                             <div class="accordion-body m-0 p-0">
                                 <!-- Debit Order Payment Form Content Here -->
@@ -500,79 +499,92 @@
                 <!-- EFT Payment Method -->
                 <div class="accordion-item border-gba m-1">
                     <h2 class="accordion-header" id="headingEft">
-                        <button class="accordion-button collapsed bg-gba-light" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseEft" aria-expanded="false" aria-controls="collapseEft">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseEft" aria-expanded="false" aria-controls="collapseEft">
                             EFT
                         </button>
                     </h2>
                     <div id="collapseEft" class="accordion-collapse collapse" aria-labelledby="headingEft"
                         data-bs-parent="#paymentMethodsAccordion">
-                        <div class="accordion-body bg-gba-light">
+                        <div class="accordion-body bg-light">
                             <!-- Content for EFT Payment Method -->
-                            <!-- EFT Section -->
                             <div id="eftSection" class="payment-section card border-gba m-0 p-0">
                                 <h2 class="m-4 text-center">EFT Payment Details</h2>
-                                <form id="eftForm">
+                                <!-- Begin Form -->
+                                <form id="eftForm" method="POST" action="{{ route('saveEFTDetails') }}"> <!-- Specify the backend route -->
+                                    @csrf <!-- CSRF token for Laravel or similar frameworks -->
                                     <div class="container-fluid">
-                                        <!-- Row 1 for Account Holder and Bank Name -->
+                                        <!-- Row 1 for Account Holder, Amount, Bank Name, and Branch Code -->
                                         <div class="row">
-                                            <!-- Account Holder -->
-                                            <div class="col-md-4 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Account
-                                                    Holder</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Account Holder" name="receipt_value"
-                                                    value="" />
-                                            </div>
+                                                                                <!-- Membership ID -->
+                                                        <div class="col-md-4 fv-row">
+                                                            <label class="required fs-6 fw-semibold form-label mb-2">Membership ID</label>
+                                                            <select class="form-control form-control-solid" name="membership_id" required>
+                                                                <option value="">Select Membership</option>
+                                                                @foreach ($memberships as $membership)
+                                                                    <option value="{{ $membership->id }}">
+                                                                        {{ $membership->membership_code . ' ' . $membership->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
-                                            {{-- Amount Value --}}
+                                            <!-- Amount Value -->
                                             <div class="col-md-2 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Amount
-                                                    Value</label>
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Amount Value</label>
                                                 <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Amount Value" name="accountHolder"
-                                                    value="" />
+                                                    placeholder="Enter Amount Value" name="receipt_value" />
                                             </div>
 
                                             <!-- Bank Name -->
                                             <div class="col-md-4 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Name</label>
                                                 <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Bank Name" name="bankName" value="" />
+                                                    placeholder="Enter Bank Name" name="bankName" />
                                             </div>
 
                                             <!-- Branch Code -->
                                             <div class="col-md-2 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Branch
-                                                    Code</label>
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Branch Code</label>
                                                 <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Branch Code" name="branchCode" value="" />
+                                                    placeholder="Enter Branch Code" name="branchCode" />
                                             </div>
                                         </div>
 
-                                        <!-- Row 2 for Account Number and Branch Code -->
+                                        <!-- Row 2 for Account Number and Account Type -->
                                         <div class="row mb-4">
-                                            <!-- Account Number -->
-                                            <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Account
-                                                    Number</label>
+
+                                                                                    <!-- Account Holder -->
+                                            <div class="col-md-4 fv-row">
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Account Holder</label>
                                                 <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Account Number" name="accountNumber"
-                                                    value="" />
+                                                    placeholder="Enter Account Holder" name="accountHolder" />
+                                            </div>
+                                            <!-- Account Number -->
+                                            <div class="col-md-4 fv-row">
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Account Number</label>
+                                                <input type="text" class="form-control form-control-solid"
+                                                    placeholder="Enter Account Number" name="transaction_description" />
                                             </div>
 
-                                            <div class="col-md-4 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Account
-                                                    Type</label>
-                                                <select class="form-select form-select-solid" name="accountType"
-                                                    data-control="select2" data-hide-search="true">
+                                            <!-- Account Type -->
+                                            <div class="col-md-2 fv-row">
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Account Type</label>
+                                                <select class="form-select form-select-solid" name="accountType" data-control="select2" data-hide-search="true">
                                                     <option value="">Select Account Type</option>
                                                     <option value="checking">Checking</option>
                                                     <option value="savings">Savings</option>
-                                                    <!-- Add more options as necessary -->
                                                 </select>
                                             </div>
 
+                                            <!-- Additional Hidden Inputs for bu_id, transaction_type_id, payment_method_id -->
+                                                    <!-- Assuming these are managed/known beforehand or through application logic -->
+                                                    <input type="hidden" name="bu_id" value="7">
+                                                    <input type="hidden" name="transaction_type_id" value="2">
+                                                    <input type="hidden" name="payment_method_id" value="2">
+                                                    <input type="hidden" name="currency_id" value="149">
+
+                                            <!-- Submit Button -->
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn bg-gba mt-8">Submit EFT Details</button>
                                             </div>
@@ -580,116 +592,21 @@
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
-                <!-- EFT Payment Method -->
-                {{-- <div class="accordion-item border-gba m-1">
-                    <h2 class="accordion-header" id="headingEft">
-                        <button class="accordion-button collapsed bg-gba-light" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseEft" aria-expanded="false" aria-controls="collapseEft">
-                            EFT
-                        </button>
-                    </h2>
-                    <div id="collapseEft" class="accordion-collapse collapse" aria-labelledby="headingEft"
-                        data-bs-parent="#paymentMethodsAccordion">
-                        <div class="accordion-body bg-gba-light">
-                            <div id="eftSection" class="payment-section card border-gba m-0 p-0">
-                                <h2 class="m-4 text-center">EFT Payment Details</h2>
-                                <!-- Update the form action to the correct route for handling EFT payments -->
-                                <form id="eftForm" action="{{ route('saveBankDetails') }}" method="POST">
-                                    @csrf <!-- CSRF token for Laravel -->
-                                    <div class="container-fluid">
-                                        <!-- Add fields corresponding to the database table structure -->
-                                        <div class="row">
-                                            <!-- Account Holder Name as 'transaction_description' Example -->
-                                            <div class="col-md-4 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Account
-                                                    Holder</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    name="transaction_description" placeholder="Enter Account Holder"
-                                                    required />
-                                            </div>
-
-                                            <!-- Additional Fields like 'receipt_value', 'receipt_number', etc. -->
-                                            <!-- Placeholder for Amount Value -->
-                                            <div class="col-md-2 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Amount
-                                                    Value</label>
-                                                <input type="number" class="form-control form-control-solid"
-                                                    name="receipt_value" placeholder="Enter Amount Value" required />
-                                            </div>
-
-                                            <!-- Bank Name Placeholder -->
-                                            <div class="col-md-4 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Bank Name</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Bank Name" required disabled />
-                                            </div>
-
-                                            <!-- Branch Code Placeholder -->
-                                            <div class="col-md-2 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Branch
-                                                    Code</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Branch Code" required disabled />
-                                            </div>
-
-                                            <!-- Membership ID Selection -->
-                                            <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Membership
-                                                    ID</label>
-                                                <select class="form-control form-control-solid" name="membership_id"
-                                                    required>
-                                                    <option value="">Select Membership ID</option>
-                                                    @foreach ($memberships as $membership)
-                                                        <option value="{{ $membership->id }}">{{ $membership->id }} -
-                                                            {{ $membership->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <!-- Transaction Date -->
-                                            <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Transaction
-                                                    Date</label>
-                                                <input type="date" class="form-control form-control-solid"
-                                                    name="transaction_date" required />
-                                            </div>
-
-                                            <!-- Placeholder for hidden inputs like 'currency_id', 'bu_id', etc. -->
-                                            <input type="hidden" name="currency_id" value="149">
-                                            <!-- Example Currency ID -->
-                                            <!-- Other necessary hidden fields -->
-                                            <input type="hidden" name="bu_id" value="7">
-                                            <input type="hidden" name="transaction_type_id" value="2">
-                                            <input type="hidden" name="payment_method_id" value="5">
-
-                                            <!-- Submission Button -->
-                                            <div class="col-12 text-center">
-                                                <button type="submit" class="btn bg-gba mt-3">Submit EFT Details</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
                 <!-- Data Via Payment Method -->
                 <div class="accordion-item border-gba m-1">
                     <h2 class="accordion-header" id="headingDataVia">
-                        <button class="accordion-button collapsed bg-gba-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseDataVia" aria-expanded="false" aria-controls="collapseDataVia">
                             Data Via
                         </button>
                     </h2>
                     <div id="collapseDataVia" class="accordion-collapse collapse" aria-labelledby="headingDataVia"
                         data-bs-parent="#paymentMethodsAccordion">
-                        <div class="accordion-body bg-gba-light">
+                        <div class="accordion-body bg-light">
                             <!-- Data Via Section -->
                             <div id="dataViaSection" class="payment-section border-gba card m-0 p-0">
                                 <h2 class="m-4 text-center">Data Via Payment Details</h2>
@@ -770,9 +687,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
         {{-- End Payment Metod --}}
 
