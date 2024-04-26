@@ -77,15 +77,21 @@
                                         <span class="fw-semibold text-white">Surname:
                                             {{ $membership->surname }}</span><br>
                                         <span class="fw-semibold text-white">Gender:
-                                            {{ $membership->gender_id }}</span><br>
+    @if ($membership->gender_id == 1)
+        Male
+    @elseif ($membership->gender_id == 2)
+        Female
+    @else
+        Other
+    @endif
+</span>
+<br>
                                         <span class="fw-semibold text-white">Identity Number:
                                             {{ $membership->id_number }}</span><br>
                                         <span class="fw-semibold text-white">Telephone (Cell):
                                             {{ $membership->primary_contact_number }}</span><br>
                                         <span class="fw-semibold text-white">Email Address:
                                             {{ $membership->primary_e_mail_address }}</span><br>
-                                        <span class="fw-semibold text-white">Date of Birth:
-                                            {{ $membership->dob }}</span><br>
                                         <!-- Additional details as needed -->
                                     </div>
                                 </div>
@@ -135,7 +141,7 @@
                         <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                             <div class="table-responsive p-0">
                                 <table
-                                    class="table table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
+                                    class="table table-bordered table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
                                     id="datatable-dependant">
                                     <thead>
                                         <tr>
@@ -158,6 +164,7 @@
                                                 Age
                                             </th>
                                             <th class="text-uppercase font-weight-bolder">
+                                            Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -187,10 +194,10 @@
                                                 @php
                                                     $age = ageFromDOB($dependant->personDep->birth_date);
                                                 @endphp
-                                                <td
-                                                    class="text-sm mt-4 fw-bolder my-1 pt-2 px-2 badge badge-sm {{ changeAgeBackground($age) }}">
-                                                    {{ $age }}
-                                                </td>
+                                <td class="text-center mx-auto">
+                                    <a
+                                        class="btn-sm {{ $age < 15 ? 'btn-success' : ($age <= 20 ? 'btn-warning' : 'btn-danger') }} fw-bold p-1">{{ $age }}</a>
+                                </td>
                                                 <td>
                                                     <a class="btn btn-link text-danger text-gradient mx-3 mb-0"
                                                         href="/remove-dependant/{{ $dependant->secondary_person_id }}"><i
@@ -238,8 +245,7 @@
 
                         <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                             <div class="table-responsive p-0">
-                                <table
-                                    class="table table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
+                                <table class="table table-bordered table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
                                     id="datatable-dependant">
                                     <thead>
                                         <tr>
@@ -378,7 +384,7 @@
                             <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                                 <div class="table-responsive p-0">
                                     <table
-                                        class="table table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
+                                        class="table table-bordered align-items-center justify-content-center border mb-4 bg-gba-light"
                                         id="datatable-billing">
                                         <thead>
                                             <tr>
@@ -432,6 +438,8 @@
                                     </table>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
 @extends('layouts.master')
-
 @section('title', 'GBA System')
 
 @push('styles')
@@ -30,40 +29,45 @@
     {{-- Start Testing Border --}}
     <style>
         .border-gba{
-            border: 1px solid forestgreen;
+            border: 1px solid rgba(0, 146, 63, 1);
             border-radius: 10px;
+            color: black !important; /* Add this line to set the text color to white */
         }
         .border-gba-light{
             border: 1px solid rgba(0, 146, 63, 0.21);
             border-radius: 10px;
+            color: black !important; /* Add this line to set the text color to white */
         }
         .bg-gba{
-            background-color: #00923f;
+            background-color: #f3f4f4;;
+            
+            color: black !important; /* Add this line to set the text color to white */
         }
         .bg-gba:hover {
-            background-color: #00732d; /* Darker shade for hover effect */
+            background-color: #fcfcfc; /* Darker shade for hover effect */
         }
         .bg-gba-light{
-            background-color: rgba(0, 146, 63, 0.21);
+            background-color: rgba(1, 187, 134, 0.21);
+            color: black !important; /* Add this line to set the text color to white */
         }
     </style>
     {{-- End Testing Border --}}
 
     {{-- Start Toggle Button Transition --}}
     <style>
-    #toggleDrawerButton {
-        padding: 10px;
-        font-size: 24px;
-        position: fixed;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        transition: left 0.4s ease-in-out; /* Transition property for smooth movement */
-    }
+        #toggleDrawerButton {
+            padding: 10px;
+            font-size: 24px;
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            transition: left 0.4s ease-in-out; /* Transition property for smooth movement */
+        }
 
-    .hidden {
-        display: none;
-    }
+        .hidden {
+            display: none;
+        }
     </style>
     {{-- End Toggle Button Transition --}}
     
@@ -771,7 +775,6 @@
         </div>
         <!--end::Container-->
 
-
         <!--begin::Activities drawer-->
         <div id="kt_activities" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="activities"
             data-kt-drawer-activate="true" data-kt-drawer-overlay="true"
@@ -919,10 +922,8 @@
         <!--end::Activities drawer-->
 @endsection
 
-
 @section('drawer')
 @endsection
-
 
 @push('scripts')
     <script>

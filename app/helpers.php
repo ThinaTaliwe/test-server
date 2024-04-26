@@ -17,11 +17,11 @@ if (!function_exists('changeAgeBackground')) {
     function changeAgeBackground($age)
     {
         if ($age < 15) {
-            return 'bg-gradient-success';
+            return 'bg-success';
         } elseif ($age < 20) {
-            return 'bg-gradient-warning';
+            return 'bg-warning';
         } else {
-            return 'bg-gradient-danger';
+            return 'bg-danger';
         }
     }
 }

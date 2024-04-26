@@ -437,6 +437,7 @@ Route::get('/payments', [PaymentController::class, 'index'])->name('payments');
 use App\Http\Controllers\MembershipHasAddressController;
 
 Route::get('/memberAddressData', [MembershipHasAddressController::class, 'index'])->name('memberAddressData');
+Route::delete('/deleteMemberAddress/{itemId}', [MembershipHasAddressController::class, 'delete']);
 
 /**-------------------------------------------------------------------------------------------*/
 

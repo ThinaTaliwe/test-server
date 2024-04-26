@@ -17,7 +17,7 @@
         .dt-buttons .buttons-excel,
         .dt-buttons .buttons-pdf,
         .dt-buttons .buttons-print {
-            background-color: forestgreen;
+            background-color: #02bb86;
         }
 
         .membership-page .dataTables_filter label {
@@ -42,7 +42,7 @@
 
         /* CSS to style the active pagination button */
         ul.pagination li.paginate_button.active a {
-            background-color: green;
+            background-color: #02bb86;
             /* Sets the background color to red */
             color: white;
             /* Sets the text color to white for better readability */
@@ -55,16 +55,12 @@
 
         /* Additional styling for hover effects on the active button */
         ul.pagination li.paginate_button.active a:hover {
-            background-color: darkgreen;
+            background-color: #08bb99;
             /* Darkens the red on hover for a nice effect */
         }
     </style>
 
-    <style>
-        #pivotgrid {
-            background-color: red;
-        }
-    </style>
+
 @endpush
 
 @section('row_content')
@@ -270,9 +266,12 @@
                 dataType: 'json',
                 success: function(data) {
                     $.each(data, function(index, item) {
-                        var genderText = item.gender_id == 'M' ?
-                            '<i class="bi bi-gender-male"></i>Male' : (item.gender_id == 'F' ?
-                                '<i class="bi bi-gender-female"></i>female' : "Other");
+var genderText = item.gender_id == '1' ? 
+    '<i class="bi bi-gender-male"></i> Male' : 
+    (item.gender_id == '2' ? 
+    '<i class="bi bi-gender-female"></i> Female' : 
+    '<i class="bi bi-gender-ambiguous"></i> Other');
+
                         // Directly using `item.status_name` assuming it's included in the response
                         var row = $('<tr>').append(
                             $('<td class="text-center">').text(item.id),

@@ -16,6 +16,7 @@
     <style>
         .select2-container--open {
             z-index: 1055 !important;
+            
             /* Must be higher than modal's z-index which is often 1050 */
         }
     </style>

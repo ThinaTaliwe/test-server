@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use App\Http\Requests\StoreDependantRequest;
+use App\Models\Dependant;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Report;
@@ -128,6 +130,7 @@ class ReportsController extends Controller
 
     public function dependantsGrid()
     {
-        return view('dependantsGrid');
+        $dependants = Dependant::all();
+        return view('dependantsGrid', ['dependants' => $dependants]);
     }
 }

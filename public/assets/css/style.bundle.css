@@ -24,12 +24,12 @@
   --bs-gray-100: #F9F9F9;
   --bs-gray-200: #F4F4F4;
   --bs-gray-300: #E1E3EA;
-  --bs-gray-400: #B5B5C3;
+  --bs-gray-400: #000000;
   --bs-gray-500: #A1A5B7;
-  --bs-gray-600: #7E8299;
-  --bs-gray-700: #5E6278;
+  --bs-gray-600: #191a1f;
+  --bs-gray-700: #070707;
   --bs-gray-800: #3F4254;
-  --bs-gray-900: #181C32;
+  --bs-gray-900: #000000;
   --bs-light: #F9F9F9;
   --bs-primary: #00923f;
   --bs-secondary: #E1E3EA;
@@ -92,7 +92,7 @@
   --bs-tertiary-color-rgb: 24, 28, 50;
   --bs-tertiary-bg: #F9F9F9;
   --bs-tertiary-bg-rgb: 249, 249, 249;
-  --bs-body-bg: #adc2b4;
+  --bs-body-bg: #adddbd;
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-heading-color: #181C32;
   --bs-link-color: #009ef7;
@@ -47514,7 +47514,7 @@ body[data-kt-sticky-landing-header=on] {
   --bs-header-desktop-bottom: ;
   --bs-header-tablet-and-mobile: #ffffff;
   --bs-header-tablet-and-mobile-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.08);
-  --bs-aside-bg-color: #00923f54;
+  --bs-aside-bg-color: rgba(1, 187, 134, 0.21);
   --bs-aside-scrollbar-hover-color: #e6ddd0;
 }
 

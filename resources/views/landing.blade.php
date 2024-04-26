@@ -58,7 +58,7 @@
           <div class="col-lg-10">
           <h2>Welcome to</h2>
 			<h2 data-aos="fade-up" data-aos-delay="100" style="color: #00923f;font-size: 5em;">Group Burial Association<span style="color: red;">.</span></h2><br>
-			<h4 data-aos="fade-up" data-aos-delay="200">Management System</h4>
+			
           </div>
           <div class="col-lg-5">
             {{-- <form action="/../index.php" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">

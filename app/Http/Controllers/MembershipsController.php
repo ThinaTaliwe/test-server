@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class MembershipsController extends Controller
 {
@@ -217,9 +218,12 @@ class MembershipsController extends Controller
 
         $addresses = $membership->address;
 
+        $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
+        //dd($memAdd);
+
         $disabled = '';
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses])->with('success', 'Updated Successfully!!!!!');
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd])->with('success', 'Updated Successfully!!!!!');
     }
 
     /**

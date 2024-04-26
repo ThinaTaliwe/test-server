@@ -128,7 +128,7 @@
         }
 
         $.ajax({
-            url: 'http://192.168.1.7/dependantsData',
+            //url: 'http://192.168.1.7/dependantsData',
             method: 'GET',
             success: function(data) {
                 initializeComponents(data);

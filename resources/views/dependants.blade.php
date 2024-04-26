@@ -68,7 +68,7 @@
     <div class="card border-gba bg-gba-light">
         <div class="panel mt-4 bg-gba-light ">
             <div class="panel-heading">
-                <h2 class="bg-gba p-3 rounded text-center">All Dependants</h2>
+                <h2 class="bg-gba p-3 text-center">All Dependants</h2>
             </div>
             <div class="panel-body">
                 <table class="table table-bordered bordered table-striped table-condensed bg-gba-light"
@@ -125,12 +125,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
 
 @endsection
 
