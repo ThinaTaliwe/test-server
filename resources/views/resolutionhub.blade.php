@@ -159,7 +159,7 @@
         {{-- <h2>Grouped Records by Membership ID</h2> --}}
         <div class="card mb-3 bg-light">
             <div class="card-header ">
-                <h3 class="card-title">Search by Membership ID</h3>
+                <h3 class="card-title">Search and Sort</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('resolutionhub') }}" method="GET" class="form-inline">
@@ -168,12 +168,25 @@
                         <input type="text" class="form-control mt-2" id="search" name="search"
                             placeholder="Enter Membership ID" value="{{ $search ?? '' }}">
                     </div>
+            
 
+            
                     <button type="submit" class="btn btn-dark btn-sm my-2 ml-2">Search</button>
                     <a href="{{ route('resolutionhub') }}" class="btn btn-sm mb-2 ml-2 my-2 btn-danger">Reset</a>
 
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="sort" class="sr-only">Sort By:</label>
+                        <select name="sort" id="sort" class="form-control" style="height: 50%;" onchange="this.form.submit()">
+                            <option value="membership_id_asc"{{ request('sort') == 'membership_id_asc' ? ' selected' : '' }}>Membership ID Ascending</option>
+                            <option value="membership_id_desc"{{ request('sort') == 'membership_id_desc' ? ' selected' : '' }}>Membership ID Descending</option>
+                            <option value="join_date_asc"{{ request('sort') == 'join_date_asc' ? ' selected' : '' }}>Date Joined Ascending</option>
+                            <option value="join_date_desc"{{ request('sort') == 'join_date_desc' ? ' selected' : '' }}>Date Joined Descending</option>
+                        </select>
+                    </div>
+
                 </form>
             </div>
+            
         </div>
 
 
@@ -306,28 +319,28 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="birth_date">Birth Date</label>
-                                                            <input type="date" class="form-control" id="birth_date"
-                                                                name="birth_date"
-                                                                value="{{ \Carbon\Carbon::parse($item['main']->birth_date)->format('Y-m-d') }}">
+                                                            <input type="date" class="form-control" id="birth_date" name="birth_date"
+                                                                value="{{ !empty($item['main']->birth_date) ? \Carbon\Carbon::parse($item['main']->birth_date)->format('Y-m-d') : '' }}">
                                                         </div>
                                                     </div>
+                                                    
 
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="join_date">Join Date</label>
-                                                            <input type="date" class="form-control" id="join_date"
-                                                                name="join_date"
-                                                                value="{{ \Carbon\Carbon::parse($item['main']->join_date)->format('Y-m-d') }}">
+                                                            <input type="date" class="form-control" id="join_date" name="join_date"
+                                                                value="{{ !empty($item['main']->join_date) ? \Carbon\Carbon::parse($item['main']->join_date)->format('Y-m-d') : '' }}">
                                                         </div>
                                                     </div>
+                                                    
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="end_date">End Date</label>
-                                                            <input type="date" class="form-control" id="end_date"
-                                                                name="end_date"
-                                                                value="{{ \Carbon\Carbon::parse($item['main']->end_date)->format('Y-m-d') }}">
+                                                            <input type="date" class="form-control" id="end_date" name="end_date"
+                                                                value="{{ !empty($item['main']->end_date) ? \Carbon\Carbon::parse($item['main']->end_date)->format('Y-m-d') : '' }}">
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
 
                                                 <div class="row">
@@ -479,7 +492,7 @@
                                                             <label for="last_payment_date">Last Payment Date</label>
                                                             <input type="date" class="form-control"
                                                                 id="last_payment_date" name="last_payment_date"
-                                                                value="{{ \Carbon\Carbon::parse($item['main']->last_payment_date)->format('Y-m-d') }}">
+                                                                value="{{ !empty($item['main']->last_payment_date) ? \Carbon\Carbon::parse($item['main']->last_payment_date)->format('Y-m-d') : '' }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -487,9 +500,10 @@
                                                             <label for="paid_till_date">Paid Till Date</label>
                                                             <input type="date" class="form-control"
                                                                 id="paid_till_date" name="paid_till_date"
-                                                                value="{{ \Carbon\Carbon::parse($item['main']->paid_till_date)->format('Y-m-d') }}">
+                                                                value="{{ !empty($item['main']->paid_till_date) ? \Carbon\Carbon::parse($item['main']->paid_till_date)->format('Y-m-d') : '' }}">
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                             @else
                                                 <div class="card-header">Duplicate Records</div>
@@ -956,6 +970,548 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
+                                <!-- Fourth Accordion Item for Deaths -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_4">
+                                        <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#kt_accordion_{{ $loop->index }}_body_4"
+                                            aria-expanded="false"
+                                            aria-controls="kt_accordion_{{ $loop->index }}_body_4">
+                                            Deaths
+                                        </button>
+                                    </h2>
+                                    <div id="kt_accordion_{{ $loop->index }}_body_4" class="accordion-collapse collapse"
+                                        aria-labelledby="kt_accordion_{{ $loop->index }}_header_4"
+                                        data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                        <div class="accordion-body" style="background-color: #E9F0EC">
+                                            <!-- Accordion content for Deaths -->
+
+
+                                            <div class=" mb-4 pb-4">
+
+
+
+                                                <div class="card-body pt-4 p-3">
+
+                                                   
+                                                                <!-- Deaths Card -->
+                @if (!$item['deaths']->isEmpty())
+                <div class="card inner-card my-8 bg-light">
+                    <div class="card-header" style="background-color: #448C74;">
+                        <h3 class="card-title" style="color: white">Deaths (Possibly Just Depandants)</h3>
+                    </div>
+                    {{-- ordinary deaths --}}
+                    <div class="card-body">
+                        @foreach ($item['deaths'] as $death)
+                            <!-- Hidden Inputs for death's Details -->
+
+                            <input type="hidden" id="death_membership_id_{{ $death->id }}"
+                                name="death_membership_id[]" value="{{ $death->membership_id }}">
+                            <input type="hidden" id="death_first_name_{{ $death->id }}"
+                                name="death_first_name[]" value="{{ $death->first_name }}">
+                            <input type="hidden" id="death_initials_{{ $death->id }}"
+                                name="death_initials[]" value="{{ $death->initials }}">
+                            <input type="hidden" id="death_last_name_{{ $death->id }}"
+                                name="death_last_name[]" value="{{ $death->last_name }}">
+                            <input type="hidden" id="death_screen_name_{{ $death->id }}"
+                                name="death_screen_name[]" value="{{ $death->screen_name }}">
+                            <input type="hidden" id="death_id_number_{{ $death->id }}"
+                                name="death_id_number[]" value="{{ $death->id_number }}">
+                            <input type="hidden" id="death_birth_date_{{ $death->id }}"
+                                name="death_birth_date[]" value="{{ $death->birth_date }}">
+                            <input type="hidden" id="death_person_relationship_id_{{ $death->id }}"
+                                name="death_person_relationship_id[]"
+                                value="{{ $death->person_relationship_id }}">
+                            <input type="hidden" id="death_gender_id_{{ $death->id }}"
+                                name="death_gender_id[]" value="{{ $death->gender_id }}">
+                            <input type="hidden" id="death_join_date_{{ $death->id }}"
+                                name="death_join_date[]" value="{{ $death->join_date }}">
+                            <input type="hidden" id="death_primary_contact_number_{{ $death->id }}"
+                                name="death_primary_contact_number[]"
+                                value="{{ $death->primary_contact_number }}">
+                            <input type="hidden" id="death_secondary_contact_number_{{ $death->id }}"
+                                name="death_secondary_contact_number[]"
+                                value="{{ $death->secondary_contact_number }}">
+                            <input type="hidden" id="death_primary_e_mail_address_{{ $death->id }}"
+                                name="death_primary_e_mail_address[]"
+                                value="{{ $death->primary_e_mail_address }}">
+
+                            <!--END -- Hidden Inputs for death's Details -->
+
+
+                            <div class="record-container">
+                                @if ($death->record_completed)
+                                    <span style="color: green;">&#10004;</span>
+                                @endif
+                                <p>
+                                    <span id="record_status_{{ $death->id }}"></span>
+                                    <b>Summary:</b>
+                                </p>
+                                <p>
+                                    <b>Membership ID:</b> <span
+                                        id="summary_membership_id_{{ $death->id }}">{{ $death->membership_id ?? 'N/A' }}</span>,
+                                    <b>First Name:</b> <span
+                                        id="summary_first_name_{{ $death->id }}">{{ $death->first_name ?? 'N/A' }}</span>,
+                                    <b>Initials:</b> <span
+                                        id="summary_initials_{{ $death->id }}">{{ $death->initials ?? 'N/A' }}</span>,
+                                    <b>Last Name:</b> <span
+                                        id="summary_last_name_{{ $death->id }}">{{ $death->last_name ?? 'N/A' }}</span>,
+                                    <b>Screen Name:</b> <span
+                                        id="summary_screen_name_{{ $death->id }}">{{ $death->screen_name ?? 'N/A' }}</span>,
+                                    <b>ID Number:</b> <span
+                                        id="summary_id_number_{{ $death->id }}">{{ $death->id_number ?? 'N/A' }}</span>,
+                                    <b>Birth Date:</b> <span
+                                        id="summary_birth_date_{{ $death->id }}">{{ $death->birth_date ?? 'N/A' }}</span>,
+                                    <b>Relationship ID:</b> <span
+                                        id="summary_person_relationship_id_{{ $death->id }}">{{ $death->person_relationship_id ?? 'N/A' }}</span>,
+                                    <b>Gender ID:</b> <span
+                                        id="summary_gender_id_{{ $death->id }}">{{ $death->gender_id ?? 'N/A' }}</span>,
+                                    <b>Join Date:</b> <span
+                                        id="summary_join_date_{{ $death->id }}">{{ $death->join_date ?? 'N/A' }}</span>,
+                                    <b>Primary Contact Number:</b> <span
+                                        id="summary_primary_contact_number_{{ $death->id }}">{{ $death->primary_contact_number ?? 'N/A' }}</span>,
+                                    <b>Secondary Contact Number:</b> <span
+                                        id="summary_secondary_contact_number_{{ $death->id }}">{{ $death->secondary_contact_number ?? 'N/A' }}</span>,<br>
+                                    <b>Primary Email Address:</b> <span
+                                        id="summary_primary_e_mail_address_{{ $death->id }}">{{ $death->primary_e_mail_address ?? 'N/A' }}</span>
+                                </p>
+
+
+
+
+                                <!-- Edit death Details Modal -->
+                                <div class="modal fade" id="editdeathModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="editdeathModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editdeathModalLabel">Edit
+                                                    death Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Modal Input Fields -->
+                                                <div class="form-group">
+                                                    <label for="modal_membership_id">Membership ID</label>
+                                                    <input type="text" class="form-control"
+                                                        id="modal_membership_id">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_first_name">First
+                                                                Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_first_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_initials">Initials</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_initials">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_last_name">Last Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_last_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_screen_name">Screen
+                                                                Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_screen_name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_id_number">ID Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_id_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_birth_date">Birth
+                                                                Date</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_birth_date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_person_relationship_id">Relationship
+                                                                ID</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_person_relationship_id">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_gender_id">Gender ID</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_gender_id">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_join_date">Join Date</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_join_date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_primary_contact_number">Primary
+                                                                Contact Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_primary_contact_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_secondary_contact_number">Secondary
+                                                                Contact Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_secondary_contact_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_primary_e_mail_address">Primary
+                                                                Email Address</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_primary_e_mail_address">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="updatedeath()">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Action Buttons -->
+                                {{-- <div class="action-buttons">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        onclick="editdeath('{{ $death->id }}')">Edit</button>
+
+                                    @if (!$death->record_completed)
+                                        <button id="btnMarkAsComplete" type="button"
+                                            class="btn btn-success btn-sm mark-as-complete-btn"
+                                            id="mark_complete_btn_{{ $death->id }}"
+                                            onclick="markAsComplete('{{ $death->id }}')">Mark as
+                                            Complete</button>
+                                    @endif
+                                    <button id="removeButton" type="button" class="btn btn-danger btn-sm"
+                                        onclick="removedeath('{{ $death->id }}')">Remove</button>
+                                </div> --}}
+                            </div>
+                        @endforeach
+                    </div>
+
+
+                </div>
+            @else
+                <div class="card inner-card border border-secondary mt-4">
+                    <div class="card-header"style="background-color: #448C74;">
+                        <h3 class="card-title" style="color: white">Deaths</h3>
+                    </div>
+                    <div class="card-body bg-light">
+                        <p>No death records found.</p>
+                    </div>
+                </div>
+            @endif
+
+
+
+
+
+                            <!-- Deaths (Previous Main Person) Card -->
+                            @if (!$item['previousdeaths']->isEmpty())
+                            <div class="card inner-card my-8 bg-light">
+                                <div class="card-header" style="background-color: #448C74;">
+                                    <h3 class="card-title" style="color: white">Deaths (Previous Main Person)</h3>
+                                </div>
+                      {{-- START: possible previous main member death --}}
+                      <div class="card-body">
+                        @foreach ($item['previousdeaths'] as $previousdeath)
+                            <!-- Hidden Inputs for previousdeath's Details -->
+
+                            <input type="hidden" id="previousdeath_membership_id_{{ $previousdeath->id }}"
+                                name="previousdeath_membership_id[]" value="{{ $previousdeath->membership_id }}">
+                            <input type="hidden" id="previousdeath_first_name_{{ $previousdeath->id }}"
+                                name="previousdeath_first_name[]" value="{{ $previousdeath->first_name }}">
+                            <input type="hidden" id="previousdeath_initials_{{ $previousdeath->id }}"
+                                name="previousdeath_initials[]" value="{{ $previousdeath->initials }}">
+                            <input type="hidden" id="previousdeath_last_name_{{ $previousdeath->id }}"
+                                name="previousdeath_last_name[]" value="{{ $previousdeath->last_name }}">
+                            <input type="hidden" id="previousdeath_screen_name_{{ $previousdeath->id }}"
+                                name="previousdeath_screen_name[]" value="{{ $previousdeath->screen_name }}">
+                            <input type="hidden" id="previousdeath_id_number_{{ $previousdeath->id }}"
+                                name="previousdeath_id_number[]" value="{{ $previousdeath->id_number }}">
+                            <input type="hidden" id="previousdeath_birth_date_{{ $previousdeath->id }}"
+                                name="previousdeath_birth_date[]" value="{{ $previousdeath->birth_date }}">
+                            <input type="hidden" id="previousdeath_person_relationship_id_{{ $previousdeath->id }}"
+                                name="previousdeath_person_relationship_id[]"
+                                value="{{ $previousdeath->person_relationship_id }}">
+                            <input type="hidden" id="previousdeath_gender_id_{{ $previousdeath->id }}"
+                                name="previousdeath_gender_id[]" value="{{ $previousdeath->gender_id }}">
+                            <input type="hidden" id="previousdeath_join_date_{{ $previousdeath->id }}"
+                                name="previousdeath_join_date[]" value="{{ $previousdeath->join_date }}">
+                            <input type="hidden" id="previousdeath_primary_contact_number_{{ $previousdeath->id }}"
+                                name="previousdeath_primary_contact_number[]"
+                                value="{{ $previousdeath->primary_contact_number }}">
+                            <input type="hidden" id="previousdeath_secondary_contact_number_{{ $previousdeath->id }}"
+                                name="previousdeath_secondary_contact_number[]"
+                                value="{{ $previousdeath->secondary_contact_number }}">
+                            <input type="hidden" id="previousdeath_primary_e_mail_address_{{ $previousdeath->id }}"
+                                name="previousdeath_primary_e_mail_address[]"
+                                value="{{ $previousdeath->primary_e_mail_address }}">
+
+                            <!--END -- Hidden Inputs for previousdeath's Details -->
+
+
+                            <div class="record-container">
+                                @if ($previousdeath->record_completed)
+                                    <span style="color: green;">&#10004;</span>
+                                @endif
+                                <p>
+                                    <span id="record_status_{{ $previousdeath->id }}"></span>
+                                    <b>Summary:</b>
+                                </p>
+                                <p>
+                                    <b>Membership ID:</b> <span
+                                        id="summary_membership_id_{{ $previousdeath->id }}">{{ $previousdeath->membership_id ?? 'N/A' }}</span>,
+                                    <b>First Name:</b> <span
+                                        id="summary_first_name_{{ $previousdeath->id }}">{{ $previousdeath->first_name ?? 'N/A' }}</span>,
+                                    <b>Initials:</b> <span
+                                        id="summary_initials_{{ $previousdeath->id }}">{{ $previousdeath->initials ?? 'N/A' }}</span>,
+                                    <b>Last Name:</b> <span
+                                        id="summary_last_name_{{ $previousdeath->id }}">{{ $previousdeath->last_name ?? 'N/A' }}</span>,
+                                    <b>Screen Name:</b> <span
+                                        id="summary_screen_name_{{ $previousdeath->id }}">{{ $previousdeath->screen_name ?? 'N/A' }}</span>,
+                                    <b>ID Number:</b> <span
+                                        id="summary_id_number_{{ $previousdeath->id }}">{{ $previousdeath->id_number ?? 'N/A' }}</span>,
+                                    <b>Birth Date:</b> <span
+                                        id="summary_birth_date_{{ $previousdeath->id }}">{{ $previousdeath->birth_date ?? 'N/A' }}</span>,
+                                    <b>Relationship ID:</b> <span
+                                        id="summary_person_relationship_id_{{ $previousdeath->id }}">{{ $previousdeath->person_relationship_id ?? 'N/A' }}</span>,
+                                    <b>Gender ID:</b> <span
+                                        id="summary_gender_id_{{ $previousdeath->id }}">{{ $previousdeath->gender_id ?? 'N/A' }}</span>,
+                                    <b>Join Date:</b> <span
+                                        id="summary_join_date_{{ $previousdeath->id }}">{{ $previousdeath->join_date ?? 'N/A' }}</span>,
+                                    <b>Primary Contact Number:</b> <span
+                                        id="summary_primary_contact_number_{{ $previousdeath->id }}">{{ $previousdeath->primary_contact_number ?? 'N/A' }}</span>,
+                                    <b>Secondary Contact Number:</b> <span
+                                        id="summary_secondary_contact_number_{{ $previousdeath->id }}">{{ $previousdeath->secondary_contact_number ?? 'N/A' }}</span>,<br>
+                                    <b>Primary Email Address:</b> <span
+                                        id="summary_primary_e_mail_address_{{ $previousdeath->id }}">{{ $previousdeath->primary_e_mail_address ?? 'N/A' }}</span>
+                                </p>
+
+
+
+
+                                <!-- Edit previousdeath Details Modal -->
+                                {{-- <div class="modal fade" id="editpreviousdeathModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="editpreviousdeathModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editpreviousdeathModalLabel">Edit
+                                                    previousdeath Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Modal Input Fields -->
+                                                <div class="form-group">
+                                                    <label for="modal_membership_id">Membership ID</label>
+                                                    <input type="text" class="form-control"
+                                                        id="modal_membership_id">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_first_name">First
+                                                                Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_first_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_initials">Initials</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_initials">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_last_name">Last Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_last_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_screen_name">Screen
+                                                                Name</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_screen_name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_id_number">ID Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_id_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_birth_date">Birth
+                                                                Date</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_birth_date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_person_relationship_id">Relationship
+                                                                ID</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_person_relationship_id">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_gender_id">Gender ID</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_gender_id">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_join_date">Join Date</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_join_date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_primary_contact_number">Primary
+                                                                Contact Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_primary_contact_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_secondary_contact_number">Secondary
+                                                                Contact Number</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_secondary_contact_number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="modal_primary_e_mail_address">Primary
+                                                                Email Address</label>
+                                                            <input type="text" class="form-control"
+                                                                id="modal_primary_e_mail_address">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="updatepreviousdeath()">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+
+                                <!-- Action Buttons -->
+                                {{-- <div class="action-buttons">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        onclick="editpreviousdeath('{{ $previousdeath->id }}')">Edit</button>
+
+                                    @if (!$previousdeath->record_completed)
+                                        <button id="btnMarkAsComplete" type="button"
+                                            class="btn btn-success btn-sm mark-as-complete-btn"
+                                            id="mark_complete_btn_{{ $previousdeath->id }}"
+                                            onclick="markAsComplete('{{ $previousdeath->id }}')">Mark as
+                                            Complete</button>
+                                    @endif
+                                    <button id="removeButton" type="button" class="btn btn-danger btn-sm"
+                                        onclick="removepreviousdeath('{{ $previousdeath->id }}')">Remove</button>
+                                </div> --}}
+                            </div>
+                        @endforeach
+                    </div>
+                {{-- END: possible previous main member death --}}
+        
+        
+                            </div>
+                        @else
+                            <div class="card inner-card border border-secondary mt-4">
+                                <div class="card-header"style="background-color: #448C74;">
+                                    <h3 class="card-title" style="color: white">Deaths (Previous Main Person)</h3>
+                                </div>
+                                <div class="card-body bg-light">
+                                    <p>No Previous Main Person Death records found.</p>
+                                </div>
+                            </div>
+                        @endif
+
+
+                                                </div>
+
+
+      
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!--end::Accordion-->
 
@@ -1391,14 +1947,27 @@
                                             data-source-table="{{ $error->target_table_name }}"
                                             data-record-id="{{ $error->id }}"
                                             data-membership-id="{{ $error->membership_id }}"
-                                            onclick="handleRecordAction(this, 'makeDependentError')">Make
-                                            Dependant</button>
+                                            onclick="handleRecordAction(this, 'makeDependentError')">
+                                            Make Dependant
+                                        </button>
+
+                                        <button id="makeDependantBtn" type="button" class="btn btn-sm btn-warning"
+                                            data-source-table="{{ $error->target_table_name }}"
+                                            data-record-id="{{ $error->id }}"
+                                            data-membership-id="{{ $error->membership_id }}"
+                                            onclick="handleRecordAction(this, 'makeDeceasedError')">
+                                            
+                                            Mark As Deceased
+                                        </button>
 
                                         <button id="removeDependantBtn" type="button" class="btn btn-sm btn-danger"
                                             data-source-table="{{ $error->target_table_name }}"
                                             data-record-id="{{ $error->id }}"
                                             data-membership-id="{{ $error->membership_id }}"
-                                            onclick="handleRecordAction(this, 'discardError')">Remove</button>
+                                            onclick="handleRecordAction(this, 'discardError')">
+
+                                            Remove
+                                        </button>
                                     </div>
                                 </div>
                             @endforeach
@@ -1464,6 +2033,12 @@
                                     </div>
                                 </div> --}}
                 @endif
+
+
+
+
+    
+
 
                 {{-- Action Buttons for Main Record --}}
                 <div class="form-group text-center d-flex justify-content-around  mt-8 mb-8">

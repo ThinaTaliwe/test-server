@@ -215,7 +215,7 @@ class MembershipsController extends Controller
         // foreach ($membership->membershipaddress as $memaddress) {
         //     $addresses = Address::where('id', $memaddress->membership_id)->get();
         // }
-
+        
         $addresses = $membership->address;
 
         $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
@@ -223,7 +223,12 @@ class MembershipsController extends Controller
 
         $disabled = '';
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd])->with('success', 'Updated Successfully!!!!!');
+        $genders = DB::select('select * from gender');
+        
+        $marriages = DB::select('select * from marriage_status');
+        //dd($membership);
+
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages])->with('success', 'Updated Successfully!!!!!');
     }
 
     /**

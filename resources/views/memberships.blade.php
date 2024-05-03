@@ -59,8 +59,7 @@
             /* Darkens the red on hover for a nice effect */
         }
     </style>
-
-
+    
 @endpush
 
 @section('row_content')
@@ -148,10 +147,10 @@
                 </tbody>
             </table>
         </div> --}}
-        
+
         <div class="panel mt-4 bg-gba-light ">
             <div class="panel-heading">
-                <h2 class="bg-gba p-3 rounded text-center">Comprehensive Memberships Data Table</h2>
+                <h2 class="bg-gba p-3 rounded text-center">Comprehensive Memberships Table</h2>
             </div>
             <div class="panel-body">
                 <table class="table table-bordered bordered table-striped table-condensed bg-gba-light"
@@ -266,11 +265,11 @@
                 dataType: 'json',
                 success: function(data) {
                     $.each(data, function(index, item) {
-var genderText = item.gender_id == '1' ? 
-    '<i class="bi bi-gender-male"></i> Male' : 
-    (item.gender_id == '2' ? 
-    '<i class="bi bi-gender-female"></i> Female' : 
-    '<i class="bi bi-gender-ambiguous"></i> Other');
+                        var genderText = item.gender_id == 'M' ?
+                            '<i class="bi bi-gender-male"></i> Male' :
+                            (item.gender_id == 'F' ?
+                                '<i class="bi bi-gender-female"></i> Female' :
+                                '<i class="bi bi-gender-ambiguous"></i> Other');
 
                         // Directly using `item.status_name` assuming it's included in the response
                         var row = $('<tr>').append(
@@ -281,7 +280,7 @@ var genderText = item.gender_id == '1' ?
                             $('<td class="text-center">').text(item.surname),
                             $('<td class="text-center">').text(item.id_number),
                             $('<td class="text-center">').html(genderText),
-                            $('<td class="text-center">').text(item.primary_contact_number),
+                            $('<td class="text-center">').text(item.primary_contact_number ? item.primary_contact_number : 'N/A'),
                             $('<td class="text-center">').text(item.primary_e_mail_address ?
                                 item
                                 .primary_e_mail_address : 'N/A'),
@@ -314,7 +313,6 @@ var genderText = item.gender_id == '1' ?
                     console.error('Error fetching data:', error);
                 }
             });
-
         });
     </script>
 @endpush

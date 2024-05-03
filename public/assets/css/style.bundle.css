@@ -36962,8 +36962,8 @@ code:not([class*=language-]) {
   text-shadow: 0 0 0 var(--bs-gray-700);
 }
 .form-select.form-select-solid {
-  background-color: var(--bs-gray-100);
-  border-color: var(--bs-gray-100);
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-teal);
   color: var(--bs-gray-700);
   transition: color 0.2s ease;
 }
@@ -48195,11 +48195,11 @@ body {
   margin: 0 0 0.5rem 0;
 }
 .select2-container--bootstrap5 .select2-dropdown .select2-search .select2-search__field {
-  background-color: var(--bs-body-bg);
+  background-color: var(--bs-gray-100);
   padding: 0.55rem 0.75rem;
-  color: var(--bs-gray-700);
+  color: var(--bs-gray-900);
   font-size: 0.95rem;
-  border: 1px solid var(--bs-gray-300);
+  border: 1px solid var(--bs-body-bg);
   border-radius: 0.3rem;
   outline: 0 !important;
 }

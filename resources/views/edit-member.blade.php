@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         .nav-link.active i {
             color: forestgreen;
@@ -39,14 +40,12 @@
 @endpush
 
 @section('row_content')
-
     <!--begin::Card-->
     <div class="card mb-4">
         <!--begin::Card body-->
         <div class="card-body">
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column" id="kt_create_account_stepper">
-
                 <div class="mt-2 text-center">
 
                     <ul class="nav nav-tabs d-inline-flex" id="myTabs">
@@ -87,33 +86,15 @@
                                     class="row g-2">
                                     @csrf
                                     @method('PUT')
-
-                                    <div
-                                        class="form-check  form-switch col d-flex justify-content-center align-items-center mt-5 mb-0">
-                                        <label class="form-check-label mb-0 me-2" for="language"></label>
-
-                                        <div class="btn-group rounded" role="group" aria-label="Language selection">
-                                            <input type="radio" class="btn-check form-check-input" name="radioGender"
-                                                id="Male" value="1"
-                                                {{ $membership->gender_id == '1' ? 'checked' : '' }} />
-                                            <label class="btn btn-secondary" for="Male">Male</label>
-
-                                            <input type="radio" class="btn-check form-check-input" name="radioGender"
-                                                id="Female" value="2"
-                                                {{ $membership->gender_id == '2' ? 'checked' : '' }} />
-                                            <label class="btn btn-secondary" for="Female">Female</label>
-
-                                        </div>
-
-                                    </div>
-
                                     {{-- <div class="row mw-500px mb-5 d-flex justify-content-center align-items-center mt-5 mb-0" data-kt-buttons="true"> --}}
+
                                     {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
                                     {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
                                     {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio1" autocomplete="off" {{ $membership->language_id == '1' ? 'checked' : '' }}> --}}
                                     {{--                                                <label class="btn btn-outline-primary form-check-label" for="btnradio1">English</label> --}}
                                     {{--                                            </label> --}}
                                     {{--                                        </div> --}}
+
                                     {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
                                     {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
                                     {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio2" autocomplete="off" {{ $membership->language_id == '2' ? 'checked' : '' }}> --}}
@@ -121,7 +102,7 @@
                                     {{--                                            </label> --}}
                                     {{--                                        </div> --}}
                                     {{--                                    </div> --}}
-                                    @if ($errors->any())
+                                    {{-- @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
                                                 @foreach ($errors->all() as $error)
@@ -129,11 +110,11 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-                                    @endif
+                                    @endif --}}
 
-                                    <hr class="light horizontal mt-2 mb-0">
+                                    {{-- <hr class="light horizontal mt-2 mb-0"> --}}
 
-                                    <div class="col-md-6">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline  mt-3 mb-0">
 
                                             <input type="text" class="form-control" name="Name" id="Name"
@@ -146,7 +127,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline  mt-3 mb-0">
 
                                             <input type="text" class="form-control" name="Surname" id="Surname"
@@ -160,7 +141,7 @@
                                     </div>
 
 
-                                    <div class="col-md-6">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline   mt-3 mb-0">
 
                                             <input type="text" class="form-control" name="IDNumber" id="IDNumber"
@@ -174,20 +155,20 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-6 mx-auto py-2">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline mb-0 mt-1">
 
                                             <input type="email" class="form-control" name="Email" id="Email"
                                                 value="{{ $membership->primary_e_mail_address }}" placeholder="Email">
                                         </div>
                                         {{-- @error('Email')
-														<span class="invalid-feedback" role="alert">
-														  <strong>{{ $message }}</strong>
-														</span>
-														@enderror --}}
+                                                                                    <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                    </span>
+                                                                                    @enderror --}}
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline mb-0">
 
                                             <input type="number" class="form-control" name="Telephone" id="Telephone"
@@ -195,13 +176,13 @@
                                                 placeholder="Telephone (Cell)" maxlength="10">
                                         </div>
                                         {{-- @error('Telephone')
-														<span class="invalid-feedback" role="alert">
-														  <strong>{{ $message }}</strong>
-														</span>
-														@enderror --}}
+                                                                                    <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                    </span>
+                                                                                    @enderror --}}
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-4">
                                         <div class="input-group input-group-outline mb-0">
 
                                             <input type="number" class="form-control" name="WorkTelephone"
@@ -209,97 +190,72 @@
                                                 placeholder="Telephone (Work)">
                                         </div>
                                         {{-- @error('WorkTelephone')
-														<span class="invalid-feedback" role="alert">
-														  <strong>{{ $message }}</strong>
-														</span>
-														@enderror --}}
+                                                                                    <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                    </span>
+                                                                                    @enderror --}}
                                     </div>
 
                                     {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
+                                    <div class="col-3 d-flex align-items-center">
+                                        <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
+                                                                                                                                                            </div> -->
+                                        <div class="input-group input-group-outline ">
 
-                                    <div class="col-md-12 mx-auto">
-
-                                    </div>
-
-                                    <div class="row col-md-12">
-
-                                        <div
-                                            class="col-md-4 py-2  pt-4  col d-flex justify-content-center align-items-center mx-auto">
-                                            <!-- <div style="white-space:nowrap;" class="px-4">
-                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
-                                                                            
-                                                                                </div> -->
-                                            <div class="input-group input-group-outline ">
-
-                                                <input type="text" onkeypress="return isNumberKey(event)"
-                                                    class="form-control" name="inputDay" id="inputDay"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->day }}"
-                                                    placeholder="DD" maxlength="2" size="2">
-                                                {{-- @error('inputDay')
-															<span class="invalid-feedback" role="alert">
-															  <strong>{{ $message }}</strong>
-															</span>
-															@enderror --}}
-                                            </div>
-                                            <span class="px-2"></span>
-                                            <div class="input-group input-group-outline ">
-
-                                                <input type="text" onkeypress="return isNumberKey(event)"
-                                                    class="form-control" name="inputMonth" id="inputMonth"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->month }}"
-                                                    placeholder="MM" maxlength="2" size="2">
-                                                {{-- @error('inputMonth')
-															<span class="invalid-feedback" role="alert">
-															  <strong>{{ $message }}</strong>
-															</span>
-															@enderror --}}
-                                            </div>
-                                            <span class="px-2"></span>
-                                            <div class="input-group input-group-outline ">
-
-                                                <input type="text" onkeypress="return isNumberKey(event)"
-                                                    class="form-control" name="inputYear" id="inputYear"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->year }}"
-                                                    placeholder="YYYY" maxlength="4" size="4">
-                                                {{-- @error('inputYear')
-															<span class="invalid-feedback" role="alert">
-															  <strong>{{ $message }}</strong>
-															</span>
-															@enderror --}}
-                                            </div>
-
-
+                                            <input type="text" onkeypress="return isNumberKey(event)"
+                                                class="form-control" name="inputDay" id="inputDay"
+                                                value="{{ dobBreakdown($membership->person->birth_date)->day }}"
+                                                placeholder="DD" maxlength="2" size="2">
+                                            {{-- @error('inputDay')
+                                                                                            <span class="invalid-feedback" role="alert">
+                                                                                            <strong>{{ $message }}</strong>
+                                                                                            </span>
+                                                                                            @enderror --}}
                                         </div>
+                                        <span class="px-2"></span>
+                                        <div class="input-group input-group-outline ">
 
-                                        <div class="col-md-8 py-2 mb-4">
-                                            <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto"
-                                                style="padding-top: 1.5rem;">
-                                                <input type="radio" class="btn-check form-check-input"
-                                                    name="marital_status" id="Married" value="1"
-                                                    {{ $membership->person->married_status == '1' ? 'checked' : '' }} />
-                                                <label class="btn btn-secondary" for="Married">Married</label>
-
-                                                <input type="radio" class="btn-check form-check-input"
-                                                    name="marital_status" id="Single" value="2"
-                                                    {{ $membership->person->married_status == '2' ? 'checked' : '' }} />
-                                                <label class="btn btn-secondary" for="Single">Single</label>
-
-                                                <input type="radio" class="btn-check form-check-input"
-                                                    name="marital_status" id="Widowed" value="3"
-                                                    {{ $membership->person->married_status == '3' ? 'checked' : '' }} />
-                                                <label class="btn btn-secondary" for="Widowed">Widowed</label>
-
-                                                <input type="radio" class="btn-check form-check-input"
-                                                    name="marital_status" id="Divorced" value="4"
-                                                    {{ $membership->person->married_status == '4' ? 'checked' : '' }} />
-                                                <label class="btn btn-secondary" for="Divorced">Divorced</label>
-                                            </div>
+                                            <input type="text" onkeypress="return isNumberKey(event)"
+                                                class="form-control" name="inputMonth" id="inputMonth"
+                                                value="{{ dobBreakdown($membership->person->birth_date)->month }}"
+                                                placeholder="MM" maxlength="2" size="2">
+                                            {{-- @error('inputMonth')
+                                                                                            <span class="invalid-feedback" role="alert">
+                                                                                            <strong>{{ $message }}</strong>
+                                                                                            </span>
+                                                                                            @enderror --}}
+                                        </div>
+                                        <span class="px-2"></span>
+                                        <div class="input-group input-group-outline ">
+                                            <input type="text" onkeypress="return isNumberKey(event)"
+                                                class="form-control" name="inputYear" id="inputYear"
+                                                value="{{ dobBreakdown($membership->person->birth_date)->year }}"
+                                                placeholder="YYYY" maxlength="4" size="4">
+                                            {{-- @error('inputYear')
+                                                                                            <span class="invalid-feedback" role="alert">
+                                                                                            <strong>{{ $message }}</strong>
+                                                                                            </span>
+                                                                                            @enderror --}}
                                         </div>
                                     </div>
 
-                                    {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
+                                    <div class="col-2 pt-4">
+                                        {{-- <label class="form-check-label mb-0 me-2 text-lg text-dark" for="language">Gender: </label> --}}
 
-                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            {{-- <label for="genderSelect" class="form-label">Gender</label> --}}
+                                            <select class="form-select" name="radioGender" id="genderSelect">
+                                                <option value="M"
+                                                    {{ $membership->gender_id == 'M' ? 'selected' : '' }}>Male
+                                                </option>
+                                                <option value="F"
+                                                    {{ $membership->gender_id == 'F' ? 'selected' : '' }}>Female
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
                                         <div class="dropdown">
                                             <select name="memtype" id="memtype"
                                                 class="btn bg-gradient-secondary dropdown-toggle w-100 my-4 @error('Select Membership Type') is-invalid @enderror"
@@ -316,18 +272,37 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-8 mx-auto">
-                                        @php
-                                            $membership_id = $membership->id;
-                                        @endphp
-                                        <div class="text-center  d-flex justify-content-center align-items-center ">
-                                            <button type="submit" text="Update" class="btn btn-success w-150 my-4 mb-4"
-                                                id="btnUpdate"><i class="material-icons pe-2">save</i>Update
-                                                {{ $membership_id }}
-                                            </button>
+                                    <div class="col-3">
+                                        <div class="form-group" style="padding-top: 1.5rem; text-align: center;">
+                                            {{-- <label for="maritalStatusSelect" class="form-label">Marital Status</label> --}}
+                                            {{-- <label class="form-check-label mb-0 me-2 text-dark" for="marital_status">Maritial Status: </label> --}}
+
+                                            <select class="form-select" name="marital_status" id="maritalStatusSelect">
+                                                <option value="1"
+                                                    {{ $membership->person->married_status == '1' ? 'selected' : '' }}>
+                                                    Married</option>
+                                                <option value="2"
+                                                    {{ $membership->person->married_status == '2' ? 'selected' : '' }}>
+                                                    Single</option>
+                                                <option value="3"
+                                                    {{ $membership->person->married_status == '3' ? 'selected' : '' }}>
+                                                    Widowed</option>
+                                                <option value="4"
+                                                    {{ $membership->person->married_status == '4' ? 'selected' : '' }}>
+                                                    Divorced</option>
+                                            </select>
                                         </div>
                                     </div>
 
+                                    {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
+
+                                    <div class="col-12">
+                                        <div class="text-center  d-flex justify-content-center align-items-center ">
+                                            <button type="submit" text="Update" class="btn btn-success w-150 my-4 mb-4"
+                                                id="btnUpdate"><i class="material-icons pe-2">save</i>Update
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -341,76 +316,6 @@
                                 <div class="text-dark fw-semibold fs-6">Add a new dependant</div>
                                 <!--end::Notice-->
                             </div>
-
-                            {{--                            <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4"> --}}
-                            {{--                                <div class="table-responsive p-0"> --}}
-                            {{--                                    <table class="table table-flush align-items-center justify-content-center border mb-4" --}}
-                            {{--                                           id="datatable-dependant"> --}}
-                            {{--                                        <thead> --}}
-                            {{--                                        <tr> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                Name --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                ID --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                Gender --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                Relationship Code --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                Date Of Birth --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                                Age --}}
-                            {{--                                            </th> --}}
-                            {{--                                            <th class="text-uppercase font-weight-bolder"> --}}
-                            {{--                                            </th> --}}
-                            {{--                                        </tr> --}}
-                            {{--                                        </thead> --}}
-                            {{--                                        <tbody> --}}
-                            {{--                                        @foreach ($dependants as $dependant) --}}
-                            {{--                                            <tr> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <p class="text-sm font-weight-normal mb-0"> --}}
-                            {{--                                                        {{ $dependant->personDep->screen_name }}</p> --}}
-                            {{--                                                </td> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <p class="text-sm font-weight-normal mb-0"> --}}
-                            {{--                                                        {{ $dependant->personDep->id_number }}</p> --}}
-                            {{--                                                </td> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <p class="text-sm font-weight-normal mb-0"> --}}
-                            {{--                                                        {{ $dependant->personDep->gender_id }}</p> --}}
-                            {{--                                                </td> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <p class="text-sm font-weight-normal mb-0"> --}}
-                            {{--                                                        {{ $dependant->person_relationship_id }}</p> --}}
-                            {{--                                                </td> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <p class="text-sm font-weight-normal mb-0"> --}}
-                            {{--                                                        {{ substr($dependant->personDep->birth_date, 0, 10) }}</p> --}}
-                            {{--                                                </td> --}}
-                            {{--                                                @php --}}
-                            {{--                                                    $age = ageFromDOB($dependant->personDep->birth_date); --}}
-                            {{--                                                @endphp --}}
-                            {{--                                                <td --}}
-                            {{--                                                        class="text-sm mt-4 fw-bolder my-1 pt-2 px-2 badge badge-sm {{ changeAgeBackground($age) }}"> --}}
-                            {{--                                                    {{ $age }} --}}
-                            {{--                                                </td> --}}
-                            {{--                                                <td> --}}
-                            {{--                                                    <a class="btn btn-link text-danger text-gradient mx-3 mb-0" --}}
-                            {{--                                                       href="/remove-dependant/{{ $dependant->secondary_person_id }}"><i --}}
-                            {{--                                                                class="material-icons text-sm me-2"></i>Remove</a> --}}
-                            {{--                                                </td> --}}
-                            {{--                                            </tr> --}}
-                            {{--                                        @endforeach --}}
-                            {{--                                        </tbody> --}}
-                            {{--                                    </table> --}}
-                            {{--                                </div> --}}
-                            {{--                            </div> --}}
 
                             <div class="card-body px-3 pt-4 pb-2 bg-secondary rounded mt-4 border-bottom border-gray-200">
                                 <div class="table-responsive p-0">
@@ -442,7 +347,7 @@
                                                     </td>
                                                     <td>
                                                         <p class="text-bold text-dark mb-0 fs-4 fw-bold">
-                                                            {{ $dependant->personDep->gender_id == '1' ? 'Male' : ($dependant->personDep->gender_id == '2' ? 'Female' : 'Other') }}
+                                                            {{ $dependant->personDep->gender_id == 'M' ? 'Male' : ($dependant->personDep->gender_id == 'F' ? 'Female' : 'Other') }}
                                                         </p>
                                                     </td>
                                                     <td>
@@ -503,7 +408,7 @@
 
                                     <div class="card-body pt-0 mt-4 mb-3 bg-light rounded">
                                         <div class="row">
-                                            <div class="col-6 col-sm-6">
+                                            <div class="col-4">
                                                 <div
                                                     class="input-group input-group-outline  @error('Name') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
@@ -516,7 +421,7 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                            <div class="col-12 col-sm-6">
+                                            <div class="col-4">
                                                 <div
                                                     class="input-group input-group-outline  @error('Surname') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
@@ -530,10 +435,7 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                        </div>
-
-                                        <div class="row mt-3">
-                                            <div class="col-6 col-sm-6">
+                                            <div class="col-4">
                                                 <div id="IDNumberDepDiv"
                                                     class="input-group input-group-outline  @error('IDNumberDep') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
@@ -549,27 +451,11 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                            <div class="col-6 col-sm-6 pt-3 mt-sm-0" style=" margin-top: 25px;">
-                                                <div
-                                                    class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
-
-                                                    <input type="radio" class="btn-check form-check-input"
-                                                        name="radioGenderDep" id="MaleDep" value="M" checked />
-                                                    <label class="btn btn-secondary" for="MaleDep">Male</label>
-
-                                                    <input type="radio" class="btn-check form-check-input"
-                                                        name="radioGenderDep" id="FemaleDep" value="F" />
-                                                    <label class="btn btn-secondary" for="FemaleDep">Female</label>
-
-                                                </div>
-                                            </div>
                                         </div>
 
-                                        <div class="row mt-0">
-                                            <div class="col-12 col-sm-6">
-                                                <div
-                                                    class=" py-2  pt-4  col d-flex justify-content-center align-items-center mx-auto">
-
+                                        <div class="row ">
+                                            <div class="col-4">
+                                                <div class="py-2 pt-4 col d-flex justify-content-center align-items-center mx-auto">
                                                     <div id="inputDayDepDiv"
                                                         class="input-group input-group-outline @error('inputDayDep') is-invalid @enderror">
 
@@ -598,8 +484,7 @@
                                                         @enderror
                                                     </div>
                                                     <span class="px-2">/</span>
-                                                    <div id="inputYearDepDiv"
-                                                        class="input-group input-group-outline @error('inputYearDep') is-invalid @enderror">
+                                                    <div id="inputYearDepDiv" class="input-group input-group-outline @error('inputYearDep') is-invalid @enderror">
 
                                                         <input type="text" onkeypress="return isNumberKey(event)"
                                                             class="form-control" name="inputYearDep" id="inputYearDep"
@@ -616,22 +501,25 @@
                                                         id="mainMemberId" value="{{ $membership->person_id }}">
                                                 </div>
                                             </div>
+<div class="col-4" style="margin-top: 15px; text-align: center;">
+    {{-- <label for="relationCodeSelect" class="form-label">Relationship</label> --}}
+    <select class="form-select" name="radioRelationCode" id="relationCodeSelect">
+        <option value="1" selected>1 - Wife / Husband</option>
+        <option value="2">2 - Child</option>
+    </select>
+</div>
+<div class="col-4" style="margin-top: 15px; text-align: center;">
+    {{-- <label for="genderDepSelect" class="form-label">Gender</label> --}}
+    <select class="form-select" name="radioGenderDep" id="genderDepSelect">
+        <option value="M" selected>Male</option>
+        <option value="F">Female</option>
+    </select>
+</div>
 
-                                            <div class="col-6" style=" margin-top: 25px;">
-                                                <div
-                                                    class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
+                                        </div>
 
-                                                    <input type="radio" class="btn-check form-check-input"
-                                                        name="radioRelationCode" id="Spouse" value="1" checked />
-                                                    <label class="btn btn-secondary" for="Spouse">1 - Wife /
-                                                        Husband</label>
+                                        <div class="row mt-0">
 
-                                                    <input type="radio" class="btn-check form-check-input"
-                                                        name="radioRelationCode" id="Child" value="2" />
-                                                    <label class="btn btn-secondary" for="Child">2 - Child</label>
-
-                                                </div>
-                                            </div>
 
                                         </div>
 
@@ -906,7 +794,6 @@
                             </div>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -996,14 +883,15 @@
                                         function() {
                                             if (confirm(
                                                     "Are you sure you want to delete this record?"
-                                                    )) {
+                                                )) {
                                                 var itemId = $(this).closest('tr').find(
-                                                    'td:first')
-                                            .text(); // Get the ID of the record to delete
+                                                        'td:first')
+                                                    .text(); // Get the ID of the record to delete
                                                 deletedRecords.push(
-                                                itemId); // Store the deleted record ID
+                                                    itemId); // Store the deleted record ID
                                                 console.log("Deleted record ID: " +
-                                                itemId); // Log the ID of the deleted record
+                                                    itemId
+                                                ); // Log the ID of the deleted record
                                                 $(this).closest('tr').remove();
                                                 // Add AJAX call to delete the record from the server here if needed
                                                 $.ajax({
@@ -1012,9 +900,10 @@
                                                     type: 'DELETE',
                                                     headers: {
                                                         'X-CSRF-TOKEN': $(
-                                                                'meta[name="csrf-token"]'
-                                                                ).attr(
-                                                            'content') // CSRF token needed if using web middleware
+                                                            'meta[name="csrf-token"]'
+                                                        ).attr(
+                                                            'content'
+                                                        ) // CSRF token needed if using web middleware
                                                     },
                                                     success: function(result) {
                                                         console.log(
@@ -1023,7 +912,7 @@
                                                     },
                                                     error: function(jqXHR,
                                                         textStatus, errorThrown
-                                                        ) {
+                                                    ) {
                                                         console.log(
                                                             "Failed to delete record: " +
                                                             textStatus +

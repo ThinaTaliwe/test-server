@@ -7,6 +7,7 @@ use App\Models\GbaMembership; // Assuming Gba model is replaced by GbaMembership
 
 use App\Models\GbaDependent;
 use App\Models\GbaDuplicateLog;
+use App\Models\GbaDeaths;
 
 use App\Models\GbaMembershipDuplicate;
 use App\Models\GbaDependentDuplicate;
@@ -36,67 +37,88 @@ class GbaController extends Controller
 {
 
     public function showGroupedRecords(Request $request)
-    {
-        $perPage = 1; // Display one membership record per page.
-        $page = $request->input('page', 1);
-        $search = $request->input('search', null); // Get the search parameter
+{
+    $perPage = 1; // Display one membership record per page.
+    $page = $request->input('page', 1);
+    $search = $request->input('search', null); // Get the search parameter
+    $sort = $request->input('sort', 'membership_id_asc'); // Get sort parameter with a default value
 
-        // Adjust the method to filter by the search parameter if provided
-        $uniqueMembershipIds = $this->fetchOrRetrieveMembershipIds($search);
+    // Adjust the method to filter by the search parameter if provided and apply sorting
+    $uniqueMembershipIds = $this->fetchOrRetrieveMembershipIds($search, $sort);
 
-        // Calculate pagination offsets.
-        $offset = ($page - 1) * $perPage;
-        $total = count($uniqueMembershipIds);
+    // Calculate pagination offsets.
+    $total = $uniqueMembershipIds->count();
 
-        // Use array_slice for pagination since $uniqueMembershipIds is a Collection.
-        $currentPageIds = $uniqueMembershipIds->slice($offset, $perPage)->all();
+    // Use Collection's slice for pagination since $uniqueMembershipIds is a Collection.
+    $currentPageData = $uniqueMembershipIds->slice(($page - 1) * $perPage, $perPage);
 
-        // Fetch detailed records for the current page's membership IDs.
-        $groupedRecords = array_filter(array_map([$this, 'fetchGroupedRecordsForMembershipId'], $currentPageIds));
+    // Fetch detailed records for the current page's membership IDs.
+    $groupedRecords = $currentPageData->map(function ($item) {
+        return $this->fetchGroupedRecordsForMembershipId($item['membership_id'], $item['previous_membership_code']);
+    })->all();
 
-        // Manually create a paginator.
-        $paginatedItems = new LengthAwarePaginator(array_values($groupedRecords), $total, $perPage, $page, [
-            'path' => $request->url(),
-            'query' => $request->query(),
-        ]);
+    // Manually create a paginator.
+    $paginatedItems = new LengthAwarePaginator(array_values($groupedRecords), $total, $perPage, $page, [
+        'path' => $request->url(),
+        'query' => $request->query(),
+    ]);
 
-        //Thina
-        $dropdownBuMemReg = BuMembershipRegion::all();
-        $dropdownBuMemSta = BuMembershipStatus::all();
-        $dropdownBuMemTyp = BuMembershipType::all();
-        $dropdownGender = DB::table('gender')->get();
-        //dd($dropdownGender);
+    // Additional data fetching for the view
+    $dropdownBuMemReg = BuMembershipRegion::all();
+    $dropdownBuMemSta = BuMembershipStatus::all();
+    $dropdownBuMemTyp = BuMembershipType::all();
+    $dropdownGender = DB::table('gender')->get();
+    $banks = DB::connection('mysql')->table('bank')->get();
+    $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
+    $accountTypes = DB::connection('mysql')->table('bank_account_type')->get();
+    $paymentmethods = DB::connection('mysql')->table('payment_method')->where('bu_id', 7)->get();
 
-        //Copied from Thina Payment view/controller
-        $banks = DB::connection('mysql')->table('bank')->get();
-        $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
-        $accountTypes = DB::connection('mysql')->table('bank_account_type')->get();
-        $paymentmethods = DB::connection('mysql')->table('payment_method')->where('bu_id', 7)->get();
+    return view('resolutionhub', compact('paginatedItems', 'search', 'dropdownBuMemReg', 'dropdownBuMemSta', 'dropdownBuMemTyp', 'dropdownGender', 'paymentmethods', 'banks', 'accountTypes', 'branchCodes'));
+}
 
-     
+private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
+{
+    $query = GbaMembership::where(function ($query) {
+                $query->where('record_discarded', '=', null)
+                      ->where('record_completed', '=', null);
+            })
+            ->select('membership_id', 'previous_membership_code', 'join_date') // Retrieve both fields
+            ->distinct();
 
-        return view('resolutionhub', compact('paginatedItems', 'search', 'dropdownBuMemReg', 'dropdownBuMemSta', 'dropdownBuMemTyp', 'dropdownGender', 'paymentmethods', 'banks', 'accountTypes', 'branchCodes'));
+    if ($search) {
+        $query->where('membership_id', 'like', '%' . $search . '%');
     }
 
-    private function fetchOrRetrieveMembershipIds($search = null)
-    {
-        $query = GbaMembership::where(function ($query) {
-                    $query->where('record_discarded', '=', null)
-                          ->where('record_completed', '=', null);
-                })
-                ->select('membership_id')
-                ->distinct();
-    
-        if ($search) {
-            $query->where('membership_id', 'like', '%' . $search . '%');
-        }
-    
-        return $query->orderBy('membership_id')->pluck('membership_id');
+    // Apply sorting based on the 'sort' parameter
+    switch ($sort) {
+        case 'membership_id_asc':
+            $query->orderBy('membership_id', 'asc');
+            break;
+        case 'membership_id_desc':
+            $query->orderBy('membership_id', 'desc');
+            break;
+        case 'join_date_asc':
+            $query->orderBy('join_date', 'asc');
+            break;
+        case 'join_date_desc':
+            $query->orderBy('join_date', 'desc');
+            break;
+        default:
+            $query->orderBy('membership_id', 'asc'); // Default sorting
+            break;
     }
-    
+
+    return $query->get()->map(function ($item) {
+        return [
+            'membership_id' => $item->membership_id,
+            'previous_membership_code' => $item->previous_membership_code
+        ];
+    });
+}
 
 
-    private function fetchGroupedRecordsForMembershipId($membershipId)
+
+    private function fetchGroupedRecordsForMembershipId($membershipId, $previousMembershipCode)
     {
         $mainRecord = GbaMembership::where('membership_id', $membershipId)
         ->where(function ($query) {
@@ -149,6 +171,22 @@ class GbaController extends Controller
                 })
                 ->get();
 
+
+            $deaths = GbaDeaths::where('membership_id', $membershipId)
+                ->where(function ($query) {
+                    $query->where('record_discarded', 0)
+                        ->orWhereNull('record_discarded');
+                })
+                ->get();
+
+            $previousdeaths = GbaDeaths::where('membership_id', $previousMembershipCode)
+                ->where(function ($query) {
+                    $query->where('record_discarded', 0)
+                        ->orWhereNull('record_discarded');
+                })
+                ->get();
+
+
             // Combine duplicates and errors
             $combinedDuplicates = $membershipDuplicates->merge($dependentDuplicates);
             $combinedErrors = $membershipErrors->merge($dependentErrors);
@@ -159,9 +197,10 @@ class GbaController extends Controller
                 'duplicates' => $combinedDuplicates,
                 'errors' => $combinedErrors,
                 'dependents' => $dependents,
+                'deaths' => $deaths,
+                'previousdeaths' => $previousdeaths,
             ];
         }
-
         return null; // If no main record is found
     }
 
@@ -226,8 +265,6 @@ class GbaController extends Controller
         $membership->save();
         Log::info('Membership saved', ['id' => $membership->id]);
         Log::info('Memory Usage After Saving Membership: ' . memory_get_usage());
-
-
 
          // Membership Has Address
          $membershipAddress = new MembershipAddress([
@@ -416,7 +453,7 @@ class GbaController extends Controller
         return true;
     }
     
-    
+
     protected function discardError($recordId, $membershipId)
     {
         $models = [GbaDependentError::class, GbaMembershipError::class];
@@ -454,14 +491,8 @@ class GbaController extends Controller
         return false;
     }
     
-    
-
-
-
-
 
     // Dependents Section
-
     public function markAsComplete(Request $request, $dependentId)
     {
         $dependent = GbaDependent::findOrFail($dependentId);

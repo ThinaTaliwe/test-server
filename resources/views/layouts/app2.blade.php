@@ -757,7 +757,7 @@
 
 @section('footer')
         <!--begin::Container-->
-        <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack border-gba bg-gba mx-auto" id="kt_footer">
+        <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-gba mx-auto" id="kt_footer">
             <!--begin::Copyright-->
             <div class="text-dark order-2 order-md-1">
                 <a href="/home" target="_blank" class="text-black text-hover-primary fw-semibold me-1 fs-4">GBA</a>

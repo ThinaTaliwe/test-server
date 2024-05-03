@@ -36,7 +36,6 @@
                             </button>
                         </div>
                         <div class="col-4">
-
                             <button type="button" class="btn bg-gba" data-bs-stacked-modal="#kt_modal_stacked_4"
                                 data-membership-id="{{ $membership->id }}">
                                 View Billing History
@@ -59,10 +58,10 @@
                                             <!-- Placeholder for image or icon -->
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <span class="fs-4 fw-bold text-gray-900 me-2">Preferred
+                                            <span class="fs-4 fw-bold text-gray-900 me-2 text-decoration-underline">Preferred
                                                 Language</span>
                                             <span
-                                                class="fw-semibold text-white">{{ $membership->language == '1' ? 'English' : 'Afrikaans' }}</span>
+                                                class="fw-semibold text-dark">{{ $membership->language == '1' ? 'English' : 'Afrikaans' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -71,26 +70,26 @@
 
                                 <!-- Personal Details Section -->
                                 <div class="mb-7">
-                                    <h5 class="mb-4">Personal Details</h5>
+                                    <h5 class="mb-4 text-decoration-underline">Personal Details</h5>
                                     <div class="mb-0">
-                                        <span class="fw-semibold text-white">Name: {{ $membership->name }}</span><br>
-                                        <span class="fw-semibold text-white">Surname:
+                                        <span class="fw-semibold text-dark">Name: {{ $membership->name }}</span><br>
+                                        <span class="fw-semibold text-dark">Surname:
                                             {{ $membership->surname }}</span><br>
-                                        <span class="fw-semibold text-white">Gender:
-    @if ($membership->gender_id == 1)
-        Male
-    @elseif ($membership->gender_id == 2)
-        Female
-    @else
-        Other
-    @endif
-</span>
-<br>
-                                        <span class="fw-semibold text-white">Identity Number:
+                                        <span class="fw-semibold text-dark">Gender:
+                                            @if ($membership->gender_id == 1)
+                                                Male
+                                            @elseif ($membership->gender_id == 2)
+                                                Female
+                                            @else
+                                                Other
+                                            @endif
+                                        </span>
+                                        <br>
+                                        <span class="fw-semibold text-dark">Identity Number:
                                             {{ $membership->id_number }}</span><br>
-                                        <span class="fw-semibold text-white">Telephone (Cell):
+                                        <span class="fw-semibold text-dark">Telephone (Cell):
                                             {{ $membership->primary_contact_number }}</span><br>
-                                        <span class="fw-semibold text-white">Email Address:
+                                        <span class="fw-semibold text-dark">Email Address:
                                             {{ $membership->primary_e_mail_address }}</span><br>
                                         <!-- Additional details as needed -->
                                     </div>
@@ -100,8 +99,8 @@
 
                                 <!-- Membership Type Section -->
                                 <div class="mb-10">
-                                    <h5 class="mb-4">Membership Type</h5>
-                                    <span class="fw-semibold text-white">Type: A1</span>
+                                    <h5 class="mb-4 text-decoration-underline">Membership Type</h5>
+                                    <span class="fw-semibold text-dark">Type: {{ $membership->bu_membership_type_id }} with fee R{{ $membership->membership_fee }}</span>
                                     <!-- Replace A1 with actual data -->
                                 </div>
                             </div>
@@ -121,15 +120,15 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">View Dependants</h3>
+                    {{-- <h3 class="modal-title">View Dependants</h3> --}}
                     <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2 bg-danger"
                         data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div id="dependants">
-                        <h2>Dependants Content</h2>
-                        <p class="text-dark fw-semibold fs-6">See all your dependant details.</p>
+                        <h2 class="text-center">Dependants Content</h2>
+                        <p class="text-dark fw-semibold fs-6 text-center">See all your dependant details.</p>
 
                         <!-- Alert for no data -->
                         <div class="alert alert-danger d-none" id="noDataAlert">
@@ -154,7 +153,7 @@
                                             <th class="text-uppercase font-weight-bolder">
                                                 Gender
                                             </th>
-                                            <th class="text-uppercase font-weight-bolder">
+                                            <th class="text-uppercase font-weight-bolder w-1">
                                                 Relationship Code
                                             </th>
                                             <th class="text-uppercase font-weight-bolder">
@@ -164,7 +163,7 @@
                                                 Age
                                             </th>
                                             <th class="text-uppercase font-weight-bolder">
-                                            Action
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
@@ -194,10 +193,10 @@
                                                 @php
                                                     $age = ageFromDOB($dependant->personDep->birth_date);
                                                 @endphp
-                                <td class="text-center mx-auto">
-                                    <a
-                                        class="btn-sm {{ $age < 15 ? 'btn-success' : ($age <= 20 ? 'btn-warning' : 'btn-danger') }} fw-bold p-1">{{ $age }}</a>
-                                </td>
+                                                <td class="text-center mx-auto">
+                                                    <a
+                                                        class="btn-sm {{ $age < 15 ? 'btn-success' : ($age <= 20 ? 'btn-warning' : 'btn-danger') }} fw-bold p-1">{{ $age }}</a>
+                                                </td>
                                                 <td>
                                                     <a class="btn btn-link text-danger text-gradient mx-3 mb-0"
                                                         href="/remove-dependant/{{ $dependant->secondary_person_id }}"><i
@@ -232,7 +231,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="addresses">
-                        <p class="text-dark fw-semibold fs-6 mx-auto">See all your address details.</p>
+                        <p class="text-dark fw-semibold fs-6 mx-auto text-center">See all your address details.</p>
 
                         <!-- Alert for No Addresses Found (hidden by default) -->
                         <div class="alert alert-danger d-none" id="noAddressesAlert">
@@ -245,7 +244,8 @@
 
                         <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                             <div class="table-responsive p-0">
-                                <table class="table table-bordered table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
+                                <table
+                                    class="table table-bordered table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
                                     id="datatable-dependant">
                                     <thead>
                                         <tr>
@@ -320,67 +320,6 @@
                     <div id="payments">
                         {{-- <h2 class="text-center">Payments Content</h2> --}}
                         <p class="text-dark fw-semibold fs-6 text-center">See all your payment details.</p>
-
-                        <!-- Billing History Card -->
-                        <div class="card mt-4 bg-secondary">
-                            <div class="card-header">
-                                <h3 class="fw-bold">Billing History</h3>
-                            </div>
-
-                            {{-- <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
-                                <div class="table-responsive p-0">
-                                    <table
-                                        class="table table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
-                                        id="datatable-payments">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Transaction Date
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Description
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Receipt Number
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Amount
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Currency
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Payment Method
-                                                </th>
-                                                <th class="text-uppercase font-weight-bolder">
-                                                    Action
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($payments as $payment)
-                                                <tr>
-                                                    <td>{{ $payment->transaction_date }}</td>
-                                                    <td>{{ $payment->transaction_description }}</td>
-                                                    <td>{{ $payment->receipt_number }}</td>
-                                                    <td>{{ number_format($payment->receipt_value, 2) }}</td>
-                                                    <td>{{ $payment->currency_id }}</td>
-                                                    <!-- Assuming you have currency relation defined -->
-                                                    <td>{{ $payment->transaction_type_id }}</td>
-                                                    <!-- Assuming paymentMethod relation defined -->
-                                                    <td>
-                                                        <a class="btn btn-link text-danger text-gradient"
-                                                            href="/cancel-payment/{{ $payment->id }}">
-                                                            <i class="material-icons text-sm">cancel</i>Cancel
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> --}}
-
                             <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                                 <div class="table-responsive p-0">
                                     <table
@@ -438,9 +377,6 @@
                                     </table>
                                 </div>
                             </div>
-
-
-                        </div>
                     </div>
                 </div>
 
