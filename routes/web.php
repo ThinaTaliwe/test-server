@@ -47,6 +47,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MembershipBankDetailController;
 use App\Http\Controllers\DeathController;
 use App\Http\Controllers\FuneralController;
+use App\Http\Controllers\DataController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -378,6 +379,7 @@ Route::get('/logs-table', [LogController::class, 'showtable'])->name('logs.showt
 
 Route::get('/dependants', [DependantsController::class, 'index']);
 Route::get('/dependantsData', [DependantsController::class, 'indexx'])->name('dependantsData');
+
 // Define the route for fetching address data
 Route::get('/addressData', [AddressController::class, 'data'])->name('addressData');
 
@@ -405,6 +407,11 @@ Route::get('/remove-dependant/{id}', 'App\Http\Controllers\DependantsController@
     ->middleware(['auth'])
     ->name('remove-dependant');
 
+
+Route::delete('/delete-address/{id}', [MembershipsController::class, 'deleteAddress']);
+Route::delete('/delete-billing/{id}', [MembershipsController::class, 'deleteBilling']);
+
+
 //**----------------------- Resolution Hub Routes --------------------------------------------------**/
 
 Route::get('/resolutionhub', [GbaController::class, 'showGroupedRecords'])->name('resolutionhub');
@@ -416,7 +423,7 @@ Route::post('/process-record-action', [GbaController::class, 'processRecordActio
 
 // Dependents section
 // Routes for dependent actions
-Route::post('/mark-dependent-complete/{dependentId}', [GbaController::class, 'markAsComplete'])->name('dependent.markAsComplete');
+// Route::post('/mark-dependent-complete/{dependentId}', [GbaController::class, 'markAsComplete'])->name('dependent.markAsComplete');
 Route::post('/remove-dependent/{dependentId}', [GbaController::class, 'removeDependent'])->name('dependent.remove');
 
 /**--------------------------------------- Start Pivot Reports --------------------------------------------------------------------------*/
@@ -459,5 +466,12 @@ Route::resource('funerals', FuneralController::class);
 Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
+
+Route::get('/api/rowdetails', [DataController::class, 'getRowDetails'])->name('api.rowdetails');
+
+//Route::get('/membership-payment-data', [ReportsController::class, 'dependantsGrid']);
+// If you're adding this to web.php
+//Route::get('/membership-payment-data', 'YourController@dependantsGrid');
+
 
 require __DIR__ . '/auth.php';

@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css" rel="stylesheet">
 
+    {{--START Siya: Google auto-complete always on top --}}
+    <style>
+        .pac-container {
+            z-index: 10000 !important; /* Ensure this value is higher than the modal's z-index */
+        }
+    </style>
+    {{--END Siya: Google auto-complete always on top --}}
+
+
     <style>
         select {
             background-color: #e2e2e2 !important;
@@ -71,6 +80,21 @@
     </style>
     {{-- End Toggle Button Transition --}}
     
+    {{-- Start Hide google translater --}}
+    <style>
+        .skiptranslate iframe {
+            display: none !important; /* Using !important to ensure override of inline styles and other conflicting CSS */
+        }
+
+        #\:0\.targetLanguage img {
+            display: none !important; /* Hides all <img> elements within the specified div */
+        }
+
+        #goog-gt-tt {
+            display: none !important; /* Ensures this rule takes precedence over inline styles or other CSS */
+        }
+    </style>
+
 @endpush
 
 @section('themeMode')
@@ -89,11 +113,11 @@
     <div id="toggleDrawerButton" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle me-n2"
     data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
     data-kt-toggle-name="aside-minimize" style="padding: 10px; font-size: 24px; position: fixed; top: 50%; left: 0; transform: translateY(-50%);">
-    <i class="ki-outline ki-double-right fs-1 rotate-180" style="font-size: 24px;"></i>
+    <i class="ki-outline ki-double-right fs-1 rotate-180" style="font-size: 34px;"></i>
     </div>
 
 
-    <div id="kt_aside" class="aside pt-7 pb-4 pb-lg-7 pt-lg-17 hidden" data-kt-drawer="true" data-kt-drawer-name="aside"
+    <div id="kt_aside" class="aside pt-7 pb-4 pb-lg-7 pt-lg-17 hidden shadow" data-kt-drawer="true" data-kt-drawer-name="aside"
          data-kt-drawer-activate="{default: true, lg: true}" data-kt-drawer-overlay="true"
          data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start"
          data-kt-drawer-toggle="#kt_aside_toggle">
@@ -112,10 +136,17 @@
         <!--begin::Aside user-->
         <div class="aside-user mb-5 mb-lg-10 p-6" id="kt_aside_user">
             <!--begin::User-->
-            <x-aside.profile name="{{ ucfirst(Auth::user()->name) }}" profileLink="{{ route('admin.account.info') }}"
-                             profileImg="{{ asset('assets/media/avatars/blank.png') }}"
-                             description="{{ ucfirst(Auth::user()->email) }}"
-                             class="additional-css-classes"/>
+        @auth
+            <x-aside.profile name="{{ ucfirst(Auth::user()->name) }}"
+                            profileLink="{{ route('admin.account.info') }}"
+                            profileImg="{{ asset('assets/media/avatars/blank.png') }}"
+                            description="{{ ucfirst(Auth::user()->email) }}"
+                            class="additional-css-classes"/>
+            <!--end::User-->
+        @else
+            <script>window.location.href = "{{ route('login') }}";</script>
+        @endauth
+
 
             <!--end::User-->
         </div>
@@ -219,14 +250,15 @@
                             {{-- ['url' => '/report', 'title' => __('messages.membership')], --}}
                             {{-- ['url' => '/person', 'title' => __('messages.persons')], --}}
                             {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
-                            ['url' => '/pivotGrid', 'title' => __('Memberships')],
-                            ['url' => '/dependantsGrid', 'title' => __('Dependants')],
+                            ['url' => '/report', 'title' => __('Memberships')],
+                            ['url' => '/api/rowdetails', 'title' => __('Debit Orders')],
                             {{-- ['url' => '/pivotScroll', 'title' => __('Scroll')], --}}
                             {{-- ['url' => '/pivotTables', 'title' => __('Table')], --}}
                             {{-- ['url' => '/reporting', 'title' => __('messages.real_time_updates')], --}}
                         ]"/>
                         <!--end:Menu item-->
                     @endcanany
+                    <div id="google_translate_element" class="text-center mt-4">Language Test:</div>
                     <!--begin:Menu item-->
                     {{-- <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[ --}}
                     {{-- ['url' => '/testingview', 'title' => __('messages.Developments')], --}}
@@ -255,17 +287,20 @@
                     ['url' => '/admin/edit-account-info', 'title' => __('messages.profile')],
                     ['url' => '/', 'title' => __('messages.Dependants'), 'badge' => '3'],
                     ['url' => '/', 'title' => __('messages.Memberships')],
+                    
                 ]" classes="additional-classes"/>
+                
                 <!--end::User menu-->
             </div>
             <!--end::User panel-->
         </div>
         <!--end::Footer-->
     </div>
+    <div id="google_translate_element"></div>
 @endsection
 
 @section('header')
-    <div id="kt_header" class="header border-gba-light mx-auto bg-gba-light my-4 p-0">
+    <div id="kt_header" class="header border-gba-light mx-auto bg-gba-light my-4 p-0 shadow">
         <!--begin::Container-->
         <div class="container-fluid d-flex align-items-center flex-wrap justify-content-between"
              id="kt_header_container">
@@ -350,7 +385,7 @@
                     <!--begin::Drawer toggle-->
                     <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"
                          id="kt_activities_toggle">
-                        <i class="ki-duotone ki-notification-bing fs-1">
+                        <i class="ki-duotone ki-notification-bing" style="font-size: 34px;">
                             <span class="path1"></span>
                             <span class="path2"></span>
                             <span class="path3"></span>
@@ -382,7 +417,7 @@
                                                                            <span class="path1"></span>
                                                                            <span class="path2"></span>
                                                                           </i> -->
-                        <i class="ki-duotone ki-night-day fs-1">
+                        <i class="ki-duotone ki-night-day" style="font-size: 34px;">
                             <span class="path1"></span>
                             <span class="path2"></span>
                             <span class="path3"></span>
@@ -639,16 +674,16 @@
                 <!--begin::Sidebar Toggler-->
                 <!--begin::Activities-->
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
-                    <!--begin::Drawer toggle-->
-                    <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"><a
-                                href="/logout"><i class="ki-duotone ki-exit-left fs-1">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                                <span class="path3"></span>
-                            </i></a>
-                    </div>
-                    <!--end::Drawer toggle-->
-                </div>
+    <!--begin::Logout Form-->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light" onclick="document.getElementById('logout-form').submit();">
+        <i class="bi bi-x-octagon" style="font-size: 28px; color: red;"></i>
+    </button>
+    <!--end::Logout Form-->
+</div>
+
                 <!--end::Activities-->
                 <!--end::Sidebar Toggler-->
             </div>
@@ -1111,7 +1146,7 @@
 
 
     <!-- Google maps auto-complete form -->
-    <script>
+    {{-- <script>
         "use strict";
         Object.defineProperty(exports, "__esModule", {
             value: true
@@ -1204,7 +1239,87 @@
 
 
         window.initAutocomplete = initAutocomplete;
+    </script> --}}
+
+    {{--Start: Trying a modularized version of Google maps auto-complete --}}
+    <script>
+        "use strict";
+        
+        function initAutocomplete(inputId, additionalFields) {
+            var autocomplete;
+            var fields = {
+                address1Field: document.getElementById(additionalFields.Line1),
+                address2Field: additionalFields.Line2 ? document.getElementById(additionalFields.Line2) : null,
+                postalField: additionalFields.PostalCode ? document.getElementById(additionalFields.PostalCode) : null,
+                cityField: additionalFields.City ? document.getElementById(additionalFields.City) : null,
+                townSuburbField: additionalFields.TownSuburb ? document.getElementById(additionalFields.TownSuburb) : null,
+                provinceField: additionalFields.Province ? document.getElementById(additionalFields.Province) : null,
+                countryField: additionalFields.Country ? document.getElementById(additionalFields.Country) : null,
+                placeNameField: additionalFields.PlaceName ? document.getElementById(additionalFields.PlaceName) : null,
+            };
+        
+            autocomplete = new google.maps.places.Autocomplete(document.getElementById(inputId), {
+                componentRestrictions: {country: ["za"]},
+                fields: ["address_components", "geometry", "name"],
+                types: [],
+            });
+        
+            autocomplete.addListener("place_changed", function() {
+                fillInAddress(autocomplete, fields);
+            });
+        }
+        
+        function fillInAddress(autocomplete, fields) {
+            var place = autocomplete.getPlace();
+            var address1 = "";
+            var postcode = "";
+        
+            for (const component of place.address_components) {
+                const componentType = component.types[0];
+        
+                switch (componentType) {
+                    case "street_number":
+                        address1 = `${component.long_name} ${address1}`;
+                        break;
+                    case "route":
+                        address1 += component.short_name;
+                        break;
+                    case "postal_code":
+                        postcode = component.long_name;
+                        break;
+                    case "postal_code_suffix":
+                        postcode += `-${component.long_name}`;
+                        break;
+                    case "locality":
+                        if (fields.cityField) fields.cityField.value = component.long_name;
+                        break;
+                    case "sublocality_level_1":
+                        if (fields.townSuburbField) fields.townSuburbField.value = component.long_name;
+                        break;
+                    case "administrative_area_level_1":
+                        if (fields.provinceField) fields.provinceField.value = component.long_name;
+                        break;
+                    case "administrative_area_level_2":
+                        if (fields.address2Field) fields.address2Field.value = component.long_name;
+                        break;
+                    case "country":
+                        if (fields.countryField) fields.countryField.value = component.long_name.toUpperCase();
+                        break;
+                }
+            }
+        
+            if (fields.address1Field) fields.address1Field.value = address1;
+            if (fields.postalField) fields.postalField.value = postcode;
+            if (fields.address2Field) fields.address2Field.focus();
+        }
+        
+        window.initAutocomplete = initAutocomplete;
     </script>
+        
+        
+    {{--End: Trying a modularized version of Google maps auto-complete --}}
+    
+
 
     <!-- Google maps auto-complete form -->
     <script
@@ -1222,7 +1337,6 @@
 
             var Y = (Year > cutoff ? '19' : '20') + Year;
 
-
             document.getElementById("inputYear").value += Y;
             document.getElementById("inputMonth").value += Month;
             document.getElementById("inputDay").value += Day;
@@ -1236,6 +1350,7 @@
 
             // first clear any left over error messages
             $('#error span').remove();
+
             //This clears the red x mark
             document.getElementById("IDNumber").classList.remove('is-invalid');
             document.getElementById("inputYearDiv").classList.remove('is-invalid');
@@ -1324,9 +1439,21 @@
     {{-- This is for the dependent form --}}
     <script>
         function getDOBDep(IDNumber) {
+            // if no error found, hide the error message
+
 
             // first clear any left over error messages
             $('#error span').remove();
+
+
+
+            document.getElementById("inputYearDep").value = "";  // Clear existing content
+            document.getElementById("inputMonthDep").value = "";  // Clear existing content
+            document.getElementById("inputDayDep").value = "";  // Clear existing content
+
+
+
+
             //This clears the red x mark
             document.getElementById("IDNumberDepDiv").classList.remove('is-invalid');
             document.getElementById("inputYearDepDiv").classList.remove('is-invalid');
@@ -1403,8 +1530,6 @@
             }
 
             return false;
-
-
         }
 
         function isNumber(n) {

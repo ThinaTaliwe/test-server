@@ -6,7 +6,7 @@
 
     <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
 
-    <style>
+    {{-- <style>
         .dt-buttons {
             padding-top: 15px;
         }
@@ -61,11 +61,64 @@
         .hidden {
             display: none;
         }
+    </style> --}}
+
+    <style>
+        <style>.dt-buttons {
+            padding-top: 15px;
+        }
+
+        .dt-buttons .buttons-copy,
+        .dt-buttons .buttons-csv,
+        .dt-buttons .buttons-excel,
+        .dt-buttons .buttons-pdf,
+        .dt-buttons .buttons-print {
+            background-color: #02bb86;
+        }
+
+        .membership-page .dataTables_filter label {
+            color: black;
+            padding-top: 2px;
+        }
+
+        .dataTables_filter .form-control {
+            background-color: white;
+        }
+
+        /* CSS to change the background color of even rows in the table */
+        tbody tr.odd {
+            background-color: white;
+            /* Light gray background */
+        }
+
+        tbody tr.even {
+            background-color: white;
+            /* Light gray background */
+        }
+
+        /* CSS to style the active pagination button */
+        ul.pagination li.paginate_button.active a {
+            background-color: #02bb86;
+            /* Sets the background color to red */
+            color: white;
+            /* Sets the text color to white for better readability */
+            border: 1px forestgreen solid;
+            border-radius: 4px;
+            /* Optional: Adds rounded corners to the active button */
+            padding: 5px 10px;
+            /* Optional: Adds some padding to increase the button size */
+        }
+
+        /* Additional styling for hover effects on the active button */
+        ul.pagination li.paginate_button.active a:hover {
+            background-color: #08bb99;
+            /* Darkens the red on hover for a nice effect */
+        }
     </style>
 @endpush
 
 @section('row_content')
-    <div class="card border-gba bg-gba-light">
+    <div class="card border-gba bg-gba-light shadow-lg">
         <div class="panel mt-4 bg-gba-light ">
             <div class="panel-heading">
                 <h2 class="bg-gba p-3 text-center">All Dependants</h2>
@@ -99,7 +152,14 @@
                                     {{ substr($dependant->personDep->birth_date, 0, 10) }}
                                 </td>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
-                                    {{ $dependant->personDep->gender_id }}</td>
+                                    @if ($dependant->personDep->gender_id == 1 || $dependant->personDep->gender_id == 'M')
+                                        <i class="bi bi-gender-male"></i> Male
+                                    @elseif ($dependant->personDep->gender_id == 2 || $dependant->personDep->gender_id == 'F')
+                                        <i class="bi bi-gender-female"></i> Female
+                                    @else
+                                        <i class="bi bi-gender-ambiguous"></i> Other
+                                    @endif
+                                </td>
                                 <td class="text-sm font-weight-normal pt-3 text-center"><a
                                         href="/view-member/{{ $dependant->personMain->membership->first()->id }}">{{ $dependant->personMain->screen_name }}</a>
                                 </td>
@@ -125,7 +185,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
@@ -144,7 +203,7 @@
     <script>
         var myJQuery = jQuery.noConflict(true);
         myJQuery(document).ready(function($) {
-            var url = '/dependantsData'; 
+            var url = '/dependantsData';
 
             $.ajax({
                 url: url,
@@ -166,7 +225,7 @@
                             $('<td>').text(genderText),
                             $('<td>').text(item
                                 .main_member_screen_name
-                            ), 
+                            ),
                             $('<td>').text(item.age),
 
                         );
@@ -184,11 +243,11 @@
                 }
             });
 
-                    $('#datatable-dependant').DataTable({
-            dom: 'Bfrtip',
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-            "pagingType": "full_numbers"
-        });
+            $('#datatable-dependant').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                "pagingType": "full_numbers"
+            });
         });
 
         window.deleteConfirm = function(membershipId) {
@@ -224,7 +283,5 @@
                 }
             });
         };
-
-
     </script>
 @endpush

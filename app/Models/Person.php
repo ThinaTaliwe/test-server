@@ -75,4 +75,27 @@ class Person extends Model
     {
         return $this->hasMany(MembershipAddress::class, 'membership_id', 'id');
     }
+
+    /**
+     * The languages that the person speaks.
+     */
+    public function languages()
+    {
+        // Using 'withPivot' if you want to access the 'id' field from pivot table
+        return $this->belongsToMany(Language::class, 'person_has_language')
+                    ->withPivot('id');
+    }
+
+    //Without Pivot (languages)
+    // public function languages()
+    // {
+    //     return $this->belongsToMany(Language::class, 'person_has_language');
+    // }
+
+
+    // Define a one-to-many relationship.
+    public function funerals()
+    {
+        return $this->hasMany(Funeral::class, 'person_id');
+    }
 }

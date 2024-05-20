@@ -4,26 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\MembershipHasAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MembershipHasAddressController extends Controller
 {
-    public function index()
-    {
-        $addresses = MembershipHasAddress::all();
-        return response()->json($addresses);
-    }
 
-    public function delete($itemId)
+     public function delete($id)
     {
-        try {
-            console . log('Hello');
-            $address = MembershipHasAddress::findOrFail($itemId); // This throws an exception if no model found
+        DB::transaction(function () use ($id) {
+            $address = MembershipHasAddress::findOrFail($id);
+            // Optionally, ensure the address belongs to the correct membership before deleting
+            // if ($address->membership_id !== $desiredMembershipId) {
+            //     abort(403, 'Unauthorized action.');
+            // }
+
+            // Delete the address record
             $address->delete();
-            return response()->json(['message' => 'Record deleted successfully'], 200);
-        } catch (\Exception $e) {
-            // Log error for further analysis
-            \Log::error('Failed to delete record: ' . $e->getMessage());
-            return response()->json(['message' => 'Server error occurred'], 500);
-        }
+
+            // Add any additional business logic here if necessary
+            // For example, logging the deletion, sending notifications, etc.
+        });
+
+        // Redirect back with success message
+        return back()->withSuccess('Address has been removed successfully!');
     }
 }

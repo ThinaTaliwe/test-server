@@ -8,6 +8,7 @@ use App\Models\Dependant;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Report;
+use App\Models\MembershipPaymentReceipt;
 use DB;
 use Carbon\Carbon;
 
@@ -130,7 +131,12 @@ class ReportsController extends Controller
 
     public function dependantsGrid()
     {
-        $dependants = Dependant::all();
-        return view('dependantsGrid', ['dependants' => $dependants]);
+        // Fetch all addresses from the database
+        $payments = MembershipPaymentReceipt::all(); // Make sure you have the Address model created and it is properly linked to your database table
+        $paymentsJSON = (response()->json($payments));
+        //dd($payments);
+        // Pass the addresses to the view
+        //response()->json($payments);
+        return view('dependantsGrid', ['payments' => $payments, 'paymentsJSON' => $paymentsJSON]);
     }
 }

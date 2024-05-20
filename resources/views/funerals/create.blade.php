@@ -281,6 +281,9 @@
                                 <tr>
                                     <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Forms Signed</td>
                                     <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                       
+                                       
+                                       
                                         <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
                                             <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm" data-kt-button="true">
                                                 <input class="btn-check" type="radio" name="method" value="1"/>

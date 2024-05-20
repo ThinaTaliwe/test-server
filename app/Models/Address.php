@@ -44,6 +44,9 @@ class Address extends Model
      */
     public $table = 'address';
 
+        use HasFactory;
+    protected $connection = 'mysql';
+
     /**
      * Get the membership that owns the address.
      *
@@ -69,7 +72,4 @@ class Address extends Model
         return $this->belongsTo(AddressType::class, 'adress_type_id', 'id');
     }
     
-
-    use HasFactory;
-    protected $connection = 'mysql';
 }

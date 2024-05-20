@@ -29,13 +29,32 @@
         .text-gba {
             color: #0d8503;
         }
+
+        ::placeholder {
+            background-color: white !important;
+            color: gray !important;
+            /* Change the color of the placeholder text */
+            font-style: italic;
+            /* Makes the placeholder text italic */
+            opacity: 0.4;
+            /* Adjust the opacity as needed (1 is fully opaque) */
+        }
+    </style>
+    
+    <style>
+        .btn-check+.btn:hover {
+            color: white !important;
+            background-color: green !important;
+        }
+        input{
+            background-color: white !important;
+        }
     </style>
 @endpush
 
 @section('row_content')
 
     {{-- <button id="kt_drawer_example_permanent_toggle" class="btn btn-secondary">Add Comments</button> --}}
-
 
     <!--begin:: Comments Drawer-->
     <div id="kt_drawer_example_permanent" class="bg-white" data-kt-drawer="true" data-kt-drawer-activate="true"
@@ -78,7 +97,7 @@
 
 
     <!--begin::Card-->
-    <div class="card bg-gba-light rounded mb-4 border-gba-light">
+    <div class="card bg-gba-light rounded mb-4 border-gba-light shadow-lg">
         <div class="card-title pt-4 -0 mt-4 border-gba bg-gba">
             <h1 class="text-center">Add New Member</h1>
         </div>
@@ -103,12 +122,12 @@
 
         <form method="POST" action="{{ route('add-member.store') }}" autocomplete="off">
             @csrf
-            <div class="imputsection bg-gray-200 border-gba">
+            <div class="imputsection bg-gba-subtle border-gba shadow-lg">
                 <div>
                     <!--begin::Title-->
                     <h1 class="fw-bold d-flex align-items-center text-gba">Personal Info
                         <span class="ms-1" data-bs-toggle="tooltip"
-                            title="Billing is issued based on your selected account typ">
+                            title="Fill all required information about the membership your adding.">
                             <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
@@ -122,36 +141,35 @@
                     <!--end::Notice-->
                 </div>
                 <div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-12 col-sm-6 mx-auto ">
                             <div
                                 class="form-check form-switch col d-flex justify-content-center align-items-center mt-5 mb-0">
                                 <label class="fw-semibold fs-2 form-label">Select Language : </label>
                                 <div class="btn-group rounded-top border border-primary-subtle" role="group"
                                     aria-label="Language selection">
-                                    <input type="radio" class="btn-check bg-gba" name="language" id="btnradio1"
+                                    <input type="radio" class="btn-check bg-gba" name="language" id="2"
                                         autocomplete="off">
-                                    <label class="btn btn-outline-success bg-gba-light" for="btnradio1">English</label>
+                                    <label class="btn btn-outline-success bg-gba-light" for="2">English</label>
 
-                                    <input type="radio" class="btn-check" name="language" id="btnradio2"
+                                    <input type="radio" class="btn-check" name="language" id="1"
                                         autocomplete="off">
-                                    <label class="btn btn-outline-success bg-gba-light" for="btnradio2">Afrikaans</label>
+                                    <label class="btn btn-outline-success bg-gba-light" for="1">Afrikaans</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             <div
                                 class="input-group input-group-outline  @error('Name') is-invalid focused is-focused  @enderror mt-3 mb-0 bold-placeholder">
 
                                 <input type="text" class="multisteps-form__input form-control" name="Name"
-                                    id="Name" value="{{ old('Name') }}" placeholder="Name"
-                                    style="color: green;">
+                                    id="Name" value="{{ old('Name') }}" placeholder="Enter Name(s)">
                             </div>
                             @error('Name')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -161,11 +179,11 @@
                                 class="input-group input-group-outline  @error('Surname') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
                                 <input type="text" class="multisteps-form__input form-control" name="Surname"
-                                    id="Surname" value="{{ old('Surname') }}" placeholder="Surname">
+                                    id="Surname" value="{{ old('Surname') }}" placeholder="Enter Surname">
                             </div>
                             @error('Surname')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -177,13 +195,13 @@
                                 class="input-group input-group-outline  @error('IDNumber') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
                                 <input type="text" class="multisteps-form__input form-control" name="IDNumber"
-                                    id="IDNumber" value="{{ old('IDNumber') }}" placeholder="Identity Number"
+                                    id="IDNumber" value="{{ old('IDNumber') }}" placeholder="Enter ID Number"
                                     maxlength="13" size="13" onchange="getDOB(this.value)">
                             </div>
                             <span class="invalid-feedback" role="alert" id="error"></span>
                             @error('IDNumber')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -193,9 +211,9 @@
 										">
                             <div class="py-2 col d-flex justify-content-center align-items-center mx-auto">
                                 <!-- <div style="white-space:nowrap;" class="px-4">
-                                         <label class="form-label">Date Of Birth</label>
+                                                         <label class="form-label">Date Of Birth</label>
 
-                                        </div> -->
+                                                        </div> -->
                                 <div id="inputDayDiv"
                                     class="input-group input-group-outline @error('inputDay') is-invalid @enderror">
 
@@ -204,7 +222,7 @@
                                         value="{{ old('inputDay') }}" placeholder="DD" maxlength="2" size="2">
                                     @error('inputDay')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong style="color: red;">{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -219,7 +237,7 @@
                                 </div>
                                 {{-- @error('inputMonth')
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong style="color: red;">{{ $message }}</strong>
                                                 </span>
                                             @enderror --}}
                                 <span class="px-2"></span>
@@ -232,37 +250,23 @@
                                         size="4">
                                     @error('inputYear')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong style="color: red;">{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="row mt-3">
 
-                        <div class="col-12 col-sm-6 pt-3 mt-sm-0" style="margin-top: 25px;">
-                            <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
-
-                                <input type="radio" class="btn-check form-check-input " name="radioGender"
-                                    id="Male" value="M" checked />
-                                <label class="btn bg-gba-light btn-outline-success" for="Male">Male</label>
-
-                                <input type="radio" class="btn-check form-check-input " name="radioGender"
-                                    id="Female" value="F" />
-                                <label class="btn bg-gba-light btn-outline-success" for="Female">Female</label>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-                            <div class=" pb-2 ">
+                        <div class="col-6 mt-3 mt-sm-0">
+                            <div class="pb-2">
                                 <!-- <label class="form-label col d-flex justify-content-center mx-auto">Marital status</label> -->
                                 <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto"
-                                    style="
-												padding-top: 0.75rem;">
+                                    style="padding-top: 0.75rem;">
                                     <input type="radio" class="btn-check form-check-input" name="marital_status"
-                                        id="Married" value="1" checked />
+                                        id="Married" value="1" />
                                     <label class="btn bg-gba-light btn-outline-success" for="Married">Married</label>
 
                                     <input type="radio" class="btn-check form-check-input" name="marital_status"
@@ -277,9 +281,36 @@
                                         id="Divorced" value="4" />
                                     <label class="btn bg-gba-light btn-outline-success" for="Divorced">Divorced</label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 pt-3 mt-sm-0" style="margin-top: 25px;">
+                            <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
+
+                                <input type="radio" class="btn-check form-check-input " name="radioGender"
+                                    id="Male" value="M" />
+                                <label class="btn bg-gba-light btn-outline-success" for="Male">Male</label>
+
+                                <input type="radio" class="btn-check form-check-input " name="radioGender"
+                                    id="Female" value="F" />
+                                <label class="btn bg-gba-light btn-outline-success" for="Female">Female</label>
 
                             </div>
                         </div>
+                        <div class="col-2">
+                            <div class="btn-group col d-flex justify-content-center align-items-center mx-auto"
+                                style="padding-top: 0.75rem;">
+                                <input type="radio" class="btn-check form-check-input" name="language" id="2"
+                                    autocomplete="off">
+                                <label class="btn bg-gba-light btn-outline-success" for="2">English</label>
+
+                                <input type="radio" class="btn-check form-check-input" name="language" id="1"
+                                    autocomplete="off">
+                                <label class="btn bg-gba-light btn-outline-success" for="1">Afrikaans</label>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="button-row d-flex mt-4">
 
@@ -287,12 +318,12 @@
                 </div>
             </div>
 
-            <div class="imputsection bg-gray-200 border-gba">
+            <div class="imputsection bg-gba-subtle border-gba shadow-lg">
                 <div>
                     <!--begin::Title-->
                     <h1 class="fw-bold d-flex align-items-center text-gba">Location
                         <span class="ms-1" data-bs-toggle="tooltip"
-                            title="Billing is issued based on your selected account Type">
+                            title="">
                             <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
@@ -315,7 +346,7 @@
                             </div>
                             @error('Line1')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -330,7 +361,7 @@
                             </div>
                             @error('Line2')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -344,7 +375,7 @@
                             </div>
                             @error('TownSuburb')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -359,7 +390,7 @@
                             </div>
                             @error('City')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -372,7 +403,7 @@
                             </div>
                             @error('Province')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -386,7 +417,7 @@
                             </div>
                             @error('PostalCode')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -402,7 +433,7 @@
                             </div>
                             @error('Country')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -415,7 +446,7 @@
                 </div>
             </div>
 
-            <div class="imputsection bg-bs-color bg-gray-200 border-gba">
+            <div class="imputsection bg-bs-color bg-gba-subtle shadow-lg border-gba">
                 <div>
                     <!--begin::Title-->
                     <h1 class="fw-bold d-flex align-items-center text-gba">Contact Details
@@ -434,45 +465,45 @@
                 </div>
                 <div class="multisteps-form__content">
                     <div class="row mt-3">
-                        <div class="col-12">
-                            <div
-                                class="input-group input-group-outline  @error('Telephone') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                        <div class="col-3">
+    <div class="input-group input-group-outline @error('Telephone') is-invalid focused is-focused @enderror mt-3 mb-0">
+        <input type="tel" class="form-control" name="Telephone" id="Telephone"
+            value="{{ old('Telephone') }}" placeholder="Add Telephone (Cell)" maxlength="10" pattern="0[0-9]{9}">
+    </div>
+    @error('Telephone')
+        <span class="invalid-feedback" role="alert">
+            <strong style="color: red;">{{ $message }}</strong>
+        </span>
+    @enderror
+</div>
 
-                                <input type="number" class="form-control" name="Telephone" id="Telephone"
-                                    value="{{ old('Telephone') }}" placeholder="Telephone (Cell)" maxlength="10">
-                            </div>
-                            @error('Telephone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="col-12 mt-3">
-                            <div
-                                class="input-group input-group-outline  @error('WorkTelephone') is-invalid focused is-focused  @enderror mt-3 mb-0">
+<div class="col-3">
+    <div class="input-group input-group-outline @error('WorkTelephone') is-invalid focused is-focused @enderror mt-3 mb-0">
+        <input type="tel" class="form-control" name="WorkTelephone" id="WorkTelephone"
+            value="{{ old('WorkTelephone') }}" placeholder="Add Telephone (Work)" maxlength="10" pattern="0[0-9]{9}">
+    </div>
+    @error('WorkTelephone')
+        <span class="invalid-feedback" role="alert">
+            <strong style="color: red;">{{ $message }}</strong>
+        </span>
+    @enderror
+</div>
 
-                                <input type="number" class="form-control" name="WorkTelephone" id="WorkTelephone"
-                                    value="{{ old('WorkTelephone') }}" placeholder="Telephone (Work)">
-                            </div>
-                            @error('WorkTelephone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="col-12 mt-3">
+
+                        <div class="col-6">
                             <div
                                 class="input-group input-group-outline  @error('Email') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
                                 <input type="email" class="form-control" name="Email" id="Email"
-                                    value="{{ old('Email') }}" placeholder="Email">
+                                    value="{{ old('Email') }}" placeholder="Enter Email Address">
                             </div>
                             @error('Email')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong style="color: red;">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="button-row d-flex mt-4 col-12">
@@ -483,11 +514,11 @@
                 </div>
             </div>
 
-            <div class="imputsection bg-bs-color bg-gray-200 border-gba">
+            <div class="imputsection bg-bs-color bg-gba-subtle border-gba shadow-lg">
                 <!--begin::Title-->
                 <h1 class="fw-bold d-flex align-items-center text-gba">Membership Type
                     <span class="ms-1" data-bs-toggle="tooltip"
-                        title="Billing is issued based on your selected account typ">
+                        title="">
                         <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -525,7 +556,7 @@
                                     </select>
                                     @error('memtype')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong style="color: red;">{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -535,7 +566,7 @@
 
                     <div class="button-row d-flex mt-4">
 
-                        <button class="btn btn-xl ms-auto mb-0" type="submit" title="Add"
+                        <button class="btn btn-xl ms-auto mb-0" type="submit" title="Add a Membership"
                             id="kt_docs_sweetalert_basic" text="Add" style="background-color: #00923f;">Add</button>
                     </div>
                 </div>

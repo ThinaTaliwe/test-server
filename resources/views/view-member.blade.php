@@ -58,10 +58,10 @@
                                             <!-- Placeholder for image or icon -->
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <span class="fs-4 fw-bold text-gray-900 me-2 text-decoration-underline">Preferred
+                                            <span class="fs-4 fw-bold text-light me-2 text-decoration-underline">Preferred
                                                 Language</span>
                                             <span
-                                                class="fw-semibold text-dark">{{ $membership->language == '1' ? 'English' : 'Afrikaans' }}</span>
+                                                class="fw-semibold text-dark">{{ $membership->language_id == '2' ? 'English' : 'Afrikaans' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -70,15 +70,15 @@
 
                                 <!-- Personal Details Section -->
                                 <div class="mb-7">
-                                    <h5 class="mb-4 text-decoration-underline">Personal Details</h5>
+                                    <h5 class="mb-4 text-decoration-underline text-light">Personal Details</h5>
                                     <div class="mb-0">
                                         <span class="fw-semibold text-dark">Name: {{ $membership->name }}</span><br>
                                         <span class="fw-semibold text-dark">Surname:
                                             {{ $membership->surname }}</span><br>
                                         <span class="fw-semibold text-dark">Gender:
-                                            @if ($membership->gender_id == 1)
+                                            @if ($membership->gender_id == 'M')
                                                 Male
-                                            @elseif ($membership->gender_id == 2)
+                                            @elseif ($membership->gender_id == 'F')
                                                 Female
                                             @else
                                                 Other
@@ -99,7 +99,7 @@
 
                                 <!-- Membership Type Section -->
                                 <div class="mb-10">
-                                    <h5 class="mb-4 text-decoration-underline">Membership Type</h5>
+                                    <h5 class="mb-4 text-decoration-underline text-light">Membership Type</h5>
                                     <span class="fw-semibold text-dark">Type: {{ $membership->bu_membership_type_id }} with fee R{{ $membership->membership_fee }}</span>
                                     <!-- Replace A1 with actual data -->
                                 </div>
@@ -107,7 +107,6 @@
                         </div>
                     </div>
                     <!-- End Membership Details View-Only Section -->
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" onclick="window.history.back();">Close</button>
@@ -162,9 +161,7 @@
                                             <th class="text-uppercase font-weight-bolder">
                                                 Age
                                             </th>
-                                            <th class="text-uppercase font-weight-bolder">
-                                                Action
-                                            </th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,11 +194,7 @@
                                                     <a
                                                         class="btn-sm {{ $age < 15 ? 'btn-success' : ($age <= 20 ? 'btn-warning' : 'btn-danger') }} fw-bold p-1">{{ $age }}</a>
                                                 </td>
-                                                <td>
-                                                    <a class="btn btn-link text-danger text-gradient mx-3 mb-0"
-                                                        href="/remove-dependant/{{ $dependant->secondary_person_id }}"><i
-                                                            class="material-icons text-sm me-2"></i>Remove</a>
-                                                </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -224,13 +217,14 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title mx-auto">Addresses</h3>
                     <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2 bg-danger"
                         data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div id="addresses">
+                        
+                        <h2 class="text-center">Addresses Content</h2>
                         <p class="text-dark fw-semibold fs-6 mx-auto text-center">See all your address details.</p>
 
                         <!-- Alert for No Addresses Found (hidden by default) -->
@@ -241,9 +235,9 @@
                         </div>
 
 
-
                         <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                             <div class="table-responsive p-0">
+
                                 <table
                                     class="table table-bordered table-flush align-items-center justify-content-center border mb-4 bg-gba-light"
                                     id="datatable-dependant">
@@ -265,9 +259,6 @@
                                             <th class="text-uppercase font-weight-bolder">
                                                 Address Type
                                             </th>
-                                            <th class="text-uppercase font-weight-bolder">
-                                                Action
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -278,13 +269,6 @@
                                                 <td>{{ $address->province }}</td>
                                                 <td>{{ $address->ZIP }}</td>
                                                 <td>{{ $address->addressType->name }}</td>
-                                                <!-- Assuming you have addressType relation defined -->
-                                                <td>
-                                                    <a class="btn btn-link text-danger text-gradient"
-                                                        href="/remove-address/{{ $address->id }}">
-                                                        <i class="material-icons text-sm">remove_circle_outline</i>Remove
-                                                    </a>
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -311,14 +295,13 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Payment Details</h3>
                     <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2 bg-danger"
                         data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div id="payments">
-                        {{-- <h2 class="text-center">Payments Content</h2> --}}
+                        <h2 class="text-center">Payments Content</h2>
                         <p class="text-dark fw-semibold fs-6 text-center">See all your payment details.</p>
                             <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
                                 <div class="table-responsive p-0">
@@ -332,7 +315,6 @@
                                                 <th class="text-uppercase font-weight-bolder">Amount</th>
                                                 <th class="text-uppercase font-weight-bolder">Status</th>
                                                 <th class="text-uppercase font-weight-bolder">Due Date</th>
-                                                <th class="text-uppercase font-weight-bolder">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -358,17 +340,6 @@
                                                                 </span>
                                                             </td>
                                                             <td>{{ $billing->created_at }}</td>
-                                                            <td>
-                                                                <a class="btn btn-link text-primary text-gradient"
-                                                                    href="/view-bill/{{ $billing->id }}">
-                                                                    <i class="material-icons text-sm">visibility</i>View
-                                                                </a>
-                                                                <a class="btn btn-link text-danger text-gradient"
-                                                                    href="/remove-bill/{{ $billing->id }}">
-                                                                    <i
-                                                                        class="material-icons text-sm">delete_outline</i>Remove
-                                                                </a>
-                                                            </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -379,7 +350,6 @@
                             </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>

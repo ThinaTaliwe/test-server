@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDependantRequest;
 use App\Models\Dependant;
 use App\Models\Membership;
+use App\Models\MembershipPaymentReceipt;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,12 @@ class DependantsController extends Controller
         return view('dependants', ['dependants' => $dependants]);
     }
 
+    
+    public function indexx()
+    {
+        $payments = MembershipPaymentReceipt::all(); // Make sure you have the Address model created and it is properly linked to your database table
+        return response()->json($payments);
+    }
 
 
     /**
@@ -86,10 +93,10 @@ class DependantsController extends Controller
     {
         // Delete the dependent on the Person_has_person table
         Dependant::where('secondary_person_id', $id)->delete();
-
+        
         // Delete the dependant on the person table
         Person::where('id', $id)->delete();
-
+        
         // Redirect back with success message
         return redirect()->back()->withSuccess('Dependant Has Been Removed!');
     }

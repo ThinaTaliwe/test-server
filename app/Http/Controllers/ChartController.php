@@ -21,10 +21,11 @@ class ChartController extends Controller
             'gender_id' => $request->input('gender_id'), // Gender filter
             'language_id' => $request->input('language_id'), // Language filter
         ];
-
+        
         $data = $this->fetchData($filters);
-
+        
         $oldest = $data->max('membership_code');
+        //dd($oldest);
 
         // Calculate male and female members
         $maleMembers = $data->where('gender_id', 'M')->count();
@@ -37,7 +38,7 @@ class ChartController extends Controller
         // Get all the Total data in membership table
         $totalMemberships = DB::table('membership')->count();
         $totalMembershipsActive = DB::table('membership')
-            ->whereNull('deleted')
+            ->whereNull('deleted_at')
             ->count();
         $totalMembershipsDeleted = $totalMemberships - $totalMembershipsActive;
 
@@ -47,12 +48,12 @@ class ChartController extends Controller
             ->groupBy('gender_id')
             ->get();
         $membershipsByGenderActive = DB::table('membership')
-            ->whereNotNull('deleted')
+            ->whereNull('deleted_at')
             ->select('gender_id', DB::raw('count(id) as count'))
             ->groupBy('gender_id')
             ->get();
         $membershipsByGenderDeleted = DB::table('membership')
-            ->whereNull('deleted')
+            ->whereNotNull('deleted_at')
             ->select('gender_id', DB::raw('count(id) as count'))
             ->groupBy('gender_id')
             ->get();
@@ -177,6 +178,7 @@ class ChartController extends Controller
     {
         // Retrieve and filter data from your database
         $query = DB::table('membership')->whereBetween('created_at', [$filters['date_from'], $filters['date_to']]);
+        //dd($query);
 
         // Apply gender filter if provided
         if (isset($filters['gender_id']) && !empty($filters['gender_id'])) {

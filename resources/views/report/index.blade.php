@@ -55,10 +55,246 @@
 @endpush
 
 @section('content')
-    <div class="card p-8 m-16">
+    <div class="m-7 p-2 bg-transparent">
+
+        {{-- Start Data Statistics Overview --}}
+        <div id="feature_two" class="border border-solid border-gba-light bg-gba-light rounded-2 mb-2 shadow-lg">
+            <div>
+                <h2 class="text-center m-5">Data Statistics Overview</h2>
+            </div>
+
+            <!--begin::Row-->
+            <div class="row g-3 p-2">
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::List widget 25-->
+                    <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-light shadow-lg">
+                        <div class="h-lg-50">
+                            <!--begin::Header-->
+                            <div class="card-header pt-5">
+                                <!--begin::Title-->
+                                <h3 class="card-title text-gray-800"
+                                    style="margin-left: auto; margin-right: auto; width: fit-content;">
+                                    Total Memberships</h3>
+                                <!--end::Title-->
+
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-5">
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+                                        <!--begin::Number-->
+                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMemberships }}</span>
+                                        <!--end::Number-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3 bg-dark"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-center">
+                                        @if ($totalMembershipsActive < $totalMembershipsDeleted)
+                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        @else
+                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        @endif
+                                        <!--begin::Number-->
+                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsActive }}</span>
+                                        <!--end::Number-->
+                                        {{-- <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span> --}}
+                                    </div>
+                                    <!--end::Statistics-->
+
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3 bg-dark"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+                                        @if ($totalMembershipsActive > $totalMembershipsDeleted)
+                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        @else
+                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        @endif
+                                        <!--begin::Number-->
+                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsDeleted }}</span>
+                                        <!--end::Number-->
+                                        {{-- <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span> --}}
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <!--end::LIst widget 25-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-xl-6">
+                    <!--begin::List widget 25-->
+                    <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-light shadow-lg">
+                        <div class="h-lg-50">
+                            <!--begin::Header-->
+                            <div class="card-header pt-5">
+                                <!--begin::Title-->
+                                <h3 class="card-title text-gray-800"
+                                    style="margin-left: auto; margin-right: auto; width: fit-content;">
+                                    Memberships by Gender</h3>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-5">
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i> --}}
+                                        <!--begin::Number-->
+                                        <div class="text-gray-900 fw-bolder fs-6">
+                                            @foreach ($membershipsByGender as $membership)
+                                                [<span>
+                                                    {{ $membership->count }}
+                                                    @if ($membership->gender_id == 'M')
+                                                        <span class="badge bg-primary">Male</span>
+                                                    @elseif ($membership->gender_id == 'F')
+                                                        <span class="badge"
+                                                            style="background-color: #ff7db0;">Female</span>
+                                                    @else
+                                                        <span class="badge bg-info text-dark">Others</span>
+                                                    @endif
+                                                </span>]
+                                            @endforeach
+                                        </div>
+                                        <!--end::Number-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3 bg-dark"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                                                            <span class="path1"></span>
+                                                                            <span class="path2"></span>
+                                                                        </i> --}}
+                                        <!--begin::Number-->
+                                        <div class="text-gray-900 fw-bolder fs-6">
+                                            @foreach ($membershipsByGenderActive as $membership)
+                                                [<span>
+                                                    {{ $membership->count }}
+                                                    @if ($membership->gender_id == 'M')
+                                                        <span class="badge bg-primary">Male</span>
+                                                    @elseif ($membership->gender_id == 'F')
+                                                        <span class="badge"
+                                                            style="background-color: #ff7db0;">Female</span>
+                                                    @else
+                                                        <span class="badge bg-info text-dark">Others</span>
+                                                    @endif
+                                                </span>]
+                                            @endforeach
+                                        </div>
+                                        <!--end::Number-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3 bg-dark"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                                                            <span class="path1"></span>
+                                                                            <span class="path2"></span>
+                                                                        </i> --}}
+                                        <!--begin::Number-->
+                                        <div class="text-gray-900 fw-bolder fs-6">
+                                            @foreach ($membershipsByGenderDeleted as $membership)
+                                                [<span>
+                                                    {{ $membership->count }}
+                                                    @if ($membership->gender_id == 'M')
+                                                        <span class="badge bg-primary">Male</span>
+                                                    @elseif ($membership->gender_id == 'F')
+                                                        <span class="badge"
+                                                            style="background-color: #ff7db0;">Female</span>
+                                                    @else
+                                                        <span class="badge bg-info text-dark">Others</span>
+                                                    @endif
+                                                </span>]
+                                            @endforeach
+                                        </div>
+                                        <!--end::Number-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <!--end::LIst widget 25-->
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+
+        </div>
+        {{-- End Data Statistics Overview --}}
 
         {{-- Start Filtering Form Submit --}}
-        <div id="feature_one" class="border border-solid bg-secondary rounded-2">
+        <div id="feature_one" class="border border-solid mt-8 mb-4 bg-gba-light rounded-2 shadow-lg">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Data Filtering</h2>
             </div>
@@ -159,7 +395,7 @@
 
             <form action="{{ route('report.index') }}" method="GET"
                 style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted"
-                class="bg-primary">
+                class="bg-gba-light p-2">
                 <!-- Date Range filters -->
 
                 <label for="">From: </label>
@@ -205,9 +441,9 @@
             <br>
             {{-- {{ $data }} --}}
             <div class="table-responsive" style="margin-left: auto; margin-right: auto; width: fit-content;">
-                <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                <table class="table table-rounded border gy-7 gs-7">
                     <thead>
-                        <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200 bg-light">
+                        <tr class="fw-semibold fs-6 text-dark border-bottom-2 bg-info-subtle">
                             <th>Code</th>
                             <th>Initails</th>
                             <th>Surname</th>
@@ -220,13 +456,30 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $record)
-                            <tr>
+                            <tr class="bg-light">
                                 <td>{{ $record->membership_code }}</td>
                                 <td>{{ $record->initials }}</td>
                                 <td>{{ $record->surname }}</td>
-                                <td>{{ $record->gender_id }}</td>
+                                <td>
+                                    @if ($record->gender_id == 'M')
+                                        Male
+                                    @elseif ($record->gender_id == 'F')
+                                        Female
+                                    @else
+                                        Other
+                                    @endif
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($record->join_date)->format('Y-m-d') }}</td>
-                                <td>{{ $record->language_id }}</td>
+                                <td>
+                                    @if ($record->language_id == '1')
+                                        English
+                                    @elseif ($record->language_id == '2')
+                                        Afrikaans
+                                    @else
+                                        Other
+                                    @endif
+                                </td>
+
                                 <td>R{{ number_format($record->membership_fee, 2) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($record->last_payment_date)->format('Y-m-d') }}</td>
                             </tr>
@@ -239,287 +492,9 @@
         </div>
         {{-- End Filtering Form Submit --}}
 
-        {{-- Start Data Statistics Overview --}}
-        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5">
-            <div style="margin-left: auto; margin-right: auto; width: fit-content;">
-                <h2 class="m-5">Data Statistics Overview</h2>
-            </div>
-
-            <!--begin::Row-->
-            <div class="row g-3 g-xl-6 mb-xl-5 p-3">
-                <!--begin::Col-->
-                <div class="col-xl-6">
-                    <!--begin::List widget 25-->
-                    <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-secondary">
-                        <div class="h-lg-50">
-                            <!--begin::Header-->
-                            <div class="card-header pt-5">
-                                <!--begin::Title-->
-                                <h3 class="card-title text-gray-800"
-                                    style="margin-left: auto; margin-right: auto; width: fit-content;">
-                                    Total Memberships</h3>
-                                <!--end::Title-->
-                                <!--begin::Toolbar-->
-                                <div class="card-toolbar d-none">
-                                    <!--begin::Daterangepicker(defined in src/js/layout/app.js)-->
-                                    <div data-kt-daterangepicker="true" data-kt-daterangepicker-opens="left"
-                                        class="btn btn-sm btn-light d-flex align-items-center px-4">
-                                        <!--begin::Display range-->
-                                        <div class="text-gray-600 fw-bold">Loading date range...</div>
-                                        <!--end::Display range-->
-                                        <i class="ki-duotone ki-calendar-8 fs-1 ms-2 me-0">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                            <span class="path3"></span>
-                                            <span class="path4"></span>
-                                            <span class="path5"></span>
-                                            <span class="path6"></span>
-                                        </i>
-                                    </div>
-                                    <!--end::Daterangepicker-->
-                                </div>
-                                <!--end::Toolbar-->
-                            </div>
-                            <!--end::Header-->
-                            <!--begin::Body-->
-                            <div class="card-body pt-5">
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i> --}}
-                                        <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMemberships }}</span>
-                                        <!--end::Number-->
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed my-3 bg-dark"></div>
-                                <!--end::Separator-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-center">
-                                        @if ($totalMembershipsActive < $totalMembershipsDeleted)
-                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        @else
-                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        @endif
-                                        <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsActive }}</span>
-                                        <!--end::Number-->
-                                        <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span>
-                                    </div>
-                                    <!--end::Statistics-->
-
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed my-3 bg-dark"></div>
-                                <!--end::Separator-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-                                        @if ($totalMembershipsActive > $totalMembershipsDeleted)
-                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        @else
-                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        @endif
-                                        <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsDeleted }}</span>
-                                        <!--end::Number-->
-                                        <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span>
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                    </div>
-                    <!--end::LIst widget 25-->
-                </div>
-                <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-xl-6">
-                    <!--begin::List widget 25-->
-                    <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-secondary">
-                        <div class="h-lg-50">
-                            <!--begin::Header-->
-                            <div class="card-header pt-5">
-                                <!--begin::Title-->
-                                <h3 class="card-title text-gray-800"
-                                    style="margin-left: auto; margin-right: auto; width: fit-content;">
-                                    Memberships by Gender</h3>
-                                <!--end::Title-->
-                                <!--begin::Toolbar-->
-                                <div class="card-toolbar d-none">
-                                    <!--begin::Daterangepicker(defined in src/js/layout/app.js)-->
-                                    <div data-kt-daterangepicker="true" data-kt-daterangepicker-opens="left"
-                                        class="btn btn-sm btn-light d-flex align-items-center px-4">
-                                        <!--begin::Display range-->
-                                        <div class="text-gray-600 fw-bold">Loading date range...</div>
-                                        <!--end::Display range-->
-                                        <i class="ki-duotone ki-calendar-8 fs-1 ms-2 me-0">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                            <span class="path3"></span>
-                                            <span class="path4"></span>
-                                            <span class="path5"></span>
-                                            <span class="path6"></span>
-                                        </i>
-                                    </div>
-                                    <!--end::Daterangepicker-->
-                                </div>
-                                <!--end::Toolbar-->
-                            </div>
-                            <!--end::Header-->
-                            <!--begin::Body-->
-                            <div class="card-body pt-5">
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i> --}}
-                                        <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
-                                            @foreach ($membershipsByGender as $membership)
-                                                <span>
-                                                    {{ $membership->count }}
-                                                    @if ($membership->gender_id == 'M')
-                                                        <span class="badge bg-primary">{{ $membership->gender_id }}</span>
-                                                    @elseif ($membership->gender_id == 'F')
-                                                        <span class="badge bg-danger">{{ $membership->gender_id }}</span>
-                                                    @else
-                                                        <span
-                                                            class="badge bg-info text-dark">{{ $membership->gender_id }}</span>
-                                                    @endif
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                        <!--end::Number-->
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed my-3 bg-dark"></div>
-                                <!--end::Separator-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                                                            <span class="path1"></span>
-                                                                            <span class="path2"></span>
-                                                                        </i> --}}
-                                        <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
-                                            @foreach ($membershipsByGenderActive as $membership)
-                                                <span>
-                                                    {{ $membership->count }}
-                                                    @if ($membership->gender_id == 'M')
-                                                        <span class="badge bg-primary">{{ $membership->gender_id }}</span>
-                                                    @elseif ($membership->gender_id == 'F')
-                                                        <span class="badge bg-danger">{{ $membership->gender_id }}</span>
-                                                    @else
-                                                        <span
-                                                            class="badge bg-info text-dark">{{ $membership->gender_id }}</span>
-                                                    @endif
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                        <!--end::Number-->
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed my-3 bg-dark"></div>
-                                <!--end::Separator-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-                                        {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                                                            <span class="path1"></span>
-                                                                            <span class="path2"></span>
-                                                                        </i> --}}
-                                        <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
-                                            @foreach ($membershipsByGenderDeleted as $membership)
-                                                <span>
-                                                    {{ $membership->count }}
-                                                    @if ($membership->gender_id == 'M')
-                                                        <span class="badge bg-primary">{{ $membership->gender_id }}</span>
-                                                    @elseif ($membership->gender_id == 'F')
-                                                        <span class="badge bg-danger">{{ $membership->gender_id }}</span>
-                                                    @else
-                                                        <span
-                                                            class="badge bg-info text-dark">{{ $membership->gender_id }}</span>
-                                                    @endif
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                        <!--end::Number-->
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                    </div>
-                    <!--end::LIst widget 25-->
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-
-        </div>
-        {{-- End Data Statistics Overview --}}
 
         {{-- Start Membership by Age --}}
-        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5">
+        {{-- <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Memberships by Type (Age Group)</h2>
             </div>
@@ -707,22 +682,22 @@
                 <!--end::Col-->
             </div>
             <!--end::Row-->
-        </div>
+        </div> --}}
         {{-- End Membership by Age --}}
 
         {{-- Start Membership Trends Graph --}}
-        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5">
+        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5 shadow-lg hidden">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Membership Trends Overview</h2>
             </div>
 
             <!--begin::Row-->
             <!-- For All Memberships -->
-            <div class="card m-4">
-                <div class="card-header">
-                    <h4 class="card-title">All Yearly Membership Trends</h4>
+            <div class="card m-4 bg-light">
+                <div class="card-header mx-auto">
+                    <h4 class="card-title text-center">All Yearly Membership Trends</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body rounded">
                     <canvas id="allMembershipsChart"></canvas>
                 </div>
             </div>
@@ -733,7 +708,7 @@
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!-- For Active Memberships -->
-                    <div class="card">
+                    <div class="card bg-light">
                         <div class="card-header">
                             <h4 class="card-title">Active Yearly Membership Trends</h4>
                         </div>
@@ -746,7 +721,7 @@
                 <!--begin::Col-->
                 <div class="col-xl-6">
                     <!-- For Deleted Memberships -->
-                    <div class="card">
+                    <div class="card bg-light">
                         <div class="card-header">
                             <h4 class="card-title">Deleted Yearly Membership Trends</h4>
                         </div>
@@ -762,7 +737,7 @@
         {{-- End Membership Trends Graph --}}
 
         {{-- Start Membership Trends Data View --}}
-        <div id="feature_one" class="border border-solid bg-secondary rounded-2 p-4">
+        <div id="feature_one" class="border border-solid bg-secondary rounded-2 p-4 hidden">
             <h2 style="margin-left: auto; margin-right: auto; width: fit-content;">Membership Trends(Yearly based)</h2>
             <div class="grid-container">
 
@@ -800,7 +775,7 @@
         {{-- End Membership Trends Graph --}}
 
         {{-- Start Membership Insight Details --}}
-        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5">
+        <div id="feature_two" class="border border-solid bg-secondary rounded-2 my-5 hidden">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Membership Insights</h2>
             </div>
@@ -889,17 +864,16 @@
         {{-- End Membership Insight Details --}}
 
         {{-- Start Display Gender-Wise Owe Count --}}
-        <div id="feature_one" class="border border-solid bg-secondary rounded-2">
+        {{-- <div id="feature_one" class="border border-solid bg-secondary rounded-2">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Members Owing Insight(Monthly based)</h2>
             </div>
-            {{-- <br> --}}
             <canvas id="myPolarAreaChart" width="50" height="50"></canvas>
-        </div>
+        </div> --}}
         {{-- End Display Gender-Wise Owe Count --}}
 
         {{-- Start Gender-Wise Count --}}
-        <div id="feature_one" class="border border-solid bg-secondary rounded-2 mt-4">
+        <div id="feature_one" class="border border-solid bg-secondary rounded-2 mt-4 hidden">
             <div style="margin-left: auto; margin-right: auto; width: fit-content;">
                 <h2 class="m-5">Owing Members (Gender Based)</h2>
             </div>
@@ -910,9 +884,9 @@
                         <div class="card shadow-lg"> <!-- Added shadow for advanced look -->
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    @if ($genderCount->gender_id === 'M')
+                                    @if ($genderCount->gender_id === '1')
                                         Male(s)
-                                    @elseif ($genderCount->gender_id === 'F')
+                                    @elseif ($genderCount->gender_id === '2')
                                         Female(s)
                                     @else
                                         Unknown
@@ -944,198 +918,205 @@
         {{-- End Gender-Wise Count --}}
 
 
-        <div id="drag-container" class="border border-solid">
+        {{-- <div id="drag-container" class="border border-solid">
             @foreach ($items as $item)
                 <div draggable="true" id="item-{{ $item->id }}" class="draggable-item">
                     {{ $item->name }}
                 </div>
             @endforeach
-        </div>
+        </div> --}}
+    @endsection
 
-    </div>
-@endsection
-
-@push('scripts')
-    {{-- Start Preparing The Gender-Wise Data --}}
-    @php
-        $labels = [];
-        $data = [];
-        $colors = ['rgb(42, 82, 190)', 'rgb(255, 97, 56)', 'rgb(173, 255, 195)', 'rgb(255, 105, 180)', 'rgb(255, 223, 0)', 'rgb(198, 21, 21)', 'rgb(64, 224, 208)', 'rgb(250, 128, 114)']; // Add more colors if needed
-        $index = 0;
-        foreach ($unpaidMembersGrouped as $group) {
-            if ($group->months_owed_group <= 6) {
-                $labels[] = $group->months_owed_group . ' months';
-                $data[] = $group->member_count;
-            } else {
-                $labels[] = '7 months+';
-                // $data[] = $group->member_count;
+    @push('scripts')
+        {{-- Start Preparing The Gender-Wise Data --}}
+        @php
+            $labels = [];
+            $data = [];
+            $colors = [
+                'rgb(42, 82, 190)',
+                'rgb(255, 97, 56)',
+                'rgb(173, 255, 195)',
+                'rgb(255, 105, 180)',
+                'rgb(255, 223, 0)',
+                'rgb(198, 21, 21)',
+                'rgb(64, 224, 208)',
+                'rgb(250, 128, 114)',
+            ]; // Add more colors if needed
+            $index = 0;
+            foreach ($unpaidMembersGrouped as $group) {
+                if ($group->months_owed_group <= 6) {
+                    $labels[] = $group->months_owed_group . ' months';
+                    $data[] = $group->member_count;
+                } else {
+                    $labels[] = '7 months+';
+                    // $data[] = $group->member_count;
+                }
+                $index++;
             }
-            $index++;
-        }
-    @endphp
-    {{-- End Preparing The Gender-Wise Data --}}
+        @endphp
+        {{-- End Preparing The Gender-Wise Data --}}
 
-    {{-- Start Gender-Wise Data Displaying --}}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const data = {
-                labels: @json($labels),
+        {{-- Start Gender-Wise Data Displaying --}}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const data = {
+                    labels: @json($labels),
+                    datasets: [{
+                        label: 'Months Owed by Members',
+                        data: @json($data),
+                        backgroundColor: @json($colors)
+                    }]
+                };
+
+                const config = {
+                    type: 'polarArea',
+                    data: data,
+                    options: {}
+                };
+
+                var ctx = document.getElementById('myPolarAreaChart').getContext('2d');
+                new Chart(ctx, config);
+            });
+        </script>
+        {{-- End Gender-Wise Data Display --}}
+
+
+        {{-- Start Membership Trends Graph --}}
+        <script>
+            // Data for All Memberships
+            var allMembershipsData = {
+                labels: [
+                    @foreach ($yearlyMembershipTrends as $trend)
+                        "{{ $trend->year }}",
+                    @endforeach
+                ],
                 datasets: [{
-                    label: 'Months Owed by Members',
-                    data: @json($data),
-                    backgroundColor: @json($colors)
+                    label: 'All Memberships',
+                    data: [
+                        @foreach ($yearlyMembershipTrends as $trend)
+                            "{{ $trend->count }}",
+                        @endforeach
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
                 }]
             };
 
-            const config = {
-                type: 'polarArea',
-                data: data,
-                options: {}
+            // Data for Active Memberships
+            var activeMembershipsData = {
+                labels: [
+                    @foreach ($yearlyMembershipTrendsActive as $trend)
+                        "{{ $trend->year }}",
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Active Memberships',
+                    data: [
+                        @foreach ($yearlyMembershipTrendsActive as $trend)
+                            "{{ $trend->count }}",
+                        @endforeach
+                    ],
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
             };
 
-            var ctx = document.getElementById('myPolarAreaChart').getContext('2d');
-            new Chart(ctx, config);
-        });
-    </script>
-    {{-- End Gender-Wise Data Display --}}
-
-
-    {{-- Start Membership Trends Graph --}}
-    <script>
-        // Data for All Memberships
-        var allMembershipsData = {
-            labels: [
-                @foreach ($yearlyMembershipTrends as $trend)
-                    "{{ $trend->year }}",
-                @endforeach
-            ],
-            datasets: [{
-                label: 'All Memberships',
-                data: [
-                    @foreach ($yearlyMembershipTrends as $trend)
-                        "{{ $trend->count }}",
-                    @endforeach
-                ],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        };
-
-        // Data for Active Memberships
-        var activeMembershipsData = {
-            labels: [
-                @foreach ($yearlyMembershipTrendsActive as $trend)
-                    "{{ $trend->year }}",
-                @endforeach
-            ],
-            datasets: [{
-                label: 'Active Memberships',
-                data: [
-                    @foreach ($yearlyMembershipTrendsActive as $trend)
-                        "{{ $trend->count }}",
-                    @endforeach
-                ],
-                backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                borderColor: 'rgba(255, 206, 86, 1)',
-                borderWidth: 1
-            }]
-        };
-
-        // Data for Deleted Memberships
-        var deletedMembershipsData = {
-            labels: [
-                @foreach ($yearlyMembershipTrendsDeleted as $trend)
-                    "{{ $trend->year }}",
-                @endforeach
-            ],
-            datasets: [{
-                label: 'Deleted Memberships',
-                data: [
+            // Data for Deleted Memberships
+            var deletedMembershipsData = {
+                labels: [
                     @foreach ($yearlyMembershipTrendsDeleted as $trend)
-                        "{{ $trend->count }}",
+                        "{{ $trend->year }}",
                     @endforeach
                 ],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        };
+                datasets: [{
+                    label: 'Deleted Memberships',
+                    data: [
+                        @foreach ($yearlyMembershipTrendsDeleted as $trend)
+                            "{{ $trend->count }}",
+                        @endforeach
+                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
 
-        // Create the charts
-        new Chart(document.getElementById('allMembershipsChart'), {
-            type: 'line',
-            data: allMembershipsData
-        });
+            // Create the charts
+            new Chart(document.getElementById('allMembershipsChart'), {
+                type: 'line',
+                data: allMembershipsData
+            });
 
-        new Chart(document.getElementById('activeMembershipsChart'), {
-            type: 'line',
-            data: activeMembershipsData
-        });
+            new Chart(document.getElementById('activeMembershipsChart'), {
+                type: 'line',
+                data: activeMembershipsData
+            });
 
-        new Chart(document.getElementById('deletedMembershipsChart'), {
-            type: 'line',
-            data: deletedMembershipsData
-        });
-    </script>
-    {{-- End Membership Trends Graph --}}
+            new Chart(document.getElementById('deletedMembershipsChart'), {
+                type: 'line',
+                data: deletedMembershipsData
+            });
+        </script>
+        {{-- End Membership Trends Graph --}}
 
-    {{-- Start Filter Date Pickers --}}
-    <script>
-        $("#kt_datepicker_1").flatpickr();
-        $("#kt_datepicker_2").flatpickr();
-    </script>
-    {{-- End Filter Date Pickers --}}
+        {{-- Start Filter Date Pickers --}}
+        <script>
+            $("#kt_datepicker_1").flatpickr();
+            $("#kt_datepicker_2").flatpickr();
+        </script>
+        {{-- End Filter Date Pickers --}}
 
-    {{-- Start Gender-Wise Owing Chart --}}
+        {{-- Start Gender-Wise Owing Chart --}}
 
-    {{-- End Gender-Wise Owing Chart --}}
+        {{-- End Gender-Wise Owing Chart --}}
 
-    {{-- Start Gender-Wise Graph --}}
+        {{-- Start Gender-Wise Graph --}}
 
-    {{-- End Gender-Wise Graph --}}
+        {{-- End Gender-Wise Graph --}}
 
-    <!--begin::Vendors Javascript(used for this page only)-->
-    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/plugins/custom/vis-timeline/vis-timeline.bundle.js') }}"></script>
-    <!--end::Vendors Javascript-->
-    <!--begin::Custom Javascript(used for this page only)-->
-    <script src="{{ asset('assets/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
-    <!--end::Custom Javascript-->
-    <!--end::Javascript-->
-    <!--end::Custom Javascript-->
+        <!--begin::Vendors Javascript(used for this page only)-->
+        <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+        <script src="{{ asset('assets/plugins/custom/vis-timeline/vis-timeline.bundle.js') }}"></script>
+        <!--end::Vendors Javascript-->
+        <!--begin::Custom Javascript(used for this page only)-->
+        <script src="{{ asset('assets/js/widgets.bundle.js') }}"></script>
+        <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
+        <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
+        <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
+        <!--end::Custom Javascript-->
+        <!--end::Javascript-->
+        <!--end::Custom Javascript-->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let draggables = document.querySelectorAll('.draggable-item');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let draggables = document.querySelectorAll('.draggable-item');
 
-            draggables.forEach(draggable => {
-                draggable.addEventListener('dragstart', function(event) {
-                    event.dataTransfer.setData("text/plain", event.target.id);
+                draggables.forEach(draggable => {
+                    draggable.addEventListener('dragstart', function(event) {
+                        event.dataTransfer.setData("text/plain", event.target.id);
+                    });
+                });
+
+                let container = document.getElementById('drag-container');
+                container.addEventListener('dragover', function(event) {
+                    event.preventDefault();
+                });
+
+                container.addEventListener('drop', function(event) {
+                    event.preventDefault();
+                    let data = event.dataTransfer.getData("text");
+                    let droppedElement = document.getElementById(data);
+                    container.appendChild(droppedElement);
+                    // Call function to update order in backend
+                    updateOrderOnBackend(droppedElement.id);
                 });
             });
 
-            let container = document.getElementById('drag-container');
-            container.addEventListener('dragover', function(event) {
-                event.preventDefault();
-            });
-
-            container.addEventListener('drop', function(event) {
-                event.preventDefault();
-                let data = event.dataTransfer.getData("text");
-                let droppedElement = document.getElementById(data);
-                container.appendChild(droppedElement);
-                // Call function to update order in backend
-                updateOrderOnBackend(droppedElement.id);
-            });
-        });
-
-        function updateOrderOnBackend(itemId) {
-            // AJAX request to Laravel backend
-            // Example: axios.post('/update-order', { itemId: itemId })
-        }
-    </script>
-@endpush
+            function updateOrderOnBackend(itemId) {
+                // AJAX request to Laravel backend
+                // Example: axios.post('/update-order', { itemId: itemId })
+            }
+        </script>
+    @endpush

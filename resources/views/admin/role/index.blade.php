@@ -7,7 +7,7 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif
-                    <div class="row row-cols-3 row-cols-md-3 row-cols-xl-3 g-5 g-xl-9" id="datatable-roles">
+                    <div class="row row-cols-4 row-cols-xl-4 g-2 g-xl-5 bg-info" id="datatable-roles" style="background-color: #0FA4AF !important;">
                         @foreach ($roles as $role)
                             <!--begin::Col-->
                             <div class="col-3">
@@ -47,7 +47,7 @@
                                             <form action="{{ route('role.destroy', $role->id) }}" method="POST">
                                                 @can('role edit')
                                                     <a href="{{ route('role.edit', $role->id) }}"
-                                                        class="btn bg-gba my-1 me-2">
+                                                        class="btn bg-info-subtle my-1 me-2">
 
                                                         {{ __('Edit Role') }}
                                                     </a>
@@ -71,11 +71,11 @@
                         <!--begin::Add new card-->
                         <div class="col-3">
                             <!--begin::Card-->
-                            <div class="card h-md-100 bg-gba border">
+                            <div class="card h-md-100 bg-info-subtle border">
                                 <!--begin::Card body-->
                                 <div class="card-body d-flex flex-center">
                                     <!--begin::Button-->
-                                    <button type="button" class="btn btn-clear d-flex flex-column flex-center"
+                                    <button type="button" class="btn btn-info-subtle d-flex flex-column flex-center opacity-80"
                                         data-bs-toggle="modal" data-bs-target="#kt_modal_add_role">
                                         <!--begin::Illustration-->
                                         <img src="{{ asset('img/newRole.png') }}" alt=""
@@ -83,7 +83,7 @@
 
                                         <!--end::Illustration-->
                                         <!--begin::Label-->
-                                        <div class="fw-bold fs-3 text-gray-600 text-hover-primary">
+                                        <div class="fw-bold fs-3 text-dark text-hover-primary bg-dark p-3 rounded">
                                             @can('role create')
                                                 <a href="{{ route('role.create') }}">{{ __('Add Role') }}</a>
                                             @endcan

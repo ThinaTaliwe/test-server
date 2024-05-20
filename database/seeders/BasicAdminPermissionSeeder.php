@@ -32,7 +32,7 @@ class BasicAdminPermissionSeeder extends Seeder
             'user delete'
          ];
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'writer']);

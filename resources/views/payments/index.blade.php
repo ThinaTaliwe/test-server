@@ -51,7 +51,7 @@
                                                         class="additional-css-classes pt-2" />
                                                     <!--end::User-->
                                                     <div class="mt-2 p-1 text-center">
-                                                        <a href="#" class="btn btn-flex bg-gba" data-bs-toggle="modal"
+                                                        <a href="#" class="btn btn-flex bg-gba-light" data-bs-toggle="modal"
                                                             data-bs-target="#membershipInfoModal{{ $membership->id }}">
                                                             <i class="ki-duotone ki-book-open fs-2x"><span
                                                                     class="path1"></span><span class="path2"></span></i>
@@ -154,7 +154,7 @@
                                                 <div class="table-responsive">
                                                     <table
                                                         class="table align-middle gy-4 gs-9 themed-table border border-solid">
-                                                        <thead class="border border-gba bg-gba">
+                                                        <thead class="border border-gba bg-gba-light">
                                                             <tr>
                                                                 <th class="min-w-150px">Date</th>
                                                                 <th class="min-w-250px">Amount Paid</th>
@@ -164,7 +164,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="fw-semibold bg-gba-light border border-gba">
-                                                            <tr>
+                                                            {{-- <tr>
                                                                 <td>2023-01-15</td>
                                                                 <td>R100.00</td>
                                                                 <td>R200.00</td>
@@ -185,7 +185,7 @@
                                                                         class="btn btn-sm btn-active-light-primary bg-info"
                                                                         style="border-radius: 5px;">PDF</a>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> --}}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -413,7 +413,7 @@
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Branch
                                                     Code</label>
                                                 {{-- <input type="text" class="form-control form-control-solid"
-                                        placeholder="Enter Branch Code" name="branch_code" required> --}}
+                                                    placeholder="Enter Branch Code" name="branch_code" required> --}}
                                                 <select class="form-control" name="branch_code" required>
                                                     <option value="">Select Branch Code</option>
                                                     @foreach ($branchCodes as $code)
@@ -553,8 +553,7 @@
 
                                         <!-- Row 2 for Account Number and Account Type -->
                                         <div class="row mb-4">
-
-                                                                                    <!-- Account Holder -->
+                                            <!-- Account Holder -->
                                             <div class="col-md-4 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account Holder</label>
                                                 <input type="text" class="form-control form-control-solid"
@@ -570,7 +569,7 @@
                                             <!-- Account Type -->
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account Type</label>
-                                                <select class="form-select form-select-solid" name="accountType" data-control="select2" data-hide-search="true">
+                                                <select class="form-select" name="accountType" data-control="select2" data-hide-search="true">
                                                     <option value="">Select Account Type</option>
                                                     <option value="checking">Checking</option>
                                                     <option value="savings">Savings</option>

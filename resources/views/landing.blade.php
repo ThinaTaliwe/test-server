@@ -66,6 +66,7 @@
               <input type="button" class="btn btn-primary" onclick="document.location='/register'" value="Join Now">
             </form> --}}
           </div>
+          
         </div>
       </div>
 

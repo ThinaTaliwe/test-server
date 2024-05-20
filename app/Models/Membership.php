@@ -44,6 +44,7 @@ class Membership extends Model
      * @var string
      */
     public $table = 'membership';
+    protected $connection = 'mysql';
 
     use HasFactory, SoftDeletes;
 
@@ -76,5 +77,10 @@ class Membership extends Model
     public function membershipaddress()
     {
         return $this->hasMany(MembershipAddress::class);
+    }
+
+        public function status()
+    {
+        return $this->belongsTo(MembershipStatus::class, 'status_id');
     }
 }

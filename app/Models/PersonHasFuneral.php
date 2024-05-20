@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PersonHasFuneral extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
+    public $table = 'person_has_funerals'; 
 }

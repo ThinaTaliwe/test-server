@@ -14,7 +14,7 @@
     <div class="col-12 col-xxl-12 col-md-12 mb-1 rounded">
 
         <!--begin::Mixed Widget 5-->
-        <div class="card border-gba">
+        <div class="card border-gba shadow-lg">
             <div class="card-body" data-intro="Welcome to main dashboard...This Is Membership Graphical View." data-step="1">
                 <!-- Button container -->
                 <div style="position: absolute; top: 0; right: 0; z-index: 2;" data-intro="Export To An Image Copy" data-step="2">
@@ -32,7 +32,7 @@
     <!--begin::Col-->
     <div class="col-xxl-8 col-md-8 mb-4">
         <!--begin::Mixed Widget 5-->
-        <div class="card border-gba" data-intro="The Services Breakdown." data-step="3">
+        <div class="card border-gba shadow-lg" data-intro="The Services Breakdown." data-step="3">
             <div class="card-body">
                 <div id="kt_amcharts_3" style="height: 500px;"></div>
             </div>
@@ -44,7 +44,7 @@
     <!--begin::Col-->
     <div class="col-xxl-4 col-md-4 mb-4">
         <!--begin::List Widget 5-->
-        <div class="card h-md-100 border-gba" data-intro="The Services Schedule." data-step="4">
+        <div class="card h-md-100 border-gba shadow-lg" data-intro="The Services Schedule." data-step="4">
             <!--begin::Header-->
             <div class="card-header align-items-center border-0 mt-4">
                 <h3 class="card-title align-items-start flex-column">

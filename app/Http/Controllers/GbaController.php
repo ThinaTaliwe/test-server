@@ -24,9 +24,18 @@ use App\Models\PersonHasPerson;
 use App\Models\BuMembershipRegion;
 use App\Models\BuMembershipStatus;
 use App\Models\BuMembershipType;
+use App\Models\MembershipAddress;
+use App\Models\PersonRelationship;
+use App\Models\Gender;
+use App\Models\MarriageStatus;
+
 // use App\Actions\StorePerson;
 use App\Actions\StoreAddress;
-use App\Models\MembershipAddress;
+
+use App\Services\GBA\PersonService;
+use App\Services\GBA\MembershipService;
+
+
 
 use Carbon\Carbon;
 
@@ -35,6 +44,14 @@ use Illuminate\Support\Facades\Log;
 
 class GbaController extends Controller
 {
+    private $personService;
+    private $membershipService;
+
+    public function __construct(PersonService $personService, MembershipService $membershipService)
+    {
+        $this->personService = $personService;
+        $this->membershipService = $membershipService;
+    }
 
     public function showGroupedRecords(Request $request)
 {
@@ -67,13 +84,15 @@ class GbaController extends Controller
     $dropdownBuMemReg = BuMembershipRegion::all();
     $dropdownBuMemSta = BuMembershipStatus::all();
     $dropdownBuMemTyp = BuMembershipType::all();
-    $dropdownGender = DB::table('gender')->get();
+    $relationships = PersonRelationship::all();
+    $genders = Gender::all();
+    $marriageStatuses = MarriageStatus::all();
     $banks = DB::connection('mysql')->table('bank')->get();
     $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
     $accountTypes = DB::connection('mysql')->table('bank_account_type')->get();
     $paymentmethods = DB::connection('mysql')->table('payment_method')->where('bu_id', 7)->get();
 
-    return view('resolutionhub', compact('paginatedItems', 'search', 'dropdownBuMemReg', 'dropdownBuMemSta', 'dropdownBuMemTyp', 'dropdownGender', 'paymentmethods', 'banks', 'accountTypes', 'branchCodes'));
+    return view('resolutionhub', compact('paginatedItems', 'search', 'dropdownBuMemReg', 'dropdownBuMemSta', 'dropdownBuMemTyp', 'paymentmethods', 'banks', 'accountTypes', 'branchCodes','relationships', 'genders', 'marriageStatuses'));
 }
 
 private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
@@ -186,6 +205,8 @@ private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
                 })
                 ->get();
 
+            
+
 
             // Combine duplicates and errors
             $combinedDuplicates = $membershipDuplicates->merge($dependentDuplicates);
@@ -199,6 +220,7 @@ private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
                 'dependents' => $dependents,
                 'deaths' => $deaths,
                 'previousdeaths' => $previousdeaths,
+                
             ];
         }
         return null; // If no main record is found
@@ -215,159 +237,51 @@ private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
         // Handle other actions or default case
     }
 
-    protected function submitActionOne(Request $request, StoreAddress $storeAddress)
+    public function submitActionOne(Request $request, StoreAddress $storeAddress)
     {
         Log::info('Memory Usage at Start: ' . memory_get_usage());
-
         DB::beginTransaction(); // Start the transaction
-
+    
         try {
-
-        // Address Action Method injection
-        $address = $storeAddress->handle($request);
-
-        // Save Main Person
-        $main_person = new Person();
-        $main_person->first_name = $request->first_name;
-        $main_person->initials = $request->initials;
-        $main_person->last_name = $request->last_name;
-        $main_person->screen_name = $request->screen_name;
-        $main_person->id_number = $request->id_number;
-        $main_person->birth_date = $request->birth_date;
-        $main_person->married_status = $request->married_status;
-        $main_person->gender_id  = $request->gender_id;
-        $main_person->residence_country_id  = 197; // Assuming this is static
-
-        $main_person->save(); // Save the main person
-        Log::info('Main person saved', ['id' => $main_person->id]);
-        Log::info('Memory Usage After Saving Main Person: ' . memory_get_usage());
-
-        // Create Membership for Main Person
-        $membership = new Membership();
-        $membership->membership_code = $request->membership_id; // Adjust according to actual field
-        $membership->name = $main_person->first_name; // Assuming you want to use the main person's name
-        $membership->initials = $main_person->initials;
-        $membership->surname = $main_person->last_name;
-        $membership->id_number = $main_person->id_number;
-        $membership->gender_id = $main_person->gender_id;
-        $membership->bu_id = 7;
-        $membership->language_id  = 1;
-        $membership->bu_membership_type_id = 1;
-        $membership->bu_membership_region_id = 1; // Assuming static
-        $membership->bu_membership_status_id = 1; // This should be changed
-        $membership->person_id = $main_person->id;
-        $membership->primary_contact_number = $request->primary_contact_number;
-        $membership->secondary_contact_number = $request->secondary_contact_number;
-        $membership->primary_e_mail_address = $request->primary_e_mail_address;
-        $membership->fee_currency_id = 149; // Assuming static
-        $membership->preferred_payment_method_id = 2; //Set to cash
-
-        $membership->save();
-        Log::info('Membership saved', ['id' => $membership->id]);
-        Log::info('Memory Usage After Saving Membership: ' . memory_get_usage());
-
-         // Membership Has Address
-         $membershipAddress = new MembershipAddress([
-            'membership_id' => $membership->id,
-            'address_id' => $address->id,
-            'adress_type_id' => 1, // 1 = Residential
-            'start_date' => Carbon::today(), // Carbon today
-        ]);
-
-        $membershipAddress->save();
-
-        Log::info('Memory Usage After Committing Main Person and Membership: ' . memory_get_usage());
-
-        $errors = []; // Initialize an array to store potential errors
-
-        // Check if there is at least one dependent's membership ID provided
-        if (!empty($request->dependent_membership_id)) {
-            $dependentMembershipIds = is_array($request->dependent_membership_id) ? $request->dependent_membership_id : [$request->dependent_membership_id];
-            foreach ($request->dependent_membership_id as $index => $membershipId) {
-                if (!empty($membershipId)) { // Additional check to ensure we have a membership ID to process
-
-
-            // Assuming dependent_* arrays are indexed and match with each dependent person
-            foreach ($request->dependent_first_name as $index => $firstName) {
-
-                try {
-                // Save each dependent Person
-                $dependent_person = new Person();
-                $dependent_person->first_name = $firstName;
-                $dependent_person->initials = $request->dependent_initials[$index];
-                $dependent_person->last_name = $request->dependent_last_name[$index];
-                $dependent_person->screen_name = $request->dependent_screen_name[$index];
-                $dependent_person->id_number = $request->dependent_id_number[$index];
-                $dependent_person->birth_date = $request->dependent_birth_date[$index];
-                // $dependent_person->married_status = $request-> something [$index];
-                $dependent_person->gender_id = $request->dependent_gender_id[$index];
-                $dependent_person->residence_country_id = 197;
-
-                $dependent_person->save(); // Save the dependent person
-
-                // Link dependent to the main person in PersonHasPerson
-                $person_has_person = new PersonHasPerson();
-                $person_has_person->primary_person_id = $main_person->id;
-                $person_has_person->secondary_person_id = $dependent_person->id;
-                $person_has_person->person_relationship_id = 1 ; // use this when there is data : $request->dependent_person_relationship_id[$index]
-                $person_has_person->save(); // Save the relationship
-
-                // Create Dependent record
-                $dependent = new Dependent();
-                $dependent->membership_id = $membership->id; // Link to the main person's membership
-                $dependent->person_has_person_id = $person_has_person->id; // Link to the relationship record
-                $dependent->bu_id  = 7; //GBA in 1Office bu 
-                $dependent->membership_code = $membership->membership_code; // Assuming it's the same as main person's
-                $dependent->name = $firstName;
-                $dependent->initials = $request->dependent_initials[$index];
-                $dependent->surname = $request->dependent_last_name[$index];
-                $dependent->id_number = $request->dependent_id_number[$index];
-                $dependent->start_date = $request->dependent_join_date[$index];
-
-                $dependent->save(); // Save the dependent record
-                Log::info("Dependent record saved", ['id' => $dependent->id]);
-
-            } catch (\Exception $e) {
-                Log::error("Error saving dependent $index: " . $e->getMessage());
-                $errors[] = "Error saving dependent $index: " . $e->getMessage();
-                // Consider how to handle partial successes here
-                // I might want to continue, or break and roll back
-            }
-                    }
-                }
-            }
-        }
-        if (!empty($errors)) {
-            // If there are errors, roll back transaction and return with errors
+            $address = $storeAddress->handle($request);
+    
+            // No prefix is used for the main person, hence ''
+            $main_person = $this->personService->createPerson($request, '');
+            $membership = $this->membershipService->createMembership($request, $main_person->id, $address->id);
+    
+            $this->personService->handleDependents($request, $main_person->id, $membership); // Save the dependent person and Link dependent to the main person in PersonHasPerson and also createslink in dependents table
+            
+            $this->personService->handleDeathRecords($request, 'death_'); // Normal deaths
+            $this->personService->handleDeathRecords($request, 'pmp_death_'); // PMP(Previous Main Person) deaths
+    
+            DB::commit();
+            Log::info('All data processed successfully.');
+    
+            $this->markRecordsAsCompleted($request);
+    
+            return redirect()->route('resolutionhub')->with('success', 'Membership and dependents have been successfully saved.');
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->withInput()->withErrors(['custom_error' => $errors]);
+            Log::error('Error in submitActionOne: ' . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors('Error while saving membership and dependents: ' . $e->getMessage());
         }
-
-        DB::commit(); // If everything went well, commit the transaction
-        
-        // Mark the main record as completed
+    }
+    
+    private function markRecordsAsCompleted(Request $request)
+    {
         $mainMembership = GbaMembership::where('membership_id', $request->membership_id)->first();
         if ($mainMembership) {
             $mainMembership->record_completed = 1;
             $mainMembership->save();
         }
-
-        //Mark each dependent as completed
+    
         $dependents = GbaDependent::where('membership_id', $request->membership_id)->get();
         foreach ($dependents as $dependent) {
             $dependent->record_completed = 1;
             $dependent->save();
         }
-
-        Log::info('All data processed.');
-        return redirect()->route('resolutionhub')->with('success', 'Membership and dependents have been successfully saved.');
-    } catch (\Exception $e) {
-        DB::rollBack(); // Roll back on any error
-        Log::error('Error in submitActionOne: ' . $e->getMessage());
-        return redirect()->back()->withInput()->withErrors('Error while saving membership and dependents: ' . $e->getMessage());
     }
-
-    }
+    
     
 
     protected function submitActionTwo(Request $request)
@@ -493,14 +407,14 @@ private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
     
 
     // Dependents Section
-    public function markAsComplete(Request $request, $dependentId)
-    {
-        $dependent = GbaDependent::findOrFail($dependentId);
-        $dependent->record_completed = 1;
-        $dependent->save();
+    // public function markAsComplete(Request $request, $dependentId)
+    // {
+    //     $dependent = GbaDependent::findOrFail($dependentId);
+    //     $dependent->record_completed = 1;
+    //     $dependent->save();
 
-        return response()->json(['success' => true, 'message' => 'Dependent marked as complete.']);
-    }
+    //     return response()->json(['success' => true, 'message' => 'Dependent marked as complete.']);
+    // }
 
     public function removeDependent(Request $request, $dependentId)
     {

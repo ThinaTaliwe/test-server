@@ -186,7 +186,7 @@
                                         <div class="input-group input-group-outline mb-0">
 
                                             <input type="number" class="form-control" name="WorkTelephone"
-                                                id="WorkTelephone" value="{{ $membership->secondaty_contact_number }}"
+                                                id="WorkTelephone" value="{{ $membership->secondary_contact_number }}"
                                                 placeholder="Telephone (Work)">
                                         </div>
                                         {{-- @error('WorkTelephone')
@@ -199,12 +199,13 @@
                                     {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
                                     <div class="col-3 d-flex align-items-center">
                                         <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
-                                                                                                                                                            </div> -->
+                                                                                                                                                                        </div> -->
                                         <div class="input-group input-group-outline ">
 
                                             <input type="text" onkeypress="return isNumberKey(event)"
                                                 class="form-control" name="inputDay" id="inputDay"
                                                 value="{{ dobBreakdown($membership->person->birth_date)->day }}"
+                                                {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}}
                                                 placeholder="DD" maxlength="2" size="2">
                                             {{-- @error('inputDay')
                                                                                             <span class="invalid-feedback" role="alert">
@@ -272,12 +273,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-3">
-                                        <div class="form-group" style="padding-top: 1.5rem; text-align: center;">
+                                    <div class="col-3" style="margin-bottom: 1rem;">
+                                        <div class="form-group" style="padding-top: 1rem; text-align: center;">
                                             {{-- <label for="maritalStatusSelect" class="form-label">Marital Status</label> --}}
                                             {{-- <label class="form-check-label mb-0 me-2 text-dark" for="marital_status">Maritial Status: </label> --}}
 
-                                            <select class="form-select" name="marital_status" id="maritalStatusSelect">
+                                            <select class="form-select pb-3" name="marital_status"
+                                                id="maritalStatusSelect">
                                                 <option value="1"
                                                     {{ $membership->person->married_status == '1' ? 'selected' : '' }}>
                                                     Married</option>
@@ -317,12 +319,11 @@
                                 <!--end::Notice-->
                             </div>
 
-                            <div class="card-body px-3 pt-4 pb-2 bg-secondary rounded mt-4 border-bottom border-gray-200">
+                            <div class="card-body bg-light rounded border-bottom">
                                 <div class="table-responsive p-0">
-                                    <table class="table table-bordered align-middle gy-4 gs-9">
-
-                                        <thead
-                                            class="text-uppercase font-weight-bolder border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
+                                    <h1>Dependants List</h1>
+                                    <table class="table table-bordered border-dark rounded p-0 m-0">
+                                        <thead class="text-uppercase bg-gba-light p-0 m-0">
                                             <tr>
                                                 <th>Name</th>
                                                 <th>ID</th>
@@ -333,20 +334,24 @@
                                                 <th>Manage</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="fw-semibold text-gray-600">
+                                        <tbody class="bg-light p-0 m-0">
                                             @foreach ($dependants as $dependant)
+                                            @php
+                                                        $age = ageFromDOB($dependant->personDep->birth_date); // Ensure you have a method to calculate age from DOB
+                                                    @endphp
                                                 <tr>
                                                     <td>
-                                                        <p class="text-bold text-dark mb-0 fs-4 fw-bold">
-                                                            {{ $dependant->personDep->screen_name }}</p>
+                                                        <p class="text-dark ">
+                                                            {{ $dependant->personDep->screen_name }}
+                                                        </p>
                                                     </td>
                                                     <td>
-                                                        <p class="text-bold text-dark mb-0 fs-4 fw-bold">
+                                                        <p class="text-dark ">
                                                             {{ $dependant->personDep->id_number }}
                                                         </p>
                                                     </td>
                                                     <td>
-                                                        <p class="text-bold text-dark mb-0 fs-4 fw-bold">
+                                                        <p class="text-dark">
                                                             {{ $dependant->personDep->gender_id == 'M' ? 'Male' : ($dependant->personDep->gender_id == 'F' ? 'Female' : 'Other') }}
                                                         </p>
                                                     </td>
@@ -361,47 +366,34 @@
                                                             ];
                                                         @endphp
 
-                                                        <p class="text-bold text-dark mb-0 fs-4 fw-bold">
+                                                        <p class="text-dark ">
                                                             {{ $relationshipNames[$dependant->person_relationship_id] ?? 'Unknown Relationship' }}
                                                         </p>
-
                                                     </td>
                                                     <td>
-                                                        <p class="text-bold text-dark mb-0 fs-4 fw-bold">
+                                                        <p class="text-dark">
                                                             {{ substr($dependant->personDep->birth_date, 0, 10) }}
                                                         </p>
                                                     </td>
-                                                    @php
-                                                        $age = ageFromDOB($dependant->personDep->birth_date); // Ensure you have a method to calculate age from DOB
-                                                    @endphp
-                                                    <td
-                                                        class="text-dark fw-bolder my-8 pt-2 px-2 badge badge {{ changeAgeBackground($age) }}">
-                                                        <span class="text-bold">{{ $age }}</span>
+                                                    <td class="text-light badge badge {{ changeAgeBackground($age) }} mt-2">
+                                                        <span class="text-bold fw-bolder">{{ $age }}</span>
                                                     </td>
                                                     <td class="text-right">
-                                                        <a class="btn btn-sm btn-light btn-active-light-primary"
+                                                        <a class="btn btn-sm btn-danger btn-active-light-primary"
                                                             href="/remove-dependant/{{ $dependant->secondary_person_id }}">Remove</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
-
-
                                     </table>
-                                    <div id="pagination" class="pagination">
-                                        <!-- Pagination buttons will be added here dynamically -->
-                                    </div>
                                 </div>
                             </div>
 
 
                             <!-- Add Dependant Block -->
                             <div class="card mt-5 mb-2 bg-light rounded" id="add-dependant">
-                                {{-- <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                        <div class="shadow-dark border-radius-lg pt-3 pb-2">
-                                            <h6 class="text-white text-capitalize ps-3">Add Dependant</h6>
-                                        </div>
-                                    </div> --}}
+
+                                    <h3 class="mt-6">Add Dependant</h3>
                                 <form id="addDependant" method="POST" action="{{ route('add-dependant.store') }}"
                                     autocomplete="off">
                                     @csrf
@@ -455,7 +447,8 @@
 
                                         <div class="row ">
                                             <div class="col-4">
-                                                <div class="py-2 pt-4 col d-flex justify-content-center align-items-center mx-auto">
+                                                <div
+                                                    class="py-2 pt-4 col d-flex justify-content-center align-items-center mx-auto">
                                                     <div id="inputDayDepDiv"
                                                         class="input-group input-group-outline @error('inputDayDep') is-invalid @enderror">
 
@@ -484,7 +477,8 @@
                                                         @enderror
                                                     </div>
                                                     <span class="px-2">/</span>
-                                                    <div id="inputYearDepDiv" class="input-group input-group-outline @error('inputYearDep') is-invalid @enderror">
+                                                    <div id="inputYearDepDiv"
+                                                        class="input-group input-group-outline @error('inputYearDep') is-invalid @enderror">
 
                                                         <input type="text" onkeypress="return isNumberKey(event)"
                                                             class="form-control" name="inputYearDep" id="inputYearDep"
@@ -501,20 +495,23 @@
                                                         id="mainMemberId" value="{{ $membership->person_id }}">
                                                 </div>
                                             </div>
-<div class="col-4" style="margin-top: 15px; text-align: center;">
-    {{-- <label for="relationCodeSelect" class="form-label">Relationship</label> --}}
-    <select class="form-select" name="radioRelationCode" id="relationCodeSelect">
-        <option value="1" selected>1 - Wife / Husband</option>
-        <option value="2">2 - Child</option>
-    </select>
-</div>
-<div class="col-4" style="margin-top: 15px; text-align: center;">
-    {{-- <label for="genderDepSelect" class="form-label">Gender</label> --}}
-    <select class="form-select" name="radioGenderDep" id="genderDepSelect">
-        <option value="M" selected>Male</option>
-        <option value="F">Female</option>
-    </select>
-</div>
+                                            <div class="col-4" style="margin-top: 15px; text-align: center;">
+                                                {{-- <label for="relationCodeSelect" class="form-label">Relationship</label> --}}
+                                                <select class="form-select" name="radioRelationCode"
+                                                    id="relationCodeSelect">
+                                                    <option>select relationship</option>
+                                                    <option value="1" selected>1 - Wife / Husband</option>
+                                                    <option value="2">2 - Child</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4" style="margin-top: 15px; text-align: center;">
+                                                {{-- <label for="genderDepSelect" class="form-label">Gender</label> --}}
+                                                <select class="form-select" name="radioGenderDep" id="genderDepSelect">
+                                                    <option>select gender</option>
+                                                    <option value="M" selected>Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
 
                                         </div>
 
@@ -558,19 +555,48 @@
                                         <div class="card-body pt-4 p-3">
                                             <ul class="list-group">
                                                 <h1>Membership Addresses</h1>
-                                                <table class="table-bordered mt-4" id="addressesTable">
+                                                <table
+                                                    class="table table-bordered mt-4 bg-light bg-blend-lighten border-dark rounded-3"
+                                                    id="addressesTable">
                                                     <thead>
-                                                        <tr class="bg-gba-light">
+                                                        <tr class="bg-gba-light text-dark">
                                                             <th>ID</th>
-                                                            <th>Membership ID</th>
-                                                            <th>Address ID</th>
-                                                            <th>Start Date</th>
-                                                            <th>Created At</th>
+                                                            <th>Street</th>
+                                                            <th>Suburb</th>
+                                                            <th>City</th>
+                                                            <th>ZIP</th>
+                                                            <th>District</th>
+                                                            <th>Province</th>
+                                                            <th>Created</th>
                                                             <th>Manage</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <!-- Data will be inserted here dynamically -->
+                                                        <!-- Data will be fetched and displayed here -->
+                                                        @foreach ($addresses as $address)
+                                                            <tr>
+                                                                <td>{{ $address->id }}</td>
+                                                                <td>{{ $address->line1 }}</td>
+                                                                <td>{{ $address->suburb }}</td>
+                                                                <td>{{ $address->city }}</td>
+                                                                <td>{{ $address->ZIP }}</td>
+                                                                <td>{{ $address->district }}</td>
+                                                                <td>{{ $address->province }}</td>
+                                                                <td>{{ $address->created_at }}</td>
+                                                                <td>
+                                                                    {{-- <button onclick="deleteAddress({{ $address->id }})" class="btn btn-danger">Delete</button> --}}
+                                                                    <form id="delete-address-form"
+                                                                        action="/delete-address/{{ $address->id }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-sm btn-danger"
+                                                                            onclick="return confirm('Are you sure you want to delete this address?')">Delete</button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
 
@@ -724,72 +750,81 @@
                         <div class="tab-pane fade" id="payments">
                             <h2>Payments Content</h2>
                             <div class="pb-10 pb-lg-15">
-                                <!--begin::Notice-->
-                                <div class="text-dark fw-semibold fs-6">See all your payment details.</div>
-                                <!--end::Notice-->
 
-                                <!--begin::Billing History-->
-                                <div class="card mt-9 bg-secondary">
-                                    <!--begin::Card header-->
-                                    <div class="card-header card-header-stretch border-bottom border-gray-200">
-                                        <!--begin::Title-->
-                                        <div class="card-title">
-                                            {{-- <h3 class="fw-bold m-0">Billing History</h3> --}}
+                                <!-- Payment Details Modal Start -->
+
+                                <div id="payments">
+                                    {{-- <h2 class="text-center">Payments Content</h2> --}}
+                                    <p class="text-dark fw-semibold fs-6 text-center">See all your payment details.</p>
+                                    <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
+                                        <div class="table-responsive p-0">
+                                            <table
+                                                class="table table-bordered align-items-center justify-content-center border mb-4 bg-gba-light"
+                                                id="datatable-billing">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-uppercase font-weight-bolder">Bill ID</th>
+                                                        <th class="text-uppercase font-weight-bolder">Date Issued</th>
+                                                        <th class="text-uppercase font-weight-bolder">Amount</th>
+                                                        <th class="text-uppercase font-weight-bolder">Status</th>
+                                                        <th class="text-uppercase font-weight-bolder">Due Date</th>
+                                                        <th class="text-uppercase font-weight-bolder">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (empty($billings))
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">
+                                                                <div class="alert alert-danger" role="alert">
+                                                                    This membership does not have any billing history.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @else
+                                                        @foreach ($billings as $billing)
+                                                            @if ($billing->membership_id == $membership->id)
+                                                                <tr>
+                                                                    <td>{{ $billing->id }}</td>
+                                                                    <td>{{ $billing->transaction_date }}</td>
+                                                                    <td>{{ number_format($billing->receipt_value, 2) }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge {{ $billing->transaction_description == 'paid' ? 'bg-success' : 'bg-warning' }}">
+                                                                            {{ ucfirst($billing->transaction_description) }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>{{ $billing->created_at }}</td>
+                                                                    <td>
+                                                                        {{-- <a class="btn btn-link text-primary text-gradient"
+                                                                            href="/view-bill/{{ $billing->id }}">
+                                                                            <i
+                                                                                class="material-icons text-sm">visibility</i>View
+                                                                        </a> --}}
+                                                                        <form id="delete-billing-form"
+                                                                        action="/delete-billing/{{ $billing->id }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-sm btn-danger"
+                                                                            onclick="return confirm('Are you sure you want to delete this billing?')"><i
+                                                                                class="material-icons text-sm">delete_outline</i>Remove</button>
+                                                                    </form>
+
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <!--end::Title-->
-
                                     </div>
-                                    <!--end::Card header-->
-                                    <!--begin::Tab Content-->
-                                    <div class="tab-content">
-                                        <!--begin::Tab panel-->
-                                        <div id="kt_billing_months" class="card-body p-0 tab-pane fade show active"
-                                            role="tabpanel" aria-labelledby="kt_billing_months">
-                                            <!--begin::Table container-->
-                                            <div class="table-responsive">
-                                                <!--begin::Table-->
-                                                <table class="table table-row-bordered align-middle gy-4 gs-9">
-                                                    <thead
-                                                        class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75">
-                                                        {{-- <tr>
-                                                            <td class="min-w-150px">Date</td>
-                                                            <td class="min-w-250px">Description</td>
-                                                            <td class="min-w-150px">Amount</td>
-                                                            <td class="min-w-150px">Invoice</td>
-                                                            <td></td>
-                                                        </tr> --}}
-                                                    </thead>
-                                                    <tbody class="fw-semibold text-gray-600">
-                                                        <!--begin::Table row-->
-                                                        {{-- <tr>
-                                                        <td>Jun 17, 2020</td>
-                                                        <td>Debit Order</td>
-                                                        <td>R523.09</td>
-                                                        <td>
-                                                            <a href="#"
-                                                               class="btn btn-sm btn-light btn-active-light-primary">PDF</a>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <a href="#"
-                                                               class="btn btn-sm btn-light btn-active-light-primary">View</a>
-                                                        </td>
-                                                    </tr> --}}
-                                                        <!--end::Table row-->
-                                                    </tbody>
-                                                </table>
-                                                <!--end::Table-->
-                                            </div>
-                                            <!--end::Table container-->
-                                        </div>
-                                        <!--end::Tab panel-->
-
-                                    </div>
-                                    <!--end::Tab Content-->
-
-                                    <!-- Loop through memberships -->
-
                                 </div>
-                                <!--end::Billing Address-->
+                                <!-- Payment Details Modal End -->
+
+
 
                             </div>
 
@@ -858,7 +893,8 @@
         });
     </script>
 
-    <script>
+
+    {{-- <script>
         var membershipId = {{ $membership->id }};
         var deletedRecords = []; // Array to store IDs of deleted records
 
@@ -884,14 +920,9 @@
                                             if (confirm(
                                                     "Are you sure you want to delete this record?"
                                                 )) {
-                                                var itemId = $(this).closest('tr').find(
-                                                        'td:first')
-                                                    .text(); // Get the ID of the record to delete
-                                                deletedRecords.push(
-                                                    itemId); // Store the deleted record ID
-                                                console.log("Deleted record ID: " +
-                                                    itemId
-                                                ); // Log the ID of the deleted record
+                                                var itemId = $(this).closest('tr').find('td:first').text(); // Get the ID of the record to delete
+                                                deletedRecords.push(itemId); // Store the deleted record ID
+                                                console.log("Deleted record ID: " + itemId); // Log the ID of the deleted record
                                                 $(this).closest('tr').remove();
                                                 // Add AJAX call to delete the record from the server here if needed
                                                 $.ajax({
@@ -914,7 +945,7 @@
                                                         textStatus, errorThrown
                                                     ) {
                                                         console.log(
-                                                            "Failed to delete record: " +
+                                                            "Failed to delete record... " + "Status: " +
                                                             textStatus +
                                                             ", " +
                                                             errorThrown);
@@ -933,5 +964,42 @@
                 }
             });
         });
+    </script> --}}
+
+    {{-- Start script to populate they table for billing --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var paymentModal = document.getElementById('kt_modal_stacked_4');
+
+            paymentModal.addEventListener('shown.bs.modal', function() {
+                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.getElementById('billingHistoryBody');
+                        tbody.innerHTML = ''; // Clear existing rows
+                        if (data && data.length > 0) {
+                            data.forEach(payment => {
+                                const row = `<tr>
+                            <td>${payment.date}</td>
+                            <td>${payment.description}</td>
+                            <td>${payment.amount}</td>
+                            <td><a href="#" target="_blank">View</a></td>
+                        </tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        } else {
+                            tbody.innerHTML =
+                                '<tr><td colspan="4" class="text-center">No payment details available</td></tr>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading the payment data:', error);
+                        const tbody = document.getElementById('billingHistoryBody');
+                        tbody.innerHTML =
+                            '<tr><td colspan="4" class="text-center">Failed to load data</td></tr>';
+                    });
+            });
+        });
     </script>
+    {{-- End script to populate they table for billing --}}
 @endpush

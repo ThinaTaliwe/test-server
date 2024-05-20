@@ -3,6 +3,7 @@
  * PHP version 9
  *
  * @author    Siyabonga Alexander Mnguni <alexmnguni57@gmail.com>
+ * @author    Thina Taliwe <thina.taliwe2@gmail.com>
  * @copyright 2023 1Office
  * @license   MIT License
  * @link      https://github.com/alexmnguni57/1Office-GBA
@@ -27,22 +28,48 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MembershipsExport;
+
 class MembershipsController extends Controller
 {
+
+    public $statuses = [
+        1 => 'Active',
+        2 => 'Inactive',
+        3 => 'Suspended',
+        // Add other statuses as needed
+    ];
+
     public function index(Request $request)
     {
-        $memberships = Membership::all()->sortByDesc('created_at')->values();
-        // Check if memberships collection is empty
-        if ($memberships->isEmpty()) {
-            // If the database is empty, provide an appropriate response to the user
-            return view('emptyPage');
+        $query = Membership::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', "%{$request->search}%")
+                  ->orWhere('surname', 'like', "%{$request->search}%")
+                  ->orWhere('id_number', 'like', "%{$request->search}%");
         }
 
-        $membership = Membership::where('id', $request->id)->first();
-        // $dependants = Dependant::where('primary_person_id', $membership->person_id)->get();
-         //dd($memberships);
+        $statuses = [
+        1 => 'Active',
+        2 => 'Inactive',
+        3 => 'Suspended',
+        // Add other statuses as needed
+    ];
+        //$numberOfMemberships = $query->count();
+        $memberships = $query->orderBy('name')->paginate();
 
-        return view('memberships', ['memberships' => $memberships]);
+        //dd($memberships);
+        return view('memberships', [
+            'memberships' => $memberships,
+            'statuses' => $statuses
+        ]);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new MembershipsExport($this->statuses), 'memberships.xlsx');
     }
 
     public function create()
@@ -183,6 +210,7 @@ class MembershipsController extends Controller
     public function show($id, Request $request)
     {
         $membership = Membership::where('id', $id)->first();
+        //dd($membership);
 
         $dependants = Dependant::where('primary_person_id', $membership->person_id)->get();
 
@@ -215,48 +243,62 @@ class MembershipsController extends Controller
         // foreach ($membership->membershipaddress as $memaddress) {
         //     $addresses = Address::where('id', $memaddress->membership_id)->get();
         // }
-        
+
         $addresses = $membership->address;
+        //dd($addresses);
 
         $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
-        //dd($memAdd);
 
         $disabled = '';
 
         $genders = DB::select('select * from gender');
-        
-        $marriages = DB::select('select * from marriage_status');
-        //dd($membership);
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages])->with('success', 'Updated Successfully!!!!!');
+        $marriages = DB::select('select * from marriage_status');
+
+        $billings = DB::select('select * from membership_payment_receipts');
+
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings])->with('success', 'Updated Successfully!!!!!');
     }
 
     /**
+     *
      * A delete by id function
      *
      * @param  mixed $id
      * @return void
+     *
      */
     public function delete($id)
     {
-        $memId = Membership::where('id', $id)->first();
+        $memId = Membership::with(['person.dependant'])
+            ->where('id', $id)
+            ->first();
 
-        //This deletes the membership
+        if (!$memId) {
+            return 'Membership not found';
+        }
+
+        // Access the person related to the membership
+        $person = $memId->person;
+
+        if ($person) {
+            // Soft delete all dependants
+            foreach ($person->dependant as $dependent) {
+                $dependentPerson = Person::find($dependent->secondary_person_id);
+                if ($dependentPerson) {
+                    $dependentPerson->delete();
+                }
+            }
+
+            // Soft delete the main person
+            $person->delete();
+        }
+
+        // Soft delete the membership
         $memId->delete();
 
-        //This deletes the main person who the membership belongs to
-        $memId->person->delete();
-
-        //This gets all the dependants and deletes them
-        $deps = $memId->person->dependant;
-
         //This must delete all addresses that belongs to the person
-
-        // Add Code
-
-        foreach ($deps as $dep) {
-            Person::where('id', $dep->secondary_person_id)->delete();
-        }
+        //TODO: Add Code for deleting an address
 
         return redirect()->back()->withSuccess('Membership Has Been Cancelled!');
     }
@@ -265,5 +307,22 @@ class MembershipsController extends Controller
     {
         $memberships = Membership::all()->sortByDesc('created_at')->values();
         return response()->json($memberships);
+    }
+
+    public function deleteAddress($id)
+    {
+        $address = Address::where('id', $id)->first();
+        $address->delete();
+
+        return redirect()->back()->withSuccess('Address Has Been deleted!');
+    }
+
+    public function deleteBilling($id)
+    {
+        $billings = DB::table('membership_payment_receipts')->where('id', $id)->delete();
+        //          dd($billings);
+        //        $address = Address::where('id', $id)->first();
+
+        return redirect()->back()->withSuccess('Billing Has Been deleted!');
     }
 }
