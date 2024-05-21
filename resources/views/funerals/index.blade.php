@@ -289,78 +289,65 @@
     
        </div>
             <!--end::Wrapper-->
-
-                            <table id="funerals" class="table   border rounded table-row-dashed fs-6 g-5 gs-5 " style="width:100%; background-color: #ffffff">
-                                
-                                <thead>
-                                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-                                        <th>Full Name</th>
-                                        <th>Intials</th>
-                                        <th>ID number</th>
-                                        <th>Status</th>
-                                        <th>Death date</th>
-                                        <th>Membership ID</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>T.N</td>
-                                        <td>61</td>
-                                        <td><div class="badge py-3 px-4 fs-7 badge-light-success">Completed</div></td>
-                                        <td>2011-04-25</td>
-                                        <td>320800</td>
-                                        <td>
-                                            <a href="#" class="btn btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement"><i class="bi bi-plus-lg fs-4 me-0" ></i></a>
-                                            <a href="funerals/create" class="btn btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="bi bi-pencil-fill fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove"><i class="bi bi-trash3 fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial"><i class="bi bi-repeat fs-4 me-0"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>G.W</td>
-                                        <td>63</td>
-                                        <td><div class="badge py-3 px-4 fs-7 badge-light-danger">Pending</div></td>
-                                        <td>2011-07-25</td>
-                                        <td>170750</td>
-                                        <td>
-                                            <a href="#" class="btn btn-icon btn-success"><i class="bi bi-plus-lg fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-warning"><i class="bi bi-pencil-fill fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-danger"><i class="bi bi-trash3 fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-dark"><i class="bi bi-repeat fs-4 me-0"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>A.C</td>
-                                        <td>66</td>
-                                        <td><div class="badge py-3 px-4 fs-7 badge-light-success">Completed</div></td>
-                                        <td>2009-01-12</td>
-                                        <td>86000</td>
-                                        <td>
-                                            <a href="#" class="btn btn-icon btn-success"><i class="bi bi-plus-lg fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-warning"><i class="bi bi-pencil-fill fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-danger"><i class="bi bi-trash3 fs-4 me-0"></i></a>
-                                            <a href="#" class="btn btn-icon btn-dark"><i class="bi bi-repeat fs-4 me-0"></i></a>
-                                        </td>
-                                    </tr>
-  
-                                    
-                                </tbody>
-                                <tfoot>
-                                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-                                        <th>Full Name</th>
-                                        <th>Intials</th>
-                                        <th>ID number</th>
-                                        <th>Status</th>
-                                        <th>Death date</th>
-                                        <th>Membership ID</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </tfoot>
-                            </table>                   
+            <table id="funerals" class="table border rounded table-row-dashed fs-6 g-5 gs-5" style="width:100%; background-color: #ffffff">
+                <thead>
+                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
+                        <th>Full Name</th>
+                        <th>Initials</th>
+                        <th>ID Number</th>
+                        <th>Status</th>
+                        <th>Death Date</th>
+                        <th>Membership ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($deceased_people as $person)
+                        <tr>
+                            <td>{{ $person->full_name }}</td>
+                            <td>{{ $person->initials }}</td>
+                            <td>{{ $person->id_number }}</td>
+                            <td>
+                                <div class="badge py-3 px-4 fs-7 {{ $person->status == 'Completed' ? 'badge-light-success' : 'badge-light-danger' }}">
+                                    {{ $person->status }}
+                                </div>
+                            </td>
+                            <td>{{ $person->death_date }}</td>
+                            <td>{{ $person->membership_id }}</td>
+                            <td>
+                                <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                                    <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                </a>
+                                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                </a>
+                                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                                        <i class="bi bi-trash3 fs-4 me-0"></i>
+                                    </button>
+                                </form>
+                                <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
+                                    <i class="bi bi-repeat fs-4 me-0"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
+                        <th>Full Name</th>
+                        <th>Initials</th>
+                        <th>ID Number</th>
+                        <th>Status</th>
+                        <th>Death Date</th>
+                        <th>Membership ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+            </table>
+                             
                         </div>
 
 

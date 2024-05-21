@@ -26,16 +26,18 @@ class FuneralController extends Controller
      */
     public function index()
     {
-        $memberships = Membership::with(['person.dependant.secondaryPerson', 'person.dependant.relationshipType', 'person'])->get();
+        $deceased_people = Person::where('deceased', 1)->get();
 
-        return view('funerals.index', compact('memberships'));
+    
+        return view('funerals.index', compact('deceased_people'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
+        $deceased_person = Person::findOrFail($id);
         // Fetch the 'Church' address type ID
         $churchTypeId = AddressType::where('name', 'Church')->first()->id ?? null;
 
@@ -57,7 +59,7 @@ class FuneralController extends Controller
             'person'
             ])->get();
 
-        return view('funerals.create', compact('churches','graveyards','memberships', 'banks'));
+        return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person'));
     }
 
     /**

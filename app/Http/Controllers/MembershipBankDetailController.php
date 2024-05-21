@@ -22,7 +22,6 @@ class MembershipBankDetailController extends Controller
             'account_name' => 'required|string|max:255',
             'account_number' => 'required|string|max:255',
             'branch_code' => 'required|string|max:255',
-            'membership_code' => 'required|string|max:255',
             'debit_orders_per_year' => 'required|integer',
         ]);
 
@@ -78,7 +77,7 @@ class MembershipBankDetailController extends Controller
 
         $paymentReceipt = new MembershipPaymentReceipt($validatedData);
         $paymentReceipt->save();
-
+        
         // Redirect or return a response after saving
         return redirect()->back()->withSuccess('Payment details saved successfully.');
     }
@@ -100,31 +99,33 @@ class MembershipBankDetailController extends Controller
 
         $paymentReceipt = new MembershipPaymentReceipt($validatedData);
         $paymentReceipt->save();
+        //dd($paymentReceipt);
 
         return redirect()->back()->withSuccess('Data Via Payment Details Submitted Successfully');
     }
 
-        public function saveEFTDetails(Request $request)
+    public function saveEFTDetails(Request $request)
     {
-    // Validate the incoming data
-    $validated = $request->validate([
-        'membership_id' => 'required|integer',
-        'accountHolder' => 'required',
-        'receipt_value' => 'required|numeric',
-        'bankName' => 'required|string',
-        'branchCode' => 'required|numeric',
-        'transaction_description' => 'required|numeric',
-        'bu_id' => 'required|integer',
-        'transaction_type_id' => 'required|integer',
-        'payment_method_id' => 'required|integer',
-        'currency_id' => 'required|integer',
-        'accountType' => 'required|string'
-    ]);
-
+        // Validate the incoming data
+        $validated = $request->validate([
+            'membership_id' => 'required|integer',
+            'accountHolder' => 'required',
+            'receipt_value' => 'required|numeric',
+            'bankName' => 'required|string',
+            'branchCode' => 'required|numeric',
+            'transaction_description' => 'required|numeric',
+            'bu_id' => 'required|integer',
+            'transaction_type_id' => 'required|integer',
+            'payment_method_id' => 'required|integer',
+            'currency_id' => 'required|integer',
+            'accountType' => 'required|string',
+            'transaction_date' => 'required|date',
+            'receipt_number' => 'required|string|max:255',
+        ]);
 
         $paymentReceipt = new MembershipPaymentReceipt($validated);
         $paymentReceipt->save();
-
+        //dd($paymentReceipt);
 
         return redirect()->back()->withSuccess('EFT Payment Details Submitted Successfully');
     }

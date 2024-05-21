@@ -52,7 +52,6 @@ class DeathController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    use Illuminate\Support\Facades\Log;
 
     public function store(Request $request)
     {
@@ -130,7 +129,7 @@ class DeathController extends Controller
             $deceased_person->id_number = $request->deceased_id_number;
             $deceased_person->birth_date = $request->deceased_birth_date;
             $deceased_person->married_status = $request->deceased_marital_status;
-            $deceased_person->deceased_sex = $request->deceased_sex;
+            $deceased_person->gender_id = $request->deceased_sex;
             $deceased_person->deceased = 1;
             $deceased_person->deceased_date = $request->deceased_date_of_death;
             $deceased_person->save();

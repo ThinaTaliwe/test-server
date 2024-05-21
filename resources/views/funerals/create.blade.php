@@ -251,7 +251,7 @@
                     <!--begin::Body-->
                     <div class="card-body py-8">
                         <div class="">
-                            <h3>Person Name</h3>
+                            <h3>{{ $deceased_person->first_name | $deceased_person->initials | $deceased_person->last_name }}</h3>
                                  
                         </div>              
                     </div>

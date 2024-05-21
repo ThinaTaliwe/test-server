@@ -21,8 +21,7 @@ class PaymentController extends Controller
             ->get();
 
         // Fetch memberships and their payments. Assuming each membership is linked to a subscription payment via `subscription_invoice_id`
-        $membershipsBillings = DB::connection('mysql')->table('subscription_payments')->select('id', 'subscription_invoice_id', 'amount_paid', 'payment_date')
-                ->orderBy('payment_date', 'desc')->get();
+        $membershipsBillings = DB::connection('mysql')->table('subscription_payments')->select('id', 'subscription_invoice_id', 'amount_paid', 'payment_date')->orderBy('payment_date', 'desc')->get();
 
         return view('payments.index', compact('banks', 'accountTypes', 'branchCodes', 'memberships', 'membershipsBillings'));
     }
@@ -41,11 +40,8 @@ class PaymentController extends Controller
             ->orWhere('name', 'LIKE', "%{$searchTerm}%")
             ->get();
 
-
-
         // Fetch memberships and their payments. Assuming each membership is linked to a subscription payment via `subscription_invoice_id`
-        $membershipsBillings = DB::connection('mysql')->table('subscription_payments')->select('id', 'subscription_invoice_id', 'amount_paid', 'payment_date')
-            ->orderBy('payment_date', 'desc')->get();
+        $membershipsBillings = DB::connection('mysql')->table('subscription_payments')->select('id', 'subscription_invoice_id', 'amount_paid', 'payment_date')->orderBy('payment_date', 'desc')->get();
 
         return view('payments.index', compact('banks', 'accountTypes', 'branchCodes', 'memberships', 'membershipsBillings'));
     }

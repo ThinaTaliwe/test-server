@@ -463,6 +463,8 @@ Route::get('/person-details/{id}', [DeathController::class, 'getPersonDetails'])
 
 //Funerals Routes
 Route::resource('funerals', FuneralController::class);
+Route::get('funerals/create/{id}', [FuneralController::class, 'create'])->name('funerals.create');
+
 Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
