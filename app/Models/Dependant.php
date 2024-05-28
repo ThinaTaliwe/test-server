@@ -88,10 +88,11 @@ class Dependant extends Model
         return $this->belongsTo(Person::class, 'primary_person_id', 'id');
     }
 
-    public function secondaryPerson()
-    {
-        return $this->belongsTo(Person::class, 'secondary_person_id');
-    }
+    //This wasnt created by me (Siya)
+    // public function secondaryPerson()
+    // {
+    //     return $this->belongsTo(Person::class, 'secondary_person_id');
+    // }
 
 
     /**

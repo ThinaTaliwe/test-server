@@ -19,6 +19,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable; // Import Notifiable trait
 
 /**
  * Class Person
@@ -44,7 +45,7 @@ class Person extends Model
     public $table = 'person';
     protected $connection = 'mysql';
 
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     /**
      * Get the memberships for the person.
@@ -61,9 +62,39 @@ class Person extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function dependant()
+    public function dependants()
     {
         return $this->hasMany(Dependant::class, 'primary_person_id', 'id');
+    }
+
+    /**
+     * Get the memberships where the person is a dependent.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function membershipsAsDependent()
+    {
+        return $this->belongsToMany(Membership::class, 'person_has_person', 'secondary_person_id', 'primary_person_id');
+    }
+
+    // /**
+    //  * Get the persons where the person is a primary person.
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    //  */
+    // public function dependents()
+    // {
+    //     return $this->hasMany(Dependant::class, 'primary_person_id');
+    // }
+
+    /**
+     * Get the persons where the person is a secondary person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function primaryPersons()
+    {
+        return $this->hasMany(Dependant::class, 'secondary_person_id');
     }
 
     /**
@@ -98,4 +129,11 @@ class Person extends Model
     {
         return $this->hasMany(Funeral::class, 'person_id');
     }
+
+    // Add a mutator to ensure that the birth_date is stored in the correct format
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes['birth_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
 }

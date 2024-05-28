@@ -10,6 +10,9 @@ use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
+
 
 /**
  * Dependants Controller
@@ -79,6 +82,17 @@ class DependantsController extends Controller
         // Save the dependant
         $dependant->save();
 
+        $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Added', 'A dependant has been Added.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         // Redirect back with success message
         return redirect()->back()->with('success', 'Dependant Added Successfully!!!');
     }
@@ -96,6 +110,17 @@ class DependantsController extends Controller
         
         // Delete the dependant on the person table
         Person::where('id', $id)->delete();
+
+        $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Removed', 'A Dependant has been Deleted.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
         
         // Redirect back with success message
         return redirect()->back()->withSuccess('Dependant Has Been Removed!');

@@ -17,6 +17,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class model for membership address binding
@@ -44,12 +45,10 @@ class MembershipAddress extends Model
      */
     public $table = 'membership_has_address';
 
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Get the membership that owns the membership address.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function membership()
     {
@@ -57,12 +56,10 @@ class MembershipAddress extends Model
     }
 
     /**
-     * Get the addresses associated with the membership address.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Get the address associated with the membership address.
      */
     public function address()
     {
-        return $this->hasMany(Address::class, 'id', 'address_id');
+        return $this->hasMany(Address::class, 'membership_id', 'address_id');
     }
 }

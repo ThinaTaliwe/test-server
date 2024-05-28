@@ -228,7 +228,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <!-- Membership ID -->
-                                        <div class="col-md-6 mb-7 fv-row">
+                                        <div class="col-2 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Membership ID</label>
                                             <select class="form-control form-control-solid" name="membership_id" required>
                                                 <option value="">Select Membership</option>
@@ -241,22 +241,38 @@
                                         </div>
                                         <!-- Transaction Date -->
                                         {{-- <div class="col-md-6 mb-7 fv-row">
-                                    <label class="required fs-6 fw-semibold form-label mb-2">Transaction Date</label>
-                                    <input type="date" class="form-control form-control-solid" name="transaction_date"
-                                        value="0" required>
-                                </div> --}}
+                                            <label class="required fs-6 fw-semibold form-label mb-2">Transaction Date</label>
+                                            <input type="date" class="form-control form-control-solid" name="transaction_date"
+                                                value="0" required>
+                                        </div> --}}
                                         <!-- Transaction Date -->
-                                        <div class="col-md-6 mb-7 fv-row">
+                                        <div class="col-md-3 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                 Date</label>
                                             <input type="date" class="form-control form-control-solid"
                                                 id="transaction_date" name="transaction_date" required readonly>
                                         </div>
+                                        <!-- Receipt Value Amount -->
+                                        <div class="col-md-3 mb-7 fv-row">
+                                            <label class="required fs-6 fw-semibold form-label mb-2">Receipt Value
+                                                Amount</label>
+                                            <input type="text" class="form-control form-control-solid"
+                                                placeholder="Enter Receipt Value Amount" name="receipt_value" required>
+                                        </div>
+                                        <!-- Currency ID -->
+                                        <div class="col-md-1 mb-7 fv-row">
+                                            <label class="required fs-6 fw-semibold form-label mb-2">Currency</label>
+                                            <select class="form-control" name="currency_id" required>
+                                                <option value="149">ZAR</option>
+                                                <!-- Populate with currencies -->
+                                            </select>
+                                        </div>
+
                                     </div>
 
                                     <div class="row">
                                         <!-- Transaction Description -->
-                                        <div class="col-md-6 mb-7 fv-row">
+                                        <div class="col-5 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                 Description</label>
                                             <input type="text" class="form-control form-control-solid"
@@ -264,45 +280,26 @@
                                                 required>
                                         </div>
                                         <!-- Receipt Number -->
-                                        <div class="col-md-6 mb-7 fv-row">
+                                        <div class="col-3 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Receipt Number</label>
                                             <input type="text" class="form-control form-control-solid"
                                                 placeholder="Enter Receipt Number" name="receipt_number" required>
                                         </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <!-- Receipt Value -->
-                                        <div class="col-md-6 mb-7 fv-row">
-                                            <label class="required fs-6 fw-semibold form-label mb-2">Receipt Value</label>
-                                            <input type="text" class="form-control form-control-solid"
-                                                placeholder="Enter Receipt Value" name="receipt_value" required>
-                                        </div>
-                                        <!-- Currency ID -->
-                                        <div class="col-md-4 mb-7 fv-row">
-                                            <label class="required fs-6 fw-semibold form-label mb-2">Currency</label>
-                                            <select class="form-control" name="currency_id" required>
-                                                <option value="149">ZAR</option>
-                                                <!-- Populate with currencies -->
-                                            </select>
-                                        </div>
-                                    
+                                        <!-- Additional Hidden Inputs for bu_id, transaction_type_id, payment_method_id -->
+                                        <!-- Assuming these are managed/known beforehand or through application logic -->
+                                        <input type="hidden" name="bu_id" value="7">
+                                        <input type="hidden" name="transaction_type_id" value="2">
+                                        <input type="hidden" name="payment_method_id" value="2">
 
-                                    <!-- Additional Hidden Inputs for bu_id, transaction_type_id, payment_method_id -->
-                                    <!-- Assuming these are managed/known beforehand or through application logic -->
-                                    <input type="hidden" name="bu_id" value="7">
-                                    <input type="hidden" name="transaction_type_id" value="2">
-                                    <input type="hidden" name="payment_method_id" value="2">
 
-                                    
                                         <!-- Submission Button -->
-                                        <div class="col-md-2 mb-7 fv-row my-auto">
+                                        <div class="col-3 mb-7 fv-row my-auto">
                                             <button type="submit" class="btn bg-gba text-center my-auto mx-auto">Submit
                                                 Payment
                                                 Details</button>
                                         </div>
                                     </div>
-
                                 </div>
                             </form>
 
@@ -427,7 +424,7 @@
                                         </div>
 
                                         <div class="row">
-                                        <!-- Additional fields for created_at and updated_at will be handled automatically by Laravel if using Eloquent -->
+                                            <!-- Additional fields for created_at and updated_at will be handled automatically by Laravel if using Eloquent -->
                                             <!-- Bank Branch Dropdown -->
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank
@@ -486,7 +483,7 @@
 
                                         <div class="row">
 
-                                            
+
                                         </div>
 
                                     </div>
@@ -551,8 +548,12 @@
                                             <!-- Bank Name -->
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Name</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Bank Name" name="bankName" />
+                                                <select class="form-control form-control-solid" name="bankName">
+                                                    <option value="">Select Bank</option>
+                                                    @foreach ($banks as $bank)
+                                                        <option value="{{ $bank->id }}">{{ $bank->short_name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
 
                                             <!-- Transaction Date -->
@@ -564,12 +565,16 @@
                                             </div>
 
                                             <!-- Branch Code -->
-                                            <div class="col-md-2 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Branch
-                                                    Code</label>
-                                                <input type="text" class="form-control form-control-solid"
-                                                    placeholder="Enter Branch Code" name="branchCode" />
-                                            </div>
+<div class="col-md-2 fv-row">
+    <label class="required fs-6 fw-semibold form-label mb-2">Branch Code</label>
+    <select class="form-control form-control-solid" name="branchCode">
+        <option value="">Select Branch Code</option>
+        @foreach ($branchCodes as $branch)
+            <option value="{{ $branch->id }}">{{ $branch->branch_code }} {{ $branch->bank_short_name }}</option>
+        @endforeach
+    </select>
+</div>
+
                                         </div>
 
                                         <!-- Row 2 for Account Number and Account Type -->
@@ -658,10 +663,12 @@
 
                                             <!-- Transaction Description as 'transaction_description' Example -->
                                             <div class="col-8 mb-7 fv-row">
-                                                <label class="required fs-6 fw-semibold form-label mb-2">Transaction Description
-                                                    </label>
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Transaction
+                                                    Description
+                                                </label>
                                                 <input type="text" class="form-control form-control-solid"
-                                                    name="transaction_description" placeholder="Enter Transaction Description" required>
+                                                    name="transaction_description"
+                                                    placeholder="Enter Transaction Description" required>
                                             </div>
                                         </div>
 
@@ -669,7 +676,7 @@
                                             <!-- Receipt Number as 'receipt_number' Example -->
                                             <div class="col-md-3 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Receipt Number
-                                                    </label>
+                                                </label>
                                                 <input type="text" class="form-control form-control-solid"
                                                     name="receipt_number" placeholder="Enter Receipt Number" required>
                                             </div>

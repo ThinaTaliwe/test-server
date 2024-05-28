@@ -474,6 +474,8 @@ Route::get('/api/rowdetails', [DataController::class, 'getRowDetails'])->name('a
 //Route::get('/membership-payment-data', [ReportsController::class, 'dependantsGrid']);
 // If you're adding this to web.php
 //Route::get('/membership-payment-data', 'YourController@dependantsGrid');
+// Add this route in your web.php
+Route::delete('/notifications/{notification}', [MembershipsController::class, 'deleteNotification'])->name('notifications.delete');
 
 
 require __DIR__ . '/auth.php';

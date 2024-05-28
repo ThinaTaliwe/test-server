@@ -865,6 +865,7 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'App\\Models\\OneoModel' => __DIR__ . '/../..' . '/app/Models/OneoModel.php',
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\Person' => __DIR__ . '/../..' . '/app/Models/Person.php',
+        'App\\Models\\PersonDetail' => __DIR__ . '/../..' . '/app/Models/PersonDetail.php',
         'App\\Models\\PersonHasFuneral' => __DIR__ . '/../..' . '/app/Models/PersonHasFuneral.php',
         'App\\Models\\PersonHasLanguage' => __DIR__ . '/../..' . '/app/Models/PersonHasLanguage.php',
         'App\\Models\\PersonHasPerson' => __DIR__ . '/../..' . '/app/Models/PersonHasPerson.php',

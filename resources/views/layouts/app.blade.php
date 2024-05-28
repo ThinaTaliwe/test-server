@@ -651,7 +651,7 @@
 
 
     <!-- Google maps auto-complete form -->
-    <script>
+    {{-- <script>
         "use strict";
         Object.defineProperty(exports, "__esModule", {
             value: true
@@ -747,7 +747,7 @@
             address2Field.focus();
         }
         window.initAutocomplete = initAutocomplete;
-    </script>
+    </script> --}}
 
     <!-- Google maps auto-complete form -->
     <script

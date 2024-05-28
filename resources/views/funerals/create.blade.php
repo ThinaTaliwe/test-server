@@ -3,6 +3,8 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 
@@ -251,8 +253,11 @@
                     <!--begin::Body-->
                     <div class="card-body py-8">
                         <div class="">
-                            <h3>{{ $deceased_person->first_name | $deceased_person->initials | $deceased_person->last_name }}</h3>
-                                 
+                            <h3>
+                                Deceased: 
+                                {{ $deceased_person->first_name .' | '. $deceased_person->initials .' | '. $deceased_person->last_name .' | DOB: '. \Carbon\Carbon::parse($deceased_person->birth_date)->format('Y-m-d') .' | ID: '. $deceased_person->id_number.' | DOD: '. \Carbon\Carbon::parse($deceased_person->deceased_date)->format('Y-m-d') }}
+                            </h3>
+                                
                         </div>              
                     </div>
                     <!--end::Body-->     
@@ -263,8 +268,12 @@
         <div class="card mb-3 mt-4 bg-light">
             <div class="card-header" style="background-color: #448C74">
                 <h3 class="card-title text-white">Funeral Checklist</h3>
+                <button type="button" class="btn btn-dark btn-sm my-4 ml-2">
+                    + 
+                </button>
             </div>
             <div class="card-body">
+
 
 
                 <div class="py-0">
@@ -272,78 +281,59 @@
                         <table class="table   border rounded table-row-bordered  fs-6 g-5 gs-5 " style="width:100%; background-color: #ffffff">
                             <thead>
                                 <tr class="fw-bold fs-6 text-gray-800">
-                                    <th style="width: 50%; text-align: center;">Checklist Item</th>
-                                    <th style="width: 50%; text-align: center;">Status</th>
+                                    <th style=" text-align: center;">Checklist Item</th>
+                                    <th style=" text-align: center;">Completed</th>
+                                    <th style=" text-align: center;">Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Forms Signed</td>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-                                       
-                                       
-                                       
-                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="1"/>
-                                                Not Done
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="2"/>
-                                                In Progress
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm active" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" checked="checked" value="3"/>
-                                                Complete
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
                                 
+                                @foreach ($checklist_items as $item)
+            
                                 <tr>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Item #2</td>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm active" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" checked="checked" value="1"/>
-                                                Not Done
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="2"/>
-                                                In Progress
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="3"/>
-                                                Complete
-                                            </label>
-                                        </div>
+                                    <td style=" text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                    
+                                        {{ $item->name }}
+                                    
                                     </td>
-                                </tr>
+                                    <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
+                                    
+                                             <!-- Row  -->
+                                             <div class="row mb-3">
+                                                <div class="col">
+                                                    <label for="{{ $item->name }}_completed_date" class="form-label">Completed Date:</label>
+                                                    <input type="date" class="form-control" id="{{ $item->name }}_completed_date" name="{{ $item->name }}_completed_date">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="{{ $item->name }}_completed_time" class="form-label">Time:</label>
+                                                    <input type="time" class="form-control" id="{{ $item->name }}_completed_time" name="{{ $item->name }}_completed_time">
+                                                </div>
+                                            </div>
+                                    
+                                    </td>
+                                    <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
 
-        
-                                <tr>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">Item #3</td>
-                                    <td style="width: 50%; text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-                                        <div class="btn-group w-60" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                            <label class="btn btn-outline btn-color-muted btn-active-danger btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="1"/>
-                                                Not Done
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-warning btn-sm active" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" checked="checked" value="2"/>
-                                                In Progress
-                                            </label>
-                                            <label class="btn btn-outline btn-color-muted btn-active-success btn-sm" data-kt-button="true">
-                                                <input class="btn-check" type="radio" name="method" value="3"/>
-                                                Complete
-                                            </label>
+                                        <div class="row mb-3">
+                                       
+                                            <div class="col">
+                                                <label for="{{ $item->name }}_note" class="form-label">Description/Note:</label>
+                                                <textarea class="form-control" id="{{ $item->name }}_note" name="{{ $item->name }}_note" rows="1"></textarea>
+                                            </div>
                                         </div>
+
                                     </td>
                                 </tr>
+                                @endforeach
+                              
+           
                                 
                             </tbody>
+
+                            
                         </table>
+                        @if ($checklist_items->isEmpty())
+                            <h4>No Checklist items available</h4>
+                        @endif
                     </div>
                 </div>
                 
@@ -351,12 +341,12 @@
 
 
                 
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col">
                         <label for="checklist_notes" class="form-label">Checklist notes:</label>
                         <textarea class="form-control" id="checklist_notes" name="checklist_notes" rows="3"></textarea>
                     </div>
-                </div>
+                </div> --}}
 
 
             </div>
@@ -391,8 +381,8 @@
                         </div> --}}
                         <div class="card-body">
 
-                            <input type="text" id="person_id" name="person_id" hidden>
-                            <input type="text" id="person_name" name="person_name" hidden>
+                            <input type="text" id="person_id" name="person_id" value="{{ $deceased_person->id }}" hidden>
+                            <input type="text" id="person_name" name="person_name" value="{{ $deceased_person->first_name }}" hidden>
 
 
                             <!--begin::Accordion-->
@@ -400,7 +390,7 @@
                                     <!-- Accordion Item for Membership Details -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="kt_accordion_header_1">
-                                            <button class="accordion-button fs-4 fw-semibold"
+                                            <button class="accordion-button fs-4 fw-semibold collapsed"
                                                     type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#kt_accordion_body_1"
                                                     aria-expanded="true"
@@ -835,7 +825,7 @@
                                             data-bs-target="#kt_accordion_body_3"
                                             aria-expanded="false"
                                             aria-controls="kt_accordion_body_3">
-                                            Funeral Costs  (R <span id="totalCostHeader">0.00</span> ) & Benefits (Insert Membership Benefit Amount)
+                                            Funeral Costs  (R <span id="totalCostHeader">0.00</span> ) & Benefits (R2000)
                                         </button>
                                     </h2>
                                     <div id="kt_accordion_body_3" class="accordion-collapse collapse"
@@ -986,7 +976,7 @@
                                                             <td>
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
-                                                                        <span the="input-group-text">R</span>
+                                                                        <span class="input-group-text">R</span>
                                                                     </div>
                                                                     <input type="number" class="form-control cost-input" id="communication" name="communication" oninput="calculateTotal()">
                                                                 </div>
@@ -1050,12 +1040,12 @@
 
                                             {{-- Start Benefits Calculator --}}
                                             <div class="col-12 col-md-6">
-                                                <h2 style="text-align: center">Membership Type: Show Type Here</h2>
+                                                <h2 style="text-align: center">Membership Type: {{$deceased_person->membership[0]->bu_membership_type_id}}</h2>
                                                 <table id="kt_datatable_benefit_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
                                                     <thead style="background-color: #ffffff">
                                                         <tr class="fw-bold fs-6">
                                                             <th>Benefits</th>
-                                                            <th>Amount ( R <span class="text-danger" id="totalBenefits2">2500.00</span> )</th>
+                                                            <th>Amount ( R <span class="text-danger" id="totalBenefits2">2000.00</span> )</th>
                                                                 
                                                         </tr>
                                                     </thead>
@@ -1067,7 +1057,7 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">R</span>
                                                                     </div>
-                                                                    <input type="number" class="form-control cost-input" id="benefit" value="2500" name="benefit" oninput="" disabled>
+                                                                    <input type="number" class="form-control " id="benefit" value="2000" name="benefit" oninput="" disabled>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -1078,7 +1068,7 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">R</span>
                                                                     </div>
-                                                                    <input type="number" class="form-control cost-input" id="benefit" value="0" name="benefit" oninput="" disabled>
+                                                                    <input type="number" class="form-control " id="benefit_other" value="0" name="benefit_other" oninput="" disabled>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -1087,7 +1077,7 @@
                                                     <tfoot style="background-color: #f7f7f7">
                                                         <tr class="fw-bold fs-6">
                                                             <th colspan="1" class="text-nowrap align-end">Total:</th>
-                                                            <th colspan="1" class="text-danger fs-3">R<span id="totalBenefits">2500.00</span></th>
+                                                            <th colspan="1" class="text-danger fs-3">R<span id="totalBenefits">2000.00</span></th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -1109,87 +1099,185 @@
                                 <!-- Fourth Accordion Item for Funeral Costs -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="kt_accordion_header_4">
-                                            <button class="accordion-button fs-4 fw-semibold"
+                                            <button class="accordion-button fs-4 fw-semibold collapsed"
                                                     type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#kt_accordion_body_4"
-                                                    aria-expanded="true"
+                                                    aria-expanded="false"
                                                     aria-controls="kt_accordion_body_4">
-                                                Church & Cemetery Details
+                                                Shortfall / Payouts
                                             </button>
                                         </h2>
                                         <div id="kt_accordion_body_4"
-                                            class="accordion-collapse collapse show"
+                                            class="accordion-collapse collapse"
                                             aria-labelledby="kt_accordion_header_4"
                                             data-bs-parent="#kt_accordion_funeral">
                                             <div class="accordion-body" style="background-color: #E9F0EC">
 
-
-                                            <!-- Accordion content for Funeral Payouts -->
-                                 
-                                           
-                                            <div class="pt-4" style="display: flex; align-items: center;" > 
-
-                                                <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary" data-location-type="Postal">
-                                                    + New Beneficiary
-                                                </button>
-                                            </div>
-
-                                            {{-- Start Payouts --}}
-                                            <div class="col-12">
-                                      
-                                                <h2 style="text-align: center"></h2>
-                                                <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                    <thead style="background-color: #ffffff">
-                                                        <tr class="fw-bold fs-6">
-                                                            <th>Beneficiary</th>
-                                                            <th>Amount</th>
-                                                            <th>Beneficiary - Postal Address</th>  
-                                                            <th>Account Number</th>
-                                                            <th>Bank</th>
-                                                            <th>Actions</th>
-
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                Name & Surname        
-                                                            </td>
-                                                            <td>
-                                                                R1800
-                                                            </td>
-                                                            <td>
-                                                                line 1 </br>
-                                                                suburb </br>
-                                                                town </br>
-                                                                postal code
-                                                            </td>
-                                                            <td>
-                                                                1534850245
-                                                            </td>
-                                                            <td>
-                                                                Capitec Bank
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
-                                                                    Edit
-                                                                </button> 
-                                                                <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
-                                                                    Remove
-                                                                </button> 
-                                                            </td>
-                                                        </tr>
-                                                        
-                                                    </tbody>
                                                     
-                                       
-                                                </table>
-                                            </div>
-                                            {{-- End Payouts--}}
+                                                    {{-- @if (!$item['']->isEmpty()) --}}
+                                                        <div class="card inner-card my-8 bg-light">
+                                                            <div class="card-header" style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Shortfall Transactions</h3>
+                                                                
+                                                                    <button type="button" class="btn btn-dark btn-sm my-6 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_payment">
+                                                                        + New Payment
+                                                                    </button>
+                                                                
+                                                            </div>
+                                                           
+                                                            <div class="card-body">
+                                                                    
+                                                                {{-- Start Shortfalls --}}
+                                    
+                                                                    <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                        <thead style="background-color: #ffffff">
+                                                                            <tr class="fw-bold fs-6">
+                                                                                <th>Details</th>
+                                                                                <th>Amount</th>
+                                                                                <th>Payment Method</th>  
+                                                                                <th>Account Number</th>
+                                                                                <th>Bank</th>
+                                                                                <th>Ref. #</th>
+                                                                                <th>Actions</th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    John Doe      
+                                                                                </td>
+                                                                                <td>
+                                                                                    R950
+                                                                                </td>
+                                                                                <td>
+                                                                                    Cash
+                                                                                </td>
+                                                                                <td>
+                                                                                    N/A
+                                                                                </td>
+                                                                                <td>
+                                                                                    N/A
+                                                                                </td>
+                                                                                <td>
+                                                                                    N/A
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
+                                                                                        Remove
+                                                                                    </button> 
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+                                                                        </tbody>
+                                                                        
+                                                        
+                                                                    </table>
+                                                                
+                                                                {{-- End Shortfalls--}}
+                                                               
+                                                            </div>
 
 
+                                                        </div>
+                                                    {{-- @else
+                                                        <div class="card inner-card border border-secondary mt-4">
+                                                            <div class="card-header"style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Title</h3>
+                                                            </div>
+                                                            <div class="card-body bg-light">
+                                                                <p>No records found.</p>
+                                                            </div>
+                                                        </div>
+                                                    @endif --}}
 
 
+                                            
+                                 
+                                                              
+                                                    {{-- @if (!$item['']->isEmpty()) --}}
+                                                        <div class="card inner-card my-8 bg-light">
+                                                            <div class="card-header" style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Payouts</h3>
+                                                             
+                                                                    <button type="button" class="btn btn-dark btn-sm my-6 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary" data-location-type="Postal">
+                                                                        + New Beneficiary
+                                                                    </button>
+                                                                
+                                                            </div>
+                                                           
+                                                            <div class="card-body">
+                                                              
+                                                                
+                                                                {{-- Start Payouts --}}
+                                                                
+                                                        
+                                                                
+                                                                    <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                        <thead style="background-color: #ffffff">
+                                                                            <tr class="fw-bold fs-6">
+                                                                                <th>Beneficiary</th>
+                                                                                <th>Amount</th>
+                                                                                <th>Beneficiary - Postal Address</th>  
+                                                                                <th>Account Number</th>
+                                                                                <th>Bank</th>
+                                                                                <th>Actions</th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Jane Doe        
+                                                                                </td>
+                                                                                <td>
+                                                                                    R1800
+                                                                                </td>
+                                                                                <td>
+                                                                                    line 1 </br>
+                                                                                    suburb </br>
+                                                                                    town </br>
+                                                                                    postal code
+                                                                                </td>
+                                                                                <td>
+                                                                                    1534850245
+                                                                                </td>
+                                                                                <td>
+                                                                                    Capitec Bank
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
+                                                                                        Edit
+                                                                                    </button> 
+                                                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
+                                                                                        Remove
+                                                                                    </button> 
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+                                                                        </tbody>
+                                                                        
+                                                        
+                                                                    </table>
+                                                                
+                                                                {{-- End Payouts--}}
+                                                               
+                                                            </div>
+
+
+                                                        </div>
+                                                    {{-- @else
+                                                        <div class="card inner-card border border-secondary mt-4">
+                                                            <div class="card-header"style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Title</h3>
+                                                            </div>
+                                                            <div class="card-body bg-light">
+                                                                <p>No records found.</p>
+                                                            </div>
+                                                        </div>
+                                                    @endif --}}
+
+                     
 
 
 
@@ -1252,8 +1340,7 @@
 
 
 
-
-
+          
 
 
                 {{-- Action Buttons for Main Record --}}
@@ -1270,7 +1357,117 @@
                 </div>
     
 
+                                <!-- Start Shortfall Payment Modal -->
+                                <div class="modal fade" tabindex="-1" id="kt_modal_payment">
+                                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                                        <div class="modal-content" style="background-color: #448C74">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title text-white">Add Payment</h3>
+                                
+                                                <!--begin::Close-->
+                                                <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                                </div>
+                                                <!--end::Close-->
+                                            </div>
+                                            <form id="shortfallPaymentForm" method="POST" action="{{ route('StoreFuneralBeneficiary') }}">
+                                                @csrf
+                                            <div class="modal-body">
+                                                
+                                                
 
+
+
+                                                <div  class="pt-4 p-3">
+                                                
+
+
+                                                     <!-- Row 1 -->
+                                                     <div class="row my-3">
+                                                        <div class="col">
+                                                            <label for="shortfall_payment_name" class="form-label text-white">Name:</label>
+                                                            <input type="text" class="form-control" id="shortfall_payment_name" name="shortfall_payment_name">
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="shortfall_payment_surname" class="form-label text-white">Surname:</label>
+                                                            <input type="tel" class="form-control" id="shortfall_payment_surname" name="shortfall_payment_surname">
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="payout_amount" class="form-label text-white">Amount:</label>
+                                                            <div class="input-group mx-auto">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text" style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
+                                                                </div>
+                                                                <input type="number" class="form-control cost-input" id="payout_amount" name="payout_amount" >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="separator border-light my-8"></div>
+
+
+                                                    <div class="pt-4" style="display: flex; align-items: center;" > 
+                                                        <label for="ShortfallPaymentMethodSelect" class="form-label text-white">Payment Method:</label>
+                                                        <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Payment Method" data-allow-clear="true" style="margin-right: 10px;">
+                                                        
+                                                            <option value="0">Cash</option>
+                                                            <option value="1">EFT</option>
+    
+                                                        </select>
+                                                        
+                                                    
+                
+                                                    </div>
+
+                                                    <div class="separator border-light my-8"></div>
+
+                                                     <!-- Payout Payment Details -->
+                                                     <div class="row my-3">
+                                                        <div class="col">
+                                                            <label for="payout_acc_number" class="form-label text-white">Account number:</label>
+                                                            <input type="number" class="form-control" id="payout_acc_number" name="payout_acc_number">
+                                                        </div>
+                                                        <div class="col">
+                                                            <label for="ShortfallbankSelect" class="form-label text-white">Bank:</label>
+                                                            <select id="ShortfallbankSelect" name="ShortfallbankSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Bank" data-allow-clear="true" style="margin-right: 10px;">
+                                                                <option></option> <!-- Placeholder option for user prompt -->
+                                                                @foreach ($banks as $bank)
+                                                                    <option value="{{ $bank->id }}">
+                                                                        {{ $bank->name }} 
+                                                                    </option>
+                                                                @endforeach
+                                                           
+        
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    {{-- <div class="separator border-light my-8"></div> --}}
+
+
+
+
+
+
+                                                    </div>
+                                                
+
+
+
+
+
+                                            </div>
+                                    
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-dark" id="savePaymentBtn">Save Payment</button>
+                                                </div>
+                                        </form>    
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- END Shortfall Payment Modal -->
                 
                                 <!-- Start Beneficiary Modal -->
                                 <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
@@ -1285,7 +1482,7 @@
                                                 </div>
                                                 <!--end::Close-->
                                             </div>
-                                            <form id="addressForm" method="POST" action="{{ route('StoreFuneralAddress') }}">
+                                            <form id="beneficiaryAddressForm" method="POST" action="{{ route('StoreFuneralBeneficiary') }}">
                                                 @csrf
                                             <div class="modal-body">
                                                 
@@ -1329,15 +1526,17 @@
                                                         <option value="2">Postal</option>
                                                     </select>
                                                     
+
+
                                                     <div class="row mt-3">
                                                         <div class="col">
                                                             <div
-                                                                class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+                                                                class="input-group input-group-outline  @error('Line1_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                                <input type="text" class="form-control" name="Line1"
-                                                                    id="Line1" value="{{ old('Line1') }}" required>
+                                                                <input type="text" class="form-control" name="Line1_beneficiary"
+                                                                    id="Line1_beneficiary" value="{{ old('Line1_beneficiary') }}" required>
                                                             </div>
-                                                            @error('Line1')
+                                                            @error('Line1_beneficiary')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -1348,10 +1547,10 @@
                                                     <div class="row mt-3">
                                                         <div class="col-6 col-sm-6">
                                                             <div
-                                                                class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
+                                                                class="input-group input-group-outline  @error('Line2_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                                <input type="text" class="form-control" name="Line2"
-                                                                    id="Line2" value="{{ old('Line2') }}"
+                                                                <input type="text" class="form-control" name="Line2_beneficiary"
+                                                                    id="Line2_beneficiary" value="{{ old('Line2_beneficiary') }}"
                                                                     placeholder="Address Line 2">
                                                             </div>
                                                             @error('Line2')
@@ -1362,14 +1561,14 @@
                                                         </div>
                                                         <div class="col-6 col-sm-6">
                                                             <div
-                                                                class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
+                                                                class="input-group input-group-outline  @error('TownSuburb_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
 
                                                                 <input type="text" class="form-control"
-                                                                    name="TownSuburb" id="TownSuburb"
-                                                                    value="{{ old('TownSuburb') }}"
-                                                                    placeholder="Town/Suburb">
+                                                                    name="TownSuburb_beneficiary" id="TownSuburb_beneficiary"
+                                                                    value="{{ old('TownSuburb_beneficiary') }}"
+                                                                    placeholder="Town/Suburb_beneficiary">
                                                             </div>
-                                                            @error('TownSuburb')
+                                                            @error('TownSuburb_beneficiary')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -1379,10 +1578,10 @@
                                                     <div class="row mt-3">
                                                         <div class="col-12 col-sm-6">
                                                             <div
-                                                                class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                                                class="input-group input-group-outline  @error('City_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                                <input type="text" class="form-control" name="City"
-                                                                    id="City" value="{{ old('City') }}"
+                                                                <input type="text" class="form-control" name="City_beneficiary"
+                                                                    id="City_beneficiary" value="{{ old('City_beneficiary') }}"
                                                                     placeholder="City">
                                                             </div>
                                                             @error('City')
@@ -1393,11 +1592,11 @@
                                                         </div>
                                                         <div class="col-6 col-sm-4 mt-3 mt-sm-0">
                                                             <div
-                                                                class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                                                class="input-group input-group-outline  @error('Province_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
                                                                 <input type="text" class="form-control"
-                                                                    name="Province" id="Province"
-                                                                    value="{{ old('Province') }}" placeholder="Province">
+                                                                    name="Province_beneficiary" id="Province_beneficiary"
+                                                                    value="{{ old('Province_beneficiary') }}" placeholder="Province">
                                                             </div>
                                                             @error('Province')
                                                                 <span class="invalid-feedback" role="alert">
@@ -1407,11 +1606,11 @@
                                                         </div>
                                                         <div class="col-6 col-sm-2 mt-3 mt-sm-0">
                                                             <div
-                                                                class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                                                class="input-group input-group-outline  @error('PostalCode_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
                                                                 <input type="text" class="form-control"
-                                                                    name="PostalCode" id="PostalCode"
-                                                                    value="{{ old('PostalCode') }}"
+                                                                    name="PostalCode_beneficiary" id="PostalCode_beneficiary"
+                                                                    value="{{ old('PostalCode_beneficiary') }}"
                                                                     placeholder="Postal Code">
                                                             </div>
                                                             @error('PostalCode')
@@ -1425,10 +1624,10 @@
 
                                                         <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
                                                             <div
-                                                                class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                                                class="input-group input-group-outline  @error('Country_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                                <input type="text" class="form-control" name="Country"
-                                                                    id="Country" value="{{ old('Province') }}"
+                                                                <input type="text" class="form-control" name="Country_beneficiary"
+                                                                    id="Country_beneficiary" value="{{ old('Province_beneficiary') }}"
                                                                     placeholder="Country">
                                                             </div>
                                                             @error('Country')
@@ -1516,7 +1715,8 @@
                                             <div class="modal-body">
                                                 
                                                 
-
+                                               
+                                
 
 
                                                 <div  class="pt-4 p-3">
@@ -1527,14 +1727,14 @@
                                                         <option value="18">Graveyard</option>
                                                     </select>
 
-                                                    
+        
                                                     <div class="row mt-3">
                                                         <div class="col">
                                                             <div
                                                                 class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                                <input type="text" class="form-control" name="Line1"
-                                                                    id="Line1" value="{{ old('Line1') }}" required>
+                                                                <input type="text" class="form-control" id="Line1" name="Line1"
+                                                                     value="{{ old('Line1') }}" required>
                                                             </div>
                                                             @error('Line1')
                                                                 <span class="invalid-feedback" role="alert">
@@ -1696,6 +1896,34 @@
  <!-- DataTables JS -->
  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Google places setup
+        initAutocomplete('Line1', {
+            Line1: 'Line1',
+            Line2: 'Line2',
+            PostalCode: 'PostalCode',
+            City: 'City',
+            TownSuburb: 'TownSuburb',
+            Province: 'Province',
+            Country: 'Country',
+            PlaceName: 'PlaceName'
+        });
+
+        // Google places setup for beneficiary
+        initAutocomplete('Line1_beneficiary', {
+            Line1: 'Line1_beneficiary',
+            Line2: 'Line2_beneficiary',
+            PostalCode: 'PostalCode_beneficiary',
+            City: 'City_beneficiary',
+            TownSuburb: 'TownSuburb_beneficiary',
+            Province: 'Province_beneficiary',
+            Country: 'Country_beneficiary',
+        });
+    });
+</script>
+
  <script>
 $("#kt_datatable_footer_callback").DataTable({
     "searching": false, // Disables the search box
@@ -1798,7 +2026,6 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
 
 
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Listen for the modal showing up
@@ -1831,6 +2058,17 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
             } else if(locationType === 'Residential') {
                 modal.find('#addressType').val('1').trigger('change');
             }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Listen for the modal showing up
+        $('#kt_modal_payment').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            
+            var modal = $(this);
         });
     });
 </script>

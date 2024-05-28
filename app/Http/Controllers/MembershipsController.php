@@ -27,13 +27,18 @@ use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use App\Models\PersonRelationship;
+use App\Models\Gender;
+use App\Models\MarriageStatus;
+use App\Models\Language;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembershipsExport;
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
 
 class MembershipsController extends Controller
 {
-
     public $statuses = [
         1 => 'Active',
         2 => 'Inactive',
@@ -46,24 +51,25 @@ class MembershipsController extends Controller
         $query = Membership::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('surname', 'like', "%{$request->search}%")
-                  ->orWhere('id_number', 'like', "%{$request->search}%");
+            $query
+                ->where('name', 'like', "%{$request->search}%")
+                ->orWhere('surname', 'like', "%{$request->search}%")
+                ->orWhere('id_number', 'like', "%{$request->search}%");
         }
 
         $statuses = [
-        1 => 'Active',
-        2 => 'Inactive',
-        3 => 'Suspended',
-        // Add other statuses as needed
-    ];
+            1 => 'Active',
+            2 => 'Inactive',
+            3 => 'Suspended',
+            // Add other statuses as needed
+        ];
         //$numberOfMemberships = $query->count();
         $memberships = $query->orderBy('name')->paginate();
 
         //dd($memberships);
         return view('memberships', [
             'memberships' => $memberships,
-            'statuses' => $statuses
+            'statuses' => $statuses,
         ]);
     }
 
@@ -77,7 +83,13 @@ class MembershipsController extends Controller
         $memtypes = BuMembershipType::all();
         $countries = Country::all();
 
-        return view('add-member', ['memtypes' => $memtypes, 'countries' => $countries]);
+        $genders = Gender::all();
+        $maritalStatuses = MarriageStatus::all();
+        $languages = Language::all();
+
+        //dd($maritalStatuses);
+
+        return view('add-member', ['memtypes' => $memtypes, 'countries' => $countries, 'genders' => $genders, 'maritalStatuses' => $maritalStatuses, 'languages' => $languages]);
     }
 
     public function store(StoreMembershipRequest $request, StorePerson $storePerson, StoreAddress $storeAddress)
@@ -98,9 +110,13 @@ class MembershipsController extends Controller
             $language = $request->language != null ? 2 : 1;
 
             // Membership creation
+
+            // Generate unique membership code using the helper function
+            $membershipCode = generateUniqueMembershipCode();
+
             $membership = new Membership();
             $membership->fill([
-                'membership_code' => 1212121, // Example code
+                'membership_code' => $membershipCode,
                 'name' => ucfirst($request->Name),
                 'initials' => ucfirst(substr($request->Name, 0, 1)) . '.' . ucfirst(substr($request->Surname, 0, 1)),
                 'surname' => ucfirst($request->Surname),
@@ -123,6 +139,20 @@ class MembershipsController extends Controller
 
             $membership->save();
             Log::info('Saved membership');
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+            // Notify about the creation
+            //$person->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
+            //$user->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
 
             // Membership Has Address
             $membershipAddress = new MembershipAddress([
@@ -198,6 +228,19 @@ class MembershipsController extends Controller
             Log::info('Membership and/or related person model was dirty and has been saved.', ['membership_id' => $membership->id]);
 
             // return redirect("/edit-member/$membership->id")->with('success', 'Membership updated successfully.');
+
+            //$user = User::where('id', $membership->person_id)->first();
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('updated', 'A membership has been updated.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
             return redirect()->back()->withSuccess('Membership updated successfully!');
         } else {
             Log::info('No changes detected for membership.', ['membership_id' => $membership->id]);
@@ -247,6 +290,7 @@ class MembershipsController extends Controller
         $addresses = $membership->address;
         //dd($addresses);
 
+        //Siya to Thina - Bro why are you using this? Its not good practice
         $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
 
         $disabled = '';
@@ -257,7 +301,10 @@ class MembershipsController extends Controller
 
         $billings = DB::select('select * from membership_payment_receipts');
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings])->with('success', 'Updated Successfully!!!!!');
+        $relationships = PersonRelationship::all(); // Fetch all relationships
+        //$genders = Gender::all(); // Fetch all genders
+
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings, 'relationships' => $relationships, 'genders' => $genders])->with('success', 'Updated Successfully!!!!!');
     }
 
     /**
@@ -268,39 +315,105 @@ class MembershipsController extends Controller
      * @return void
      *
      */
+
     public function delete($id)
     {
-        $memId = Membership::with(['person.dependant'])
-            ->where('id', $id)
-            ->first();
+        DB::beginTransaction();
 
-        if (!$memId) {
-            return 'Membership not found';
-        }
+        try {
+            Log::info('Attempting to delete membership with ID: ' . $id);
 
-        // Access the person related to the membership
-        $person = $memId->person;
+            $membership = Membership::with(['person.dependants', 'address'])->find($id);
 
-        if ($person) {
-            // Soft delete all dependants
-            foreach ($person->dependant as $dependent) {
-                $dependentPerson = Person::find($dependent->secondary_person_id);
-                if ($dependentPerson) {
-                    $dependentPerson->delete();
-                }
+            if (!$membership) {
+                Log::warning('Membership not found with ID: ' . $id);
+                DB::rollBack();
+                return 'Membership not found';
             }
 
-            // Soft delete the main person
-            $person->delete();
+            Log::info('Membership found: ', ['membership' => $membership->toArray()]);
+
+            // Debugging: Inspect the membership
+            //  dd($membership);
+
+            // Access the person related to the membership
+            $person = $membership->person;
+
+            if ($person) {
+                Log::info('Person associated with membership: ', ['person' => $person->toArray()]);
+
+                // Debugging: Inspect the person and their dependants
+                //  dd($person->dependants);
+
+                // Delete all dependants
+                foreach ($person->dependants as $dependent) {
+                    Log::info('Deleting dependant relationship: ', [
+                        'primary_person_id' => $person->id,
+                        'secondary_person_id' => $dependent->secondary_person_id,
+                    ]);
+
+                    // Delete the link in the dependants table
+                    Dependant::where('primary_person_id', $person->id)
+                        ->where('secondary_person_id', $dependent->secondary_person_id)
+                        ->delete();
+
+                    // Soft delete the dependent person
+                    $dependentPerson = Person::find($dependent->secondary_person_id);
+                    if ($dependentPerson) {
+                        Log::info('Soft deleting dependent person: ', ['dependent_person' => $dependentPerson->toArray()]);
+                        $dependentPerson->delete();
+                    }
+                }
+
+                // Soft delete the main person
+                Log::info('Soft deleting main person: ', ['person' => $person->toArray()]);
+                $person->delete();
+            } else {
+                Log::warning('Person not found for membership with ID: ' . $id);
+            }
+
+            // Explicitly load the MembershipAddress records and delete them
+            $membershipAddresses = $membership->membershipAddresses;
+
+            // Debugging: Inspect the membership addresses
+            //  dd($membershipAddresses);
+
+            foreach ($membershipAddresses as $membershipAddress) {
+                Log::info('Deleting membership address link: ', ['membership_address' => $membershipAddress->toArray()]);
+                $membershipAddress->delete();
+            }
+
+            // Finally, delete the membership itself
+            Log::info('Soft deleting membership: ', ['membership' => $membership->toArray()]);
+            $membership->delete();
+
+            // Notify about the deletion
+            if ($person) {
+                Log::info('Notifying about person deletion: ', ['person' => $person->toArray()]);
+                $person->notify(new PersonStatusNotification('deleted', 'A new person has been deleted.'));
+            }
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('deleted', 'A membership has been Deleted/Canceled.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
+            Log::info('Membership deletion completed for ID: ' . $id);
+
+            DB::commit();
+
+            return redirect()->back()->withSuccess('Membership Has Been Cancelled!');
+        } catch (\Exception $e) {
+            Log::error('Error deleting membership: ', ['error' => $e->getMessage()]);
+            DB::rollBack();
+            return redirect()->back()->withErrors('An error occurred while cancelling the membership.');
         }
-
-        // Soft delete the membership
-        $memId->delete();
-
-        //This must delete all addresses that belongs to the person
-        //TODO: Add Code for deleting an address
-
-        return redirect()->back()->withSuccess('Membership Has Been Cancelled!');
     }
 
     public function getData()
@@ -324,5 +437,16 @@ class MembershipsController extends Controller
         //        $address = Address::where('id', $id)->first();
 
         return redirect()->back()->withSuccess('Billing Has Been deleted!');
+    }
+
+    public function deleteNotification($notificationId)
+    {
+        $notification = auth()->user()->notifications->find($notificationId);
+        if ($notification) {
+            $notification->delete();
+            return response()->json(['status' => 'success', 'message' => 'Notification deleted successfully']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Notification not found'], 404);
     }
 }

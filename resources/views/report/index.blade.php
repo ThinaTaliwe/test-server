@@ -73,7 +73,7 @@
                             <!--begin::Header-->
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
-                                <h3 class="card-title text-gray-800"
+                                <h3 class="card-title text-gray-800 fs-1"
                                     style="margin-left: auto; margin-right: auto; width: fit-content;">
                                     Total Memberships</h3>
                                 <!--end::Title-->
@@ -85,12 +85,12 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">All Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
                                         <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMemberships }}</span>
+                                        <span class="text-gray-900 fw-bolder fs-3">{{ $totalMemberships }}</span>
                                         <!--end::Number-->
                                     </div>
                                     <!--end::Statistics-->
@@ -102,23 +102,23 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">Active Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-center">
                                         @if ($totalMembershipsActive < $totalMembershipsDeleted)
-                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
+                                            <i class="ki-duotone ki-arrow-down-right fs-1 text-danger me-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i>
                                         @else
-                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                            <i class="ki-duotone ki-arrow-up-right fs-1 text-success me-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i>
                                         @endif
                                         <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsActive }}</span>
+                                        <span class="text-gray-900 fw-bolder fs-3">{{ $totalMembershipsActive }}</span>
                                         <!--end::Number-->
                                         {{-- <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span> --}}
                                     </div>
@@ -132,23 +132,23 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">Deleted Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
                                         @if ($totalMembershipsActive > $totalMembershipsDeleted)
-                                            <i class="ki-duotone ki-arrow-down-right fs-2 text-danger me-2">
+                                            <i class="ki-duotone ki-arrow-down-right fs-1 text-danger me-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i>
                                         @else
-                                            <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
+                                            <i class="ki-duotone ki-arrow-up-right fs-1 text-success me-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i>
                                         @endif
                                         <!--begin::Number-->
-                                        <span class="text-gray-900 fw-bolder fs-6">{{ $totalMembershipsDeleted }}</span>
+                                        <span class="text-gray-900 fw-bolder fs-3">{{ $totalMembershipsDeleted }}</span>
                                         <!--end::Number-->
                                         {{-- <span class="text-gray-400 fw-bold fs-6">/{{ $totalMemberships }}</span> --}}
                                     </div>
@@ -170,7 +170,7 @@
                             <!--begin::Header-->
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
-                                <h3 class="card-title text-gray-800"
+                                <h3 class="card-title text-gray-800 fs-1"
                                     style="margin-left: auto; margin-right: auto; width: fit-content;">
                                     Memberships by Gender</h3>
                                 <!--end::Title-->
@@ -181,7 +181,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">All Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">All Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -190,7 +190,7 @@
                                             <span class="path2"></span>
                                         </i> --}}
                                         <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
+                                        <div class="text-gray-900 fw-bolder fs-3">
                                             @foreach ($membershipsByGender as $membership)
                                                 [<span>
                                                     {{ $membership->count }}
@@ -200,7 +200,7 @@
                                                         <span class="badge"
                                                             style="background-color: #ff7db0;">Female</span>
                                                     @else
-                                                        <span class="badge bg-info text-dark">Others</span>
+                                                        <span class="badge bg-info-subtle text-dark">Others</span>
                                                     @endif
                                                 </span>]
                                             @endforeach
@@ -216,7 +216,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Active Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">Active Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -225,7 +225,7 @@
                                                                             <span class="path2"></span>
                                                                         </i> --}}
                                         <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
+                                        <div class="text-gray-900 fw-bolder fs-3">
                                             @foreach ($membershipsByGenderActive as $membership)
                                                 [<span>
                                                     {{ $membership->count }}
@@ -235,7 +235,7 @@
                                                         <span class="badge"
                                                             style="background-color: #ff7db0;">Female</span>
                                                     @else
-                                                        <span class="badge bg-info text-dark">Others</span>
+                                                        <span class="badge bg-info-subtle text-dark">Others</span>
                                                     @endif
                                                 </span>]
                                             @endforeach
@@ -251,7 +251,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2">Deleted Memberships</div>
+                                    <div class="text-gray-700 fw-semibold fs-5 me-2">Deleted Memberships</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -260,7 +260,7 @@
                                                                             <span class="path2"></span>
                                                                         </i> --}}
                                         <!--begin::Number-->
-                                        <div class="text-gray-900 fw-bolder fs-6">
+                                        <div class="text-gray-900 fw-bolder fs-3">
                                             @foreach ($membershipsByGenderDeleted as $membership)
                                                 [<span>
                                                     {{ $membership->count }}
@@ -270,7 +270,7 @@
                                                         <span class="badge"
                                                             style="background-color: #ff7db0;">Female</span>
                                                     @else
-                                                        <span class="badge bg-info text-dark">Others</span>
+                                                        <span class="badge bg-info-subtle text-dark">Others</span>
                                                     @endif
                                                 </span>]
                                             @endforeach

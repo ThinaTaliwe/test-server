@@ -11,8 +11,10 @@ class PaymentController extends Controller
     //
     public function index(Request $request)
     {
-        $banks = DB::connection('mysql')->table('bank')->get();
+        $banks = DB::connection('mysql')->table('bank')->where('blocked', false)->orderBy('name')->get();
+        //dd($banks);
         $branchCodes = DB::connection('mysql')->table('bank_branch')->get();
+        //dd($branchCodes);
         $accountTypes = DB::connection('mysql')->table('bank_account_type')->get();
         $searchTerm = $request->search;
         $memberships = Membership::where('membership_code', 'LIKE', "%{$searchTerm}%")

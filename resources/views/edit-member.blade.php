@@ -199,14 +199,13 @@
                                     {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
                                     <div class="col-3 d-flex align-items-center">
                                         <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
-                                                                                                                                                                        </div> -->
+                                                                                                                                                                            </div> -->
                                         <div class="input-group input-group-outline ">
 
                                             <input type="text" onkeypress="return isNumberKey(event)"
                                                 class="form-control" name="inputDay" id="inputDay"
                                                 value="{{ dobBreakdown($membership->person->birth_date)->day }}"
-                                                {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}}
-                                                placeholder="DD" maxlength="2" size="2">
+                                                {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}} placeholder="DD" maxlength="2" size="2">
                                             {{-- @error('inputDay')
                                                                                             <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
@@ -245,14 +244,27 @@
 
                                         <div class="form-group">
                                             {{-- <label for="genderSelect" class="form-label">Gender</label> --}}
-                                            <select class="form-select" name="radioGender" id="genderSelect">
+                                            {{-- <select class="form-select" name="radioGender" id="genderSelect">
                                                 <option value="M"
                                                     {{ $membership->gender_id == 'M' ? 'selected' : '' }}>Male
                                                 </option>
                                                 <option value="F"
                                                     {{ $membership->gender_id == 'F' ? 'selected' : '' }}>Female
                                                 </option>
-                                            </select>
+                                            </select> --}}
+
+
+
+                                            <select class="form-select" name="radioGender" id="genderSelect">
+    <option value="">Select Gender</option>
+    @foreach ($genders as $option)
+        <option value="{{ $option->id }}"
+            {{ $membership->gender_id == $option->id ? 'selected' : '' }}>
+            {{ $option->name }}
+        </option>
+    @endforeach
+</select>
+
                                         </div>
                                     </div>
 
@@ -278,7 +290,7 @@
                                             {{-- <label for="maritalStatusSelect" class="form-label">Marital Status</label> --}}
                                             {{-- <label class="form-check-label mb-0 me-2 text-dark" for="marital_status">Maritial Status: </label> --}}
 
-                                            <select class="form-select pb-3" name="marital_status"
+                                            {{-- <select class="form-select pb-3" name="marital_status"
                                                 id="maritalStatusSelect">
                                                 <option value="1"
                                                     {{ $membership->person->married_status == '1' ? 'selected' : '' }}>
@@ -292,12 +304,23 @@
                                                 <option value="4"
                                                     {{ $membership->person->married_status == '4' ? 'selected' : '' }}>
                                                     Divorced</option>
-                                            </select>
+                                            </select> --}}
+
+                                            <select class="form-select pb-3" name="marital_status" id="maritalStatusSelect">
+    <option value="">Select Marital Status</option>
+    @foreach ($marriages as $status)
+        <option value="{{ $status->id }}"
+            {{ $membership->person->married_status == $status->id ? 'selected' : '' }}>
+            {{ $status->name }}
+        </option>
+    @endforeach
+</select>
+
                                         </div>
                                     </div>
 
                                     {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
-
+                                    
                                     <div class="col-12">
                                         <div class="text-center  d-flex justify-content-center align-items-center ">
                                             <button type="submit" text="Update" class="btn btn-success w-150 my-4 mb-4"
@@ -336,9 +359,9 @@
                                         </thead>
                                         <tbody class="bg-light p-0 m-0">
                                             @foreach ($dependants as $dependant)
-                                            @php
-                                                        $age = ageFromDOB($dependant->personDep->birth_date); // Ensure you have a method to calculate age from DOB
-                                                    @endphp
+                                                @php
+                                                    $age = ageFromDOB($dependant->personDep->birth_date); // Ensure you have a method to calculate age from DOB
+                                                @endphp
                                                 <tr>
                                                     <td>
                                                         <p class="text-dark ">
@@ -355,27 +378,19 @@
                                                             {{ $dependant->personDep->gender_id == 'M' ? 'Male' : ($dependant->personDep->gender_id == 'F' ? 'Female' : 'Other') }}
                                                         </p>
                                                     </td>
-                                                    <td>
-                                                        @php
-                                                            $relationshipNames = [
-                                                                1 => 'Spouse',
-                                                                2 => 'Parent',
-                                                                3 => 'Grand Parent',
-                                                                4 => 'Child',
-                                                                5 => 'Grand Child',
-                                                            ];
-                                                        @endphp
+                                            <td>
+                                                <p class="text-dark">
+                                                    {{ $dependant->person_relationship_id ?? 'Unknown Relationship' }}
+                                                </p>
+                                            </td>
 
-                                                        <p class="text-dark ">
-                                                            {{ $relationshipNames[$dependant->person_relationship_id] ?? 'Unknown Relationship' }}
-                                                        </p>
-                                                    </td>
                                                     <td>
                                                         <p class="text-dark">
                                                             {{ substr($dependant->personDep->birth_date, 0, 10) }}
                                                         </p>
                                                     </td>
-                                                    <td class="text-light badge badge {{ changeAgeBackground($age) }} mt-2">
+                                                    <td
+                                                        class="text-light badge badge {{ changeAgeBackground($age) }} mt-2">
                                                         <span class="text-bold fw-bolder">{{ $age }}</span>
                                                     </td>
                                                     <td class="text-right">
@@ -393,7 +408,7 @@
                             <!-- Add Dependant Block -->
                             <div class="card mt-5 mb-2 bg-light rounded" id="add-dependant">
 
-                                    <h3 class="mt-6">Add Dependant</h3>
+                                <h3 class="mt-6">Add Dependant</h3>
                                 <form id="addDependant" method="POST" action="{{ route('add-dependant.store') }}"
                                     autocomplete="off">
                                     @csrf
@@ -499,18 +514,23 @@
                                                 {{-- <label for="relationCodeSelect" class="form-label">Relationship</label> --}}
                                                 <select class="form-select" name="radioRelationCode"
                                                     id="relationCodeSelect">
-                                                    <option>select relationship</option>
-                                                    <option value="1" selected>1 - Wife / Husband</option>
-                                                    <option value="2">2 - Child</option>
+                                                    <option>Select relationship</option>
+                                                    @foreach ($relationships as $relationship)
+                                                        <option value="{{ $relationship->id }}">{{ $relationship->id }} -
+                                                            {{ $relationship->name }}</option>
+                                                    @endforeach
                                                 </select>
+
+
                                             </div>
                                             <div class="col-4" style="margin-top: 15px; text-align: center;">
                                                 {{-- <label for="genderDepSelect" class="form-label">Gender</label> --}}
                                                 <select class="form-select" name="radioGenderDep" id="genderDepSelect">
-                                                    <option>select gender</option>
-                                                    <option value="M" selected>Male</option>
-                                                    <option value="F">Female</option>
-                                                </select>
+    <option>Select gender</option>
+    @foreach($genders as $gender)
+        <option value="{{ $gender->id }}">{{ $gender->description }}</option>
+    @endforeach
+</select>
                                             </div>
 
                                         </div>
@@ -802,15 +822,15 @@
                                                                                 class="material-icons text-sm">visibility</i>View
                                                                         </a> --}}
                                                                         <form id="delete-billing-form"
-                                                                        action="/delete-billing/{{ $billing->id }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="btn btn-sm btn-danger"
-                                                                            onclick="return confirm('Are you sure you want to delete this billing?')"><i
-                                                                                class="material-icons text-sm">delete_outline</i>Remove</button>
-                                                                    </form>
+                                                                            action="/delete-billing/{{ $billing->id }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit"
+                                                                                class="btn btn-sm btn-danger"
+                                                                                onclick="return confirm('Are you sure you want to delete this billing?')"><i
+                                                                                    class="material-icons text-sm">delete_outline</i>Remove</button>
+                                                                        </form>
 
                                                                     </td>
                                                                 </tr>

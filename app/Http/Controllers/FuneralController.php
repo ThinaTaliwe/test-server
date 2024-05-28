@@ -13,6 +13,7 @@ use App\Models\MembershipAddress;
 use App\Models\Address;
 use App\Models\AddressType;
 use App\Models\PersonHasFuneral;
+use App\Models\FuneralChecklistItems;
 
 use Carbon\Carbon;
 
@@ -27,8 +28,7 @@ class FuneralController extends Controller
     public function index()
     {
         $deceased_people = Person::where('deceased', 1)->get();
-
-    
+      
         return view('funerals.index', compact('deceased_people'));
     }
 
@@ -52,14 +52,16 @@ class FuneralController extends Controller
 
         $banks = DB::connection('mysql')->table('bank')->get();
 
+        $checklist_items = FuneralChecklistItems::where('bu_id', 7)->get();
+
 
         $memberships = Membership::with([
-            'person.dependant.secondaryPerson', 
-            'person.dependant.relationshipType', 
+            'person.dependants.personDep', 
+            'person.dependants.relationshipType', 
             'person'
             ])->get();
 
-        return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person'));
+        return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person', 'checklist_items'));
     }
 
     /**
@@ -67,7 +69,48 @@ class FuneralController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $funeral = new Funeral();
+        $funeral->person_id = $request->MISSING;
+        $funeral->bu_id = 7; //GBA
+        $funeral->funeral_required = $request->MISSING;
+        $funeral->church_name = $request->MISSING;
+        $funeral->church_address_id  = $request->churchSelect;
+        $funeral->graveyard_name = $request->MISSING;
+        $funeral->grave_address_id  = $request->graveyardSelect;
+        $funeral->graveyard_section = $request->graveyard_section;
+
+        $funeral->grave_number = $request->grave_number;
+        $funeral->church_name = $request->burial_date;
+        $funeral->burial_date = $request->burial_date . ' ' . $request->burial_time;
+
+        $funeral->coffin = $request->coffin;
+        $funeral->viewing_time = $request->viewing_time; // TODO - change this field to be a datetime in my view
+        $funeral->viewing_address_id = $request->viewing_location; //TODO -change this to be an address input like graveyard and church
+        $funeral->MISSING = $request->church_office; //Todo - store in address contact table
+        $funeral->caretaker = $request->church_caretaker;
+        $funeral->MISSING = $request->contact_number;//Todo - store in address contact table
+        $funeral->organist = $request->organist;
+        $funeral->funeral_notices = $request->Notices;
+        $funeral->save();
+
+
+        //ToDO - move this to its own function to store an update the checklist
+        $funeral_check = new FuneralCheck();
+        //Use a loop to get all the items
+        $funeral_check->funeral_id = $funeral->id;
+        $funeral_check->funeral_id = $funeral->id;
+        
+        $funeral_check->save();
+
+
+        $funeral_transactions = new FuneralHastansactions();
+        $funeral_transactions->funeral_id = $funeral->id;
+        $funeral_transactions->funeral_id = $funeral->id;
+        
+        $funeral_check->save();
+
+
+
     }
 
     /**

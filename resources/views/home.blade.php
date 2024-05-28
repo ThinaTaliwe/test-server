@@ -485,7 +485,7 @@
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Append new data every 3 minutes (180000 milliseconds)
-        setInterval(appendData, 180000);
+        setInterval(appendData, 30000);
     </script>
 
     <script type="text/javascript">

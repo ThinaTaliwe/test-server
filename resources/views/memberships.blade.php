@@ -84,7 +84,7 @@
                 <form method="GET" action="{{ route('memberships') }}">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search..."
-                            value="{{ request()->input('search') }}">
+                            value="{{ request()->input('search') }}" style="background-color: white; color: black;">
                         <button class="btn btn-sm" type="submit" style="background-color: #02bb86">Search</button>
                     </div>
                 </form>
@@ -126,9 +126,9 @@
                                 {{ $membership->id_number }}
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center" style="padding-left: 24px">
-                                @if ($membership->gender_id == 'M')
+                                @if ($membership->gender_id == 'M' || $membership->gender_id == '1')
                                     Male
-                                @elseif($membership->gender_id == 'F')
+                                @elseif($membership->gender_id == 'F' || $membership->gender_id == '2')
                                     Female
                                 @else
                                     Other
@@ -145,23 +145,22 @@
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center" style="padding-left: 24px">
                                 <span
-                                    class="badge badge-light-primary fs-7 fw-bold">{{ $statuses[$membership->bu_membership_status_id] }}</span>
+                                    class="badge badge-light-primary fs-7 fw-bold bg-gba-light">{{ $statuses[$membership->bu_membership_status_id] }}</span>
                                 {{-- <span class="badge badge-light-primary fs-7 fw-bold">{{ $membership->status }}</span> --}}
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center">
-                                <span class="badge bg-gba fs-7 fw-bold m-1 p-2">
-                                    <a class="text-success" href="/view-member/{{ $membership->id }}"
+                                <span class="badge bg-success fs-7 fw-bold m-1 p-2">
+                                    <a class="text-light" href="/view-member/{{ $membership->id }}"
                                         style="text-decoration: none;"><i class="bi bi-eye-fill"></i> View</a>
                                 </span>
-                                <span class="badge bg-gba fs-7 fw-bold m-1 p-2">
-                                    <a class="text-warning" href="/edit-member/{{ $membership->id }}"
+                                <span class="badge bg-warning fs-7 fw-bold m-1 p-2">
+                                    <a class="text-light" href="/edit-member/{{ $membership->id }}"
                                         style="text-decoration: none;"><i class="bi bi-pencil-fill"></i> Edit</a>
                                 </span>
-                                <span class="badge bg-gba fs-7 fw-bold m-1 p-2">
-                                    <a class="text-danger" href="#"
+                                <span class="badge bg-danger fs-7 fw-bold m-1 p-2">
+                                    <a class="text-light" href="#"
                                         onclick="deleteConfirm('/cancel-member/{{ $membership->id }}')"
-                                        style="text-decoration: none;">
-                                        <i class="bi bi-trash3-fill"></i> Delete
+                                        style="text-decoration: none;"><i class="bi bi-trash3-fill"></i> Delete
                                     </a>
                                 </span>
                             </td>

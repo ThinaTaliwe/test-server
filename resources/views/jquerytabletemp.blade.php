@@ -301,7 +301,7 @@ var data = [
                             <tr>
                                 <td>{{ $membership->membership_code }}</td>
                                 <td>{{ $membership->person->first_name }}</td>
-                                <td>{{ $dependant->secondaryPerson->first_name }}</td>
+                                <td>{{ $dependant->personDep->first_name }}</td>
                                 <td>{{ $dependant->relationshipType->name }}</td>
                             </tr>
                         @endforeach

@@ -27,8 +27,8 @@ class DeathController extends Controller
     public function index()
     {
         $memberships = Membership::with([
-            'person.dependant.secondaryPerson', 
-            'person.dependant.relationshipType', 
+            'person.dependants.personDep', 
+            'person.dependants.relationshipType', 
             'person'
         ])->whereHas('person', function ($query) {
             $query->where('deceased', 0);

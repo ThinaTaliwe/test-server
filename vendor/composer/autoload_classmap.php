@@ -130,6 +130,7 @@ return array(
     'App\\Models\\OneoModel' => $baseDir . '/app/Models/OneoModel.php',
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\Person' => $baseDir . '/app/Models/Person.php',
+    'App\\Models\\PersonDetail' => $baseDir . '/app/Models/PersonDetail.php',
     'App\\Models\\PersonHasFuneral' => $baseDir . '/app/Models/PersonHasFuneral.php',
     'App\\Models\\PersonHasLanguage' => $baseDir . '/app/Models/PersonHasLanguage.php',
     'App\\Models\\PersonHasPerson' => $baseDir . '/app/Models/PersonHasPerson.php',

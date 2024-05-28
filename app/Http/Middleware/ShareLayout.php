@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\View;
 use App\Settings; // Your model here
 use App\Models\Layout;
+use Illuminate\Support\Facades\Auth;
 
 class ShareLayout
 {
@@ -62,15 +63,20 @@ class ShareLayout
 
     public function handle(Request $request, Closure $next): Response
     {
+        // dd($request->session()->get('selectedLayoutIndex', 0));  7$user = Auth::user();
+        $user = Auth::user();
+        // Customize the query
+        //$notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
+
+        //dd($notifications);
         // Get the chosen layout index from the session
         $selectedLayoutIndex = $request->session()->get('selectedLayoutIndex', 0);
 
         $layouts = Layout::all();
-        
+
         $layoutNames = $layouts->pluck('name')->toArray(); // Get all layout names
         $layoutsFiles = $layouts->pluck('css_file_path')->toArray(); // Get all layout paths
 
-        
         // Get the selected layout name, or default to 'app2'
         $selectedLayout = $layouts[$selectedLayoutIndex]->name ?? 'app2';
         $selectedLayoutFiles = $layouts[$selectedLayoutIndex]->css_file_path ?? 'css/styles.css';

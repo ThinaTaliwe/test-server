@@ -9,6 +9,8 @@
  */
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Models\Membership;
 
 //This Changes the background color of the age (Green/Yellow/Red)
 
@@ -117,4 +119,22 @@ if (!function_exists('verify_id_number')) {
 
         return $validated;
     }
+
+
+    if (!function_exists('generateUniqueMembershipCode')) {
+        /**
+         * Generate a unique membership code.
+         *
+         * @return string
+         */
+        function generateUniqueMembershipCode()
+        {
+            do {
+                $code = 'MEM' . time() . Str::random(5);
+            } while (Membership::where('membership_code', $code)->exists());
+    
+            return $code;
+        }
+    }
+
 }

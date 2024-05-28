@@ -19,13 +19,12 @@ class HomeController extends Controller
         // dd($layout);
 
         $styles = UserCustomStyles::where('users_id', Auth::id())->first();
-        // dd($styles);
+        //dd($styles);
         // If there's no styles for the user, you could provide some defaults or redirect
         if (!$styles) {
             $styles = UserCustomStyles::where('users_id', 'default')->first(); // if you have default styles
         }
         Debugbar::info($styles);
-        // dd($layout);
         
         return view('home', compact('layout', 'styles'));
         // return view('landing', compact('layout'));

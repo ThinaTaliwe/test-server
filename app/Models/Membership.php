@@ -19,6 +19,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable; // Import Notifiable trait
 
 /**
  * Class Membership
@@ -46,7 +47,7 @@ class Membership extends Model
     public $table = 'membership';
     protected $connection = 'mysql';
 
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     /**
      * Get the person associated with the membership.
@@ -64,22 +65,22 @@ class Membership extends Model
         return $this->hasManyThrough(
             Address::class,
             MembershipAddress::class,
-            'membership_id',
-            'id',
-            'id',
-            'address_id'
+            'membership_id', // Foreign key on MembershipAddress table...
+            'id',            // Foreign key on Address table...
+            'id',            // Local key on Membership table...
+            'address_id'     // Local key on MembershipAddress table...
         );
     }
 
     /**
      * Get the membership addresses associated with the membership.
      */
-    public function membershipaddress()
+    public function membershipAddresses()
     {
-        return $this->hasMany(MembershipAddress::class);
+        return $this->hasMany(MembershipAddress::class, 'membership_id', 'id');
     }
 
-        public function status()
+    public function status()
     {
         return $this->belongsTo(MembershipStatus::class, 'status_id');
     }

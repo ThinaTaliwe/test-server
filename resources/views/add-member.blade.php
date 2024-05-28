@@ -40,13 +40,14 @@
             /* Adjust the opacity as needed (1 is fully opaque) */
         }
     </style>
-    
+
     <style>
         .btn-check+.btn:hover {
             color: white !important;
             background-color: green !important;
         }
-        input{
+
+        input {
             background-color: white !important;
         }
     </style>
@@ -92,9 +93,6 @@
         <!--end::Card-->
     </div>
     <!--end:: Comments Drawer-->
-
-
-
 
     <!--begin::Card-->
     <div class="card bg-gba-light rounded mb-4 border-gba-light shadow-lg">
@@ -160,7 +158,7 @@
                         </div>
                     </div> --}}
                     <div class="row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <div
                                 class="input-group input-group-outline  @error('Name') is-invalid focused is-focused  @enderror mt-3 mb-0 bold-placeholder">
 
@@ -174,7 +172,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <div
                                 class="input-group input-group-outline  @error('Surname') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
@@ -190,7 +188,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-3 col-sm-3">
                             <div id="IDNumber"
                                 class="input-group input-group-outline  @error('IDNumber') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
@@ -206,14 +204,14 @@
                             @enderror
                         </div>
 
-                        <div class="col-12 col-sm-6" style="
+                        <div class="col-3 col-sm-3" style="
 											padding-top: 0.18rem;
 										">
                             <div class="py-2 col d-flex justify-content-center align-items-center mx-auto">
                                 <!-- <div style="white-space:nowrap;" class="px-4">
-                                                         <label class="form-label">Date Of Birth</label>
+                                                                     <label class="form-label">Date Of Birth</label>
 
-                                                        </div> -->
+                                                                    </div> -->
                                 <div id="inputDayDiv"
                                     class="input-group input-group-outline @error('inputDay') is-invalid @enderror">
 
@@ -256,14 +254,57 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row mt-3">
+                        <div class="col-2 pt-3 mt-sm-0" style="margin-top: 25px;">
+                            {{-- <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
 
-                        <div class="col-6 mt-3 mt-sm-0">
+                                <input type="radio" class="btn-check form-check-input " name="radioGender"
+                                    id="Male" value="M" />
+                                <label class="btn bg-gba-light btn-outline-success" for="Male">Male</label>
+
+                                <input type="radio" class="btn-check form-check-input " name="radioGender"
+                                    id="Female" value="F" />
+                                <label class="btn bg-gba-light btn-outline-success" for="Female">Female</label>
+
+                            </div> --}}
+
+                            <div class="btn-group col d-flex justify-content-center align-items-center mx-auto">
+                                <select class="form-control form-control-solid" id="radioGender" name="radioGender">
+                                    <option value="">Select Gender</option>
+                                    @foreach ($genders as $gender)
+                                        <option value="{{ $gender->id }}">{{ $gender->id }} - {{ $gender->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            {{-- <div class="btn-group col d-flex justify-content-center align-items-center mx-auto"
+                                style="padding-top: 0.75rem;">
+                                <input type="radio" class="btn-check form-check-input" name="language" id="2"
+                                    autocomplete="off">
+                                <label class="btn bg-gba-light btn-outline-success" for="2">English</label>
+
+                                <input type="radio" class="btn-check form-check-input" name="language" id="1"
+                                    autocomplete="off">
+                                <label class="btn bg-gba-light btn-outline-success" for="1">Afrikaans</label>
+                            </div> --}}
+                            <div class="btn-group col d-flex justify-content-center align-items-center mx-auto"
+                                style="padding-top: 0.75rem;">
+                                <select class="form-control form-control-solid" id="language" name="language">
+                                    <option value="">Select Language</option>
+                                    @foreach ($languages as $language)
+                                        <option value="{{ $language->id }}">{{ $language->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-2 mt-3 mt-sm-0">
                             <div class="pb-2">
                                 <!-- <label class="form-label col d-flex justify-content-center mx-auto">Marital status</label> -->
-                                <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto"
+                                {{-- <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto"
                                     style="padding-top: 0.75rem;">
                                     <input type="radio" class="btn-check form-check-input" name="marital_status"
                                         id="Married" value="1" />
@@ -280,41 +321,24 @@
                                     <input type="radio" class="btn-check form-check-input" name="marital_status"
                                         id="Divorced" value="4" />
                                     <label class="btn bg-gba-light btn-outline-success" for="Divorced">Divorced</label>
+                                </div> --}}
+
+                                <div class="btn-group col d-flex justify-content-center align-items-center mx-auto"
+                                    style="padding-top: 0.75rem;">
+                                    <select class="form-control form-control-solid" id="marital_status"
+                                        name="marital_status">
+                                        <option value="">Select Marital Status</option>
+                                        @foreach ($maritalStatuses as $status)
+                                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-4 pt-3 mt-sm-0" style="margin-top: 25px;">
-                            <div class="btn-group  col d-flex justify-content-center align-items-center mx-auto">
-
-                                <input type="radio" class="btn-check form-check-input " name="radioGender"
-                                    id="Male" value="M" />
-                                <label class="btn bg-gba-light btn-outline-success" for="Male">Male</label>
-
-                                <input type="radio" class="btn-check form-check-input " name="radioGender"
-                                    id="Female" value="F" />
-                                <label class="btn bg-gba-light btn-outline-success" for="Female">Female</label>
 
                             </div>
                         </div>
-                        <div class="col-2">
-                            <div class="btn-group col d-flex justify-content-center align-items-center mx-auto"
-                                style="padding-top: 0.75rem;">
-                                <input type="radio" class="btn-check form-check-input" name="language" id="2"
-                                    autocomplete="off">
-                                <label class="btn bg-gba-light btn-outline-success" for="2">English</label>
-
-                                <input type="radio" class="btn-check form-check-input" name="language" id="1"
-                                    autocomplete="off">
-                                <label class="btn bg-gba-light btn-outline-success" for="1">Afrikaans</label>
-                            </div>
-                        </div>
-
-
                     </div>
-                    <div class="button-row d-flex mt-4">
 
-                    </div>
+
                 </div>
             </div>
 
@@ -322,8 +346,7 @@
                 <div>
                     <!--begin::Title-->
                     <h1 class="fw-bold d-flex align-items-center text-gba">Location
-                        <span class="ms-1" data-bs-toggle="tooltip"
-                            title="">
+                        <span class="ms-1" data-bs-toggle="tooltip" title="">
                             <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
@@ -338,7 +361,7 @@
                 </div>
                 <div>
                     <div class="row mt-3">
-                        <div class="col">
+                        <div class="col-6">
                             <div
                                 class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
                                 <input type="text" class="multisteps-form__input form-control" name="Line1"
@@ -350,8 +373,6 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
-                    <div class="row mt-3">
                         <div class="col-6 col-sm-6">
                             <div
                                 class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
@@ -365,9 +386,24 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="col-6 col-sm-6">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3 col-sm-3 ">
                             <div
-                                class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
+                                class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror ">
+
+                                <input type="text" class="form-control" name="Province" id="Province"
+                                    value="{{ old('Province') }}" placeholder="Province">
+                            </div>
+                            @error('Province')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong style="color: red;">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="col-3 col-sm-3">
+                            <div
+                                class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror ">
 
                                 <input type="text" autocomplete="off" class="multisteps-form__input form-control"
                                     name="TownSuburb" id="TownSuburb" value="{{ old('TownSuburb') }}"
@@ -379,11 +415,9 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-3 col-sm-3">
                             <div
-                                class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror ">
 
                                 <input type="text" class="multisteps-form__input form-control" name="City"
                                     id="City" value="{{ old('City') }}" placeholder="City">
@@ -394,39 +428,11 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
+
+                        
+                        <div class="col-2 col-sm-2">
                             <div
-                                class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                <input type="text" class="form-control" name="Province" id="Province"
-                                    value="{{ old('Province') }}" placeholder="Province">
-                            </div>
-                            @error('Province')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong style="color: red;">{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                            <div
-                                class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                <input type="text" class="multisteps-form__input form-control" name="PostalCode"
-                                    id="PostalCode" value="{{ old('PostalCode') }}" placeholder="Postal Code">
-                            </div>
-                            @error('PostalCode')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong style="color: red;">{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                            <div
-                                class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
+                                class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror ">
 
                                 <input type="text" class="form-control" name="Country" id="Country"
                                     value="{{ old('Province') }}" placeholder="Country">
@@ -437,11 +443,21 @@
                                 </span>
                             @enderror
                         </div>
+
+                        <div class="col-1 col-sm-1">
+                            <div
+                                class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror ">
+
+                                <input type="text" class="multisteps-form__input form-control" name="PostalCode"
+                                    id="PostalCode" value="{{ old('PostalCode') }}" placeholder="Code">
+                            </div>
+                            @error('PostalCode')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong style="color: red;">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
-
-                </div>
-                <div class="button-row d-flex mt-4">
-
 
                 </div>
             </div>
@@ -466,28 +482,32 @@
                 <div class="multisteps-form__content">
                     <div class="row mt-3">
                         <div class="col-3">
-    <div class="input-group input-group-outline @error('Telephone') is-invalid focused is-focused @enderror mt-3 mb-0">
-        <input type="tel" class="form-control" name="Telephone" id="Telephone"
-            value="{{ old('Telephone') }}" placeholder="Add Telephone (Cell)" maxlength="10" pattern="0[0-9]{9}">
-    </div>
-    @error('Telephone')
-        <span class="invalid-feedback" role="alert">
-            <strong style="color: red;">{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
+                            <div
+                                class="input-group input-group-outline @error('Telephone') is-invalid focused is-focused @enderror mt-3 mb-0">
+                                <input type="tel" class="form-control" name="Telephone" id="Telephone"
+                                    value="{{ old('Telephone') }}" placeholder="Add Telephone (Cell)" maxlength="15"
+                                    pattern="0[0-9]{9}">
+                            </div>
+                            @error('Telephone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong style="color: red;">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
-<div class="col-3">
-    <div class="input-group input-group-outline @error('WorkTelephone') is-invalid focused is-focused @enderror mt-3 mb-0">
-        <input type="tel" class="form-control" name="WorkTelephone" id="WorkTelephone"
-            value="{{ old('WorkTelephone') }}" placeholder="Add Telephone (Work)" maxlength="10" pattern="0[0-9]{9}">
-    </div>
-    @error('WorkTelephone')
-        <span class="invalid-feedback" role="alert">
-            <strong style="color: red;">{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
+                        <div class="col-3">
+                            <div
+                                class="input-group input-group-outline @error('WorkTelephone') is-invalid focused is-focused @enderror mt-3 mb-0">
+                                <input type="tel" class="form-control" name="WorkTelephone" id="WorkTelephone"
+                                    value="{{ old('WorkTelephone') }}" placeholder="Add Telephone (Work)" maxlength="15"
+                                    pattern="0[0-9]{9}">
+                            </div>
+                            @error('WorkTelephone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong style="color: red;">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
 
                         <div class="col-6">
@@ -517,8 +537,7 @@
             <div class="imputsection bg-bs-color bg-gba-subtle border-gba shadow-lg">
                 <!--begin::Title-->
                 <h1 class="fw-bold d-flex align-items-center text-gba">Membership Type
-                    <span class="ms-1" data-bs-toggle="tooltip"
-                        title="">
+                    <span class="ms-1" data-bs-toggle="tooltip" title="">
                         <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -582,6 +601,23 @@
 
 @push('scripts')
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 library --> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Google places setup
+            initAutocomplete('Line1', {
+                Line1: 'Line1',
+                Line2: 'Line2',
+                PostalCode: 'PostalCode',
+                City: 'City',
+                TownSuburb: 'TownSuburb',
+                Province: 'Province',
+                Country: 'Country',
+                PlaceName: 'PlaceName'
+            });
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             // Check if there's a success message in the session

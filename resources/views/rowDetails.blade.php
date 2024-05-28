@@ -61,6 +61,7 @@
                                 <form method="GET" action="{{ route('api.rowdetails') }}">
                                     <div class="mb-3">
                                         <label for="membership_id" class="form-label">Membership ID</label>
+                                        
                                         <select class="form-select select2" id="membership_id" name="membership_id">
                                             <option value="">Select Membership ID</option>
                                             @foreach ($memberships as $membership)
@@ -142,7 +143,7 @@
                                         </div>
                                     @endif
                                 </p>
-                            
+
                             </div>
                         </div>
                     </div>
@@ -208,13 +209,11 @@
     </script>
 
     <script>
-    
         $(document).ready(function() {
             $('.membership_id').select2();
             var selectedMembershipId = $(this).val();
-                var selectedMembership = $(this).find('option:selected').text();
-                console.log('Selected Membership ID: ' + selectedMembershipId + ', Details: ' + selectedMembership);
-            
+            var selectedMembership = $(this).find('option:selected').text();
+            console.log('Selected Membership ID: ' + selectedMembershipId + ', Details: ' + selectedMembership);
         });
     </script>
 @endpush

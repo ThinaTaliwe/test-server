@@ -13,6 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
     {{--START Siya: Google auto-complete always on top --}}
     <style>
@@ -21,6 +23,95 @@
         }
     </style>
     {{--END Siya: Google auto-complete always on top --}}
+
+            <!-- Google maps auto-complete form -->
+            {{-- <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places&callback=initAutocomplete">
+            </script> --}}
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places" async defer></script>
+    
+        {{--Start: Trying a modularized version of Google maps auto-complete --}}
+        <script>
+            "use strict";
+        
+            function initAutocomplete(inputId, additionalFields) {
+                var autocomplete;
+                var fields = {
+                    address1Field: document.getElementById(additionalFields.Line1),
+                    address2Field: additionalFields.Line2 ? document.getElementById(additionalFields.Line2) : null,
+                    postalField: additionalFields.PostalCode ? document.getElementById(additionalFields.PostalCode) : null,
+                    cityField: additionalFields.City ? document.getElementById(additionalFields.City) : null,
+                    townSuburbField: additionalFields.TownSuburb ? document.getElementById(additionalFields.TownSuburb) : null,
+                    provinceField: additionalFields.Province ? document.getElementById(additionalFields.Province) : null,
+                    countryField: additionalFields.Country ? document.getElementById(additionalFields.Country) : null,
+                    placeNameField: additionalFields.PlaceName ? document.getElementById(additionalFields.PlaceName) : null,
+                };
+        
+                autocomplete = new google.maps.places.Autocomplete(document.getElementById(inputId), {
+                    componentRestrictions: { country: ["za"] },
+                    fields: ["address_components", "geometry", "name"],
+                    types: [],
+                });
+        
+                autocomplete.addListener("place_changed", function () {
+                    fillInAddress(autocomplete, fields);
+                });
+            }
+        
+            function fillInAddress(autocomplete, fields) {
+                var place = autocomplete.getPlace();
+                var address1 = "";
+                var postcode = "";
+        
+                for (const component of place.address_components) {
+                    const componentType = component.types[0];
+        
+                    switch (componentType) {
+                        case "street_number":
+                            address1 = `${component.long_name} ${address1}`;
+                            break;
+                        case "route":
+                            address1 += component.short_name;
+                            break;
+                        case "postal_code":
+                            postcode = component.long_name;
+                            break;
+                        case "postal_code_suffix":
+                            postcode += `-${component.long_name}`;
+                            break;
+                        case "locality":
+                            if (fields.cityField) fields.cityField.value = component.long_name;
+                            break;
+                        case "sublocality_level_1":
+                            if (fields.townSuburbField) fields.townSuburbField.value = component.long_name;
+                            break;
+                        case "administrative_area_level_1":
+                            if (fields.provinceField) fields.provinceField.value = component.long_name;
+                            break;
+                        case "administrative_area_level_2":
+                            if (fields.address2Field) fields.address2Field.value = component.long_name;
+                            break;
+                        case "country":
+                            if (fields.countryField) fields.countryField.value = component.long_name.toUpperCase();
+                            break;
+                    }
+                }
+        
+                if (fields.address1Field) fields.address1Field.value = address1;
+                if (fields.postalField) fields.postalField.value = postcode;
+                if (fields.placeNameField) fields.placeNameField.value = place.name; // Store the place name
+                if (fields.address2Field) fields.address2Field.focus();
+            }
+        
+            window.initAutocomplete = initAutocomplete;
+        </script>
+        
+            
+            
+        {{--End: Trying a modularized version of Google maps auto-complete --}}
+        
+    
+    
 
 
     <style>
@@ -95,6 +186,39 @@
         }
     </style>
 
+{{-- Start Script for styling notifications for Activity Log --}}
+<style>
+#kt_activities_toggle {
+    position: relative;
+    border: 1px solid #646c9a; /* Border color matching the icon */
+
+}
+
+.notification-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: #f44336; /* Red background for notification count */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.ki-duotone.ki-notification-bing .path1 {
+    fill: #646c9a; /* Primary color */
+}
+
+.ki-duotone.ki-notification-bing .path2 {
+    fill: #50597b; /* Secondary color */
+}
+
+.ki-duotone.ki-notification-bing .path3 {
+    fill: #3a4260; /* Tertiary color */
+}
+</style>
+{{-- Start Script for styling notifications for Activity Log --}}
 @endpush
 
 @section('themeMode')
@@ -258,7 +382,7 @@
                         ]"/>
                         <!--end:Menu item-->
                     @endcanany
-                    <div id="google_translate_element" class="text-center mt-4">Language Test:</div>
+                    <div id="google_translate_element" class="text-center mt-4">Language:</div>
                     <!--begin:Menu item-->
                     {{-- <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[ --}}
                     {{-- ['url' => '/testingview', 'title' => __('messages.Developments')], --}}
@@ -354,7 +478,6 @@
                 <!--end::Solid input group style-->
             @endcanany
 
-
             <!--begin::Solid input group style-->
             <div class="input-group input-group-solid mx-2" style="width: 190px; font-size: 0.8rem;">
                 <div class="overflow-hidden flex-grow-1">
@@ -371,34 +494,66 @@
             </div>
             <!--end::Solid input group style-->
 
-
             <!--begin::Wrapper-->
             <x-header.brand class="my-custom-class" href="{{ route('admin.home') }}" logoSrc="img/GBA-LOGO-white2.png"
                             logoAlt="Logo"/>
             <!--end::Wrapper-->
-
 
             <!--begin::Topbar-->
             <div class="d-flex align-items-center flex-shrink-0">
                 <!--begin::Activities-->
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
                     <!--begin::Drawer toggle-->
-                    <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"
+                    
+                    
+                
+                    
+                    
+                    
+                    
+                    
+                    {{-- <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light ribbon ribbon-top ribbon-vertical"
                          id="kt_activities_toggle">
+                         <div class="ribbon-label bg-transparent">
+                             @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
+                        <div class="mb-3">
+                        <span class="badge badge-danger" id="unreadCount"> {{ auth()->user()->unreadNotifications->count() }}</span>
+                            
+                        </div>
+                        @endif
+                        </div>
                         <i class="ki-duotone ki-notification-bing" style="font-size: 34px;">
                             <span class="path1"></span>
                             <span class="path2"></span>
                             <span class="path3"></span>
+                        </i>                      
+                    </div> --}}
+
+
+                    <div class="btn btn-icon btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"
+                        id="kt_activities_toggle">
+                        <!-- Notification Icon -->
+                        <i class="ki-duotone ki-notification-bing" style="font-size: 34px; color: #646c9a;">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
                         </i>
+                        <!-- Notification Badge -->
+                        @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-badge" id="unreadCount">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </span>
+                        @endif
                     </div>
+
+                     
                     <!--end::Drawer toggle-->
                 </div>
                 <!--end::Activities-->
                 <!--begin::Theme mode-->
-                <div class="d-flex align-items-center ms-3 ms-lg-">
+                <div class="d-flex align-items-center ms-3 ms-lg">
                     <!--begin::Menu toggle-->
-                    <a href="#"
-                       class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"
+                    <a href="#" class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light border border-dark"
                        data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent"
                        data-kt-menu-placement="bottom-end">
                         <!-- <i class="ki-duotone ki-night-day theme-light-show fs-1">
@@ -678,10 +833,11 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
-    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light" onclick="document.getElementById('logout-form').submit();">
-        <i class="bi bi-x-octagon" style="font-size: 28px; color: red;"></i>
+    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light  border border-dark" onclick="document.getElementById('logout-form').submit();">
+        <i class="bi bi-power" style="font-size: 28px; color: red;"></i>
     </button>
     <!--end::Logout Form-->
+    
 </div>
 
                 <!--end::Activities-->
@@ -798,12 +954,14 @@
                 <a href="/home" target="_blank" class="text-black text-hover-primary fw-semibold me-1 fs-4">GBA</a>
             </div>
             <!--end::Copyright-->
+
             <!--begin::Menu-->
             <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
                 {{-- <li class="menu-item">
                     <a href="{{ route('user-settings') }}" target="_blank"
                        class="menu-link px-2">{{ __('messages.Contacts') }}</a>
                 </li> --}}
+
                 <a href="/contact" target="_blank" class="pt-2 text-black text-hover-primary fw-semibold me-1 fs-4">Contacts</a>
             </ul>
             <!--end::Menu-->
@@ -818,7 +976,7 @@
             <div class="card shadow-none border-0 rounded-0">
                 <!--begin::Header-->
                 <div class="card-header" id="kt_activities_header">
-                    <h3 class="card-title fw-bold text-dark">Activity Logs</h3>
+                    <h3 class="card-title fw-bold text-dark">Activity Logs : <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span></h3>
                     <div class="card-toolbar">
                         <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5"
                                 id="kt_activities_close">
@@ -840,58 +998,61 @@
                         <!--begin::Timeline items-->
                         <div class="timeline">
                             <!--begin::Timeline item-->
-
-                            <!--end::Timeline item-->
-                            <!--begin::Timeline item-->
-                            <div class="timeline-item">
-                                <!--begin::Timeline line-->
-                                <div class="timeline-line w-40px"></div>
-                                <!--end::Timeline line-->
-                                <!--begin::Timeline icon-->
-                                <div class="timeline-icon symbol symbol-circle symbol-40px">
-                                    <div class="symbol-label bg-dark">
-                                        <i class="ki-duotone ki-flag fs-2 text-gray-500">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </div>
-                                </div>
-                                <!--end::Timeline icon-->
-                                <!--begin::Timeline content-->
-                                <div class="timeline-content mb-10 mt-n2">
-                                    <!--begin::Timeline heading-->
-                                    <!--begin::Timeline heading-->
-                                    <div class="overflow-auto pe-3">
-                                        <!--begin::Title-->
-                                        <div class="fs-5 fw-semibold mb-2">Memorial Service Invitation: Remembering Lives with
-                                            Dignity
-                                        </div>
-                                        <!--end::Title-->
-                                        <!--begin::Description-->
-                                        <div class="d-flex align-items-center mt-1 fs-6">
-                                            <!--begin::Info-->
-                                            <div class="me-2 fs-7">Scheduled for 2:00 PM, sent by</div>
-                                            <!--end::Info-->
-                                            <!--begin::User-->
-                                            <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
-                                                data-bs-boundary="window" data-bs-placement="top" title="John Doe">
-                                                <!--begin::User-->
-                                                <a href="#" class="text-primary fw-bold me-1">Jane Smith</a>
-                                                <!--end::User-->
-                                            </div>
-                                            <!--end::User-->
-                                        </div>
-                                        <!--end::Description-->
-                                    </div>
-                                    <!--end::Timeline heading-->
-
-                                    <!--end::Timeline heading-->
-                                </div>
-                                <!--end::Timeline content-->
+                            <div class="timeline">
+                                <div id="unreadNotificationsBadge" class="mb-3">
+                                
                             </div>
-                            <!--end::Timeline item-->
-                            <!--begin::Timeline item-->
+                        
+                        {{-- @dump(auth()->user()->unreadNotifications) --}}
+                        @foreach(auth()->user()->notifications as $notification)
+                            <!-- Notification Badge for Unread Notifications -->
 
+                        <div class="timeline-item">
+                            <!--begin::Timeline line-->
+                            <div class="timeline-line w-40px"></div>
+                            <!--end::Timeline line-->
+                            <!--begin::Timeline icon-->
+                            <div class="timeline-icon symbol symbol-circle symbol-40px">
+                                <div class="symbol-label bg-dark">
+                                    <i class="ki-duotone ki-flag fs-2 text-gray-500">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
+                            </div>
+                            <!--end::Timeline icon-->
+                            <!--begin::Timeline content-->
+                            <div class="timeline-content mb-10 mt-n2">
+                                <!--begin::Timeline heading-->
+                                <div class="overflow-auto pe-3">
+                                    <!--begin::Title-->
+                                    {{-- <div class="fs-5 fw-semibold mb-2">{{ $notification->data['message'] }} <button onclick="deleteNotification('{{ $notification->id }}', this)" class="badge badge-sm bg-danger" style="cursor: pointer;">clear</button></div> --}}
+                                    <div class="fs-5 fw-semibold mb-2">{{ $notification->data['message'] }}<button onclick="deleteNotification('{{ $notification->id }}', this)" class="badge badge-sm bg-danger" style="cursor: pointer;">clear</button></div>
+                                    {{-- <div class="fs-5 fw-semibold mb-2"></div> --}}
+                                    <!--end::Title-->
+                                    <!--begin::Description-->
+                                    <div class="d-flex align-items-center mt-1 fs-6">
+                                        <!--begin::Info-->
+                                        {{-- <div class="me-2 fs-7 text-gray-700">{{ $notification->created_at }}</div> --}}
+                                        <!--end::Info-->
+                                        <!--begin::User-->
+                                        <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
+                                            data-bs-boundary="window" data-bs-placement="top" title="{{Auth::user()->email}} ">
+                                            <!--begin::User-->
+                                            <span>{{ $notification->data['action'] }}  <span class="me-2 fs-7 text-gray-700">{{ $notification->created_at->diffForHumans() }} </span> by </span><a href="#" class="text-primary fw-bold me-1">{{Auth::user()->name}}</a>
+                                            {{-- <span> by </span><a href="#" class="text-primary fw-bold me-1"></a> --}}
+                                            {{-- <!--end::User--> --}}                                          
+                                        </div>
+                                        <!--end::User-->
+                                    </div>
+                                    <!--end::Description-->
+                                </div>
+                                <!--end::Timeline heading-->
+                            </div>
+                            <!--end::Timeline content-->
+                        </div>
+                        @endforeach
+                    </div>
                             <!--end::Timeline item-->
                             <!--begin::Timeline item-->
                             <div class="timeline-item">
@@ -946,6 +1107,7 @@
                     <!--end::Content-->
                 </div>
                 <!--end::Body-->
+
                 <!--begin::Footer-->
                 <div class="card-footer py-5 text-center" id="kt_activities_footer">
                     <a href="#" class="btn btn-bg-body text-primary">End Of Activities.
@@ -1241,90 +1403,7 @@
         window.initAutocomplete = initAutocomplete;
     </script> --}}
 
-    {{--Start: Trying a modularized version of Google maps auto-complete --}}
-    <script>
-        "use strict";
-        
-        function initAutocomplete(inputId, additionalFields) {
-            var autocomplete;
-            var fields = {
-                address1Field: document.getElementById(additionalFields.Line1),
-                address2Field: additionalFields.Line2 ? document.getElementById(additionalFields.Line2) : null,
-                postalField: additionalFields.PostalCode ? document.getElementById(additionalFields.PostalCode) : null,
-                cityField: additionalFields.City ? document.getElementById(additionalFields.City) : null,
-                townSuburbField: additionalFields.TownSuburb ? document.getElementById(additionalFields.TownSuburb) : null,
-                provinceField: additionalFields.Province ? document.getElementById(additionalFields.Province) : null,
-                countryField: additionalFields.Country ? document.getElementById(additionalFields.Country) : null,
-                placeNameField: additionalFields.PlaceName ? document.getElementById(additionalFields.PlaceName) : null,
-            };
-        
-            autocomplete = new google.maps.places.Autocomplete(document.getElementById(inputId), {
-                componentRestrictions: {country: ["za"]},
-                fields: ["address_components", "geometry", "name"],
-                types: [],
-            });
-        
-            autocomplete.addListener("place_changed", function() {
-                fillInAddress(autocomplete, fields);
-            });
-        }
-        
-        function fillInAddress(autocomplete, fields) {
-            var place = autocomplete.getPlace();
-            var address1 = "";
-            var postcode = "";
-        
-            for (const component of place.address_components) {
-                const componentType = component.types[0];
-        
-                switch (componentType) {
-                    case "street_number":
-                        address1 = `${component.long_name} ${address1}`;
-                        break;
-                    case "route":
-                        address1 += component.short_name;
-                        break;
-                    case "postal_code":
-                        postcode = component.long_name;
-                        break;
-                    case "postal_code_suffix":
-                        postcode += `-${component.long_name}`;
-                        break;
-                    case "locality":
-                        if (fields.cityField) fields.cityField.value = component.long_name;
-                        break;
-                    case "sublocality_level_1":
-                        if (fields.townSuburbField) fields.townSuburbField.value = component.long_name;
-                        break;
-                    case "administrative_area_level_1":
-                        if (fields.provinceField) fields.provinceField.value = component.long_name;
-                        break;
-                    case "administrative_area_level_2":
-                        if (fields.address2Field) fields.address2Field.value = component.long_name;
-                        break;
-                    case "country":
-                        if (fields.countryField) fields.countryField.value = component.long_name.toUpperCase();
-                        break;
-                }
-            }
-        
-            if (fields.address1Field) fields.address1Field.value = address1;
-            if (fields.postalField) fields.postalField.value = postcode;
-            if (fields.address2Field) fields.address2Field.focus();
-        }
-        
-        window.initAutocomplete = initAutocomplete;
-    </script>
-        
-        
-    {{--End: Trying a modularized version of Google maps auto-complete --}}
-    
 
-
-    <!-- Google maps auto-complete form -->
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places&callback=initAutocomplete">
-    </script>
 
     {{-- //This is for the member form - original --}}
     <script>
@@ -1580,6 +1659,7 @@
     {{-- End Redirect Back Function --}}
 
 
+
     <!--begin::Javascript-->
 
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
@@ -1622,6 +1702,47 @@
     <script src="{{ asset('assets/js/custom/account/settings/deactivate-account.js') }}"></script>
     <script src="{{ asset('assets/js/custom/pages/user-profile/general.js') }}"></script>
     <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
+
+
+<script>
+$(document).ready(function() {
+    // CSRF Token setup for jQuery AJAX
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Function to handle the deletion of notifications
+    window.deleteNotification = function(notificationId, element) {
+        $.ajax({
+            url: '/notifications/' + notificationId,
+            type: 'DELETE',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Remove the notification element from the UI
+                    $('#notification-' + notificationId).remove();
+                    $(element).closest('.timeline-item').remove();
+
+                    // Decrement the counter
+                    let countElement = $('#unreadCount');
+                    let currentCount = parseInt(countElement.text());
+                    countElement.text(currentCount - 1);
+
+                    let countElementLogs = $('#unreadCountLogs');
+                    let currentCountLogs = parseInt(countElementLogs.text());
+                    countElementLogs.text(currentCountLogs - 1);
+                } else {
+                    alert('Failed to delete notification');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting the notification', error);
+            }
+        });
+    }
+});
+</script>
 
     <!--end::Custom Javascript-->
 @endpush

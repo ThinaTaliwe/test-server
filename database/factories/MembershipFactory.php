@@ -2,55 +2,72 @@
 
 namespace Database\Factories;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 use App\Models\Membership;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 
 class MembershipFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Membership::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
+        $faker = Faker::create();
+        
+        static $membership_code = 1212124;
+        static $id_number_set = [];
+        static $email_set = [];
+        
+        do {
+            $id_number = $faker->numerify('#############');
+        } while (in_array($id_number, $id_number_set));
+        $id_number_set[] = $id_number;
+
+        do {
+            $primary_email = $faker->email;
+        } while (in_array($primary_email, $email_set));
+        $email_set[] = $primary_email;
+
+        do {
+            $secondary_email = $faker->email;
+        } while (in_array($secondary_email, $email_set));
+        $email_set[] = $secondary_email;
+
+        $name = $faker->firstName;
+        $initials = strtoupper(substr($name, 0, 1));
+        $surname = str_replace("'", "''", $faker->lastName);
+
         return [
-            'membership_code' => Str::random(10),
-            'name' => $this->faker->name,
-            'initials' => $this->faker->randomLetter . $this->faker->randomLetter,
-            'surname' => $this->faker->lastName,
-            'id_number' => $this->faker->unique()->randomNumber(8),
-            'join_date' => $this->faker->dateTime,
-            'end_date' => $this->faker->dateTime,
-            'end_reason' => $this->faker->sentence,
-            'gender_id' => $this->faker->randomElement(['M', 'F']),
-            'bu_membership_type_id' => $this->faker->randomElement(['1']),
-            'bu_membership_region_id' => $this->faker->randomElement(['1', '2', '3']),
-            'bu_membership_status_id' => $this->faker->randomElement(['1', '2', '3']),
-            'language_id' => $this->faker->randomElement(['1', '2']),
-            'person_id' => $this->faker->randomNumber(4),
-            'previous_membership_id' => $this->faker->randomNumber(4),
-            'primary_contact_number' => $this->faker->phoneNumber,
-            'secondary_contact_number' => $this->faker->phoneNumber,
-            'tertiary_contact_number' => $this->faker->phoneNumber,
-            'sms_number' => $this->faker->phoneNumber,
-            'primary_e_mail_address' => $this->faker->email,
-            'secondary_e_mail_address' => $this->faker->email,
-            'membership_fee' => $this->faker->randomFloat(4, 0, 1000),
-            'fee_currency_id' => 1,
-            'last_payment_date' => $this->faker->dateTime,
-            'paid_till_date' => $this->faker->dateTime,
-            'deleted' => $this->faker->randomElement([null, 1]),
+            'membership_code' => $membership_code++,
+            'name' => $name,
+            'initials' => $initials,
+            'surname' => $surname,
+            'id_number' => $id_number,
+            'join_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'end_date' => null,
+            'end_reason' => null,
+            'gender_id' => $faker->randomElement(['F', 'M']),
+            'bu_id' => 7,
+            'bu_membership_type_id' => $faker->numberBetween(1, 18),
+            'bu_membership_region_id' => 1,
+            'bu_membership_status_id' => $faker->numberBetween(1, 2),
+            'person_id' => $faker->numberBetween(1, 9),
+            'language_id' => 2,
+            'primary_contact_number' => $faker->numerify('##########'),
+            'secondary_contact_number' => $faker->numerify('##########'),
+            'tertiary_contact_number' => $faker->numerify('##########'),
+            'sms_number' => $faker->numerify('##########'),
+            'primary_e_mail_address' => $primary_email,
+            'secondary_e_mail_address' => $secondary_email,
+            'preferred_payment_method_id' => 1,
+            'membership_fee' => $faker->numberBetween(50, 500),
+            'fee_currency_id' => 149,
+            'last_payment_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'paid_till_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'deleted' => 0,
+            'deleted_at' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
