@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
+use App\Notifications\PersonStatusNotification;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -43,6 +45,19 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('User Created', 'A new user has been created.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return view('admin.user.create', compact('roles'))->with('success', 'User created successfully.');;
     }
     /**
@@ -108,6 +123,18 @@ class UserController extends Controller
             ]);
         }
         $roles = $request->roles ?? [];
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('User Update', 'A user has been updated.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         //Siya: Used syncRoles instead of assignRole - Basically Update vs Create
         $user->syncRoles($roles);
         return redirect()->route('user.index')
@@ -150,6 +177,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
+        
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('User Delete', 'A user has been deleted.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
 
         return redirect()->route('user.index')
             ->with('success', 'User has been deleted!');

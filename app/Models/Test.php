@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Test extends Model
 {
     use HasFactory;
+
+     protected $fillable = ['name', 'details']; // Flexible enough for basic tests.
 }

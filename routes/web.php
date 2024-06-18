@@ -48,6 +48,8 @@ use App\Http\Controllers\MembershipBankDetailController;
 use App\Http\Controllers\DeathController;
 use App\Http\Controllers\FuneralController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\UserBuController;
+use App\Http\Controllers\PersonController;
 
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
@@ -71,6 +73,7 @@ Route::get('/member/lifecycle', [ReportController::class, 'lifecycleReport'])->n
 Route::get('/member/insurance-claims', [ReportController::class, 'insuranceClaimsReport'])->name('lededata.insurance');
 Route::get('/member/communication', [ReportController::class, 'communicationReport'])->name('lededata.communication');
 Route::get('/member/audit', [ReportController::class, 'auditReport'])->name('lededata.audit');
+
 //--------------------------------- End lededata Routes --------------------------------------------------------------------
 
 /* These Are For Mappings */
@@ -308,7 +311,7 @@ Route::post('onboarding/{user}', [MyWelcomeController::class, 'saveUserInfo'])
 /**
  * Route for displaying the add user info form.
  */
-Route::get('onboarding/{user}', [WelcomeController::class, 'showAddUserInfoForm'])
+Route::get('onboarding/{user}', [MyWelcomeController::class, 'showAddUserInfoForm'])
     ->middleware(['auth'])
     ->name('onboarding');
 
@@ -469,13 +472,33 @@ Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralA
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
 
+Route::post('/funeral/checklist/{id}', [FuneralController::class, 'updateChecklistItem']);
+
+
+//Used this to set/get current bu
+Route::post('/update-current-bu', [UserBuController::class, 'updateCurrentBu'])->name('update.current.bu');
+
+//Person Routes
+Route::post('/person/store', [PersonController::class, 'store'])->name('person.store');
+
 Route::get('/api/rowdetails', [DataController::class, 'getRowDetails'])->name('api.rowdetails');
 
-//Route::get('/membership-payment-data', [ReportsController::class, 'dependantsGrid']);
-// If you're adding this to web.php
-//Route::get('/membership-payment-data', 'YourController@dependantsGrid');
-// Add this route in your web.php
+use App\Http\Controllers\CommentController;
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
 Route::delete('/notifications/{notification}', [MembershipsController::class, 'deleteNotification'])->name('notifications.delete');
+
+// use App\Http\Controllers\BoardingController;
+
+// Route::get('boarding/create', [BoardingController::class, 'create'])->name('boarding.create');
+// Route::post('boarding', [BoardingController::class, 'store'])->name('boarding.store');
+
+use App\Http\Controllers\TestController;
+// Resource route for the Test model
+/** This sets up routes for index, create, store, show, edit, update, and destroy methods in the TestController.*/
+Route::resource('tests', TestController::class)->withTrashed();
+
 
 
 require __DIR__ . '/auth.php';

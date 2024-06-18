@@ -278,64 +278,59 @@
 
                 <div class="py-0">
                     <div class="table-responsive">
-                        <table class="table   border rounded table-row-bordered  fs-6 g-5 gs-5 " style="width:100%; background-color: #ffffff">
+                        <table class="table border rounded table-row-bordered fs-6 g-5 gs-5" style="width:100%; background-color: #ffffff">
                             <thead>
                                 <tr class="fw-bold fs-6 text-gray-800">
-                                    <th style=" text-align: center;">Checklist Item</th>
-                                    <th style=" text-align: center;">Completed</th>
-                                    <th style=" text-align: center;">Notes</th>
+                                    <th style="text-align: center;">Checklist Item</th>
+                                    <th style="text-align: center;">Completed</th>
+                                    <th style="text-align: center;">Notes</th>
+                                    <th style="text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
                                 @foreach ($checklist_items as $item)
-            
-                                <tr>
-                                    <td style=" text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-                                    
-                                        {{ $item->name }}
-                                    
-                                    </td>
-                                    <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-                                    
-                                             <!-- Row  -->
-                                             <div class="row mb-3">
+                                    <tr>
+                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
+                                            <input type="hidden" name="funeral_id" value="{{ $item->funeral_id }}">
+                                            <input type="hidden" name="funeral_checklist_id" value="{{ $item->funeral_checklist_id }}">
+                                            <input type="hidden" name="bu_id" value="{{ $item->bu_id }}">
+                                            {{ $item->name }}
+                                        </td>
+                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
+                                            <div class="row mb-3">
                                                 <div class="col">
-                                                    <label for="{{ $item->name }}_completed_date" class="form-label">Completed Date:</label>
-                                                    <input type="date" class="form-control" id="{{ $item->name }}_completed_date" name="{{ $item->name }}_completed_date">
+                                                    <label for="{{ $item->id }}_completed_date" class="form-label">Completed Date:</label>
+                                                    <input type="date" class="form-control" id="{{ $item->id }}_completed_date" name="completed_date" value="{{ $item->completed_date }}">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="{{ $item->name }}_completed_time" class="form-label">Time:</label>
-                                                    <input type="time" class="form-control" id="{{ $item->name }}_completed_time" name="{{ $item->name }}_completed_time">
+                                                    <label for="{{ $item->id }}_completed_time" class="form-label">Time:</label>
+                                                    <input type="time" class="form-control" id="{{ $item->id }}_completed_time" name="completed_time" value="{{ $item->completed_time }}">
                                                 </div>
                                             </div>
-                                    
-                                    </td>
-                                    <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important; ">
-
-                                        <div class="row mb-3">
-                                       
-                                            <div class="col">
-                                                <label for="{{ $item->name }}_note" class="form-label">Description/Note:</label>
-                                                <textarea class="form-control" id="{{ $item->name }}_note" name="{{ $item->name }}_note" rows="1"></textarea>
+                                        </td>
+                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
+                                            <div class="row mb-3">
+                                                <div class="col">
+                                                    <label for="{{ $item->id }}_note" class="form-label">Description/Note:</label>
+                                                    <textarea class="form-control" id="{{ $item->id }}_note" name="note" rows="1">{{ $item->note }}</textarea>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
+                                            <button class="btn btn-primary save-btn" data-id="{{ $item->id }}">Save</button>
+                                            <button class="btn btn-secondary cancel-btn" data-id="{{ $item->id }}">Cancel</button>
+                                        </td>
+                                    </tr>
                                 @endforeach
-                              
-           
-                                
                             </tbody>
-
-                            
                         </table>
                         @if ($checklist_items->isEmpty())
                             <h4>No Checklist items available</h4>
                         @endif
                     </div>
                 </div>
+                
+                
                 
                 
 
@@ -383,6 +378,7 @@
 
                             <input type="text" id="person_id" name="person_id" value="{{ $deceased_person->id }}" hidden>
                             <input type="text" id="person_name" name="person_name" value="{{ $deceased_person->first_name }}" hidden>
+                            {{-- <input type="text" id="funeral_id" name="funeral_id" value="{{ $deceased_person->funerals() }}" hidden> --}}
 
 
                             <!--begin::Accordion-->
@@ -756,18 +752,38 @@
                                                                     <label for="coffin" class="form-label">Coffin:</label>
                                                                     <input type="text" class="form-control" id="coffin" name="coffin">
                                                                 </div>
+                                                                <div class="col">
+                                                                    <label for="viewing_time" class="form-label">Viewing Time:</label>
+                                                                    <input type="datetime-local" class="form-control" id="viewing_time" name="viewing_time">
+                                                                </div>s
                                                             </div>
 
                                                             <!-- Row 2.5 -->
                                                             <div class="row mb-3">
 
-                                                                <div class="col">
-                                                                    <label for="viewing_time" class="form-label">Viewing Time:</label>
-                                                                    <input type="time" class="form-control" id="viewing_time" name="viewing_time">
-                                                                </div>
+                                                                
                                                                 <div class="col">
                                                                     <label for="viewing_location" class="form-label">Viewing Location:</label>
-                                                                    <input type="text" class="form-control" id="viewing_location" name="viewing_location">
+                                                                    
+                                                                    <div style="display: flex; align-items: center;">
+                                                                        <select id="viewing_location" name="viewing_location" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Viewing Location" data-allow-clear="true" style="margin-right: 10px;">
+                                                                            <option></option> <!-- Keep this for the placeholder functionality -->
+                                                                            @foreach ($viewinglocations as $viewinglocation)
+                                                                                <option value="{{ $viewinglocation->id }}">
+                                                                                    {{ $viewinglocation->name }} ({{$viewinglocation->line1 }} - {{ $viewinglocation->suburb }}, {{ $viewinglocation->city }}, {{ $viewinglocation->ZIP }})
+                                                                                </option>
+                                                                            @endforeach
+                                                                            @if ($viewinglocations->isEmpty())
+                                                                                <option disabled>No viewing locations available</option>
+                                                                            @endif
+                    
+                                                                        </select>
+                                                                        
+                                                                    
+                                                                        <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Viewing">
+                                                                            +
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -802,8 +818,8 @@
                                                             <!-- Row 5 -->
                                                             <div class="row mb-3">
                                                                 <div class="col">
-                                                                    <label for="notices" class="form-label">Notices:</label>
-                                                                    <textarea class="form-control" id="notices" name="notices" rows="3"></textarea>
+                                                                    <label for="funeral_notices" class="form-label">Notices:</label>
+                                                                    <textarea class="form-control" id="funeral_notices" name="funeral_notices" rows="3"></textarea>
                                                                 </div>
                                                             </div>
 
@@ -1411,8 +1427,8 @@
                                                         <label for="ShortfallPaymentMethodSelect" class="form-label text-white">Payment Method:</label>
                                                         <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Payment Method" data-allow-clear="true" style="margin-right: 10px;">
                                                         
-                                                            <option value="0">Cash</option>
-                                                            <option value="1">EFT</option>
+                                                            <option value="2">Cash</option>
+                                                            <option value="5">EFT/Bank Payment</option>
     
                                                         </select>
                                                         
@@ -1723,8 +1739,9 @@
                                                 
                                                     <select id="addressType" name="addressType" class="form-select form-select-solid" data-control="select2" data-placeholder="Select Location Type" data-hide-search="true">
                                                         <option></option>
-                                                        <option value="17">Church</option>
-                                                        <option value="18">Graveyard</option>
+                                                        <option value="{{ $churchTypeId }}">Church</option>
+                                                        <option value="{{ $graveyardTypeId}}">Graveyard</option>
+                                                        <option value="21">Viewing Location</option>
                                                     </select>
 
         
@@ -1924,6 +1941,46 @@
     });
 </script>
 
+{{-- This is used for the checklist --}}
+<script>
+   $(document).ready(function() {
+    $('.save-btn').click(function() {
+        var itemId = $(this).data('id');
+        var completedDate = $('#' + itemId + '_completed_date').val();
+        var completedTime = $('#' + itemId + '_completed_time').val();
+        var note = $('#' + itemId + '_note').val();
+        var funeralId = $('input[name="funeral_id"]').val();
+        var funeralChecklistId = $('input[name="funeral_checklist_id"]').val();
+        var buId = $('input[name="bu_id"]').val();
+
+        $.ajax({
+            url: '/funeral/checklist/' + itemId,
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                funeral_id: funeralId,
+                funeral_checklist_id: funeralChecklistId,
+                bu_id: buId,
+                completed_date: completedDate,
+                completed_time: completedTime,
+                note: note
+            },
+            success: function(response) {
+                alert('Item saved/updated successfully!');
+            },
+            error: function(response) {
+                alert('Error saving/updating item.');
+            }
+        });
+    });
+
+    $('.cancel-btn').click(function() {
+        location.reload();
+    });
+});
+
+</script>
+
  <script>
 $("#kt_datatable_footer_callback").DataTable({
     "searching": false, // Disables the search box
@@ -2026,7 +2083,7 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
 
 
 
-    <script>
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Listen for the modal showing up
             $('#kt_modal_1').on('show.bs.modal', function(event) {
@@ -2036,13 +2093,13 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
 
                 // Determine which option to select based on the clicked button
                 if(locationType === 'Church') {
-                    modal.find('#addressType').val('17').trigger('change');
+                    modal.find('#addressType').val('{{ $churchTypeId }}').trigger('change');
                 } else if(locationType === 'Graveyard') {
-                    modal.find('#addressType').val('18').trigger('change');
+                    modal.find('#addressType').val('{{ $graveyardTypeId}}').trigger('change');
                 }
             });
         });
-    </script>
+    </script> --}}
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -2205,9 +2262,9 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
             document.addEventListener('DOMContentLoaded', function() {
                 $('#saveLocationBtn').on('click', function(event) {
                     event.preventDefault();  // Prevent the default form submission behavior
-            
+        
                     var formData = new FormData(document.getElementById('addressForm'));  // Create FormData object from the form
-            
+        
                     $.ajax({
                         url: '{{ route("StoreFuneralAddress") }}',  // Use the route name as the endpoint
                         type: 'POST',  // Method type POST
@@ -2223,18 +2280,20 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     $('#kt_modal_1').modal('hide'); // Hide the modal on success
-            
+        
                                     // Clear all input fields in the form
                                     $('#addressForm').find('input[type=text], input[type=number], textarea, select').val('');
-            
+        
                                     // Append the new address to the correct dropdown based on the type and select it
                                     var newOption = new Option(response.name + ' (' + response.line1 + ' - ' + response.suburb + ', ' + response.city + ', ' + response.ZIP + ')', response.id, true, true); // true for selected and defaultSelected
                                     if (response.type === 'Church') {
                                         $('#churchSelect').append(newOption).trigger('change');
                                     } else if (response.type === 'Graveyard') {
                                         $('#graveyardSelect').append(newOption).trigger('change');
+                                    } else if (response.type === 'Viewing') {
+                                        $('#viewing_location').append(newOption).trigger('change');
                                     }
-            
+        
                                     // Check and remove modal backdrop if still present
                                     setTimeout(function() { 
                                         if ($('.modal-backdrop').length) {
@@ -2256,8 +2315,24 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
                         }
                     });
                 });
+        
+                $('#kt_modal_1').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var locationType = button.data('location-type'); // Extract info from data-* attributes
+                    var modal = $(this);
+        
+                    // Determine which option to select based on the clicked button
+                    if(locationType === 'Church') {
+                        modal.find('#addressType').val('{{ $churchTypeId }}').trigger('change');
+                    } else if(locationType === 'Graveyard') {
+                        modal.find('#addressType').val('{{ $graveyardTypeId}}').trigger('change');
+                    } else if(locationType === 'Viewing') {
+                        modal.find('#addressType').val('{{ $viewingTypeId}}').trigger('change');
+                    }
+                });
             });
-            </script>
+        </script>
+        
             
             
             

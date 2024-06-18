@@ -93,7 +93,7 @@
   --bs-tertiary-color-rgb: 24, 28, 50;
   --bs-tertiary-bg: #F9F9F9;
   --bs-tertiary-bg-rgb: 249, 249, 249;
-  --bs-body-bg: #adddbd;
+  --bs-body-bg: #ffffff; /* #e9f0ec */
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-heading-color: #181C32;
   --bs-link-color: #009ef7;
@@ -47803,7 +47803,7 @@ body {
   color: var(--bs-gray-700);
 }
 .aside .aside-menu .menu .menu-item.show > .menu-link .menu-title {
-  color: var(--bs-gray-700);
+  color: var(--bs-gray-900);
 }
 .aside .aside-menu .menu .menu-item.show > .menu-link .menu-icon,
 .aside .aside-menu .menu .menu-item.show > .menu-link .menu-icon .svg-icon,
@@ -47819,7 +47819,7 @@ body {
   color: var(--bs-gray-700);
 }
 .aside .aside-menu .menu .menu-item .menu-link.active .menu-title {
-  color: var(--bs-gray-700);
+  color: var(--bs-gray-900);
 }
 .aside .aside-menu .menu .menu-item .menu-link.active .menu-icon,
 .aside .aside-menu .menu .menu-item .menu-link.active .menu-icon .svg-icon,

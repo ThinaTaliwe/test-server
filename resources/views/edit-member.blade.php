@@ -43,19 +43,21 @@
     <!--begin::Card-->
     <div class="card mb-4">
         <!--begin::Card body-->
-        <div class="card-body">
+        <div class="card-body row">
             <!--begin::Stepper-->
-            <div class="stepper stepper-links d-flex flex-column" id="kt_create_account_stepper">
+            <div class="stepper stepper-links d-flex flex-column col-9">
                 <div class="mt-2 text-center">
 
                     <ul class="nav nav-tabs d-inline-flex" id="myTabs">
                         <li class="nav-item">
-                            <a class="nav-link active p-5" id="membership-tab" data-bs-toggle="tab" href="#membership"
-                                style="font-size: 2rem"><i class="bi bi-people-fill" style="font-size: 3rem"></i>
+                            <a class="nav-link p-5" id="membership-tab" data-bs-toggle="tab" href="#membership"
+                                style="font-size: 2rem"
+                                onload="this.classList.add(localStorage.getItem('activeTab') === '#membership' ? 'active' : '')">
+                                <i class="bi bi-people-fill" style="font-size: 3rem"></i>
                                 <span>Membership</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link p-5" id="dependants-tab" data-bs-toggle="tab" href="#dependants"
+                            <a class="nav-link active p-5" id="dependants-tab" data-bs-toggle="tab" href="#dependants"
                                 style="font-size: 2rem"><i class="bi bi-person-fill" style="font-size: 3rem"></i>
                                 Dependants</a>
                         </li>
@@ -71,8 +73,9 @@
                         </li>
                     </ul>
 
-                    <div class="tab-content mt-6" id="myTabContent">
-                        <div class="tab-pane fade show active" id="membership">
+
+                    <div class="tab-content mt-2" id="myTabContent">
+                        <div class="tab-pane fade" id="membership">
                             <h2>Membership Content</h2>
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Notice-->
@@ -80,29 +83,32 @@
                                 <!--end::Notice-->
                             </div>
 
-                            <div class="card-body g-3 rounded bg-light">
-                                <form action="{{ route('update-member', $membership->id) }}" method="POST"
-                                    {{ $dis }} role="form" id="membershipForm" name="membershipForm"
-                                    class="row g-2">
-                                    @csrf
-                                    @method('PUT')
-                                    {{-- <div class="row mw-500px mb-5 d-flex justify-content-center align-items-center mt-5 mb-0" data-kt-buttons="true"> --}}
+                            <div class='row'>
 
-                                    {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
-                                    {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
-                                    {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio1" autocomplete="off" {{ $membership->language_id == '1' ? 'checked' : '' }}> --}}
-                                    {{--                                                <label class="btn btn-outline-primary form-check-label" for="btnradio1">English</label> --}}
-                                    {{--                                            </label> --}}
-                                    {{--                                        </div> --}}
+                                <div class="card-body g-3 rounded bg-secondary col-12 border border-gray-400">
 
-                                    {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
-                                    {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
-                                    {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio2" autocomplete="off" {{ $membership->language_id == '2' ? 'checked' : '' }}> --}}
-                                    {{--                                                <label class="btn btn-outline-primary form-check-label" for="btnradio2">Afrikaans</label> --}}
-                                    {{--                                            </label> --}}
-                                    {{--                                        </div> --}}
-                                    {{--                                    </div> --}}
-                                    {{-- @if ($errors->any())
+                                    <form action="{{ route('update-member', $membership->id) }}" method="POST"
+                                        {{ $dis }} role="form" id="membershipForm" name="membershipForm"
+                                        class="row g-2">
+                                        @csrf
+                                        @method('PUT')
+                                        {{-- <div class="row mw-500px mb-5 d-flex justify-content-center align-items-center mt-5 mb-0" data-kt-buttons="true"> --}}
+
+                                        {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
+                                        {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
+                                        {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio1" autocomplete="off" {{ $membership->language_id == '1' ? 'checked' : '' }}> --}}
+                                        {{--                                                <label class="btn btn-outline-primary form-check-label" for="btnradio1">English</label> --}}
+                                        {{--                                            </label> --}}
+                                        {{--                                        </div> --}}
+
+                                        {{--                                        <div class="col d-flex justify-content-center align-items-center"> --}}
+                                        {{--                                            <label class="form-check form-check-custom form-check-solid me-10"> --}}
+                                        {{--                                                <input type="radio" class="btn-check" name="language" id="btnradio2" autocomplete="off" {{ $membership->language_id == '2' ? 'checked' : '' }}> --}}
+                                        {{--                                                <label class="btn btn-outline-primary form-check-label" for="btnradio2">Afrikaans</label> --}}
+                                        {{--                                            </label> --}}
+                                        {{--                                        </div> --}}
+                                        {{--                                    </div> --}}
+                                        {{-- @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
                                                 @foreach ($errors->all() as $error)
@@ -112,139 +118,181 @@
                                         </div>
                                     @endif --}}
 
-                                    {{-- <hr class="light horizontal mt-2 mb-0"> --}}
-
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline  mt-3 mb-0">
-
-                                            <input type="text" class="form-control" name="Name" id="Name"
-                                                value="{{ $membership->name }}" placeholder="Name">
-                                        </div>
-                                        @error('Name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        {{-- <hr class="light horizontal mt-2 mb-0"> --}}
+                                        {{-- <div class="col-6">
+                                    <div
+                                        class="form-floating @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+                                        <input type="text" class="form-control" name="Line1" id="Line1"
+                                            value="{{ old('Line1') }}" placeholder="">
+                                        <label for="Line1" class="fs-4 text-gray-600">Address Line 1<span
+                                                class="text-danger">*</span></label>
                                     </div>
+                                    @error('Line1')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong style="color: red;">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div> --}}
 
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline  mt-3 mb-0">
-
-                                            <input type="text" class="form-control" name="Surname" id="Surname"
-                                                value="{{ $membership->surname }}" placeholder="Surname">
+                                        <div class="card-header bg-secondary">
+                                            <h1 class="text-center mx-auto my-auto text-dark">Edit Membership</h1>
                                         </div>
-                                        @error('Surname')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                                        <div class="col-4">
+                                            <div class="form-floating mt-3 mb-0">
 
-
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline   mt-3 mb-0">
-
-                                            <input type="text" class="form-control" name="IDNumber" id="IDNumber"
-                                                value="{{ $membership->id_number }}" placeholder="Identity Number"
-                                                maxlength="13" size="13">
+                                                <input type="text" class="form-control bg-light text-dark" name="Name"
+                                                    id="Name" value="{{ $membership->name }}" placeholder="">
+                                                <label for="Name" class="fs-4 text-gray-600">Name<span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                            @error('Name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong style="color: red;">{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
-                                        @error('IDNumber')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
 
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline mb-0 mt-1">
+                                        <div class="col-4">
+                                            <div class="form-floating  mt-3 mb-0">
 
-                                            <input type="email" class="form-control" name="Email" id="Email"
-                                                value="{{ $membership->primary_e_mail_address }}" placeholder="Email">
+                                                <input type="text" class="form-control bg-light text-dark" name="Surname"
+                                                    id="Surname" value="{{ $membership->surname }}" placeholder="">
+                                                <label for="Surname" class="fs-4 text-gray-600">Surname<span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                            @error('Surname')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
-                                        {{-- @error('Email')
+
+
+                                        <div class="col-4">
+                                            <div class="form-floating   mt-3 mb-0">
+
+                                                <input type="text" class="form-control bg-light text-dark"
+                                                    name="IDNumber" id="IDNumber" value="{{ $membership->id_number }}"
+                                                    placeholder="Identity Number" maxlength="13" size="13">
+                                                <label for="IDNumber" class="fs-4 text-gray-600">Identity Number<span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                            @error('IDNumber')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-4">
+                                            <div class="form-floating mb-0 mt-1">
+
+                                                <input type="email" class="form-control bg-light text-dark"
+                                                    name="Email" id="Email"
+                                                    value="{{ $membership->primary_e_mail_address }}"
+                                                    placeholder="Email">
+
+                                                <label for="Email" class="fs-4 text-gray-600">Email Address<span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                            {{-- @error('Email')
                                                                                     <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
                                                                                     </span>
                                                                                     @enderror --}}
-                                    </div>
-
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline mb-0">
-
-                                            <input type="number" class="form-control" name="Telephone" id="Telephone"
-                                                value="{{ $membership->primary_contact_number }}"
-                                                placeholder="Telephone (Cell)" maxlength="10">
                                         </div>
-                                        {{-- @error('Telephone')
+
+                                        <div class="col-4">
+                                            <div class="form-floating mb-0">
+
+                                                <input type="number" class="form-control bg-light text-dark"
+                                                    name="Telephone" id="Telephone"
+                                                    value="{{ $membership->primary_contact_number }}" placeholder=""
+                                                    maxlength="10">
+                                                <label for="Telephone" class="fs-4 text-gray-600">Telephone (Cell)</label>
+                                            </div>
+                                            {{-- @error('Telephone')
                                                                                     <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
                                                                                     </span>
                                                                                     @enderror --}}
-                                    </div>
-
-                                    <div class="col-4">
-                                        <div class="input-group input-group-outline mb-0">
-
-                                            <input type="number" class="form-control" name="WorkTelephone"
-                                                id="WorkTelephone" value="{{ $membership->secondary_contact_number }}"
-                                                placeholder="Telephone (Work)">
                                         </div>
-                                        {{-- @error('WorkTelephone')
+
+                                        <div class="col-4">
+                                            <div class="form-floating mb-0">
+
+                                                <input type="number" class="form-control bg-light text-dark"
+                                                    name="WorkTelephone" id="WorkTelephone"
+                                                    value="{{ $membership->secondary_contact_number }}" placeholder="">
+                                                <label for="WorkTelephone" class="fs-4 text-gray-600">Telephone
+                                                    (Work)</label>
+                                            </div>
+                                            {{-- @error('WorkTelephone')
                                                                                     <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
                                                                                     </span>
                                                                                     @enderror --}}
-                                    </div>
+                                        </div>
 
-                                    {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
-                                    <div class="col-3 d-flex align-items-center">
-                                        <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
-                                                                                                                                                                            </div> -->
-                                        <div class="input-group input-group-outline ">
+                                        {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
+                                        <div class="col-3 d-flex align-items-center">
+                                            <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
+                                                                                                                                                                                                            </div> -->
+                                            <div class="form-floating ">
 
-                                            <input type="text" onkeypress="return isNumberKey(event)"
-                                                class="form-control" name="inputDay" id="inputDay"
-                                                value="{{ dobBreakdown($membership->person->birth_date)->day }}"
-                                                {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}} placeholder="DD" maxlength="2" size="2">
-                                            {{-- @error('inputDay')
+                                                <input type="text" onkeypress="return isNumberKey(event)"
+                                                    class="form-control bg-light text-dark" name="inputDay"
+                                                    id="inputDay"
+                                                    value="{{ dobBreakdown($membership->person->birth_date)->day ?? 'N/A' }}"
+                                                    {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}} placeholder="DD" maxlength="2"
+                                                    size="2">
+                                                <label for="inputDay" class="fs-4 text-gray-600">Day<span
+                                                        class="text-danger">*</span></label>
+                                                {{-- @error('inputDay')
                                                                                             <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
                                                                                             </span>
                                                                                             @enderror --}}
-                                        </div>
-                                        <span class="px-2"></span>
-                                        <div class="input-group input-group-outline ">
+                                            </div>
+                                            <span class="px-2"></span>
+                                            <div class="form-floating ">
 
-                                            <input type="text" onkeypress="return isNumberKey(event)"
-                                                class="form-control" name="inputMonth" id="inputMonth"
-                                                value="{{ dobBreakdown($membership->person->birth_date)->month }}"
-                                                placeholder="MM" maxlength="2" size="2">
-                                            {{-- @error('inputMonth')
+                                                <input type="text" onkeypress="return isNumberKey(event)"
+                                                    class="form-control bg-light text-dark" name="inputMonth"
+                                                    id="inputMonth"
+                                                    value="{{ dobBreakdown($membership->person->birth_date)->month }}"
+                                                    placeholder="MM" maxlength="2" size="2">
+                                                <label for="inputMonth" class="fs-4 text-gray-600">MM<span
+                                                        class="text-danger">*</span></label>
+                                                {{-- @error('inputMonth')
                                                                                             <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
                                                                                             </span>
                                                                                             @enderror --}}
-                                        </div>
-                                        <span class="px-2"></span>
-                                        <div class="input-group input-group-outline ">
-                                            <input type="text" onkeypress="return isNumberKey(event)"
-                                                class="form-control" name="inputYear" id="inputYear"
-                                                value="{{ dobBreakdown($membership->person->birth_date)->year }}"
-                                                placeholder="YYYY" maxlength="4" size="4">
-                                            {{-- @error('inputYear')
+                                            </div>
+                                            <span class="px-2"></span>
+                                            <div class="form-floating ">
+                                                <input type="text" onkeypress="return isNumberKey(event)"
+                                                    class="form-control bg-light text-dark" name="inputYear"
+                                                    id="inputYear"
+                                                    value="{{ dobBreakdown($membership->person->birth_date)->year }}"
+                                                    placeholder="YYYY" maxlength="4" size="4">
+                                                <label for="inputYear" class="fs-4 text-gray-600">Year<span
+                                                        class="text-danger">*</span></label>
+                                                {{-- @error('inputYear')
                                                                                             <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
                                                                                             </span>
                                                                                             @enderror --}}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-2 pt-4">
-                                        {{-- <label class="form-check-label mb-0 me-2 text-lg text-dark" for="language">Gender: </label> --}}
+                                        <div class="col-2 pt-4">
+                                            {{-- <label class="form-check-label mb-0 me-2 text-lg text-dark" for="language">Gender: </label> --}}
 
-                                        <div class="form-group">
-                                            {{-- <label for="genderSelect" class="form-label">Gender</label> --}}
-                                            {{-- <select class="form-select" name="radioGender" id="genderSelect">
+                                            <div class="form-group">
+                                                {{-- <label for="genderSelect" class="form-label">Gender</label> --}}
+                                                {{-- <select class="form-select" name="radioGender" id="genderSelect">
                                                 <option value="M"
                                                     {{ $membership->gender_id == 'M' ? 'selected' : '' }}>Male
                                                 </option>
@@ -255,42 +303,43 @@
 
 
 
-                                            <select class="form-select" name="radioGender" id="genderSelect">
-    <option value="">Select Gender</option>
-    @foreach ($genders as $option)
-        <option value="{{ $option->id }}"
-            {{ $membership->gender_id == $option->id ? 'selected' : '' }}>
-            {{ $option->name }}
-        </option>
-    @endforeach
-</select>
+                                                <select class="form-select bg-light text-dark" name="radioGender"
+                                                    id="genderSelect">
+                                                    <option value="">Select Gender</option>
+                                                    @foreach ($genders as $option)
+                                                        <option value="{{ $option->id }}"
+                                                            {{ $membership->gender_id == $option->id ? 'selected' : '' }}>
+                                                            {{ $option->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
 
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-4">
-                                        <div class="dropdown">
-                                            <select name="memtype" id="memtype"
-                                                class="btn bg-gradient-secondary dropdown-toggle w-100 my-4 @error('Select Membership Type') is-invalid @enderror"
-                                                aria-label="Select Membership Type">
-                                                <option disabled>Select Membership Type</span> </option>
-                                                @foreach ($memtypes as $memtype)
-                                                    <option
-                                                        {{ $membership->bu_membership_type_id == $memtype->id ? 'selected' : '' }}
-                                                        value="{{ $memtype->id }}">{{ $memtype->id }}.
-                                                        {{ $memtype->name }} - {{ $memtype->description }} -
-                                                        R{{ round($memtype->membership_fee, 2) }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-4">
+                                            <div class="dropdown">
+                                                <select name="memtype" id="memtype"
+                                                    class="btn bg-light text-dark dropdown-toggle w-100 my-4 @error('Select Membership Type') is-invalid @enderror"
+                                                    aria-label="Select Membership Type">
+                                                    <option disabled>Select Membership Type</span> </option>
+                                                    @foreach ($memtypes as $memtype)
+                                                        <option
+                                                            {{ $membership->bu_membership_type_id == $memtype->id ? 'selected' : '' }}
+                                                            value="{{ $memtype->id }}">{{ $memtype->id }}.
+                                                            {{ $memtype->name }} - {{ $memtype->description }} -
+                                                            R{{ round($memtype->membership_fee, 2) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-3" style="margin-bottom: 1rem;">
-                                        <div class="form-group" style="padding-top: 1rem; text-align: center;">
-                                            {{-- <label for="maritalStatusSelect" class="form-label">Marital Status</label> --}}
-                                            {{-- <label class="form-check-label mb-0 me-2 text-dark" for="marital_status">Maritial Status: </label> --}}
+                                        <div class="col-3" style="margin-bottom: 1rem;">
+                                            <div class="form-group" style="padding-top: 1rem; text-align: center;">
+                                                {{-- <label for="maritalStatusSelect" class="form-label">Marital Status</label> --}}
+                                                {{-- <label class="form-check-label mb-0 me-2 text-dark" for="marital_status">Maritial Status: </label> --}}
 
-                                            {{-- <select class="form-select pb-3" name="marital_status"
+                                                {{-- <select class="form-select pb-3" name="marital_status"
                                                 id="maritalStatusSelect">
                                                 <option value="1"
                                                     {{ $membership->person->married_status == '1' ? 'selected' : '' }}>
@@ -306,33 +355,39 @@
                                                     Divorced</option>
                                             </select> --}}
 
-                                            <select class="form-select pb-3" name="marital_status" id="maritalStatusSelect">
-    <option value="">Select Marital Status</option>
-    @foreach ($marriages as $status)
-        <option value="{{ $status->id }}"
-            {{ $membership->person->married_status == $status->id ? 'selected' : '' }}>
-            {{ $status->name }}
-        </option>
-    @endforeach
-</select>
+                                                <select class="form-select pb-3 bg-light text-dark" name="marital_status"
+                                                    id="maritalStatusSelect">
+                                                    <option value="">Select Marital Status</option>
+                                                    @foreach ($marriages as $status)
+                                                        <option value="{{ $status->id }}"
+                                                            {{ $membership->person->married_status == $status->id ? 'selected' : '' }}>
+                                                            {{ $status->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
 
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
-                                    
-                                    <div class="col-12">
-                                        <div class="text-center  d-flex justify-content-center align-items-center ">
-                                            <button type="submit" text="Update" class="btn btn-success w-150 my-4 mb-4"
-                                                id="btnUpdate"><i class="material-icons pe-2">save</i>Update
-                                            </button>
+                                        {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
+
+                                        <div class="col-12">
+                                            <div class="text-center  d-flex justify-content-center align-items-center ">
+                                                <button type="submit" text="Update"
+                                                    class="btn btn-success w-150 my-4 mb-4" id="btnUpdate"><i
+                                                        class="material-icons pe-2">save</i>Update
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
+                                <div class="rounded bg-gba-light col-5">
+
+                                </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="dependants">
+                        <div class="tab-pane fade show active" id="dependants">
                             <h2>Dependants Content</h2>
                             {{-- <p>This is the content for the Dependants tab.</p> --}}
 
@@ -348,13 +403,13 @@
                                     <table class="table table-bordered border-dark rounded p-0 m-0">
                                         <thead class="text-uppercase bg-gba-light p-0 m-0">
                                             <tr>
-                                                <th>Name</th>
-                                                <th>ID</th>
-                                                <th>Gender</th>
-                                                <th>Relationship Code</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Age</th>
-                                                <th>Manage</th>
+                                                <th class="bg-secondary">Name</th>
+                                                <th class="bg-secondary">ID</th>
+                                                <th class="bg-secondary">Gender</th>
+                                                <th class="bg-secondary">Relationship Code</th>
+                                                <th class="bg-secondary">Date Of Birth</th>
+                                                <th class="bg-secondary">Age</th>
+                                                <th class="bg-secondary">Manage</th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-light p-0 m-0">
@@ -378,11 +433,11 @@
                                                             {{ $dependant->personDep->gender_id == 'M' ? 'Male' : ($dependant->personDep->gender_id == 'F' ? 'Female' : 'Other') }}
                                                         </p>
                                                     </td>
-                                            <td>
-                                                <p class="text-dark">
-                                                    {{ $dependant->person_relationship_id ?? 'Unknown Relationship' }}
-                                                </p>
-                                            </td>
+                                                    <td>
+                                                        <p class="text-dark">
+                                                            {{ $dependant->person_relationship_id ?? 'Unknown Relationship' }}
+                                                        </p>
+                                                    </td>
 
                                                     <td>
                                                         <p class="text-dark">
@@ -406,21 +461,26 @@
 
 
                             <!-- Add Dependant Block -->
-                            <div class="card mt-5 mb-2 bg-light rounded" id="add-dependant">
+                            <div class="card mt-5 mb-2 bg-secondary border border-gray-400 rounded" id="add-dependant">
+                                <div class="card-header bg-secondary">
+                                    <h1 class="text-center mx-auto my-auto text-dark">Add Dependants</h1>
+                                </div>
 
-                                <h3 class="mt-6">Add Dependant</h3>
                                 <form id="addDependant" method="POST" action="{{ route('add-dependant.store') }}"
                                     autocomplete="off">
                                     @csrf
 
-                                    <div class="card-body pt-0 mt-4 mb-3 bg-light rounded">
+                                    <div class="card-body rounded">
+                                        {{-- <h3 class="mt-6">Add Dependant</h3> --}}
+
                                         <div class="row">
                                             <div class="col-4">
                                                 <div
                                                     class="input-group input-group-outline  @error('Name') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                    <input type="text" class="form-control" name="Name"
-                                                        id="Name" value="{{ old('Name') }}" placeholder="Name">
+                                                    <input type="text" class="form-control bg-light text-dark"
+                                                        name="Name" id="Name" value="{{ old('Name') }}"
+                                                        placeholder="Name">
                                                 </div>
                                                 @error('DepName')
                                                     <span class="invalid-feedback" role="alert">
@@ -432,8 +492,8 @@
                                                 <div
                                                     class="input-group input-group-outline  @error('Surname') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                    <input type="text" class="form-control" name="Surname"
-                                                        id="Surname" value="{{ old('Surname') }}"
+                                                    <input type="text" class="form-control bg-light text-dark"
+                                                        name="Surname" id="Surname" value="{{ old('Surname') }}"
                                                         placeholder="Surname">
                                                 </div>
                                                 @error('DepSurname')
@@ -446,10 +506,10 @@
                                                 <div id="IDNumberDepDiv"
                                                     class="input-group input-group-outline  @error('IDNumberDep') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                    <input type="text" class="form-control" name="IDNumberDep"
-                                                        id="IDNumberDep" value="{{ old('IDNumberDep') }}"
-                                                        placeholder="Identity Number" maxlength="13" size="13"
-                                                        onchange="getDOBDep(this.value)">
+                                                    <input type="text" class="form-control bg-light text-dark"
+                                                        name="IDNumberDep" id="IDNumberDep"
+                                                        value="{{ old('IDNumberDep') }}" placeholder="Identity Number"
+                                                        maxlength="13" size="13" onchange="getDOBDep(this.value)">
                                                 </div>
                                                 <span class="invalid-feedback" role="alert" id="error"></span>
                                                 @error('IDNumberDep')
@@ -468,9 +528,9 @@
                                                         class="input-group input-group-outline @error('inputDayDep') is-invalid @enderror">
 
                                                         <input type="text" onkeypress="return isNumberKey(event)"
-                                                            class="form-control" name="inputDayDep" id="inputDayDep"
-                                                            value="{{ old('inputDayDep') }}" placeholder="DD"
-                                                            maxlength="2" size="2">
+                                                            class="form-control bg-light text-dark" name="inputDayDep"
+                                                            id="inputDayDep" value="{{ old('inputDayDep') }}"
+                                                            placeholder="DD" maxlength="2" size="2">
                                                         @error('inputDayDep')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -482,9 +542,9 @@
                                                         class="input-group input-group-outline @error('inputMonthDep') is-invalid @enderror">
 
                                                         <input type="text" onkeypress="return isNumberKey(event)"
-                                                            class="form-control" name="inputMonthDep" id="inputMonthDep"
-                                                            value="{{ old('inputMonthDep') }}" placeholder="MM"
-                                                            maxlength="2" size="2">
+                                                            class="form-control bg-light text-dark" name="inputMonthDep"
+                                                            id="inputMonthDep" value="{{ old('inputMonthDep') }}"
+                                                            placeholder="MM" maxlength="2" size="2">
                                                         @error('inputMonthDep')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -496,9 +556,9 @@
                                                         class="input-group input-group-outline @error('inputYearDep') is-invalid @enderror">
 
                                                         <input type="text" onkeypress="return isNumberKey(event)"
-                                                            class="form-control" name="inputYearDep" id="inputYearDep"
-                                                            value="{{ old('inputYearDep') }}" placeholder="YYYY"
-                                                            maxlength="4" size="4">
+                                                            class="form-control bg-light text-dark" name="inputYearDep"
+                                                            id="inputYearDep" value="{{ old('inputYearDep') }}"
+                                                            placeholder="YYYY" maxlength="4" size="4">
                                                         @error('inputYearDep')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -512,7 +572,7 @@
                                             </div>
                                             <div class="col-4" style="margin-top: 15px; text-align: center;">
                                                 {{-- <label for="relationCodeSelect" class="form-label">Relationship</label> --}}
-                                                <select class="form-select" name="radioRelationCode"
+                                                <select class="form-select bg-light text-dark" name="radioRelationCode"
                                                     id="relationCodeSelect">
                                                     <option>Select relationship</option>
                                                     @foreach ($relationships as $relationship)
@@ -525,12 +585,14 @@
                                             </div>
                                             <div class="col-4" style="margin-top: 15px; text-align: center;">
                                                 {{-- <label for="genderDepSelect" class="form-label">Gender</label> --}}
-                                                <select class="form-select" name="radioGenderDep" id="genderDepSelect">
-    <option>Select gender</option>
-    @foreach($genders as $gender)
-        <option value="{{ $gender->id }}">{{ $gender->description }}</option>
-    @endforeach
-</select>
+                                                <select class="form-select bg-light text-dark" name="radioGenderDep"
+                                                    id="genderDepSelect">
+                                                    <option>Select gender</option>
+                                                    @foreach ($genders as $gender)
+                                                        <option value="{{ $gender->id }}">{{ $gender->description }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
 
                                         </div>
@@ -571,15 +633,14 @@
                                 <div class="mt-4 mb-4">
                                     <div class="card bg-light">
 
-
                                         <div class="card-body pt-4 p-3">
                                             <ul class="list-group">
                                                 <h1>Membership Addresses</h1>
                                                 <table
-                                                    class="table table-bordered mt-4 bg-light bg-blend-lighten border-dark rounded-3"
+                                                    class="table table-bordered mt-4 bg-light bg-blend-lighten border border-dark rounded-3"
                                                     id="addressesTable">
                                                     <thead>
-                                                        <tr class="bg-gba-light text-dark">
+                                                        <tr class="bg-secondary text-dark">
                                                             <th>ID</th>
                                                             <th>Street</th>
                                                             <th>Suburb</th>
@@ -595,14 +656,15 @@
                                                         <!-- Data will be fetched and displayed here -->
                                                         @foreach ($addresses as $address)
                                                             <tr>
-                                                                <td>{{ $address->id }}</td>
-                                                                <td>{{ $address->line1 }}</td>
-                                                                <td>{{ $address->suburb }}</td>
-                                                                <td>{{ $address->city }}</td>
-                                                                <td>{{ $address->ZIP }}</td>
-                                                                <td>{{ $address->district }}</td>
-                                                                <td>{{ $address->province }}</td>
-                                                                <td>{{ $address->created_at }}</td>
+                                                                <td>{{ $address->id ?? 'N/A' }}</td>
+                                                                <td>{{ $address->line1 ?? 'N/A' }}</td>
+                                                                <td>{{ $address->suburb ?? 'N/A' }}</td>
+                                                                <td>{{ $address->city ?? 'N/A' }}</td>
+                                                                <td>{{ $address->ZIP ?? 'N/A' }}</td>
+                                                                <td>{{ $address->district ?? 'N/A' }}</td>
+                                                                <td>{{ $address->province ?? 'N/A' }}</td>
+                                                                <td>{{ $address->created_at ?? 'N/A' }}</td>
+
                                                                 <td>
                                                                     {{-- <button onclick="deleteAddress({{ $address->id }})" class="btn btn-danger">Delete</button> --}}
                                                                     <form id="delete-address-form"
@@ -619,7 +681,6 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-
                                             </ul>
                                         </div>
                                     </div>
@@ -627,12 +688,11 @@
 
                                 <div class="mt-4 mb-4 pb-4">
 
-                                    <div class="card h-100 mb-4 bg-light rounded">
-                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-
+                                    <div class="card h-100 mb-4 bg-light rounded bg-secondary border border-gray-400">
+                                        <div class="card-header">
+                                            <h1 class="text-center mx-auto my-auto text-dark">Add New Address</h1>
                                         </div>
-                                        <h1 class="text-center"><span class="bg-gba-light border-gba p-1">Add New
-                                                Address</span></h1>
+
                                         <form id="addAddress" method="POST" action="{{ route('address.store') }}"
                                             autocomplete="off">
                                             @csrf
@@ -641,10 +701,11 @@
                                                 <div class="row mt-3">
                                                     <div class="col">
                                                         <div
-                                                            class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+                                                            class="input-group input-group-outline @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                            <input type="text" class="form-control" name="Line1"
-                                                                id="Line1" value="{{ old('Line1') }}">
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="Line1" id="Line1"
+                                                                value="{{ old('Line1') }}" placeholder="Address Line 1">
                                                         </div>
                                                         @error('Line1')
                                                             <span class="invalid-feedback" role="alert">
@@ -659,9 +720,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                            <input type="text" class="form-control" name="Line2"
-                                                                id="Line2" value="{{ old('Line2') }}"
-                                                                placeholder="Address Line 2">
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="Line2" id="Line2"
+                                                                value="{{ old('Line2') }}" placeholder="Address Line 2">
                                                         </div>
                                                         @error('Line2')
                                                             <span class="invalid-feedback" role="alert">
@@ -673,8 +734,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
 
-                                                            <input type="text" class="form-control" name="TownSuburb"
-                                                                id="TownSuburb" value="{{ old('TownSuburb') }}"
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="TownSuburb" id="TownSuburb"
+                                                                value="{{ old('TownSuburb') }}"
                                                                 placeholder="Town/Suburb">
                                                         </div>
                                                         @error('TownSuburb')
@@ -690,9 +752,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                            <input type="text" class="form-control" name="City"
-                                                                id="City" value="{{ old('City') }}"
-                                                                placeholder="City">
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="City" id="City"
+                                                                value="{{ old('City') }}" placeholder="City">
                                                         </div>
                                                         @error('City')
                                                             <span class="invalid-feedback" role="alert">
@@ -704,9 +766,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                            <input type="text" class="form-control" name="Province"
-                                                                id="Province" value="{{ old('Province') }}"
-                                                                placeholder="Province">
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="Province" id="Province"
+                                                                value="{{ old('Province') }}" placeholder="Province">
                                                         </div>
                                                         @error('Province')
                                                             <span class="invalid-feedback" role="alert">
@@ -718,8 +780,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                            <input type="text" class="form-control" name="PostalCode"
-                                                                id="PostalCode" value="{{ old('PostalCode') }}"
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="PostalCode" id="PostalCode"
+                                                                value="{{ old('PostalCode') }}"
                                                                 placeholder="Postal Code">
                                                         </div>
                                                         @error('PostalCode')
@@ -736,9 +799,9 @@
                                                         <div
                                                             class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                                            <input type="text" class="form-control" name="Country"
-                                                                id="Country" value="{{ old('Province') }}"
-                                                                placeholder="Country">
+                                                            <input type="text" class="form-control bg-light text-dark"
+                                                                name="Country" id="Country"
+                                                                value="{{ old('Province') }}" placeholder="Country">
                                                         </div>
                                                         @error('Country')
                                                             <span class="invalid-feedback" role="alert">
@@ -773,74 +836,80 @@
 
                                 <!-- Payment Details Modal Start -->
 
-                                <div id="payments">
-                                    {{-- <h2 class="text-center">Payments Content</h2> --}}
-                                    <p class="text-dark fw-semibold fs-6 text-center">See all your payment details.</p>
-                                    <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-4">
-                                        <div class="table-responsive p-0">
-                                            <table
-                                                class="table table-bordered align-items-center justify-content-center border mb-4 bg-gba-light"
-                                                id="datatable-billing">
-                                                <thead>
+                                {{-- <h2 class="text-center">Payments Content</h2> --}}
+                                <p class="text-dark fw-semibold fs-6 text-center mb-8">See all your payment details.</p>
+                                <div class="card-body px-3 pt-4 pb-2 bg-secondary-subtle rounded mt-2">
+                                    <div class="table-responsive pt-4">
+                                        <h1>Payments History</h1>
+                                        <table
+                                            class="table table-bordered table-bordered mt-8 bg-light bg-blend-lighten border border-dark rounded-3"
+                                            id="datatable-billing">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Bill ID</th>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Date Issued
+                                                    </th>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Amount</th>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Status</th>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Due Date
+                                                    </th>
+                                                    <th class="text-uppercase font-weight-bolder bg-secondary">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (empty($billings))
                                                     <tr>
-                                                        <th class="text-uppercase font-weight-bolder">Bill ID</th>
-                                                        <th class="text-uppercase font-weight-bolder">Date Issued</th>
-                                                        <th class="text-uppercase font-weight-bolder">Amount</th>
-                                                        <th class="text-uppercase font-weight-bolder">Status</th>
-                                                        <th class="text-uppercase font-weight-bolder">Due Date</th>
-                                                        <th class="text-uppercase font-weight-bolder">Actions</th>
+                                                        <td colspan="6" class="text-center">
+                                                            <div class="alert alert-danger" role="alert">
+                                                                This membership does not have any billing history.
+                                                            </div>
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (empty($billings))
-                                                        <tr>
-                                                            <td colspan="6" class="text-center">
-                                                                <div class="alert alert-danger" role="alert">
-                                                                    This membership does not have any billing history.
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @else
-                                                        @foreach ($billings as $billing)
-                                                            @if ($billing->membership_id == $membership->id)
-                                                                <tr>
-                                                                    <td>{{ $billing->id }}</td>
-                                                                    <td>{{ $billing->transaction_date }}</td>
-                                                                    <td>{{ number_format($billing->receipt_value, 2) }}
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge {{ $billing->transaction_description == 'paid' ? 'bg-success' : 'bg-warning' }}">
-                                                                            {{ ucfirst($billing->transaction_description) }}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td>{{ $billing->created_at }}</td>
-                                                                    <td>
-                                                                        {{-- <a class="btn btn-link text-primary text-gradient"
+                                                @else
+                                                    @foreach ($billings as $billing)
+                                                        @if ($billing->membership_id == $membership->id)
+                                                            <tr>
+                                                                <td>{{ $billing->id }}</td>
+                                                                <td>{{ $billing->transaction_date }}</td>
+                                                                <td>{{ number_format($billing->receipt_value, 2) }}
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        class="badge {{ $billing->transaction_description == 'paid' ? 'bg-success' : 'bg-warning' }}">
+                                                                        {{ ucfirst($billing->transaction_description) }}
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{ $billing->created_at }}</td>
+                                                                <td>
+                                                                    {{-- <a class="btn btn-link text-primary text-gradient"
                                                                             href="/view-bill/{{ $billing->id }}">
                                                                             <i
                                                                                 class="material-icons text-sm">visibility</i>View
                                                                         </a> --}}
-                                                                        <form id="delete-billing-form"
-                                                                            action="/delete-billing/{{ $billing->id }}"
-                                                                            method="POST">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit"
-                                                                                class="btn btn-sm btn-danger"
-                                                                                onclick="return confirm('Are you sure you want to delete this billing?')"><i
-                                                                                    class="material-icons text-sm">delete_outline</i>Remove</button>
-                                                                        </form>
+                                                                    <form id="delete-billing-form"
+                                                                        action="/delete-billing/{{ $billing->id }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-sm btn-danger"
+                                                                            onclick="return confirm('Are you sure you want to delete this billing?')"><i
+                                                                                class="material-icons text-sm">delete_outline</i>Remove</button>
+                                                                    </form>
 
-                                                                    </td>
-                                                                </tr>
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
+                                <div class="p-3 bg-secondary-gradient">
+                                    <h4>Add Payment: <span><a class="icon-link icon-link-hover"
+                                                style="--bs-link-hover-color-rgb: 25, 135, 84;" href="/payments"> Make
+                                                Payment (<i class="bi bi-cash-coin fs-3 text-success"></i>)</a></span></h4>
                                 </div>
                                 <!-- Payment Details Modal End -->
 
@@ -849,27 +918,131 @@
                             </div>
 
                         </div>
+
                     </div>
 
                 </div>
-
                 <!--end::Nav-->
-                <!--begin::Form-->
 
+                <!--begin::Form-->
 
                 <!--end::Form-->
 
             </div>
             <!--end::Stepper-->
+
+            <div class="col-3">
+                <div class="mt-2 text-center">
+
+                    <ul class="nav nav-tabs d-inline-flex" id="myTabs">
+                        <li class="nav-item">
+                            <a class="nav-link p-5" id="comments-tab" data-bs-toggle="tab" href="#comments"
+                                style="font-size: 2rem"><i class="bi bi-chat-left-text-fill" style="font-size: 1em"></i>
+                                Comments</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-2" id="myTabContent">
+                        <div class="tab-pane active fade show" id="comments">
+                            <h3>Comments Details</h3>
+                            <div class="mt-6">
+                                <!-- Payment Details Modal Start -->
+                                {{-- <h2 class="text-center">Payments Content</h2> --}}
+                                <p class="text-dark fw-semibold fs-6 mb-12">See all comments details.</p>
+                                @foreach ($comments as $comment)
+                                    <div>
+                                        @if (is_array($comment->text))
+                                            @foreach ($comment->text as $ct)
+                                                <!--begin::Option-->
+                                                {{-- <input type="radio" class="btn-check"
+                                                                name="radio_buttons_2" value="sms"
+                                                                id="kt_radio_buttons_2_option_2" /> --}}
+                                                <label
+                                                    class="bg-gba-light btn btn-outline btn-outline-dashed btn-active-light-primary p-3 d-flex align-items-center m-2 bordered border-primary-subtle"
+                                                    for="kt_radio_buttons_2_option_2">
+                                                    {{-- <i class="ki-duotone ki-message-text-2 fs-4x me-4"><span
+                                                                        class="path1"></span><span
+                                                                        class="path2"></span><span
+                                                                        class="path3"></span></i> --}}
+
+                                                    <span class="d-block fw-semibold text-start">
+                                                        <span {{-- class="text-gray-900 fw-bold d-block fs-3">{{ $ct->id }}</span> --}} <span
+                                                            class="text-dark fw-semibold fs-6">{{ $ct->title }}</span>
+                                                    </span>
+                                                </label>
+                                                <!--end::Option-->
+                                            @endforeach
+                                        @else
+                                            <label
+                                                class="bg-danger btn btn-outline btn-outline-dashed p-4 d-flex align-items-center m-2"
+                                                for="kt_radio_buttons_2_option_2">
+                                                <i class="ki-duotone ki-message-text-2 fs-4x me-4"><span
+                                                        class="path1"></span><span class="path2"></span><span
+                                                        class="path3"></span></i>
+
+                                                <span class="d-block fw-semibold text-start">
+                                                    <span {{-- class="text-gray-900 fw-bold d-block fs-3">{{ $ct->id }}</span> --}} <span
+                                                        class="text-light fw-semibold fs-6">No Comments</span>
+                                                </span>
+                                            </label>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                <!-- Payment Details Modal End -->
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--end::Nav-->
+            </div>
         </div>
         <!--end::Card body-->
     </div>
+
     <!--end::Card-->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listener for when a new tab is shown
+            $('#myTabs a').on('shown.bs.tab', function(event) {
+                var activeTab = $(event.target).attr('href'); // Get the href of the active tab
+                localStorage.setItem('activeTab', activeTab); // Store it in localStorage
+                console.log("Tab changed to: " + activeTab); // Debugging: log the active tab
+            });
+
+            // Retrieve the active tab from localStorage on page load
+            var activeTab = localStorage.getItem('activeTab');
+            console.log("Loaded activeTab from storage: " + activeTab); // Debugging: log the loaded tab
+            if (activeTab && $('#myTabs a[href="' + activeTab + '"]').length > 0) {
+                $('#myTabs a[href="' + activeTab + '"]').tab('show'); // Show the active tab
+            } else {
+                var membershipTab = $('#myTabs a[href="#membership"]'); // Target the #membership tab
+                if (membershipTab.length > 0) {
+                    membershipTab.tab('show'); // Show the membership tab if it exists
+                    console.log("Defaulting to membership tab"); // Debugging: log the default tab
+                } else {
+                    var firstTab = $('#myTabs a').first(); // Find the first tab as a fallback
+                    firstTab.tab('show'); // Show the first tab if no membership tab is found
+                    console.log("Fallback to first tab: " + firstTab.attr(
+                        'href')); // Debugging: log the fallback tab
+                }
+            }
+
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');

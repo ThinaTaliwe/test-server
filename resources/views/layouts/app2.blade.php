@@ -1,19 +1,90 @@
 @extends('layouts.master')
 @section('title', 'GBA System')
 
-@push('styles')
+ @push('styles')
+{{--<script>
+        // Function to stringify an element's attributes
+        function stringifyAttributes(element) {
+            const attributes = element.attributes;
+            const attrArray = [];
+            for (let i = 0; i < attributes.length; i++) {
+                const attr = attributes[i];
+                attrArray.push(`${attr.name}="${attr.value}"`);
+            }
+            return attrArray.join(", ");
+        }
+
+        // Log details of the click event
+        function logClickEvent(event) {
+            console.log(`Clicked element: ${event.target.tagName}, Attributes: ${stringifyAttributes(event.target)}`);
+        }
+
+        // Initialize click event logging
+        document.addEventListener('click', logClickEvent, true);
+
+        // Function to log mutations
+        function logMutations(mutations) {
+            mutations.forEach(mutation => {
+                console.log(`Mutation type: ${mutation.type}`);
+                if (mutation.type === 'attributes') {
+                    console.log(`Attribute changed: ${mutation.attributeName}, New value: ${mutation.target.getAttribute(mutation.attributeName)}`);
+                } else if (mutation.type === 'childList') {
+                    console.log(`Changed node: ${mutation.target}, Added nodes: ${mutation.addedNodes.length}, Removed nodes: ${mutation.removedNodes.length}`);
+                }
+            });
+        }
+
+        // Options for the observer (which mutations to observe)
+        const config = { attributes: true, childList: true, subtree: true };
+
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(logMutations);
+
+        // Start observing the document for configured mutations
+        observer.observe(document, config);
+
+        // Ensure observer and event listeners are cleaned up if needed
+        window.addEventListener('unload', () => {
+            observer.disconnect();
+            document.removeEventListener('click', logClickEvent, true);
+        });
+
+</script> --}}
+
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
     {{-- <link href="{{ asset('css/dynamic_styles.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
     <!--end::Global Stylesheets Bundle-->
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{-- Start Styling for the header breadcrum --}}
+<style>
+/* Target the page-title container */
+.page-title {
+    /* Other styles for .page-title can be placed here if needed */
+}
+
+/* Specific styling for breadcrumb links */
+.page-title a {
+    color: #007bbf; /* Default link color */
+    text-decoration: none; /* Optional: removes underline from links */
+    transition: color 0.3s; /* Smooth transition for color change */
+}
+
+/* Hover state for breadcrumb links */
+.page-title a:hover {
+    color: #aa56b3; /* Color when hovered */
+    
+}
+</style>
+{{-- End Styling for the header breadcrum --}}
 
 
     {{--START Siya: Google auto-complete always on top --}}
@@ -104,12 +175,24 @@
             }
         
             window.initAutocomplete = initAutocomplete;
-        </script>
-        
-            
+        </script>  
             
         {{--End: Trying a modularized version of Google maps auto-complete --}}
-        
+        <style>
+        /* Underline active link */
+        .menu-link.active .menu-title, 
+        .menu-link:active .menu-title,
+        .menu-link:visited .menu-title {
+            text-decoration: highlight;
+            text-size: 8em;
+        }
+
+        /* Additional style for the active menu item */
+        .menu-link.active {
+            color: #0056b3; /* Change the color to blue or any color that suits your design */
+            font-weight: bold; /* Make it bold to highlight */
+        }
+        </style>
     
     
 
@@ -219,6 +302,28 @@
 }
 </style>
 {{-- Start Script for styling notifications for Activity Log --}}
+
+
+{{-- Start Breadcrums stylings --}}
+<style>
+.page-title {
+    background-color: #f8f9fa; /* Light gray background */
+    border-bottom: 1px solid #dee2e6; /* Adds a subtle border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+    padding: 20px; /* Adds padding */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.page-title h2 {
+    color: #495057; /* Dark gray text color for better readability */
+}
+
+.page-title small {
+    color: #6c757d; /* Muted text for less emphasis */
+}
+</style>
+{{-- End Breadcrums stylings --}}
+
 @endpush
 
 @section('themeMode')
@@ -279,10 +384,14 @@
         <!--begin::Aside menu-->
         <div class="aside-menu flex-column-fluid ps-3 ps-lg-5 pe-1 mb-9" id="kt_aside_menu">
             <!--begin::Aside Menu-->
-            <div class="w-100 hover-scroll-y pe-2 me-2" id="kt_aside_menu_wrapper" data-kt-scroll="true"
-                 data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
+            <div class="w-100 hover-scroll-y pe-2 me-2" id="kt_aside_menu_wrapper" 
+                
+                 data-kt-scroll="true"
+                 data-kt-scroll-activate="{default: false, lg: true}" 
+                 data-kt-scroll-height="auto"
                  data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_user, #kt_aside_footer"
-                 data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu, #kt_aside_menu_wrapper" data-kt-scroll-offset="0">
+                 data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu, #kt_aside_menu_wrapper"
+                 data-kt-scroll-offset="0">
                 <!--begin::Menu-->
                 <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold" id="#kt_aside_menu"
                      data-kt-menu="true">
@@ -319,13 +428,65 @@
                         ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('messages.Admin Space')"
+                        {{-- <x-aside.aside-menu :menu-title="__('messages.Admin Space')"
                                             :menu-icon="'bi bi-briefcase'" :menu-items="[
                             ['url' => '/admin/user', 'title' => __('messages.Users')],
                             ['url' => '/admin/role', 'title' => __('messages.Roles')],
                             ['url' => '/admin/permission', 'title' => __('messages.Permissions')],
-                        ]"/>
+                            ['url' => '/admin/employee', 'title' => __('Employee Management'), 'sub-items' => [
+                                ['url' => '/admin/employee/add', 'title' => __('Add Employee')],
+                                ['url' => '/admin/employee/view', 'title' => __('View Employees')]
+                            ]],
+                        ]"/> --}}
                         <!--end:Menu item-->
+
+
+    <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover"><!--begin:Menu link--><span
+            class="menu-link"><span class="menu-icon"><i class="bi bi-briefcase fs-2"><span
+                        class="path1"></span><span class="path2"></span></i></span><span
+                class="menu-title">Admin Space</span><span
+                class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion" kt-hidden-height="97" style=""><!--begin:Menu item-->
+        <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/user"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title">Users</span></a><!--end:Menu link--></div>
+                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/role"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title">Roles</span></a><!--end:Menu link--></div>
+                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/permission"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title">Permissions</span></a><!--end:Menu link--></div>
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion"><!--begin:Menu link--><span
+                    class="menu-link"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                        class="menu-title">Employee Management</span><span
+                        class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion menu-active-bg"><!--begin:Menu item-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/employee"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title">Employees</span></a><!--end:Menu link--></div>
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/employeerole"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title"> Employee Roles</span></a><!--end:Menu link--></div>
+                    <!--end:Menu item--><!--begin:Menu item-->
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                            href="/admin/jobdescriptions"><span class="menu-bullet"><span
+                                    class="bullet bullet-dot"></span></span><span
+                                class="menu-title">Job Descriptions</span></a><!--end:Menu link--></div>
+                    <!--end:Menu item--><!--end:Menu item-->
+                </div><!--end:Menu sub-->
+            </div><!--end:Menu item-->
+        </div><!--end:Menu sub-->
+    </div>
+
+
+
+
+
 
                         <!--begin:Menu item-->
                         {{-- <x-aside.aside-menu :menu-title="__('messages.sales_commission')" :menu-icon="'ki-duotone ki-tag'" :menu-items="[
@@ -382,7 +543,7 @@
                         ]"/>
                         <!--end:Menu item-->
                     @endcanany
-                    <div id="google_translate_element" class="text-center mt-4">Language:</div>
+                    {{-- <div id="google_translate_element" class="text-center mt-4">Language:</div> --}}
                     <!--begin:Menu item-->
                     {{-- <x-aside.aside-menu :menu-title="__('messages.More')" :menu-icon="'ki-duotone ki-abstract-35 fs-2'" :menu-items="[ --}}
                     {{-- ['url' => '/testingview', 'title' => __('messages.Developments')], --}}
@@ -391,6 +552,37 @@
                     {{-- ['url' => '/settings', 'title' => __('messages.Customize')], --}}
                     {{-- ]" /> --}}
                     <!--end:Menu item-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
                 <!--end::Menu-->
             </div>
@@ -420,7 +612,7 @@
         </div>
         <!--end::Footer-->
     </div>
-    <div id="google_translate_element"></div>
+    {{-- <div id="google_translate_element"></div> --}}
 @endsection
 
 @section('header')
@@ -530,7 +722,7 @@
                     </div> --}}
 
 
-                    <div class="btn btn-icon btn-active-color-primary btn-outline w-40px h-40px bg-gba-light"
+                    <div class="btn btn-icon btn-active-color-primary btn-outline w-40px h-40px bg-light"
                         id="kt_activities_toggle">
                         <!-- Notification Icon -->
                         <i class="ki-duotone ki-notification-bing" style="font-size: 34px; color: #646c9a;">
@@ -539,11 +731,11 @@
                             <span class="path3"></span>
                         </i>
                         <!-- Notification Badge -->
-                        @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-                        <span class="notification-badge" id="unreadCount">
+                        {{-- @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-badge fs-8" id="unreadCount">
                             {{ auth()->user()->unreadNotifications->count() }}
                         </span>
-                        @endif
+                        @endif --}}
                     </div>
 
                      
@@ -833,7 +1025,7 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
-    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light  border border-dark" onclick="document.getElementById('logout-form').submit();">
+    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-light  border border-dark" onclick="document.getElementById('logout-form').submit();">
         <i class="bi bi-power" style="font-size: 28px; color: red;"></i>
     </button>
     <!--end::Logout Form-->
@@ -951,7 +1143,7 @@
         <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-gba mx-auto" id="kt_footer">
             <!--begin::Copyright-->
             <div class="text-dark order-2 order-md-1">
-                <a href="/home" target="_blank" class="text-black text-hover-primary fw-semibold me-1 fs-4">GBA</a>
+                <a href="/home" target="_blank" class="text-black text-hover-primary fw-semibold me-1 fs-4"></a>
             </div>
             <!--end::Copyright-->
 
@@ -1682,13 +1874,13 @@
     <!--begin::Javascript-->
     <script>
         var hostUrl = "{{ asset('assets/') }}";
-        introJs().start();
+        //introJs().start();
     </script>
         <!-- Include Intro.js JavaScript from CDN -->
     {{-- <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script> --}}
     <script>
       function startTour() {
-        introJs().start();
+//introJs().start();
       }
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
@@ -1743,6 +1935,31 @@ $(document).ready(function() {
     }
 });
 </script>
+
+<script>
+// JavaScript to add 'active' class based on current URL
+//document.addEventListener("DOMContentLoaded", function() {
+    //const links = document.querySelectorAll('.menu-link');
+    //const currentLocation = window.location.href;
+
+    //links.forEach(link => {
+       // if (link.href === currentLocation) {
+       //     link.classList.add('active');
+       // }
+    //})
+//});
+
+</script>
+
+<script>
+        $(document).ready(function() {
+            $('.srchable').select2({
+                width: '100%', // Ensures the width of the select matches container
+                placeholder: 'Select Membership Type', // Placeholder if needed
+                allowClear: true // Allows clearing the selection
+            });
+        });
+    </script>
 
     <!--end::Custom Javascript-->
 @endpush

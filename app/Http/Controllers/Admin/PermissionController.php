@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
+
 class PermissionController extends Controller
 {
 
@@ -35,6 +38,18 @@ class PermissionController extends Controller
      */
     public function create()
     {
+        
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Create Permission', 'A user permission has been created.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return view('admin.permission.create')->with('success', 'Permission created successfully.');
     }
 
@@ -93,6 +108,19 @@ class PermissionController extends Controller
             ]
         );
         $permission->update($request->all());
+
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Permission Update', 'A user permission has been updated.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return redirect()->route('permission.index')
             ->with('success', 'Permission updated successfully.');
     }
@@ -106,6 +134,19 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $permission->delete();
+
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Permission Delete', 'A permission has been deleted.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return redirect()->route('permission.index')
             ->with('success', 'Permission deleted successfully');
     }

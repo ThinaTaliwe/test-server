@@ -143,13 +143,13 @@
                         @foreach ($dependants as $dependant)
                             <tr>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
-                                    {{ $dependant->personDep->first_name }}</td>
+                                    {{ $dependant->personDep->first_name ?? 'N/A' }}</td>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
-                                    {{ $dependant->personDep->last_name }}</td>
+                                    {{ $dependant->personDep->last_name ?? 'N/A' }}</td>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
-                                    {{ $dependant->personDep->id_number }}</td>
+                                    {{ $dependant->personDep->id_number ?? 'N/A' }}</td>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
-                                    {{ substr($dependant->personDep->birth_date, 0, 10) }}
+                                    {{ substr($dependant->personDep->birth_date, 0, 10) ?? 'N/A' }}
                                 </td>
                                 <td class="text-sm font-weight-normal pt-3 text-center">
                                     @if ($dependant->personDep->gender_id == 1 || $dependant->personDep->gender_id == 'M')
@@ -161,7 +161,7 @@
                                     @endif
                                 </td>
                                 <td class="text-sm font-weight-normal pt-3 text-center"><a
-                                        href="/view-member/{{ $dependant->personMain->membership->first()->id }}">{{ $dependant->personMain->screen_name }}</a>
+                                        href="/view-member/{{ $dependant->personMain->membership->first()->id }}">{{ $dependant->personMain->screen_name ?? 'N/A' }}</a>
                                 </td>
                                 @php
                                     $age = ageFromDOB($dependant->personDep->birth_date);
@@ -233,6 +233,7 @@
                     });
 
                     $('#datatable-dependant').DataTable({
+                        destroy: true, // This will destroy any existing DataTable on this element and replace it
                         dom: 'Bfrtip',
                         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                         "pagingType": "full_numbers"

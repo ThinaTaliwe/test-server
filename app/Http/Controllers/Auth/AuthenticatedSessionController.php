@@ -34,6 +34,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+        $currentBuId = session('current_bu_id');
+
+        // Set the default BU ID if not already set
+        if (!$currentBuId) {
+            $firstBu = $user->bus()->first();
+            if ($firstBu) {
+                session(['current_bu_id' => $firstBu->id]);
+            }
+        }
         //Siya :where to redirect user based on role
         if ( $request->user()->hasAnyRole(['super-admin', 'admin']) ) {
             return redirect(route('admin.home'));

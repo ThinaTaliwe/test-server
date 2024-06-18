@@ -20,11 +20,11 @@ class PersonService
         $person->screen_name = is_null($index) ? $request->input($prefix . 'screen_name') : ($request->input($prefix . 'screen_name')[$index] ?? null);
         $person->id_number = is_null($index) ? $request->input($prefix . 'id_number') : ($request->input($prefix . 'id_number')[$index] ?? null);
         $person->birth_date = is_null($index) ? $request->input($prefix . 'birth_date') : ($request->input($prefix . 'birth_date')[$index] ?? null);
-        $person->married_status = is_null($index) ? $request->input($prefix . 'marriage_status_id') : ($request->input($prefix . 'marriage_status_id')[$index] ?? null);
+        $person->married_status = is_null($index) ? $request->input($prefix . 'married_status') : ($request->input($prefix . 'married_status')[$index] ?? null);
         $person->gender_id = is_null($index) ? $request->input($prefix . 'gender_id') : ($request->input($prefix . 'gender_id')[$index] ?? null);
-        $person->residence_country_id = 197; // Assuming this is static
+        $person->residence_country_id = is_null($index) ? $request->input($prefix . 'residence_country_id') : ($request->input($prefix . 'residence_country_id')[$index] ?? null);
         $person->save();
-    
+
         Log::info('Person saved', ['id' => $person->id, 'type' => $prefix, 'index' => $index ?? 'N/A']);
         return $person;
     }

@@ -13,6 +13,7 @@ use App\Models\Language;
 use App\Models\Address;
 use App\Models\PersonDetail;
 use App\Models\DeathReporter;
+use App\Models\Funeral;
 
 use Carbon\Carbon;
 
@@ -57,46 +58,7 @@ class DeathController extends Controller
     {
         Log::info('Death record store process started', ['request' => $request->all()]);
     
-        // Validate the request data
-        // $validatedData = $request->validate([
-        //     'deceased_id' => 'required|exists:people,id',
-        //     'reporter_name' => 'required|string|max:255',
-        //     'reporter_surname' => 'required|string|max:255',
-        //     'reporter_tel' => 'nullable|string|max:255',
-        //     'reporter_whatsapp' => 'nullable|string|max:255',
-        //     'reporter_email' => 'nullable|string|max:255|email',
-        //     'deceased_name' => 'required|string|max:255',
-        //     'deceased_surname' => 'required|string|max:255',
-        //     'deceased_initials' => 'nullable|string|max:255',
-        //     'deceased_id_number' => 'nullable|string|max:255',
-        //     'deceased_birth_date' => 'nullable|date',
-        //     'deceased_marital_status' => 'nullable|string|max:255',
-        //     'deceased_sex' => 'nullable|string|max:255',
-        //     'deceased_date_of_death' => 'required|date',
-        //     'deceased_maiden_name' => 'nullable|string|max:255',
-        //     'deceased_occupation' => 'nullable|string|max:255',
-        //     'deceased_doctor' => 'nullable|string|max:255',
-        //     'deceased_address_line1' => 'nullable|string|max:255',
-        //     'deceased_address_line2' => 'nullable|string|max:255',
-        //     'deceased_address_townSuburb' => 'nullable|string|max:255',
-        //     'deceased_address_city' => 'nullable|string|max:255',
-        //     'deceased_address_postalCode' => 'nullable|string|max:255',
-        //     'deceased_address_province' => 'nullable|string|max:255',
-        //     'deceased_birth_town_placeName' => 'nullable|string|max:255',
-        //     'deceased_birth_town_line1' => 'nullable|string|max:255',
-        //     'deceased_birth_town_line2' => 'nullable|string|max:255',
-        //     'deceased_birth_town_townSuburb' => 'nullable|string|max:255',
-        //     'deceased_birth_town_city' => 'nullable|string|max:255',
-        //     'deceased_birth_town_postalCode' => 'nullable|string|max:255',
-        //     'deceased_birth_town_province' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_placeName' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_line1' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_line2' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_townSuburb' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_city' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_postalCode' => 'nullable|string|max:255',
-        //     'deceased_place_of_death_province' => 'nullable|string|max:255',
-        // ]);
+      
     
         // Begin a transaction in case you need to rollback if something goes wrong
         DB::beginTransaction();
@@ -149,6 +111,24 @@ class DeathController extends Controller
             // Store deceased death place address
             $this->storeAddress(20, $request->deceased_place_of_death_placeName, $request->deceased_place_of_death_line1, $request->deceased_place_of_death_line2, $request->deceased_place_of_death_townSuburb, $request->deceased_place_of_death_city, $request->deceased_place_of_death_postalCode, $request->deceased_place_of_death_province, 197); // Place of Death
     
+
+             // Fetch all memberships where the deceased person is either a primary member or a dependent
+            $memberships = $deceased_person->allMemberships();
+
+            // Create funeral records for each membership
+            foreach ($memberships as $membership) {
+                $funeral = new Funeral();
+                $funeral->person_id = $deceased_person->id;
+                $funeral->bu_id = Auth::user()->current_bu_id;
+                $funeral->membership_id = $membership->id;
+                $funeral->main_or_dependent = $membership->pivot->secondary_person_id == $deceased_person->id ? 'Dependent' : 'Main Member';
+                $funeral->membership_status = 'Pending'; // or any other status you want to assign
+                $funeral->last_payment_date = $membership->last_payment_date; // assuming this field exists
+                $funeral->save();
+            }
+            Log::info('Funeral records created for all memberships', ['funerals' => $memberships]);
+
+
             // Commit the transaction
             DB::commit();
             Log::info('Death record stored successfully');

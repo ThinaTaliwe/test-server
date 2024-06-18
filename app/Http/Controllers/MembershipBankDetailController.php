@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
+
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
+
 class MembershipBankDetailController extends Controller
 {
     public function saveBankDetails(Request $request)
@@ -54,6 +58,16 @@ class MembershipBankDetailController extends Controller
         // Save the model
         // dd($bankDetail);
         $bankDetail->save();
+        $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Debit Order Details', 'Debit order details saved successfully.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
 
         // Return a response
         //return view('emptyPage')->with('success', 'Updated Successfully!!!!!');
@@ -63,6 +77,7 @@ class MembershipBankDetailController extends Controller
 
     public function saveCashPaymentDetails(Request $request)
     {
+        //dd($request);
         $validatedData = $request->validate([
             'membership_id' => 'required|integer',
             'transaction_date' => 'required|date',
@@ -77,6 +92,17 @@ class MembershipBankDetailController extends Controller
 
         $paymentReceipt = new MembershipPaymentReceipt($validatedData);
         $paymentReceipt->save();
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Cash Payment', 'Cash payment made successfully.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
         
         // Redirect or return a response after saving
         return redirect()->back()->withSuccess('Payment details saved successfully.');
@@ -97,9 +123,22 @@ class MembershipBankDetailController extends Controller
             // Add validation rules for any additional fields
         ]);
 
+         
+
         $paymentReceipt = new MembershipPaymentReceipt($validatedData);
         $paymentReceipt->save();
         //dd($paymentReceipt);
+
+        $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Data-Via Payment', 'Data Via payment made successfully.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
 
         return redirect()->back()->withSuccess('Data Via Payment Details Submitted Successfully');
     }
@@ -126,6 +165,17 @@ class MembershipBankDetailController extends Controller
         $paymentReceipt = new MembershipPaymentReceipt($validated);
         $paymentReceipt->save();
         //dd($paymentReceipt);
+
+        $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('EFT Payment', 'EFT payment made successfully.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
 
         return redirect()->back()->withSuccess('EFT Payment Details Submitted Successfully');
     }

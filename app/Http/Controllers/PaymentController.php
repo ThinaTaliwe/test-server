@@ -6,6 +6,9 @@ use App\Models\Membership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
+
 class PaymentController extends Controller
 {
     //

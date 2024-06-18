@@ -259,6 +259,81 @@
                                             <!-- Accordion content for Membership Details -->
                                             <!-- Main Record Card as Form -->
                                             @if ($item['main'])
+                                            
+                                            <input type="hidden" id="main_original_json_{{ $item['main']->id }}"
+                                            name="main_original_json_{{ $item['main']->id }}" value="{{ $item['main']->complete_original_record }}">
+      
+                                            <div class="row mb-4">
+                                                <!--begin::Trigger button-->
+                                                <button id="kt_drawer_main_member_button" class="btn btn-light-primary">See Original Record</button>
+                                                <!--end::Trigger button-->
+                                            </div>                                        
+                                            <!--begin::Drawer-->
+                                            <div 
+                                                id="kt_drawer_main_member"
+                                                class="bg-white"
+                                                data-kt-drawer="true" 
+                                                data-kt-drawer-activate="true" 
+                                                data-kt-drawer-toggle="#kt_drawer_main_member_button" 
+                                                data-kt-drawer-close="#kt_drawer_main_member_close"    
+                                                data-kt-drawer-width="{default:'300px', 'md': '400px'}"     
+                                                >
+                                            
+                                                <!--begin::Card-->
+                                                <div class="card w-100 rounded-0">
+                                                    <!--begin::Card header-->
+                                                    <div class="card-header pe-5">
+                                                        <!--begin::Title-->
+                                                        <div class="card-title">
+                                                            <!--begin::User-->
+                                                            <div class="d-flex justify-content-center flex-column me-3">
+                                                                <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main Membership Original Details</a>
+                                                            </div>
+                                                            <!--end::User-->
+                                                        </div>
+                                                        <!--end::Title-->
+                                            
+                                                        <!--begin::Card toolbar-->
+                                                        <div class="card-toolbar">
+                                                            <!--begin::Close-->
+                                                            <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger" id="kt_drawer_main_member_close">
+                                                                <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                
+                                                            </div>
+                                                            <!--end::Close-->
+                                                        </div>
+                                                        <!--end::Card toolbar-->
+                                                    </div>
+                                                    <!--end::Card header-->
+                                            
+                                                    <!--begin::Card body-->
+                                                    <div class="card-body hover-scroll-overlay-y">
+                                                        @php
+                                                            $originalRecord = json_decode($item['main']->complete_original_record, true);
+                                                        @endphp
+                                                        @if($originalRecord)
+                                                            @foreach($originalRecord as $key => $value)
+                                                                <div class="d-flex align-items-center flex-wrap mb-2">
+                                                                    <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                                        <strong>{{ $key }}:</strong> <span class="copy-value">{{ $value }}</span>
+                                                                    </div>
+                                                                    @if(strlen($value) > 0)
+                                                                        <button class="btn btn-icon btn-sm btn-light" data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                            <i class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                        </button>
+                                                                    @endif
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <p>No original record found.</p>
+                                                        @endif
+                                                    </div>
+                                                    <!--end::Card body-->
+                                                </div>
+                                                <!--end::Card-->
+                                            </div>
+                                            <!--end::Drawer-->
+
+
                                                 <div class="row">
                                                     <!-- Membership ID and Membership Type -->
                                                     <div class="col-md-4">
@@ -269,6 +344,9 @@
                                                                 value="{{ $item['main']->membership_id }}">
                                                         </div>
                                                     </div>
+
+                                                   
+
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <label for="bu_membership_type_id">Membership Type</label>
@@ -361,7 +439,7 @@
 
                                                 <div class="row">
                                                     <!-- primary_contact_number, secondary_contact_number, and tertiary_contact_number -->
-                                                    <div class="col-md-3">
+                                                    <div class="col">
                                                         <div class="form-group">
                                                             <label for="primary_contact_number">Primary Contact
                                                                 Number</label>
@@ -370,7 +448,7 @@
                                                                 value="{{ $item['main']->primary_contact_number }}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col">
                                                         <div class="form-group">
                                                             <label for="secondary_contact_number">Secondary Contact
                                                                 Number</label>
@@ -380,7 +458,7 @@
                                                                 value="{{ $item['main']->secondary_contact_number }}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col">
                                                         <div class="form-group">
                                                             <label for="tertiary_contact_number">Tertiary Contact
                                                                 Number</label>
@@ -390,12 +468,20 @@
                                                                 value="{{ $item['main']->tertiary_contact_number }}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col">
                                                         <div class="form-group">
                                                             <label for="primary_e_mail_address">Email Address</label>
                                                             <input type="text" class="form-control"
                                                                 id="primary_e_mail_address" name="primary_e_mail_address"
                                                                 value="{{ $item['main']->primary_e_mail_address }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="secondary_e_mail_address">Email Address 2 (optional)</label>
+                                                            <input type="text" class="form-control"
+                                                                id="secondary_e_mail_address" name="secondary_e_mail_address"
+                                                                value="{{ $item['main']->secondary_e_mail_address }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -690,9 +776,9 @@
 
                                             {{-- Start Payment Method --}}
                                             <div class="my-4 mt-4">
-                                                <h1 class="text-center my-4">Select Default Payment Method</h1>
+                                                <h4 class="text-center my-4">Select Default Payment Method</h4>
                                                 <div class="d-flex align-items-center mb-3 px-4">
-                                                    <select class="form-select me-2" id="paymentMethod" name="payment_method_id"required>
+                                                    <select class="form-select me-2" id="paymentMethod" name="payment_method_id" style="background-color: white !important" required>
                                                         <option selected disabled value="">Select Payment Method
                                                         </option>
                                                         @foreach ($paymentmethods as $paymentmethod)
@@ -1008,9 +1094,12 @@
                                                             <div class="card-body">
                                                                 @foreach ($item['deaths'] as $death)
                                                                     <!-- Hidden Inputs for death's Details -->
-
+                                                                    
                                                                     <input type="hidden" id="death_record_id_{{ $death->id }}"
                                                                     name="death_record_id[]" value="{{ $death->id }}">
+                                                                    
+                                                                    <input type="hidden" id="death_original_json_{{ $death->id }}"
+                                                                    name="death_original_json[]" value="{{ $death->complete_original_record }}">
 
                                                                     <input type="hidden" id="death_membership_id_{{ $death->id }}"
                                                                         name="death_membership_id[]" value="{{ $death->membership_id }}">
@@ -1052,6 +1141,76 @@
 
                                                                     <!--END -- Hidden Inputs for death's Details -->
 
+                                                                    <div class="row mb-4">
+                                                                        <!--begin::Trigger button-->
+                                                                        <button id="kt_drawer_death_button_{{ $death->id }}" class="btn btn-light-primary">See Original Record</button>
+                                                                        <!--end::Trigger button-->
+                                                                    </div>                                        
+                                                                    <!--begin::Drawer-->
+                                                                    <div 
+                                                                        id="kt_drawer_death"
+                                                                        class="bg-white"
+                                                                        data-kt-drawer="true" 
+                                                                        data-kt-drawer-activate="true" 
+                                                                        data-kt-drawer-toggle="#kt_drawer_death_button_{{ $death->id }}" 
+                                                                        data-kt-drawer-close="#kt_drawer_death_close"    
+                                                                        data-kt-drawer-width="{default:'300px', 'md': '400px'}"     
+                                                                        >
+                                                                    
+                                                                        <!--begin::Card-->
+                                                                        <div class="card w-100 rounded-0">
+                                                                            <!--begin::Card header-->
+                                                                            <div class="card-header pe-5">
+                                                                                <!--begin::Title-->
+                                                                                <div class="card-title">
+                                                                                    <!--begin::User-->
+                                                                                    <div class="d-flex justify-content-center flex-column me-3">
+                                                                                        <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main Membership Original Details</a>
+                                                                                    </div>
+                                                                                    <!--end::User-->
+                                                                                </div>
+                                                                                <!--end::Title-->
+                                                                    
+                                                                                <!--begin::Card toolbar-->
+                                                                                <div class="card-toolbar">
+                                                                                    <!--begin::Close-->
+                                                                                    <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger" id="kt_drawer_death_close">
+                                                                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                
+                                                                                    </div>
+                                                                                    <!--end::Close-->
+                                                                                </div>
+                                                                                <!--end::Card toolbar-->
+                                                                            </div>
+                                                                            <!--end::Card header-->
+                                                                    
+                                                                            <!--begin::Card body-->
+                                                                            <div class="card-body hover-scroll-overlay-y">
+                                                                                @php
+                                                                                    $originalRecord = json_decode($death->complete_original_record, true);
+                                                                                @endphp
+                                                                                @if($originalRecord)
+                                                                                    @foreach($originalRecord as $key => $value)
+                                                                                        <div class="d-flex align-items-center flex-wrap mb-2">
+                                                                                            <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                                                                <strong>{{ $key }}:</strong> <span class="copy-value">{{ $value }}</span>
+                                                                                            </div>
+                                                                                            @if(strlen($value) > 0)
+                                                                                                <button class="btn btn-icon btn-sm btn-light" data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                    <i class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                </button>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <p>No original record found.</p>
+                                                                                @endif
+                                                                            </div>
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                        <!--end::Card-->
+                                                                    </div>
+                                                                    <!--end::Drawer-->
+                        
 
                                                                     <div class="record-container">
                                                                         @if ($death->record_completed)
@@ -1137,6 +1296,10 @@
                                                                     <input type="hidden" id="pmp_death_record_id_{{ $pmp_death->id }}"
                                                                     name="pmp_death_record_id[]" value="{{ $pmp_death->id }}">
 
+                                                                    <input type="hidden" id="pmp_death_original_json_{{ $pmp_death->id }}"
+                                                                    name="pmp_death_original_json[]" value="{{ $pmp_death->complete_original_record }}">
+
+
                                                                     <input type="hidden" id="pmp_death_membership_id_{{ $pmp_death->id }}"
                                                                         name="pmp_death_membership_id[]" value="{{ $pmp_death->membership_id }}">
                                                                     <input type="hidden" id="pmp_death_first_name_{{ $pmp_death->id }}"
@@ -1174,6 +1337,75 @@
 
                                                                     <!--END -- Hidden Inputs for pmp_death's Details -->
 
+                                                                    <div class="row mb-4">
+                                                                        <!--begin::Trigger button-->
+                                                                        <button id="kt_drawer_pmb_death_button_{{ $pmb_death->id }}" class="btn btn-light-primary">See Original Record</button>
+                                                                        <!--end::Trigger button-->
+                                                                    </div>                                        
+                                                                    <!--begin::Drawer-->
+                                                                    <div 
+                                                                        id="kt_drawer_pmb_death"
+                                                                        class="bg-white"
+                                                                        data-kt-drawer="true" 
+                                                                        data-kt-drawer-activate="true" 
+                                                                        data-kt-drawer-toggle="#kt_drawer_pmb_death_button_{{ $pmb_death->id }}" 
+                                                                        data-kt-drawer-close="#kt_drawer_pmb_death_close"    
+                                                                        data-kt-drawer-width="{default:'300px', 'md': '400px'}"     
+                                                                        >
+                                                                    
+                                                                        <!--begin::Card-->
+                                                                        <div class="card w-100 rounded-0">
+                                                                            <!--begin::Card header-->
+                                                                            <div class="card-header pe-5">
+                                                                                <!--begin::Title-->
+                                                                                <div class="card-title">
+                                                                                    <!--begin::User-->
+                                                                                    <div class="d-flex justify-content-center flex-column me-3">
+                                                                                        <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main Membership Original Details</a>
+                                                                                    </div>
+                                                                                    <!--end::User-->
+                                                                                </div>
+                                                                                <!--end::Title-->
+                                                                    
+                                                                                <!--begin::Card toolbar-->
+                                                                                <div class="card-toolbar">
+                                                                                    <!--begin::Close-->
+                                                                                    <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger" id="kt_drawer_pmb_death_close">
+                                                                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                
+                                                                                    </div>
+                                                                                    <!--end::Close-->
+                                                                                </div>
+                                                                                <!--end::Card toolbar-->
+                                                                            </div>
+                                                                            <!--end::Card header-->
+                                                                    
+                                                                            <!--begin::Card body-->
+                                                                            <div class="card-body hover-scroll-overlay-y">
+                                                                                @php
+                                                                                    $originalRecord = json_decode($pmb_death->complete_original_record, true);
+                                                                                @endphp
+                                                                                @if($originalRecord)
+                                                                                    @foreach($originalRecord as $key => $value)
+                                                                                        <div class="d-flex align-items-center flex-wrap mb-2">
+                                                                                            <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                                                                <strong>{{ $key }}:</strong> <span class="copy-value">{{ $value }}</span>
+                                                                                            </div>
+                                                                                            @if(strlen($value) > 0)
+                                                                                                <button class="btn btn-icon btn-sm btn-light" data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                    <i class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                </button>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <p>No original record found.</p>
+                                                                                @endif
+                                                                            </div>
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                        <!--end::Card-->
+                                                                    </div>
+                                                                    <!--end::Drawer-->
 
                                                                     <div class="record-container">
                                                                         <p>
@@ -1430,6 +1662,79 @@
 
                                                                                         <input type="hidden" id="dependent_record_id_{{ $dependent->id }}"
                                                                                             name="dependent_record_id[]" value="{{ $dependent->id }}">
+
+                                                                                            <input type="hidden" id="dependent_original_json_{{ $dependent->id }}"
+                                                                                            name="dependent_original_json[]" value="{{ $dependent->complete_original_record }}">
+                        
+                                                                                            <div class="row mb-4">
+                                                                                                <!--begin::Trigger button-->
+                                                                                                <button id="kt_drawer_dependent_button_{{ $dependent->id }}" class="btn btn-light-primary">See Original Record</button>
+                                                                                                <!--end::Trigger button-->
+                                                                                            </div>                                        
+                                                                                            <!--begin::Drawer-->
+                                                                                            <div 
+                                                                                                id="kt_drawer_dependent"
+                                                                                                class="bg-white"
+                                                                                                data-kt-drawer="true" 
+                                                                                                data-kt-drawer-activate="true" 
+                                                                                                data-kt-drawer-toggle="#kt_drawer_dependent_button_{{ $dependent->id }}" 
+                                                                                                data-kt-drawer-close="#kt_drawer_dependent_close"    
+                                                                                                data-kt-drawer-width="{default:'300px', 'md': '400px'}"     
+                                                                                                >
+                                                                                            
+                                                                                                <!--begin::Card-->
+                                                                                                <div class="card w-100 rounded-0">
+                                                                                                    <!--begin::Card header-->
+                                                                                                    <div class="card-header pe-5">
+                                                                                                        <!--begin::Title-->
+                                                                                                        <div class="card-title">
+                                                                                                            <!--begin::User-->
+                                                                                                            <div class="d-flex justify-content-center flex-column me-3">
+                                                                                                                <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main Membership Original Details</a>
+                                                                                                            </div>
+                                                                                                            <!--end::User-->
+                                                                                                        </div>
+                                                                                                        <!--end::Title-->
+                                                                                            
+                                                                                                        <!--begin::Card toolbar-->
+                                                                                                        <div class="card-toolbar">
+                                                                                                            <!--begin::Close-->
+                                                                                                            <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger" id="kt_drawer_dependent_close">
+                                                                                                                <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                
+                                                                                                            </div>
+                                                                                                            <!--end::Close-->
+                                                                                                        </div>
+                                                                                                        <!--end::Card toolbar-->
+                                                                                                    </div>
+                                                                                                    <!--end::Card header-->
+                                                                                            
+                                                                                                    <!--begin::Card body-->
+                                                                                                    <div class="card-body hover-scroll-overlay-y">
+                                                                                                        @php
+                                                                                                            $originalRecord = json_decode($dependent->complete_original_record, true);
+                                                                                                        @endphp
+                                                                                                        @if($originalRecord)
+                                                                                                            @foreach($originalRecord as $key => $value)
+                                                                                                                <div class="d-flex align-items-center flex-wrap mb-2">
+                                                                                                                    <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                                                                                        <strong>{{ $key }}:</strong> <span class="copy-value">{{ $value }}</span>
+                                                                                                                    </div>
+                                                                                                                    @if(strlen($value) > 0)
+                                                                                                                        <button class="btn btn-icon btn-sm btn-light" data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                                            <i class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                                        </button>
+                                                                                                                    @endif
+                                                                                                                </div>
+                                                                                                            @endforeach
+                                                                                                        @else
+                                                                                                            <p>No original record found.</p>
+                                                                                                        @endif
+                                                                                                    </div>
+                                                                                                    <!--end::Card body-->
+                                                                                                </div>
+                                                                                                <!--end::Card-->
+                                                                                            </div>
+                                                                                            <!--end::Drawer-->
                                                                                         
                                                                                             <div class="record-container">
                                                                                                 @if ($dependent->record_completed)
@@ -2029,6 +2334,26 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Google places setup
+            initAutocomplete('Line1', {
+                Line1: 'Line1',
+                Line2: 'Line2',
+                PostalCode: 'PostalCode',
+                City: 'City',
+                TownSuburb: 'TownSuburb',
+                Province: 'Province',
+                Country: 'Country',
+                PlaceName: 'PlaceName'
+            });
+        });
+    </script>
+
+
+    
     <script>
         function toggleDetails(selector) {
             $(selector).slideToggle('slow');
@@ -2451,6 +2776,61 @@
         });
     </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize ClipboardJS for all buttons with data-clipboard-target
+        var clipboard = new ClipboardJS('[data-clipboard-target]', {
+            text: function(trigger) {
+                return trigger.parentElement.querySelector('.copy-value').textContent;
+            }
+        });
+    
+        clipboard.on('success', function (e) {
+            var button = e.trigger;
+            var target = document.querySelector(button.getAttribute('data-clipboard-target'));
+            var checkIcon = button.querySelector('.ki-check');
+            var copyIcon = button.querySelector('.ki-copy');
+    
+            // Exit check icon when already showing
+            if (checkIcon) {
+                return;
+            }
+    
+            // Create check icon
+            checkIcon = document.createElement('i');
+            checkIcon.classList.add('ki-duotone', 'ki-check', 'fs-2x');
+    
+            // Append check icon
+            button.appendChild(checkIcon);
+    
+            // Highlight target
+            const classes = ['text-success', 'fw-boldest'];
+            target.classList.add(...classes);
+    
+            // Highlight button
+            button.classList.add('btn-success');
+    
+            // Hide copy icon
+            copyIcon.classList.add('d-none');
+    
+            // Revert button label after 3 seconds
+            setTimeout(function () {
+                // Remove check icon
+                copyIcon.classList.remove('d-none');
+    
+                // Revert icon
+                button.removeChild(checkIcon);
+    
+                // Remove target highlight
+                target.classList.remove(...classes);
+    
+                // Remove button highlight
+                button.classList.remove('btn-success');
+            }, 3000);
+        });
+    });
+    </script>
 
 
 

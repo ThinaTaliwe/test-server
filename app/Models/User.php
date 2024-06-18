@@ -86,6 +86,36 @@ class User extends Authenticatable
         return $this->hasOne(UserCustomStyles::class);
     }
 
+
+    // Relationship to Person
+    public function person()
+    {
+        return $this->hasOne(Person::class);
+    }
+
+        // Relationship with UserHasBu
+        public function userHasBus()
+        {
+            return $this->hasMany(UserHasBu::class);
+        }
+    
+        // Relationship with Bu through UserHasBu
+        public function bus()
+        {
+            return $this->belongsToMany(Bu::class, 'users_has_bu', 'users_id', 'bu_id');
+        }
+
+      
+    
+        // Get current Bu (assuming you have a way to store current BU id, e.g., in a session)
+        public function currentBu()
+        {
+            $currentBuId = session('current_bu_id');
+            return $this->bus()->where('bu_id', $currentBuId)->first();
+        }
+
+
+    
 }
 
 

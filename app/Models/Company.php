@@ -34,6 +34,7 @@ class Company extends Model
      *
      * @var string
      */
+    protected $connection = 'mysql';
     public $table = 'company';
 
     /**

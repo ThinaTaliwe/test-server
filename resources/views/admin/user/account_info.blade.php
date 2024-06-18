@@ -24,6 +24,34 @@
         <div class="bg-gba border-gba">
             <h1 class="text-center">Account Management</h1>
         </div>
+
+  
+           
+            <div class="card-body">
+                    
+               <div class="d-flex justify-content-center align-items-center">
+                <form action="{{ route('update.current.bu') }}" method="POST" id="buForm" class="p-3 border rounded">
+                    @csrf
+                    <div class="form-group">
+                        <label for="bu_id">Select BU:</label>
+                        <select name="bu_id" id="bu_id" class="form-control" onchange="document.getElementById('buForm').submit();">
+                            @php
+                                $currentBuId = session('current_bu_id');
+                            @endphp
+                            @foreach(Auth::user()->bus as $bu)
+                                <option value="{{ $bu->id }}" {{ $currentBuId == $bu->id ? 'selected' : '' }}>{{ $bu->bu_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            </div>
+
+
+        
+
+      
         <!--begin::Basic info-->
         <div class="row mt-4">
             <div class="card mb-2 mb-xl-10 custom-col border-gba">

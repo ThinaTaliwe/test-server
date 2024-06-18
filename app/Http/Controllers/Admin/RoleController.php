@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Notifications\PersonStatusNotification;
 
 class RoleController extends Controller
 {
@@ -55,6 +57,20 @@ class RoleController extends Controller
         if (!empty($request->permissions)) {
             $role->givePermissionTo($request->permissions);
         }
+
+
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Create Role', 'A Role has been created.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return redirect()->route('role.index')
             ->with('success', 'Role created successfully.');
     }
@@ -102,6 +118,20 @@ class RoleController extends Controller
         $role->update($request->all());
         $permissions = $request->permissions ?? [];
         $role->syncPermissions($permissions);
+
+
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Role Update', 'A Role has been updated.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return redirect()->route('role.index')
             ->with('success', 'Role updated successfully.');
     }
@@ -115,6 +145,18 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
+
+            $user = auth()->user();
+            //dd($user);
+            if ($user) {
+                // Notify the authenticated user about the creation
+                $user->notify(new PersonStatusNotification('Role Delete', 'A Role has been deleted.'));
+            } else {
+                // Handle cases where no user is logged in (optional)
+                // For example, you could log this situation or handle it as per your application's requirements
+                Log::warning('Attempted to send a notification, but no user is logged in.');
+            }
+
         return redirect()->route('role.index')
             ->with('success', 'Role deleted successfully');
     }

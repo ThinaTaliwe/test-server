@@ -37,5 +37,13 @@ class Bu extends Model
      *
      * @var string
      */
-    public $table = 'bu';
+    protected $connection = 'mysql';
+    public $table = 'bu';   
+    
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_has_bu', 'bu_id', 'users_id');
+    }
+    
+
 }

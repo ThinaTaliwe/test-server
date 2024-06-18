@@ -31,6 +31,7 @@ use App\Models\PersonRelationship;
 use App\Models\Gender;
 use App\Models\MarriageStatus;
 use App\Models\Language;
+use App\Models\Comment;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembershipsExport;
@@ -49,6 +50,7 @@ class MembershipsController extends Controller
     public function index(Request $request)
     {
         $query = Membership::query();
+        //dd($query)
 
         if ($request->has('search')) {
             $query
@@ -64,7 +66,11 @@ class MembershipsController extends Controller
             // Add other statuses as needed
         ];
         //$numberOfMemberships = $query->count();
-        $memberships = $query->orderBy('name')->paginate();
+
+
+
+        //$memberships = $query->orderBy('name')->paginate();
+        $memberships = Membership::all();
 
         //dd($memberships);
         return view('memberships', [
@@ -94,6 +100,7 @@ class MembershipsController extends Controller
 
     public function store(StoreMembershipRequest $request, StorePerson $storePerson, StoreAddress $storeAddress)
     {
+        
         DB::beginTransaction(); // Start the transaction
 
         try {
@@ -137,22 +144,51 @@ class MembershipsController extends Controller
                 'fee_currency_id' => 149,
             ]);
 
+            //$tasksData = $request->input('tasksData');
+
             $membership->save();
             Log::info('Saved membership');
 
-            $user = auth()->user();
-            //dd($user);
-            if ($user) {
-                // Notify the authenticated user about the creation
-                $user->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
-            } else {
-                // Handle cases where no user is logged in (optional)
-                // For example, you could log this situation or handle it as per your application's requirements
-                Log::warning('Attempted to send a notification, but no user is logged in.');
-            }
-            // Notify about the creation
-            //$person->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
-            //$user->notify(new PersonStatusNotification('created', 'A new membership has been created.'));
+            //dd($request->all());
+            $request->validate([
+                'text' => 'nullable|string',
+                'author' => 'required|string',
+                'link' => 'nullable|string',
+                'users_id' => 'required|integer',
+                'model_name' => 'required|string',
+                'model_record' => 'nullable|integer',
+            ]);
+            
+            // Generate the URL
+            $url = route('view-member', ['id' => $membership->id]);
+
+            $Comment = new Comment();
+            $Comment->users_id = auth()->user()->id;
+            $Comment->text = $request->input('tasksData');
+            $Comment->author = $request->author;
+            $Comment->link = $url;
+            $Comment->model_name = "Membership";
+            $Comment->model_record = $membership->id;
+
+            $Comment->save();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             // Membership Has Address
             $membershipAddress = new MembershipAddress([
@@ -269,8 +305,15 @@ class MembershipsController extends Controller
 
         $billings = DB::select('select * from membership_payment_receipts');
 
+        $statuses = [
+        1 => 'Active',
+        2 => 'Inactive',
+        3 => 'Suspended',
+        // Add other statuses as needed
+    ];
+
         // dd($billings);
-        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings]);
+        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
     }
 
     public function edit($id)
@@ -290,6 +333,17 @@ class MembershipsController extends Controller
         $addresses = $membership->address;
         //dd($addresses);
 
+        // Start Comments functionality [Thina]
+        // Fetch comments related to the membership
+        $comments = Comment::where('model_name', 'Membership')->where('model_record', $id)->get();
+
+        // Decode the JSON data in the 'text' column
+        $comments = $comments->map(function ($comment) {
+            $comment->text = json_decode($comment->text);
+            return $comment;
+        });
+        // End Comments functionality [Thina]
+
         //Siya to Thina - Bro why are you using this? Its not good practice
         $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
 
@@ -304,7 +358,7 @@ class MembershipsController extends Controller
         $relationships = PersonRelationship::all(); // Fetch all relationships
         //$genders = Gender::all(); // Fetch all genders
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings, 'relationships' => $relationships, 'genders' => $genders])->with('success', 'Updated Successfully!!!!!');
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings, 'relationships' => $relationships, 'genders' => $genders, 'comments' => $comments])->with('success', 'Updated Successfully!!!!!');
     }
 
     /**

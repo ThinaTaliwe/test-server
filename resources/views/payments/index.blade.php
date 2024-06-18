@@ -14,10 +14,17 @@
                 <h1 class="text-center mb-2 p-2">Membership Search</h1>
                 <form action="{{ route('payments') }}" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" name="search" class="form-control text-dark"
-                            placeholder="Enter membership ID or ID number" aria-label="Membership ID or ID number" required>
-                        <button class="btn btn-outline-primary bg-gba" type="submit">Search</button>
-                    </div>
+    <div class="d-flex flex-row" style="width: 100%;">
+        <div class="p-2 w-100">
+            <input type="text" name="search" class="form-control text-dark"
+                placeholder="Enter Membership Code or ID number" aria-label="Membership ID or ID number" required>
+        </div>
+        <div class="p-2">
+            <button class="btn btn-outline-primary bg-gba" type="submit">Search</button>
+        </div>
+    </div>
+</div>
+
                 </form>
             </div>
             {{-- End Membership Search --}}
@@ -230,7 +237,7 @@
                                         <!-- Membership ID -->
                                         <div class="col-2 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Membership ID</label>
-                                            <select class="form-control form-control-solid" name="membership_id" required>
+                                            <select class="form-control form-control-solid srchable" name="membership_id" required>
                                                 <option value="">Select Membership</option>
                                                 @foreach ($memberships as $membership)
                                                     <option value="{{ $membership->id }}">
@@ -342,7 +349,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid" name="membership_id"
+                                                <select class="form-control form-control-solid srchable" name="membership_id"
                                                     required>
                                                     <option value="">Select Membership ID</option>
                                                     @foreach ($memberships as $membership)
@@ -355,7 +362,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Branch
                                                     ID</label>
-                                                <select class="form-control form-control-solid" name="bank_branch_id"
+                                                <select class="form-control form-control-solid srchable" name="bank_branch_id"
                                                     required>
                                                     <option value="">Select Bank Branch</option>
                                                     @foreach ($branchCodes as $branch)
@@ -379,7 +386,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Account Type
                                                     ID</label>
-                                                <select class="form-control form-select-solid" name="bank_account_type_id"
+                                                <select class="form-control form-select-solid srchable" name="bank_account_type_id"
                                                     required>
                                                     <option value="">Select Account Type</option>
                                                     @foreach ($accountTypes as $type)
@@ -412,7 +419,7 @@
                                                     Code</label>
                                                 {{-- <input type="text" class="form-control form-control-solid"
                                                     placeholder="Enter Branch Code" name="branch_code" required> --}}
-                                                <select class="form-control" name="branch_code" required>
+                                                <select class="form-control srchable" name="branch_code" required>
                                                     <option value="">Select Branch Code</option>
                                                     @foreach ($branchCodes as $code)
                                                         <option value="{{ $code->branch_code }}">
@@ -429,7 +436,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank
                                                     Branch</label>
-                                                <select class="form-control" name="bank_branch_id" required>
+                                                <select class="form-control srchable" name="bank_branch_id" required>
                                                     <option value="">Select Bank Branch</option>
                                                     @foreach ($branchCodes as $branch)
                                                         <option value="{{ $branch->id }}">{{ $branch->branch_name }}
@@ -463,7 +470,7 @@
                                             <div class="col-md-4 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Debit Order
                                                     Frequency</label>
-                                                <select class="form-control" id="debitOrderFrequency"
+                                                <select class="form-control srchable" id="debitOrderFrequency"
                                                     name="debit_orders_per_year" required>
                                                     <option value="">Select Frequency</option>
                                                     <option value="12">Monthly</option>
@@ -519,7 +526,7 @@
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid" name="membership_id"
+                                                <select class="form-control form-control-solid srchable" name="membership_id"
                                                     required>
                                                     <option value="">Select Membership</option>
                                                     @foreach ($memberships as $membership)
@@ -548,7 +555,7 @@
                                             <!-- Bank Name -->
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Name</label>
-                                                <select class="form-control form-control-solid" name="bankName">
+                                                <select class="form-control form-control-solid srchable" name="bankName">
                                                     <option value="">Select Bank</option>
                                                     @foreach ($banks as $bank)
                                                         <option value="{{ $bank->id }}">{{ $bank->short_name }}</option>
@@ -567,7 +574,7 @@
                                             <!-- Branch Code -->
 <div class="col-md-2 fv-row">
     <label class="required fs-6 fw-semibold form-label mb-2">Branch Code</label>
-    <select class="form-control form-control-solid" name="branchCode">
+    <select class="form-control form-control-solid srchable" name="branchCode">
         <option value="">Select Branch Code</option>
         @foreach ($branchCodes as $branch)
             <option value="{{ $branch->id }}">{{ $branch->branch_code }} {{ $branch->bank_short_name }}</option>
@@ -598,7 +605,7 @@
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Type</label>
-                                                <select class="form-select" name="accountType" data-control="select2"
+                                                <select class="form-select srchable" name="accountType" data-control="select2"
                                                     data-hide-search="true">
                                                     <option value="">Select Account Type</option>
                                                     <option value="checking">Checking</option>
@@ -650,7 +657,7 @@
                                             <div class="col-md-3 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid" name="membership_id"
+                                                <select class="form-control form-control-solid srchable" name="membership_id"
                                                     required>
                                                     <option value="">Select Membership ID</option>
                                                     @foreach ($memberships as $membership)
@@ -783,4 +790,6 @@
             document.getElementById('transaction_date').value = today;
         });
     </script>
+
+
 @endpush

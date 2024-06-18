@@ -107,6 +107,12 @@ class Person extends Model
         return $this->hasMany(MembershipAddress::class, 'membership_id', 'id');
     }
 
+    
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
     /**
      * The languages that the person speaks.
      */
@@ -134,6 +140,16 @@ class Person extends Model
     public function setBirthDateAttribute($value)
     {
         $this->attributes['birth_date'] = $value ? date('Y-m-d', strtotime($value)) : null;
+    }
+
+       /**
+     * Get all memberships for the person, either as a primary person or as a dependent.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function allMemberships()
+    {
+        return $this->membership->merge($this->membershipsAsDependent);
     }
 
 }

@@ -14,12 +14,12 @@
     <div class="col-12 col-xxl-12 col-md-12 mb-1 rounded">
 
         <!--begin::Mixed Widget 5-->
-        <div class="card border-gba shadow-lg">
+        <div class="card   shadow-lg">
             <div class="card-body" data-intro="Welcome to main dashboard...This Is Membership Graphical View." data-step="1">
                 <!-- Button container -->
                 <div style="position: absolute; top: 0; right: 0; z-index: 2;" data-intro="Export To An Image Copy" data-step="2">
                     @canany(['user edit', 'role edit', 'permission edit'])
-                        <x-button type="button" id="btnImage" style="margin-right: 10px;" class="btn-sm bg-gba m-5" text="Export">Export</x-button>
+                        <x-button type="button" id="btnImage" style="margin-right: 10px;" class="btn-sm btn bg-gba-light m-5" text="Export">Export</x-button>
                     @endcanany
                 </div>
                 <canvas id="kt_chartjs_1" class="mh-400px"></canvas>
@@ -32,7 +32,7 @@
     <!--begin::Col-->
     <div class="col-xxl-8 col-md-8 mb-4">
         <!--begin::Mixed Widget 5-->
-        <div class="card border-gba shadow-lg" data-intro="The Services Breakdown." data-step="3">
+        <div class="card   shadow-lg" data-intro="The Services Breakdown." data-step="3">
             <div class="card-body">
                 <div id="kt_amcharts_3" style="height: 500px;"></div>
             </div>
@@ -44,12 +44,13 @@
     <!--begin::Col-->
     <div class="col-xxl-4 col-md-4 mb-4">
         <!--begin::List Widget 5-->
-        <div class="card h-md-100 border-gba shadow-lg" data-intro="The Services Schedule." data-step="4">
+        <div class="card h-md-100   shadow-lg" data-intro="The Services Schedule." data-step="4">
             <!--begin::Header-->
             <div class="card-header align-items-center border-0 mt-4">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="fw-bold mb-2 text-gray-900">Association Activities</span>
                     <span class="text-primary fw-semibold fs-7">120 Memorial Services</span>
+                    {{-- <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span> --}}
                 </h3>
                 <div class="card-toolbar">
                     <!-- Button and menu structure can remain as is for functionality purposes -->
@@ -58,6 +59,7 @@
             <!--end::Header-->
             <!--begin::Body-->
             <div class="card-body pt-5">
+            
                 <!--begin::Timeline-->
                 <div class="timeline-label">
                     <!--begin::Item-->
@@ -146,9 +148,20 @@
                     <!--end::Item-->
                     <!-- More items can be added as needed -->
                 </div>
+                             <!--begin::Footer-->
+        {{-- <div class="card-footer d-flex justify-content-around">
+        <span class="badge bg-success m-1">Create <i class="fa fa-genderless text-success"></i></span>
+            <span class="badge bg-success m-1">Create <i class="fa fa-genderless text-success"></i></span>
+            <span class="badge bg-danger m-1">Delete <i class="fa fa-genderless text-danger"></i></span>
+            <span class="badge bg-info m-1">Meeting <i class="fa fa-genderless text-info"></i></span>
+            <span class="badge bg-warning m-1">Update <i class="fa fa-genderless text-warning"></i></span>
+            <span class="badge bg-primary m-1">Event <i class="fa fa-genderless text-primary"></i></span>
+        </div> --}}
+        <!--end::Footer-->
                 <!--end::Timeline-->
             </div>
             <!--end: Card Body-->
+
         </div>
         <!--end: List Widget 5-->
     </div>
@@ -371,10 +384,10 @@
         var ctx = document.getElementById('kt_chartjs_1');
 
         // Define colors
-        var primaryColor = '#0d6efd'; // Bootstrap primary color
-        var dangerColor = '#dc3545'; // Bootstrap danger color
-        var successColor = '#28a745'; // Bootstrap success color
-        var infoColor = '#9784b8'; // Bootstrap info color
+        var primaryColor = '#FFC107 '; //0d6efd Bootstrap primary color
+        var dangerColor = '#1976D2 '; //dc3545 Bootstrap danger color
+        var successColor = '#80C342  '; //28a745 Bootstrap success color
+        var infoColor = '#8E24AA '; //9784b8 Bootstrap info color
 
         // Define fonts
         var fontFamily = 'sans-serif'; // Basic sans-serif font
@@ -485,7 +498,7 @@
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Append new data every 3 minutes (180000 milliseconds)
-        setInterval(appendData, 30000);
+        setInterval(appendData, 180000);
     </script>
 
     <script type="text/javascript">

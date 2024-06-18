@@ -8,6 +8,7 @@ use PDF;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Services\DistributionReport;
 use Carbon\Carbon;
+use App\Models\Gender;
 
 // Classes used within the Person and Membership datatables
 class ChartController extends Controller
@@ -15,15 +16,27 @@ class ChartController extends Controller
     // Main function that uses the filtered data inputs to provide outputs
     public function index(Request $request)
     {
+        $genders = Gender::all()->pluck('name', 'id')->toArray();
+        $genderColors = [
+            '1' => '#007bff', // Blue for Male
+            '2' => '#ff7db0', // Pink for Female
+            'F' => '#ff7db0', // Pink for Female
+            'M' => '#007bff', // Blue for Male
+            'N' => '#f0ad4e', // Orange for Gender Neutral
+            'U' => '#6c757d', // Grey for Undeclared Gender
+            'XD' => '#17a2b8', // Cyan for Undefined Data
+            'XK' => '#28a745', // Green for Unknown Data
+        ];
+
         $filters = [
             'date_from' => $request->input('date_from'),
             'date_to' => $request->input('date_to'),
             'gender_id' => $request->input('gender_id'), // Gender filter
             'language_id' => $request->input('language_id'), // Language filter
         ];
-        
+
         $data = $this->fetchData($filters);
-        
+
         $oldest = $data->max('membership_code');
         //dd($oldest);
 
@@ -37,84 +50,31 @@ class ChartController extends Controller
 
         // Get all the Total data in membership table
         $totalMemberships = DB::table('membership')->count();
-        $totalMembershipsActive = DB::table('membership')
-            ->whereNull('deleted_at')
-            ->count();
+        $totalMembershipsActive = DB::table('membership')->whereNull('deleted_at')->count();
         $totalMembershipsDeleted = $totalMemberships - $totalMembershipsActive;
 
         // Get memberships based on gender
-        $membershipsByGender = DB::table('membership')
-            ->select('gender_id', DB::raw('count(id) as count'))
-            ->groupBy('gender_id')
-            ->get();
-        $membershipsByGenderActive = DB::table('membership')
-            ->whereNull('deleted_at')
-            ->select('gender_id', DB::raw('count(id) as count'))
-            ->groupBy('gender_id')
-            ->get();
-        $membershipsByGenderDeleted = DB::table('membership')
-            ->whereNotNull('deleted_at')
-            ->select('gender_id', DB::raw('count(id) as count'))
-            ->groupBy('gender_id')
-            ->get();
+        $membershipsByGender = DB::table('membership')->select('gender_id', DB::raw('count(id) as count'))->groupBy('gender_id')->get();
+        $membershipsByGenderActive = DB::table('membership')->whereNull('deleted_at')->select('gender_id', DB::raw('count(id) as count'))->groupBy('gender_id')->get();
+        $membershipsByGenderDeleted = DB::table('membership')->whereNotNull('deleted_at')->select('gender_id', DB::raw('count(id) as count'))->groupBy('gender_id')->get();
 
         // Get membership based on its type
-        $membershipsByType = DB::table('membership')
-            ->select('bu_membership_type_id', DB::raw('count(id) as count'))
-            ->groupBy('bu_membership_type_id')
-            ->get();
-        $membershipsByTypeActive = DB::table('membership')
-            ->whereNotNull('deleted')
-            ->select('bu_membership_type_id', DB::raw('count(id) as count'))
-            ->groupBy('bu_membership_type_id')
-            ->get();
-        $membershipsByTypeDeleted = DB::table('membership')
-            ->whereNull('deleted')
-            ->select('bu_membership_type_id', DB::raw('count(id) as count'))
-            ->groupBy('bu_membership_type_id')
-            ->get();
+        $membershipsByType = DB::table('membership')->select('bu_membership_type_id', DB::raw('count(id) as count'))->groupBy('bu_membership_type_id')->get();
+        $membershipsByTypeActive = DB::table('membership')->whereNotNull('deleted')->select('bu_membership_type_id', DB::raw('count(id) as count'))->groupBy('bu_membership_type_id')->get();
+        $membershipsByTypeDeleted = DB::table('membership')->whereNull('deleted')->select('bu_membership_type_id', DB::raw('count(id) as count'))->groupBy('bu_membership_type_id')->get();
 
         // Average membership fee by region
-        $averageFeeByRegion = DB::table('membership')
-            ->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))
-            ->groupBy('bu_membership_region_id')
-            ->get();
-        $averageFeeByRegionActive = DB::table('membership')
-            ->whereNotNull('deleted')
-            ->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))
-            ->groupBy('bu_membership_region_id')
-            ->get();
-        $averageFeeByRegionDeleted = DB::table('membership')
-            ->whereNull('deleted')
-            ->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))
-            ->groupBy('bu_membership_region_id')
-            ->get();
+        $averageFeeByRegion = DB::table('membership')->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))->groupBy('bu_membership_region_id')->get();
+        $averageFeeByRegionActive = DB::table('membership')->whereNotNull('deleted')->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))->groupBy('bu_membership_region_id')->get();
+        $averageFeeByRegionDeleted = DB::table('membership')->whereNull('deleted')->select('bu_membership_region_id', DB::raw('AVG(membership_fee) as average_fee'))->groupBy('bu_membership_region_id')->get();
 
         // Get membership data based on trends
-        $yearlyMembershipTrends = DB::table('membership')
-            ->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))
-            ->groupBy(DB::raw('YEAR(join_date)'))
-            ->orderBy(DB::raw('YEAR(join_date)'), 'asc')
-            ->get();
-        $yearlyMembershipTrendsActive = DB::table('membership')
-            ->whereNotNull('deleted')
-            ->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))
-            ->groupBy(DB::raw('YEAR(join_date)'))
-            ->orderBy(DB::raw('YEAR(join_date)'), 'asc')
-            ->get();
-        $yearlyMembershipTrendsDeleted = DB::table('membership')
-            ->whereNull('deleted')
-            ->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))
-            ->groupBy(DB::raw('YEAR(join_date)'))
-            ->orderBy(DB::raw('YEAR(join_date)'), 'asc')
-            ->get();
+        $yearlyMembershipTrends = DB::table('membership')->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))->groupBy(DB::raw('YEAR(join_date)'))->orderBy(DB::raw('YEAR(join_date)'), 'asc')->get();
+        $yearlyMembershipTrendsActive = DB::table('membership')->whereNotNull('deleted')->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))->groupBy(DB::raw('YEAR(join_date)'))->orderBy(DB::raw('YEAR(join_date)'), 'asc')->get();
+        $yearlyMembershipTrendsDeleted = DB::table('membership')->whereNull('deleted')->select(DB::raw('YEAR(join_date) as year'), DB::raw('count(id) as count'))->groupBy(DB::raw('YEAR(join_date)'))->orderBy(DB::raw('YEAR(join_date)'), 'asc')->get();
 
         // Reasons for ending membership
-        $membershipsEndedByReason = DB::table('membership')
-            ->whereNotNull('end_reason')
-            ->select('end_reason', DB::raw('count(id) as count'))
-            ->groupBy('end_reason')
-            ->get();
+        $membershipsEndedByReason = DB::table('membership')->whereNotNull('end_reason')->select('end_reason', DB::raw('count(id) as count'))->groupBy('end_reason')->get();
 
         // Get all members that have not paid in the last month
         $unpaidMembersGrouped = DB::table('membership')
@@ -129,10 +89,7 @@ class ChartController extends Controller
             ->orderBy('months_owed_group', 'asc')
             ->get();
 
-        $genderOwingCounts = DB::table('membership')
-            ->select('gender_id', DB::raw('COUNT(*) as member_count'))
-            ->groupBy('gender_id')
-            ->get();
+        $genderOwingCounts = DB::table('membership')->select('gender_id', DB::raw('COUNT(*) as member_count'))->groupBy('gender_id')->get();
 
         // dd($membershipsEndedByReason);
         $membershipTypeMapping = [
@@ -165,12 +122,11 @@ class ChartController extends Controller
         $minCount = $genderOwingCounts->min('member_count');
         $averageCount = $genderOwingCounts->avg('member_count'); // Calculate average
 
-
         // Get all the Total data in membership table
         //$newtotalMemberships =DB::connection('mapping')->table('lededata')->first();
         //dd($newtotalMemberships);
-        
-        return view('report.index', compact('data', 'averageCount', 'genderOwingCounts', 'maxCount', 'minCount', 'lowestValueDeleted', 'highestValueDeleted', 'lowestValueActive', 'highestValueActive', 'highestValue', 'lowestValue', 'membershipTypeMapping', 'genderOwingCounts', 'unpaidMembersGrouped', 'membershipsEndedByReason', 'yearlyMembershipTrends', 'yearlyMembershipTrendsActive', 'yearlyMembershipTrendsDeleted', 'averageFeeByRegion', 'averageFeeByRegionActive', 'averageFeeByRegionDeleted', 'totalMemberships', 'totalMembershipsActive', 'totalMembershipsDeleted', 'membershipsByGender', 'membershipsByGenderActive', 'membershipsByGenderDeleted', 'membershipsByType', 'membershipsByTypeActive', 'membershipsByTypeDeleted', 'filters', 'oldest', 'maleMembers', 'femaleMembers', 'enMembers', 'afMembers'));
+
+        return view('report.index', compact('data', 'genders', 'genderColors', 'averageCount', 'genderOwingCounts', 'maxCount', 'minCount', 'lowestValueDeleted', 'highestValueDeleted', 'lowestValueActive', 'highestValueActive', 'highestValue', 'lowestValue', 'membershipTypeMapping', 'genderOwingCounts', 'unpaidMembersGrouped', 'membershipsEndedByReason', 'yearlyMembershipTrends', 'yearlyMembershipTrendsActive', 'yearlyMembershipTrendsDeleted', 'averageFeeByRegion', 'averageFeeByRegionActive', 'averageFeeByRegionDeleted', 'totalMemberships', 'totalMembershipsActive', 'totalMembershipsDeleted', 'membershipsByGender', 'membershipsByGenderActive', 'membershipsByGenderDeleted', 'membershipsByType', 'membershipsByTypeActive', 'membershipsByTypeDeleted', 'filters', 'oldest', 'maleMembers', 'femaleMembers', 'enMembers', 'afMembers'));
     }
 
     // Helper function to get filter's data
@@ -227,12 +183,8 @@ class ChartController extends Controller
         // $persons = DB::table('person');
 
         $firstPerson = DB::table('person')->first();
-        $oldestMember = DB::table('person')
-            ->orderBy('birth_date', 'asc')
-            ->first();
-        $youngestMember = DB::table('person')
-            ->orderBy('birth_date', 'desc')
-            ->first();
+        $oldestMember = DB::table('person')->orderBy('birth_date', 'asc')->first();
+        $youngestMember = DB::table('person')->orderBy('birth_date', 'desc')->first();
 
         // Calculating average age
         $totalAge = 0;
@@ -245,18 +197,12 @@ class ChartController extends Controller
 
         $averageAge = $totalPersons ? $totalAge / $totalPersons : 0;
 
-        $genderData = DB::table('person')
-            ->select('gender_id', DB::raw('count(*) as count'))
-            ->groupBy('gender_id')
-            ->get();
+        $genderData = DB::table('person')->select('gender_id', DB::raw('count(*) as count'))->groupBy('gender_id')->get();
         // Calculate male and female members
         $countMaleMembers = $persons->where('gender_id', 'M')->count();
         $countFemaleMembers = $persons->where('gender_id', 'F')->count();
 
-        $maritalData = DB::table('person')
-            ->select('married_status', DB::raw('count(*) as count'))
-            ->groupBy('married_status')
-            ->get();
+        $maritalData = DB::table('person')->select('married_status', DB::raw('count(*) as count'))->groupBy('married_status')->get();
         // $genderLabels = $genderReport->getLabels();
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,10 +219,7 @@ class ChartController extends Controller
         //     ->get();
         //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        $chartData = DB::table('person')
-            ->select(DB::raw('gender_id, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age, count(*) as count'))
-            ->groupBy(DB::raw('gender_id, TIMESTAMPDIFF(YEAR, birth_date, CURDATE())'))
-            ->get();
+        $chartData = DB::table('person')->select(DB::raw('gender_id, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) as age, count(*) as count'))->groupBy(DB::raw('gender_id, TIMESTAMPDIFF(YEAR, birth_date, CURDATE())'))->get();
 
         $filters = [
             'date_from' => $request->input('date_from'),
