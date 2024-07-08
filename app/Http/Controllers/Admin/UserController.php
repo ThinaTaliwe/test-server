@@ -68,6 +68,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request, UserService $userService)
     {
+        // dd($request->all());
         $user = $userService->createUser($request);
         $userWithRoles = $userService->assignRole($request, $user);
 

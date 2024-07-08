@@ -31,8 +31,10 @@ class FuneralController extends Controller
     public function index()
     {
         $deceased_people = Person::where('deceased', 1)->get();
+
+        $person = Person::where('deceased', 1)->first(); //TODO - Remove this. Its temp for test
       
-        return view('funerals.index', compact('deceased_people'));
+        return view('funerals.index', compact('deceased_people','person'));
     }
 
     /**
@@ -41,6 +43,11 @@ class FuneralController extends Controller
     public function create($id)
     {
         $deceased_person = Person::findOrFail($id);
+
+        //The addresses the person has/had of type (Residential)
+        $addresses = $deceased_person->addressesWithType(1);
+
+
         // Fetch the 'Church' address type ID
         $churchTypeId = AddressType::where('name', 'Church')->first()->id ?? null;
 
@@ -70,7 +77,7 @@ class FuneralController extends Controller
             'person'
             ])->get();
 
-        return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person', 'checklist_items', 'viewinglocations','churchTypeId','graveyardTypeId', 'viewingTypeId'));
+        return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person', 'checklist_items', 'viewinglocations','churchTypeId','graveyardTypeId', 'viewingTypeId', 'addresses'));
     }
 
     /**

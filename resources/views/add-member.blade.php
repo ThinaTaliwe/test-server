@@ -104,7 +104,7 @@
     <style>
         /* Dark theme */
         [data-bs-theme=dark] input {
-            color: beige !important;
+            color: Black !important;
         }
 
         /* Light theme */
@@ -118,6 +118,7 @@
 
         .imputsection {
             border-radius: 10px;
+            border: 1px solid var(--bs-secondary);
             padding: 1em;
             margin: 1em;
         }
@@ -234,10 +235,9 @@
 
     <!--begin::Card-->
 
-    <div class="row card bg-gba-light rounded mb-4 border-gba-light shadow-lg">
-        <form method="POST" action="{{ route('add-member.store') }}" autocomplete="off" id="memberForm" class="">
+        <form method="POST" action="{{ route('add-member.store') }}" autocomplete="off" id="memberForm" class="card boarder border-secondary mb-10">
             @csrf
-            <div class="card-title pt-4 -0 mt-4 border-gba bg-gba">
+            <div class="card-title pt-4 -0 mt-4 bg-body rounded-2">
                 <h1 class="text-center">Add New Member</h1>
             <!--begin::Form-->
             <div class="mx-0">
@@ -260,7 +260,7 @@
             <div class="row" id="AddMemberBox">
                 <div class="col-9">
 
-                    <div class="imputsection bg-gba-subtle border-gba shadow-lg">
+                    <div class="card-body imputsection shadow">
                         <div>
                             <!--begin::Title-->
                             <h1 class="fw-bold d-flex align-items-center text-gba">Personal Info
@@ -303,7 +303,7 @@
                                     <div
                                         class="form-floating @error('Name') is-invalid focused is-focused  @enderror mt-3 mb-0 bold-placeholder">
 
-                                        <input type="text" class="form-control" name="Name" id="Name"
+                                        <input type="text" class="form-control text-black" name="Name" id="Name"
                                             value="{{ old('Name') }}" placeholder="" required>
                                         <label for="Name" class="fs-4 text-gray-600">Name<span
                                                 class="text-danger">*</span></label>
@@ -319,7 +319,7 @@
                                     <div
                                         class="form-floating  @error('Surname') is-invalid focused is-focused  @enderror mt-3 mb-0">
 
-                                        <input type="text" class="form-control" name="Surname" id="Surname"
+                                        <input type="text" class="form-control text-black" name="Surname" id="Surname"
                                             value="{{ old('Surname') }}" placeholder="">
                                         <label for="Surname" class="fs-4 text-gray-600">Surname<span
                                                 class="text-danger">*</span></label>
@@ -510,7 +510,7 @@
                         </div>
                     </div>
 
-                    <div class="imputsection bg-gba-subtle border-gba shadow-lg">
+                    <div class="card-body imputsection shadow">
                         <div>
                             <!--begin::Title-->
                             <h1 class="fw-bold d-flex align-items-center text-gba">Location
@@ -628,7 +628,7 @@
 
                                         <input type="text" class="form-control" name="PostalCode" id="PostalCode"
                                             value="{{ old('PostalCode') }}" placeholder="">
-                                        <label for="PostalCode" class="fs-4 text-gray-600">Code<span
+                                        <label for="PostalCode" class="fs-4 text-gray-600">Zip<span
                                                 class="text-danger">*</span></label>
                                     </div>
                                     @error('PostalCode')
@@ -642,7 +642,7 @@
                         </div>
                     </div>
 
-                    <div class="imputsection bg-bs-color bg-gba-subtle shadow-lg border-gba">
+                    <div class="card-body imputsection shadow ">
                         <div>
                             <!--begin::Title-->
                             <h1 class="fw-bold d-flex align-items-center text-gba">Contact Details
@@ -665,7 +665,7 @@
                                     <div
                                         class="form-floating @error('Telephone') is-invalid focused is-focused @enderror mt-3 mb-0">
                                         <input type="tel" class="form-control" name="Telephone" id="Telephone"
-                                            value="{{ old('Telephone') }}" placeholder="" maxlength="15">
+                                            value="{{ old('Telephone') }}" placeholder="" >
                                         <label for="Telephone" class="fs-4 text-gray-600">Add Telephone (Cell)</label>
                                     </div>
                                     @error('Telephone')
@@ -680,7 +680,7 @@
                                         class="form-floating @error('WorkTelephone') is-invalid focused is-focused @enderror mt-3 mb-0">
                                         <input type="tel" class="form-control" name="WorkTelephone"
                                             id="WorkTelephone" value="{{ old('WorkTelephone') }}" placeholder=""
-                                            maxlength="15">
+                                            >
                                         <label for="WorkTelephone" class="fs-4 text-gray-600">Add Telephone (Work)</label>
                                     </div>
                                     @error('WorkTelephone')
@@ -719,7 +719,7 @@
 
                 </div>
                 <div class="col-3">
-                    <div class="imputsection bg-bs-color bg-gba-subtle border-gba shadow-lg">
+                    <div class="card-body imputsection shadow">
                         <!--begin::Title-->
                         <h1 class="fw-bold d-flex align-items-center text-gba">Membership Type
                             <span class="ms-1" data-bs-toggle="tooltip" title="">
@@ -740,7 +740,7 @@
                                     <div class="col-12 mt-3">
                                         <div class="dropdown">
                                             <select id="memtype" name="memtype"
-                                                class="btn bg-light shadow-dark dropdown-toggle w-100 my-4 @error('memtype') is-invalid @enderror text-black border border-secondary"
+                                                class="btn bg-light shadow-dark dropdown-toggle w-100 my-4 @error('memtype') is-invalid @enderror text-dark border border-secondary"
                                                 style="height: 38px;" aria-label="Select Membership Type">
                                                 <option selected value="0" disabled> Select Membership Type
                                                 </option>
@@ -770,9 +770,18 @@
                         </div>
                     </div>
 
-                    <div class="imputsection bg-gba-subtle border-gba shadow-lg" id="commentsBox">
-                        <h1 class="text-center p-2">Comments</h1>
+                    <div class="card-body imputsection shadow" id="commentsBox">
+                        <h1 class="fw-bold d-flex align-items-center text-gba">Comments
+                        <span class="ms-1" data-bs-toggle="tooltip" title="Add Comments (optional)">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </h1>
                         <!--begin::Input group-->
+                        <div class="fw-semibold fs-6 pb-4">Membership Comments</div>
 
                         {{-- <form method="POST" action="{{ route('comments.store') }}"> --}}
                         @csrf <!-- CSRF token for security -->
@@ -781,13 +790,13 @@
                             {{-- <textarea class="form-control bg-light text-dark" placeholder="" id="floatingTextarea2"
                               name="text"   style="height:690px"></textarea> --}}
                             <div class="containerC px-0" id="commentContainer">
-                                <div class="form bg-gba-light">
-                                    <input type="text" name="text" class="input form-control bg-light text-dark"
+                                <div class="form">
+                                    <input type="text" name="text" class="input form-control text-light bg-white"
                                         {{ old('text') }} />
                                     <input type="button" class="add bg-success" value="Add" />
                                 </div>
-                                <div class="tasks bg-gba-light"></div>
-                                <div class="delete-all wrap">Delete all</div>
+                                <div class="tasks"></div>
+                                {{-- <div class="delete-all wrap">Delete all</div> --}}
                             </div>
                             {{-- <label for="floatingTextarea2">Insert your comment here.</label> --}}
                             {{-- @error('floatingTextarea2')
@@ -816,7 +825,7 @@
 
                 </div>
 
-                <button class="btn btn-xl mb-4 w-50 text-light mx-auto" type="submit" title="Add a Membership"
+                <button class="btn btn-xl mb-4 w-50 text-white mx-auto" type="submit" title="Add a Membership"
                 id="AddMemberButton" text="Add" style="background-color: #00923f;">Add Membership</button>
                 <!-- Ensuring button takes full width but with proper spacing -->
 
@@ -824,9 +833,6 @@
             <!--end::Form-->
 
         </form>
-
-        
-    </div>
 
     <!--end::Card-->
 @endsection
@@ -871,7 +877,7 @@
 
             arrayOfTasks.forEach((task) => {
                 let div = document.createElement("div");
-                div.className = "task";
+                div.className = "task text-black";
                 if (task.complated) {
                     div.className = "task done";
                 }
@@ -1077,14 +1083,15 @@ var tasksData, tasks;
     function displayData() {
         // Get data from Local Storage
         tasksData = localStorage.getItem('tasks');
-        console.log(tasksData);
+        //console.log(tasksData);
         // Parse the data from JSON format if it exists
         tasks = tasksData ? JSON.parse(tasksData) : [];
 
-        console.log(tasks);
+        //console.log(tasks);
 
         // Update hidden form field
         document.getElementById('tasksDataField').value = JSON.stringify(tasks);
+    
     }
 
     // Attach event listener to the form submit

@@ -70,7 +70,7 @@ class EmployeeController extends Controller
         $employee->start_date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->start_date)->format('Y-m-d H:i:s');
         $employee->end_date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->end_date)->format('Y-m-d H:i:s');
         $employee->job_description_id = $request->job_description_id;
-        $employee->role_id = $request->role_id;
+        $employee->employee_role_id = $request->role_id;
         $employee->company_id = $request->company_id;
         $employee->shiftwork = $request->shiftwork ? 1 : 0;
         $employee->standard_starttime = $request->standard_starttime;

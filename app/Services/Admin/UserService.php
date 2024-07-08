@@ -19,13 +19,16 @@ class UserService
      */
     public function createUser(Request $request): User
     {
+        $password = $request->password ?? 'P@ssword1';
+
         $user = User::create(
             [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($password),
             ]
         );
+        
    
         // //Siya: I now assign roles for the user in here
         // $roles = $request->roles ?? [];

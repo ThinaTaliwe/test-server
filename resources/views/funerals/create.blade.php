@@ -2,8 +2,8 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -82,29 +82,16 @@
     {{-- This is for accordion -- SIYA --}}
 
     <style>
-        /* Adjusting the accordion header/button background color */
-        .accordion-button {
-            background-color: #448C74 !important;
-            /* #b7cebe Your specified green color */
-            color: white !important;
-            /* #343a40 Ensuring text color is readable against the green background */
-        }
+
+     
 
         /* Style for accordion button when accordion is open */
-        .accordion-button:not(.collapsed) {
-            background-color: #448C74 !important;
-            /* #9fb3aa A slightly darker shade of green for contrast */
-            color: white !important;
-            /* #343a40 Keeping text color consistent; change as desired */
-        }
-
-        /* Hover effect for accordion button */
-        .accordion-button:hover {
-            background-color: #a5c1b2 !important;
-            /* A lighter/different shade for hover effect */
-            color: #343a40 !important;
-            /* Ensuring text color is readable on hover; adjust as needed */
-        }
+        /* .accordion-button:not(.collapsed) {
+            background-color: #F2FAFF !important;
+            
+            color: #009ef7 !important;
+            
+        } */
 
         /* Adjusting icon colors */
         .accordion-button .fas,
@@ -117,11 +104,20 @@
 
         /* Style for accordion button when input is missing */
         .accordion-button.missing-input {
-            background-color: #c71f3f !important;
+            background-color: #FFF5F8 !important;
             /*#e57373 #f20d20b7 A nice, complementing red */
-            color: #FFFFFF !important;
+            color: #f1416c !important;
             /* White text for readability */
         }
+
+        /* Hover effect for invalid accordion button */
+        .accordion-button.missing-input:hover {
+            background-color: #F1416C !important;
+            /* A lighter/different shade for hover effect */
+            color: #ffffff !important;
+            /* Ensuring text color is readable on hover; adjust as needed */
+        }
+
     </style>
 
     <style>
@@ -135,22 +131,20 @@
 
         input:invalid,
         select:invalid {
-            border-color: #e57373 !important;
+            border-color: #f1416c !important;
             /* A complementing red for missing required inputs */
             box-shadow: 0 0 0 .2rem rgba(229, 115, 115, .25);
             /* Optional: add a subtle shadow to further highlight the field */
         }
-
-
     </style>
 
     <style>
-        .form-control {
-            background-color: white !important;
-        }
+        /* .form-control {
+                background-color: white !important;
+            } */
 
         .select2-container--bootstrap5 .select2-dropdown {
-            background-color: white !important; 
+            background-color: white !important;
         }
 
         .select2-container--bootstrap5 .select2-dropdown .select2-search .select2-search__field {
@@ -158,272 +152,1330 @@
         }
 
         .pac-container {
-            z-index: 9999 !important; /* This is for my Google Maps in modal Bootstrap modals usually have a z-index of 1050 */
+            z-index: 9999 !important;
+            /* This is for my Google Maps in modal Bootstrap modals usually have a z-index of 1050 */
         }
-
-
     </style>
 
-<script>
-    function calculateTotal() {
-        const costs = document.querySelectorAll('.cost-input');
-        let total = 0;
-        costs.forEach((cost) => {
-            if(cost.value) total += parseFloat(cost.value);
-        });
-        document.getElementById('totalCost').innerText = total.toFixed(2);
-        document.getElementById('totalCost2').innerText = total.toFixed(2);
-        document.getElementById('totalCostHeader').innerText = total.toFixed(2);
-    }
-</script>
+    <script>
+        function calculateTotal() {
+            const costs = document.querySelectorAll('.cost-input');
+            let total = 0;
+            costs.forEach((cost) => {
+                if (cost.value) total += parseFloat(cost.value);
+            });
+            document.getElementById('totalCost').innerText = total.toFixed(2);
+            document.getElementById('totalCost2').innerText = total.toFixed(2);
+            document.getElementById('totalCostHeader').innerText = total.toFixed(2);
+        }
+    </script>
 
-<style>
-    /* Center table header (thead) and footer (tfoot) text */
-    #kt_datatable_footer_callback th,
-    #kt_datatable_benefit_footer_callback  th {
-        text-align: center; /* Horizontally center the text in table headers */
-        vertical-align: middle; /* Vertically center the text in table headers */
-    }
+    <style>
+        /* Center table header (thead) and footer (tfoot) text */
+        #kt_datatable_footer_callback th,
+        #kt_datatable_benefit_footer_callback th {
+            text-align: center;
+            /* Horizontally center the text in table headers */
+            vertical-align: middle;
+            /* Vertically center the text in table headers */
+        }
 
-    /* Center table body (tbody) content */
-    #kt_datatable_footer_callback td,
-    #kt_datatable_benefit_footer_callback  td {
-        text-align: center; /* Horizontally center the text in table cells */
-        vertical-align: middle; /* Vertically center the text in table cells */
-    }
+        /* Center table body (tbody) content */
+        #kt_datatable_footer_callback td,
+        #kt_datatable_benefit_footer_callback td {
+            text-align: center;
+            /* Horizontally center the text in table cells */
+            vertical-align: middle;
+            /* Vertically center the text in table cells */
+        }
 
-    /* Adjust input fields to be centered if needed, this might depend on your specific design */
-    .form-control.cost-input {
-        width: auto; /* Adjust width as needed */
-        margin: 0 auto; /* Horizontally center the input fields in their table cells */
-        display: block;
-    }
+        /* Adjust input fields to be centered if needed, this might depend on your specific design */
+        .form-control.cost-input {
+            width: auto;
+            /* Adjust width as needed */
+            margin: 0 auto;
+            /* Horizontally center the input fields in their table cells */
+            display: block;
+        }
 
-    /* Ensure the table itself is centered in its container */
-    /* #kt_datatable_footer_callback
-    #kt_datatable_benefit_footer_callback  {
-        margin-left: auto;
-        margin-right: auto;
-    } */
-</style>
-<style>
-    #kt_datatable_footer_callback .input-group-text,
-    #kt_datatable_benefit_footer_callback  .input-group-text {
-        padding-top: 10% !important;
-        padding-bottom: 10% !important;
-    }
+        /* Ensure the table itself is centered in its container */
+        /* #kt_datatable_footer_callback
+            #kt_datatable_benefit_footer_callback  {
+                margin-left: auto;
+                margin-right: auto;
+            } */
+    </style>
+    <style>
+        #kt_datatable_footer_callback .input-group-text,
+        #kt_datatable_benefit_footer_callback .input-group-text {
+            padding-top: 10% !important;
+            padding-bottom: 10% !important;
+        }
 
-    #kt_datatable_footer_callback .input-group,
-    #kt_datatable_benefit_footer_callback  .input-group {
-        width: 80% !important;
-    }
-</style>
-<style>
-    #requiredAlert {
-        display: none !important; /* Initially hidden */
-        opacity: 0 !important; /* Start fully transparent */
-        transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity */
-    }
+        #kt_datatable_footer_callback .input-group,
+        #kt_datatable_benefit_footer_callback .input-group {
+            width: 80% !important;
+        }
+    </style>
+    <style>
+        #requiredAlert {
+            display: none !important;
+            /* Initially hidden */
+            opacity: 0 !important;
+            /* Start fully transparent */
+            transition: opacity 0.5s ease-in-out;
+            /* Smooth transition for opacity */
+        }
 
-    #requiredAlert.show {
-        display: flex !important; /* Make sure it’s flex when visible */
-        opacity: 1 !important; /* Fully visible */
-    }
-</style>
+        #requiredAlert.show {
+            display: flex !important;
+            /* Make sure it’s flex when visible */
+            opacity: 1 !important;
+            /* Fully visible */
+        }
+    </style>
 
-<style>
-    .top-align {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-content: start;
-}
-
-</style>
-
+    <style>
+        .top-align {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            align-content: start;
+        }
+    </style>
 @endpush
 
 @section('row_content')
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Container-->
+        <div class=" container-fluid " id="kt_content_container">
+            <!--begin::Layout-->
+            <div class="d-flex flex-column flex-xl-row">
+                <!--begin::Sidebar-->
+                <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
+
+                    <!--begin::Card-->
+                    <div class="card mb-5 mb-xl-8">
+                        <!--begin::Card body-->
+                        <div class="card-body pt-15">
+                            <!--begin::Summary-->
+                            <div class="d-flex flex-center flex-column mb-5">
+                                <!--begin::Avatar-->
+                                <div class="symbol symbol-100px  mb-7">
+                                    <img src="{{ asset('img/condolences.png') }}" alt="image" />
+                                </div>
+                                <!--end::Avatar-->
+
+                                <!--begin::Name-->
+                                <a href="#" class="fs-3 text-gray-800  fw-bold mb-1">
+                                    {{ $deceased_person->first_name . '  ' . $deceased_person->initials . '  ' . $deceased_person->last_name }}
+                                </a>
+                                <!--end::Name-->
+
+                                <!--begin::Death_Date-->
+                                <div class="fs-5 fw-semibold text-muted mb-6">
+                                    Death: {{ $deceased_person->deceased_date }} </div>
+                                <!--end::Death_Date-->
+
+                                <!--begin::Info-->
+                                <div class="d-flex flex-wrap flex-center">
+                                    {{-- <!--begin::Stats-->
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
+                                        <div class="fs-4 fw-bold text-gray-700 text-center">
+                                            <span class="w-75px">69</span>
+                                           
+                                        </div>
+                                        <div class="fw-semibold text-muted">Join-Age</div>
+                                    </div>
+                                    <!--end::Stats--> --}}
+
+                                    <!--begin::Stats-->
+                                    {{-- <div class="border border-gray-300 border-dashed rounded py-3 px-3 mx-4 mb-3">
+                                        <div class="fs-4 fw-bold text-gray-700 text-center">
+                                            <span class="w-50px">95</span>
+                                           
+                                        </div>
+                                        <div class="fw-semibold text-muted">Death-Age</div>
+                                    </div> --}}
+                                    <!--end::Stats-->
+
+                                    <!--begin::Notice-->
+                                    <div
+                                        class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
+                                        <!--begin::Icon-->
+                                        <i class="ki-duotone ki-design-1 fs-2tx text-primary me-4"></i> <!--end::Icon-->
+
+                                        <!--begin::Wrapper-->
+                                        <div class="d-flex flex-stack flex-grow-1 ">
+                                            <!--begin::Content-->
+                                            <div class=" fw-semibold">
+
+                                                <div class="fs-6 text-gray-700 ">Would the deceased like to have a funeral
+                                                    arranged by GBA? </br>
+                                                    Else, Pay-Out (if applicable)
+                                                </div>
+
+                                                <div class="separator separator-dashed my-5"></div>
+
+                                                <!--begin::Item-->
+                                                <div class="d-flex flex-stack">
+                                                    <div class="d-flex">
+                                                        <img src="{{ asset('img/grave.png') }}" class="w-30px me-6"
+                                                            alt="" />
+
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="fs-5 text-gray-900 fw-bold">Funeral
+                                                                Required</a>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end">
+                                                        <!--begin::Switch-->
+                                                        <label
+                                                            class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                                            <!--begin::Input-->
+                                                            <input class="form-check-input" name="funeral_required"
+                                                                type="checkbox" value="1" id="funeral_required"
+                                                                checked="checked" />
+                                                            <!--end::Input-->
+
+
+                                                        </label>
+                                                        <!--end::Switch-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Item-->
 
 
 
-    <div class="card rounded mb-16" style="background-color: #E9F0EC">
-                <!--begin::Card-->
-                <div class="card mt-8 m-4 bg-light text-center ">
-                    <!--begin::Body-->
-                    <div class="card-body py-8">
-                        <div class="">
-                            <h3>
-                                Deceased: 
-                                {{ $deceased_person->first_name .' | '. $deceased_person->initials .' | '. $deceased_person->last_name .' | DOB: '. \Carbon\Carbon::parse($deceased_person->birth_date)->format('Y-m-d') .' | ID: '. $deceased_person->id_number.' | DOD: '. \Carbon\Carbon::parse($deceased_person->deceased_date)->format('Y-m-d') }}
-                            </h3>
-                                
-                        </div>              
+
+
+
+
+
+                                            </div>
+                                            <!--end::Content-->
+
+                                        </div>
+                                        <!--end::Wrapper-->
+                                    </div>
+                                    <!--end::Notice-->
+
+                                    <!--begin::Stats-->
+                                    {{-- <div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
+                                        <div class="fs-4 fw-bold text-gray-700">
+                                            <span class="w-50px">500</span>
+                                            <i class="ki-duotone ki-arrow-up fs-3 text-success"><span
+                                                    class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                        <div class="fw-semibold text-muted">Hours</div>
+                                    </div> --}}
+                                    <!--end::Stats-->
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                            <!--end::Summary-->
+
+                            <!--begin::Details toggle-->
+                            <div class="d-flex flex-stack fs-4 py-3">
+                                <div class="fw-bold rotate collapsible collapsed" data-bs-toggle="collapse"
+                                    href="#kt_person_view_details" role="button" aria-expanded="false"
+                                    aria-controls="kt_person_view_details">
+                                    Deceased's Details
+                                    <span class="ms-2 rotate-180">
+                                        <i class="ki-duotone ki-down fs-3"></i> </span>
+                                </div>
+
+
+                            </div>
+                            <!--end::Details toggle-->
+
+                            <div class="separator separator-dashed my-3"></div>
+
+                            <!--begin::Details content-->
+                            <div id="kt_person_view_details" class="collapse ">
+                                <div class="py-5 fs-6">
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light-info d-inline">Great member</div>
+                                    <!--begin::Badge-->
+
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">ID Number</div>
+                                    <div class="text-gray-600">{{ $deceased_person->id_number ?? 'Not Provided' }}</div>
+                                    <!--begin::Details item-->
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">Date of birth</div>
+                                    <div class="text-gray-600">{{ $deceased_person->birth_date ?? 'Not Provided' }}</div>
+                                    <!--begin::Details item-->
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">Gender</div>
+                                    <div class="text-gray-600">Female</div>
+                                    <!--begin::Details item-->
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">Last Address</div>
+                                    @if ($addresses->isEmpty())
+                                        <div class="text-gray-600">Unknown</div>
+                                    @else
+                                        @foreach ($addresses as $address)
+                                            <div class="text-gray-600">
+                                                {{ $address->line1 }}, <br />
+                                                {{ $address->suburb }}<br />
+                                                {{ $address->city }}<br />
+                                                {{ $address->province }}<br />
+                                                {{ $address->ZIP }}<br />
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    <!--begin::Details item-->
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">Language</div>
+                                    <div class="text-gray-600">{{ $deceased_person->birth_date ?? 'Not Provided' }}</div>
+                                    <!--begin::Details item-->
+
+                                    <!--begin::Details item-->
+                                    <div class="fw-bold mt-5">Marital Status</div>
+                                    <div class="text-gray-600">{{ $deceased_person->married_status ?? 'Not Provided' }}
+                                    </div>
+                                    <!--begin::Details item-->
+                                </div>
+                            </div>
+                            <!--end::Details content-->
+                        </div>
+                        <!--end::Card body-->
                     </div>
-                    <!--end::Body-->     
-                </div>
-                <!--end::Card-->   
-        {{-- <h1 class="my-4" style="margin-left: auto; margin-right: auto; width: fit-content;">Funeral</h1> --}}
-        {{-- <h2>Grouped Records by Membership ID</h2> --}}
-        <div class="card mb-3 mt-4 bg-light">
-            <div class="card-header" style="background-color: #448C74">
-                <h3 class="card-title text-white">Funeral Checklist</h3>
-                <button type="button" class="btn btn-dark btn-sm my-4 ml-2">
-                    + 
-                </button>
-            </div>
-            <div class="card-body">
+                    <!--end::Card-->
+                    <!--begin::Funeral Checklist-->
+                    <div class="card mb-5 mb-xl-8">
+                        <!--begin::Card header-->
+                        <div class="card-header border-0">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h3>Funeral Checklist</h3>
+                            </div>
+                            <!--end::Card title-->
 
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar">
+                                <!--begin::Filter-->
+                                <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_add_payment">
+                                    <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
+                                            class="path2"></span><span class="path3"></span></i>
+                                    Add Item
+                                </button>
+                                <!--end::Filter-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        </div>
+                        <!--end::Card header-->
 
-
-                <div class="py-0">
-                    <div class="table-responsive">
-                        <table class="table border rounded table-row-bordered fs-6 g-5 gs-5" style="width:100%; background-color: #ffffff">
-                            <thead>
-                                <tr class="fw-bold fs-6 text-gray-800">
-                                    <th style="text-align: center;">Checklist Item</th>
-                                    <th style="text-align: center;">Completed</th>
-                                    <th style="text-align: center;">Notes</th>
-                                    <th style="text-align: center;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="card-body pt-0">
+                            <!--begin::Items-->
+                            <div class="py-2">
                                 @foreach ($checklist_items as $item)
-                                    <tr>
-                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
-                                            <input type="hidden" name="funeral_id" value="{{ $item->funeral_id }}">
-                                            <input type="hidden" name="funeral_checklist_id" value="{{ $item->funeral_checklist_id }}">
-                                            <input type="hidden" name="bu_id" value="{{ $item->bu_id }}">
-                                            {{ $item->name }}
-                                        </td>
-                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
-                                            <div class="row mb-3">
-                                                <div class="col">
-                                                    <label for="{{ $item->id }}_completed_date" class="form-label">Completed Date:</label>
-                                                    <input type="date" class="form-control" id="{{ $item->id }}_completed_date" name="completed_date" value="{{ $item->completed_date }}">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="{{ $item->id }}_completed_time" class="form-label">Time:</label>
-                                                    <input type="time" class="form-control" id="{{ $item->id }}_completed_time" name="completed_time" value="{{ $item->completed_time }}">
+                                    <input type="hidden" id="funeral_id_{{ $item->id }}" name="funeral_id[]"
+                                        value="{{ $item->funeral_id }}">
+                                    <input type="hidden" id="funeral_checklist_id_{{ $item->id }}"
+                                        name="funeral_checklist_id[]" value="{{ $item->funeral_checklist_id }}">
+                                    <input type="hidden" id="bu_id_{{ $item->id }}" name="bu_id[]"
+                                        value="{{ $item->bu_id }}">
+                                    <!--begin::Item-->
+                                    <div class="d-flex flex-stack">
+                                        <div class="d-flex">
+                                            <div class="d-flex flex-column">
+                                                <a href="#"
+                                                    class="fs-5 text-gray-900 text-hover-primary fw-bold">{{ $item->name }}</a>
+                                                <div class="fs-7 fw-semibold text-muted">Completed: <span
+                                                        id="dated_completed_{{ $item->id }}">Not completed</span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
-                                            <div class="row mb-3">
-                                                <div class="col">
-                                                    <label for="{{ $item->id }}_note" class="form-label">Description/Note:</label>
-                                                    <textarea class="form-control" id="{{ $item->id }}_note" name="note" rows="1">{{ $item->note }}</textarea>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="text-align: center; padding-top:10px !important; padding-bottom:10px !important;">
-                                            <button class="btn btn-primary save-btn" data-id="{{ $item->id }}">Save</button>
-                                            <button class="btn btn-secondary cancel-btn" data-id="{{ $item->id }}">Cancel</button>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <!--begin::Switch-->
+                                            <label
+                                                class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                                <!--begin::Input-->
+                                                <input class="form-check-input checklist-checkbox"
+                                                    id="{{ $item->id }}_checkbox"
+                                                    name="checklist[{{ $item->id }}][completed]" type="checkbox"
+                                                    data-item-id="{{ $item->id }}" />
+                                                <!--end::Input-->
+                                                <!--begin::Label-->
+                                                <span class="form-check-label fw-semibold text-muted"
+                                                    for="{{ $item->id }}_checkbox"></span>
+                                                <!--end::Label-->
+                                            </label>
+                                            <!--end::Switch-->
+                                        </div>
+                                    </div>
+                                    <!--begin::Input group-->
+                                    <div class="input-group input-group-solid mt-2">
+                                        <span class="fs-7 input-group-text">Notes</span>
+                                        <textarea class="form-control note-textarea" id="{{ $item->id }}_note"
+                                            name="checklist[{{ $item->id }}][note]" aria-label="Notes" rows="1"
+                                            data-item-id="{{ $item->id }}"></textarea>
+                                    </div>
+                                    <input type="hidden" id="hidden_dated_completed_{{ $item->id }}"
+                                        name="checklist[{{ $item->id }}][dated_completed]" value="">
+                                    <input type="hidden" id="hidden_note_{{ $item->id }}"
+                                        name="checklist[{{ $item->id }}][note]" value="">
+                                    <div class="separator separator-dashed my-5"></div>
+                                    <!--end::Item-->
                                 @endforeach
-                            </tbody>
-                        </table>
-                        @if ($checklist_items->isEmpty())
-                            <h4>No Checklist items available</h4>
-                        @endif
+                                @if ($checklist_items->isEmpty())
+                                    <h4>No Checklist items available</h4>
+                                @endif
+                            </div>
+                            <!--end::Items-->
+                        </div>
+
                     </div>
+                    <!--end::Funeral Checklist-->
                 </div>
-                
-                
-                
-                
+                <!--end::Sidebar-->
 
+                <!--begin::Content-->
+                <div class="flex-lg-row-fluid ms-lg-15">
+                    <!--begin:::Tabs-->
+                    <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                                href="#funeral_view_overview_tab">Overview & Funeral Details</a>
+                        </li>
+                        <!--end:::Tab item-->
 
-                
-                {{-- <div class="row">
-                    <div class="col">
-                        <label for="checklist_notes" class="form-label">Checklist notes:</label>
-                        <textarea class="form-control" id="checklist_notes" name="checklist_notes" rows="3"></textarea>
-                    </div>
-                </div> --}}
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                                href="#funeral_costs_tab">Funeral Costs</a>
+                        </li>
+                        <!--end:::Tab item-->
 
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab"
+                                href="#shortfalls_and_payouts_tab">Shortfalls & Payouts</a>
+                        </li>
+                        <!--end:::Tab item-->
 
-            </div>
-        </div>
-        <div class="separator border-light my-8"></div>
+                        <!--begin:::Tab item-->
+                        <li class="nav-item ms-auto">
+                            <!--begin::Action menu-->
+                            <a href="#" class="btn btn-primary ps-7" data-kt-menu-trigger="click"
+                                data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                Actions
+                                <i class="ki-duotone ki-down fs-2 me-0"></i> </a>
+                            <!--begin::Menu-->
+                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold py-4 w-250px fs-6"
+                                data-kt-menu="true">
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <div class="menu-content text-muted pb-2 px-5 fs-7 text-uppercase">
+                                        Payments
+                                    </div>
+                                </div>
+                                <!--end::Menu item-->
 
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <a href="#" class="menu-link px-5">
+                                        Create invoice
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <a href="#" class="menu-link flex-stack px-5">
+                                        Create payments
 
-                    @if ($errors->has('custom_error'))
-                        @foreach ($errors->get('custom_error') as $customErrors)
-                            @foreach ($customErrors as $customError)
-                                <li>{{ $customError }}</li>
-                            @endforeach
-                        @endforeach
+                                        <span class="ms-2" data-bs-toggle="tooltip"
+                                            title="Specify a target name for future usage and reference">
+                                            <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span></i> </span>
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5" data-kt-menu-trigger="hover"
+                                    data-kt-menu-placement="left-start">
+                                    <a href="#" class="menu-link px-5">
+                                        <span class="menu-title">Subscription</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+                                    <!--begin::Menu sub-->
+                                    <div class="menu-sub menu-sub-dropdown w-175px py-4">
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-5">
+                                                Apps
+                                            </a>
+                                        </div>
+                                        <!--end::Menu item-->
+
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-5">
+                                                Billing
+                                            </a>
+                                        </div>
+                                        <!--end::Menu item-->
+
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-5">
+                                                Statements
+                                            </a>
+                                        </div>
+                                        <!--end::Menu item-->
+
+                                        <!--begin::Menu separator-->
+                                        <div class="separator my-2"></div>
+                                        <!--end::Menu separator-->
+
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <div class="menu-content px-3">
+                                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                                    <input class="form-check-input w-30px h-20px" type="checkbox"
+                                                        value="" name="notifications" checked
+                                                        id="kt_user_menu_notifications" />
+                                                    <span class="form-check-label text-muted fs-6"
+                                                        for="kt_user_menu_notifications">
+                                                        Notifications
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!--end::Menu item-->
+                                    </div>
+                                    <!--end::Menu sub-->
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu separator-->
+                                <div class="separator my-3"></div>
+                                <!--end::Menu separator-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <div class="menu-content text-muted pb-2 px-5 fs-7 text-uppercase">
+                                        Account
+                                    </div>
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <a href="#" class="menu-link px-5">
+                                        Reports
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5 my-1">
+                                    <a href="#" class="menu-link px-5">
+                                        Account Settings
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-5">
+                                    <a href="#" class="menu-link text-danger px-5">
+                                        Delete customer
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                            </div>
+                            <!--end::Menu-->
+                            <!--end::Menu-->
+                        </li>
+                        <!--end:::Tab item-->
+                    </ul>
+                    <!--end:::Tabs-->
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+
+                                @if ($errors->has('custom_error'))
+                                    @foreach ($errors->get('custom_error') as $customErrors)
+                                        @foreach ($customErrors as $customError)
+                                            <li>{{ $customError }}</li>
+                                        @endforeach
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
                     @endif
-                </ul>
-            </div>
-        @endif
 
 
-                <form id="funeralForm" method="POST" action="{{ route('handleFuneralAction') }}">
-                    @csrf {{-- CSRF token for form submission --}}
-                    <div class="card inner-card mb-2 bg-light">
-                        {{-- <div class="card-header bg-light" >
+                    <!--begin:::Tab content-->
+                    <div class="tab-content" id="myTabContent">
+                        <!--begin:::Tab pane-->
+                        <div class="tab-pane fade show active" id="funeral_view_overview_tab" role="tabpanel">
+                            {{-- <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2>Payment Records</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Filter-->
+                                        <button type="button" class="btn btn-sm btn-flex btn-light-primary"
+                                            data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">
+                                            <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span></i>
+                                            Add payment
+                                        </button>
+                                        <!--end::Filter-->
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0 pb-5">
+                                    <!--begin::Table-->
+                                    <table class="table align-middle table-row-dashed gy-5"
+                                        id="kt_table_customers_payment">
+                                        <thead class="border-bottom border-gray-200 fs-7 fw-bold">
+                                            <tr class="text-start text-muted text-uppercase gs-0">
+                                                <th class="min-w-100px">Invoice No.</th>
+                                                <th>Status</th>
+                                                <th>Amount</th>
+                                                <th class="min-w-100px">Date</th>
+                                                <th class="text-end min-w-100px pe-4">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fs-6 fw-semibold text-gray-600">
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">7955-9412</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $1,200.00 </td>
+                                                <td>
+                                                    14 Dec 2020, 8:43 pm </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">1549-9495</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $79.00 </td>
+                                                <td>
+                                                    01 Dec 2020, 10:12 am </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">7429-9020</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $5,500.00 </td>
+                                                <td>
+                                                    12 Nov 2020, 2:01 pm </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">5557-1462</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-warning">Pending</span>
+                                                </td>
+                                                <td>
+                                                    $880.00 </td>
+                                                <td>
+                                                    21 Oct 2020, 5:54 pm </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">2285-3125</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $7,650.00 </td>
+                                                <td>
+                                                    19 Oct 2020, 7:32 am </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">2644-9602</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $375.00 </td>
+                                                <td>
+                                                    23 Sep 2020, 12:38 am </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">5799-6058</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-success">Successful</span>
+                                                </td>
+                                                <td>
+                                                    $129.00 </td>
+                                                <td>
+                                                    11 Sep 2020, 3:18 pm </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">1774-7945</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-danger">Rejected</span>
+                                                </td>
+                                                <td>
+                                                    $450.00 </td>
+                                                <td>
+                                                    03 Sep 2020, 1:08 am </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-gray-600 text-hover-primary mb-1">2095-6145</a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-light-warning">Pending</span>
+                                                </td>
+                                                <td>
+                                                    $8,700.00 </td>
+                                                <td>
+                                                    01 Sep 2020, 4:58 pm </td>
+                                                <td class="pe-0 text-end">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-light image.png btn-active-light-primary"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        Actions
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="/metronic8/demo15/apps/customers/view.html"
+                                                                class="menu-link px-3">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-customer-table-filter="delete_row">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <!--end::Table body-->
+                                    </table>
+                                    <!--end::Table-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card--> --}}
+
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="fw-bold mb-0">Memberships</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    {{-- <!--begin::Card toolbar-->
+                                                                <div class="card-toolbar">
+                                                                    <a href="#" class="btn btn-sm btn-flex btn-light-primary"
+                                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">
+                                                                        <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
+                                                                                class="path2"></span><span class="path3"></span></i> Add new method
+                                                                    </a>
+                                                                </div>
+                                                                <!--end::Card toolbar--> --}}
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div id="kt_customer_view_payment_method" class="card-body pt-0">
+
+                                    @foreach ($deceased_person->allMemberships() as $membership)
+                                        @php
+                                            $relationshipType = 'Main Member';
+                                            if ($membership->pivot->secondary_person_id == $deceased_person->id) {
+                                                $relationshipType = 'Dependent';
+                                            }
+                                            if ($membership->pivot->person_relationship_id == 1) {
+                                                $relationshipType = 'Spouse';
+                                            }
+                                        @endphp
+                                        <!--begin::Option-->
+                                        <div class="py-0" data-kt-customer-payment-method="row">
+                                            <!--begin::Header-->
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <!--begin::Toggle-->
+                                                <div class="d-flex align-items-center collapsible collapsed rotate"
+                                                    data-bs-toggle="collapse" href="#kt_membership_info_{{$membership->id}}"
+                                                    role="button" aria-expanded="false"
+                                                    aria-controls="kt_membership_info_{{$membership->id}}">
+                                                    <!--begin::Arrow-->
+                                                    <div class="me-3 rotate-90"><i class="ki-duotone ki-right fs-3"></i>
+                                                    </div>
+                                                    <!--end::Arrow-->
+
+                                                    <!--begin::Logo-->
+                                                    <img src="{{ asset('img/grave.png') }}" class="w-40px me-3"
+                                                        alt="" />
+                                                    <!--end::Logo-->
+
+                                                    <!--begin::Summary-->
+                                                    <div class="me-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="text-gray-800 fw-bold">
+                                                                Membership ID: {{ $membership->membership_code ?? 'n/a' }}
+                                                            </div>
+
+                                                            <div class="badge badge-light-success ms-5">
+                                                                {{ $membership->status->name }}</div>
+                                                        </div>
+                                                        {{-- <div class="text-muted">membership_status</div> --}}
+                                                        <div
+                                                            class="badge badge-light-{{ $relationshipType == 'Main Member' ? 'primary' : 'info' }}">
+                                                            {{ $relationshipType }}</div>
+                                                    </div>
+                                                    <!--end::Summary-->
+                                                </div>
+                                                <!--end::Toggle-->
+
+                                                <!--begin::Toolbar-->
+                                                <div class="d-flex my-3 ms-9">
+                                                    <!--begin::Edit-->
+                                                    <a href="#"
+                                                        class="btn btn-icon btn-active-light-primary w-30px h-30px me-3"
+                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">
+                                                        <span data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                                            title="Edit">
+                                                            <i class="ki-duotone ki-pencil fs-3"><span
+                                                                    class="path1"></span><span class="path2"></span></i>
+                                                        </span>
+                                                    </a>
+                                                    <!--end::Edit-->
+
+                                                    <!--begin::Delete-->
+                                                    <a href="#"
+                                                        class="btn btn-icon btn-active-light-primary w-30px h-30px me-3"
+                                                        data-bs-toggle="tooltip" title="Delete"
+                                                        data-kt-customer-payment-method="delete">
+                                                        <i class="ki-duotone ki-trash fs-3"><span
+                                                                class="path1"></span><span class="path2"></span><span
+                                                                class="path3"></span><span class="path4"></span><span
+                                                                class="path5"></span></i> </a>
+                                                    <!--end::Delete-->
+
+                                                    <!--begin::More-->
+                                                    <a href="#"
+                                                        class="btn btn-icon btn-active-light-primary w-30px h-30px"
+                                                        data-bs-toggle="tooltip" title="More Options"
+                                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        <i class="ki-duotone ki-setting-3 fs-3"><span
+                                                                class="path1"></span><span class="path2"></span><span
+                                                                class="path3"></span><span class="path4"></span><span
+                                                                class="path5"></span></i> </a>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold w-150px py-3"
+                                                        data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item px-3">
+                                                            <a href="#" class="menu-link px-3"
+                                                                data-kt-payment-mehtod-action="set_as_primary">
+                                                                Set as Primary
+                                                            </a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                    <!--end::More-->
+                                                </div>
+                                                <!--end::Toolbar-->
+                                            </div>
+                                            <!--end::Header-->
+
+                                            <!--begin::Body-->
+                                            <div id="kt_membership_info_{{$membership->id}}" class="collapse  fs-6 ps-10"
+                                                data-bs-parent="#kt_customer_view_payment_method">
+                                                <!--begin::Details-->
+                                                <div class="d-flex flex-wrap py-5">
+                                                    <!--begin::Col-->
+                                                    <div class="flex-equal me-5">
+                                                        <table class="table table-flush fw-semibold gy-1">
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Name & Initials
+                                                                </td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->name . ' ' . $membership->initials ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Surname</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->surname ?? 'n/a' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">ID Number</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->id_number ?? 'n/a' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Join Date</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ \Carbon\Carbon::parse($membership->join_date)->format('Y/m/d') ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Membership Type
+                                                                </td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->type->name . ' - (' . $membership->type->description . ') - R' . number_format($membership->type->membership_fee, 2) ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Last Payment
+                                                                </td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->last_payment_date ?? 'n/a' }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="flex-equal ">
+                                                        <table class="table table-flush fw-semibold gy-1">
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Address</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->addressesWithType(1)[0]->line1 ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Phone</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->primary_contact_number ?? 'n/a' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Phone 2</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->secondary_contact_number ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Email</td>
+                                                                <td class="text-gray-800"><a href="#"
+                                                                        class="text-gray-900 text-hover-primary">{{ $membership->primary_e_mail_address ?? 'n/a' }}</a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Previous
+                                                                    Membership</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ $membership->previous_membership_id ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Paid Till</td>
+                                                                <td class="text-gray-800">
+                                                                    {{ \Carbon\Carbon::parse($membership->paid_till_date)->format('Y/m/d') ?? 'n/a' }}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                                <!--end::Details-->
+                                            </div>
+                                            <!--end::Body-->
+                                        </div>
+                                        <!--end::Option-->
+
+                                        <div class="separator separator-dashed"></div>
+                                    @endforeach
+
+
+
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+                            <!--begin::Card-->
+                            <div id="funeral_card" class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="fw-bold">Funeral Arrangement</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                   
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+
+
+
+
+                                    <form id="funeralForm" method="POST" action="{{ route('handleFuneralAction') }}">
+                                        @csrf {{-- CSRF token for form submission --}}
+
+                                        {{-- <div class="card-header bg-light" >
                             <h3 class="card-title" >Main Record ID: </h3>
                         </div> --}}
-                        <div class="card-body">
-
-                            <input type="text" id="person_id" name="person_id" value="{{ $deceased_person->id }}" hidden>
-                            <input type="text" id="person_name" name="person_name" value="{{ $deceased_person->first_name }}" hidden>
-                            {{-- <input type="text" id="funeral_id" name="funeral_id" value="{{ $deceased_person->funerals() }}" hidden> --}}
 
 
-                            <!--begin::Accordion-->
-                            <div class="accordion mb-3" id="kt_accordion_funeral">
-                                    <!-- Accordion Item for Membership Details -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="kt_accordion_header_1">
-                                            <button class="accordion-button fs-4 fw-semibold collapsed"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#kt_accordion_body_1"
-                                                    aria-expanded="true"
-                                                    aria-controls="kt_accordion_body_1">
-                                                Church & Cemetery Details
-                                            </button>
-                                        </h2>
-                                        <div id="kt_accordion_body_1"
-                                            class="accordion-collapse collapse show"
-                                            aria-labelledby="kt_accordion_header_1"
-                                            data-bs-parent="#kt_accordion_funeral">
-                                            <div class="accordion-body" style="background-color: #E9F0EC">
-                                                <!-- Accordion content for Membership Details -->
-                                                <h2>Church Information</h2>
-                                                <div class="pt-4" style="display: flex; align-items: center;" > 
-                                                    <select id="churchSelect" name="churchSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Church" data-allow-clear="true" style="margin-right: 10px;">
-                                                        <option></option> <!-- Placeholder option for user prompt -->
-                                                        @foreach ($churches as $church)
-                                                            <option value="{{ $church->id }}">
-                                                                {{ $church->name }} ({{ $church->line1 }} - {{ $church->suburb }}, {{ $church->city }}, {{ $church->ZIP }})
-                                                            </option>
-                                                        @endforeach
-                                                        @if ($churches->isEmpty())
-                                                            <option disabled>No churches available</option>
-                                                        @endif
+                                        <input type="text" id="person_id" name="person_id"
+                                            value="{{ $deceased_person->id }}" hidden>
+                                        <input type="text" id="person_name" name="person_name"
+                                            value="{{ $deceased_person->first_name }}" hidden>
+                                        {{-- <input type="text" id="funeral_id" name="funeral_id" value="{{ $deceased_person->funerals() }}" hidden> --}}
 
-                                                    </select>
-                                                    
-                                                
-                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Church">
-                                                        +
+
+                                        <!--begin::Accordion-->
+                                        <div class="accordion mb-3" id="kt_accordion_funeral">
+                                            <!-- Accordion Item for Membership Details -->
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="kt_accordion_header_1">
+                                                    <button class="accordion-button fs-4 fw-semibold "
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#kt_accordion_body_1" aria-expanded="true"
+                                                        aria-controls="kt_accordion_body_1">
+                                                        Church & Cemetery Details
                                                     </button>
-                                                </div>
-                                                
-                                              {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}   
+                                                </h2>
+                                                <div id="kt_accordion_body_1" class="accordion-collapse collapse show"
+                                                    aria-labelledby="kt_accordion_header_1"
+                                                    data-bs-parent="#kt_accordion_funeral">
+                                                    <div class="accordion-body" >
+                                                        <!-- Accordion content for Membership Details -->
+                                                        <h5>Church Information</h5>
+                                                        <div class="pt-0" style="display: flex; align-items: center;">
+                                                            <select id="churchSelect" name="churchSelect"
+                                                                class="form-select  "
+                                                                data-control="select2" data-placeholder="Select Church"
+                                                                data-allow-clear="true" style="margin-right: 10px;">
+                                                                <option></option>
+                                                                <!-- Placeholder option for user prompt -->
+                                                                @foreach ($churches as $church)
+                                                                    <option value="{{ $church->id }}">
+                                                                        {{ $church->name }} ({{ $church->line1 }} -
+                                                                        {{ $church->suburb }}, {{ $church->city }},
+                                                                        {{ $church->ZIP }})
+                                                                    </option>
+                                                                @endforeach
+                                                                @if ($churches->isEmpty())
+                                                                    <option disabled>No churches available</option>
+                                                                @endif
 
-                                                {{-- <div id="church_location" class="pt-4 p-3" hidden>
+                                                            </select>
+
+
+                                                            <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
+                                                                data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                                                data-location-type="Church">
+                                                                +
+                                                            </button>
+                                                        </div>
+
+                                                        {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
+
+                                                        {{-- <div id="church_location" class="pt-4 p-3" hidden>
 
 
                                                     <div class="row mt-3">
@@ -540,39 +1592,47 @@
 
 
                                                 </div> --}}
-                                                
-                                                {{-- End Church Section --}}
+
+                                                        {{-- End Church Section --}}
 
 
-                                                <div class="separator border-light my-8"></div>
+                                                        <div class="separator border-light my-8"></div>
 
 
-                                                {{-- Start Graveyard Section --}}
+                                                        {{-- Start Graveyard Section --}}
 
-                                                <h2>Graveyard Information</h2>
-                                                <div style="display: flex; align-items: center;">
-                                                    <select id="graveyardSelect" name="graveyardSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Cemetery" data-allow-clear="true" style="margin-right: 10px;">
-                                                        <option></option> <!-- Keep this for the placeholder functionality -->
-                                                        @foreach ($graveyards as $graveyard)
-                                                            <option value="{{ $graveyard->id }}">
-                                                                {{ $graveyard->name }} ({{$graveyard->line1 }} - {{ $graveyard->suburb }}, {{ $graveyard->city }}, {{ $graveyard->ZIP }})
-                                                            </option>
-                                                        @endforeach
-                                                        @if ($graveyards->isEmpty())
-                                                            <option disabled>No graveyards available</option>
-                                                        @endif
+                                                        <h5>Graveyard Information</h5>
+                                                        <div style="display: flex; align-items: center;">
+                                                            <select id="graveyardSelect" name="graveyardSelect"
+                                                                class="form-select"
+                                                                data-control="select2" data-placeholder="Select Cemetery"
+                                                                data-allow-clear="true" style="margin-right: 10px;">
+                                                                <option></option>
+                                                                <!-- Keep this for the placeholder functionality -->
+                                                                @foreach ($graveyards as $graveyard)
+                                                                    <option value="{{ $graveyard->id }}">
+                                                                        {{ $graveyard->name }} ({{ $graveyard->line1 }} -
+                                                                        {{ $graveyard->suburb }}, {{ $graveyard->city }},
+                                                                        {{ $graveyard->ZIP }})
+                                                                    </option>
+                                                                @endforeach
+                                                                @if ($graveyards->isEmpty())
+                                                                    <option disabled>No graveyards available</option>
+                                                                @endif
 
-                                                    </select>
-                                                    
-                                                
-                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Graveyard">
-                                                        +
-                                                    </button>
-                                                </div>
-                                                
-                                                {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
+                                                            </select>
 
-                                                {{-- <div id="Cemetery_location" class="pt-4 p-3" hidden>
+
+                                                            <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
+                                                                data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                                                data-location-type="Graveyard">
+                                                                +
+                                                            </button>
+                                                        </div>
+
+                                                        {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
+
+                                                        {{-- <div id="Cemetery_location" class="pt-4 p-3" hidden>
 
 
                                                     <div class="row mt-3">
@@ -690,513 +1750,637 @@
 
                                                 </div> --}}
 
-                                                {{-- End Graveyard Section --}}
+                                                        {{-- End Graveyard Section --}}
 
 
 
 
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-
-
-                                <!-- Second Accordion Item for Funeral Details -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="kt_accordion_header_2">
-                                        <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#kt_accordion_body_2"
-                                            aria-expanded="false"
-                                            aria-controls="kt_accordion_body_2">
-                                            Funeral Details
-                                        </button>
-                                    </h2>
-                                    <div id="kt_accordion_body_2" class="accordion-collapse collapse"
-                                        aria-labelledby="kt_accordion_header_2"
-                                        data-bs-parent="#kt_accordion_funeral">
-                                        <div class="accordion-body" style="background-color: #E9F0EC">
-                                            <div class="row">
-                                            <!-- Accordion content for Funeral Details -->
-
-
-                                                <div class="card-body pt-4 p-3">
-
-                                                    <div class="container mt-5">
-                                                        <h2>Graveyard Information Form</h2>
-                                                        
-                                                            <!-- Row 1 -->
-                                                            <div class="row mb-3">
-                                                                <div class="col">
-                                                                    <label for="graveyard_section" class="form-label">Graveyard section:</label>
-                                                                    <input type="text" class="form-control" id="graveyard_section" name="graveyard_section">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="grave_number" class="form-label">Grave number:</label>
-                                                                    <input type="text" class="form-control" id="grave_number" name="grave_number" required>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Row 2 -->
-                                                            <div class="row mb-3">
-                                                                <div class="col">
-                                                                    <label for="burial_date" class="form-label">Burial Date:</label>
-                                                                    <input type="date" class="form-control" id="burial_date" name="burial_date">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="burial_time" class="form-label">Burial Time:</label>
-                                                                    <input type="time" class="form-control" id="burial_time" name="burial_time">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="coffin" class="form-label">Coffin:</label>
-                                                                    <input type="text" class="form-control" id="coffin" name="coffin">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="viewing_time" class="form-label">Viewing Time:</label>
-                                                                    <input type="datetime-local" class="form-control" id="viewing_time" name="viewing_time">
-                                                                </div>s
-                                                            </div>
-
-                                                            <!-- Row 2.5 -->
-                                                            <div class="row mb-3">
-
-                                                                
-                                                                <div class="col">
-                                                                    <label for="viewing_location" class="form-label">Viewing Location:</label>
-                                                                    
-                                                                    <div style="display: flex; align-items: center;">
-                                                                        <select id="viewing_location" name="viewing_location" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Viewing Location" data-allow-clear="true" style="margin-right: 10px;">
-                                                                            <option></option> <!-- Keep this for the placeholder functionality -->
-                                                                            @foreach ($viewinglocations as $viewinglocation)
-                                                                                <option value="{{ $viewinglocation->id }}">
-                                                                                    {{ $viewinglocation->name }} ({{$viewinglocation->line1 }} - {{ $viewinglocation->suburb }}, {{ $viewinglocation->city }}, {{ $viewinglocation->ZIP }})
-                                                                                </option>
-                                                                            @endforeach
-                                                                            @if ($viewinglocations->isEmpty())
-                                                                                <option disabled>No viewing locations available</option>
-                                                                            @endif
-                    
-                                                                        </select>
-                                                                        
-                                                                    
-                                                                        <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Viewing">
-                                                                            +
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Row 3 -->
-                                                            <div class="row mb-3">
-                                                                <div class="col">
-                                                                    <label for="church_office" class="form-label">Church office:</label>
-                                                                    <input type="text" class="form-control" id="church_office" name="church_office">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="church_caretaker" class="form-label">Church caretaker:</label>
-                                                                    <input type="text" class="form-control" id="church_caretaker" name="church_caretaker">
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Row 4 -->
-                                                            <div class="row mb-3">
-                                                                <div class="col">
-                                                                    <label for="burial_person" class="form-label">Burial person (preacher):</label>
-                                                                    <input type="text" class="form-control" id="burial_person" name="burial_person">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="contact_number" class="form-label">Contact Number:</label>
-                                                                    <input type="tel" class="form-control" id="contact_number" name="contact_number">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="organist" class="form-label">Organist:</label>
-                                                                    <input type="text" class="form-control" id="organist" name="organist">
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Row 5 -->
-                                                            <div class="row mb-3">
-                                                                <div class="col">
-                                                                    <label for="funeral_notices" class="form-label">Notices:</label>
-                                                                    <textarea class="form-control" id="funeral_notices" name="funeral_notices" rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-
-                                                       
                                                     </div>
-
                                                 </div>
-
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Third Accordion Item for Funeral Costs -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="kt_accordion_header_3">
-                                        <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#kt_accordion_body_3"
-                                            aria-expanded="false"
-                                            aria-controls="kt_accordion_body_3">
-                                            Funeral Costs  (R <span id="totalCostHeader">0.00</span> ) & Benefits (R2000)
-                                        </button>
-                                    </h2>
-                                    <div id="kt_accordion_body_3" class="accordion-collapse collapse"
-                                        aria-labelledby="kt_accordion_header_3"
-                                        data-bs-parent="#kt_accordion_funeral">
-                                        <div class="accordion-body d-flex justify-content-center align-items-start" style="background-color: #E9F0EC; min-height: 100vh;">
-
-
-                                            <!-- Accordion content for Funeral Costs -->
-
-                                            
-
-                                            {{-- Start Cost Calculator --}}
-                                            <div class="col-12 col-md-6">
-                                                <h2 style="text-align: center">Cost Calculator</h2>
-                                                <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                    <thead style="background-color: #ffffff">
-                                                        <tr class="fw-bold fs-6">
-                                                            <th>Product/Service</th>
-                                                            <th>Amount ( R <span class="text-danger" id="totalCost2">0.00</span> )</th>
-                                                             
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Grave</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="grave" name="grave" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cremation</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="cremation" name="cremation" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Casket</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="casket" name="casket" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Notices</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="notice" name="notices" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Brochure</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="brochure" name="brochure" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1st Doctor</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="firstDoctor" name="firstDoctor" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2nd Doctor</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="secondDoctor" name="secondDoctor" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3rd Doctor</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="thirdDoctor" name="thirdDoctor" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Burial person (preacher)</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="burialPerson" name="burialPerson" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Organist</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="organist" name="organist" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sound person</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="soundPerson" name="soundPerson" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Communication</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="communication" name="communication" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ash Case</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="ashCase" name="ashCase" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Outsourced costs</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="outsourcedCosts" name="outsourcedCosts" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Other</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="other" name="other" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Transport</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
-                                                                    </div>
-                                                                    <input type="number" class="form-control cost-input" id="transport" name="transport" oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    
-                                                    <tfoot style="background-color: #f7f7f7">
-                                                        <tr class="fw-bold fs-6">
-                                                            <th colspan="1" class="text-nowrap align-end">Total:</th>
-                                                            <th colspan="1" class="text-danger fs-3">R<span id="totalCost">0.00</span></th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
                                             </div>
-                                            {{-- End Cost Calculator--}}
 
-                                            {{-- Start Benefits Calculator --}}
-                                            <div class="col-12 col-md-6">
-                                                <h2 style="text-align: center">Membership Type: {{$deceased_person->membership[0]->bu_membership_type_id}}</h2>
-                                                <table id="kt_datatable_benefit_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                    <thead style="background-color: #ffffff">
-                                                        <tr class="fw-bold fs-6">
-                                                            <th>Benefits</th>
-                                                            <th>Amount ( R <span class="text-danger" id="totalBenefits2">2000.00</span> )</th>
-                                                                
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>GBA Benefit</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
+
+
+                                            <!-- Second Accordion Item for Funeral Details -->
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="kt_accordion_header_2">
+                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#kt_accordion_body_2" aria-expanded="false"
+                                                        aria-controls="kt_accordion_body_2">
+                                                        Funeral Details
+                                                    </button>
+                                                </h2>
+                                                <div id="kt_accordion_body_2" class="accordion-collapse collapse"
+                                                    aria-labelledby="kt_accordion_header_2"
+                                                    data-bs-parent="#kt_accordion_funeral">
+                                                    <div class="accordion-body">
+                                                        <div class="row">
+                                                            <!-- Accordion content for Funeral Details -->
+
+
+                                                            <div class="card-body pt-4 p-3">
+
+                                                                <div class="container mt-5">
+                                                                    <h4>Graveyard Information Form</h4>
+
+                                                                    <!-- Row 1 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col">
+                                                                            <label for="graveyard_section"
+                                                                                class="form-label">Graveyard
+                                                                                section:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="graveyard_section"
+                                                                                name="graveyard_section">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="grave_number"
+                                                                                class="form-label">Grave number:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="grave_number" name="grave_number"
+                                                                                required>
+                                                                        </div>
                                                                     </div>
-                                                                    <input type="number" class="form-control " id="benefit" value="2000" name="benefit" oninput="" disabled>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Other</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text">R</span>
+
+                                                                    <!-- Row 2 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col">
+                                                                            <label for="burial_date"
+                                                                                class="form-label">Burial Date:</label>
+                                                                            <input type="date" class="form-control"
+                                                                                id="burial_date" name="burial_date">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="burial_time"
+                                                                                class="form-label">Burial Time:</label>
+                                                                            <input type="time" class="form-control"
+                                                                                id="burial_time" name="burial_time">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="coffin"
+                                                                                class="form-label">Coffin:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="coffin" name="coffin">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="viewing_time"
+                                                                                class="form-label">Viewing Time:</label>
+                                                                            <input type="datetime-local"
+                                                                                class="form-control" id="viewing_time"
+                                                                                name="viewing_time">
+                                                                        </div>s
                                                                     </div>
-                                                                    <input type="number" class="form-control " id="benefit_other" value="0" name="benefit_other" oninput="" disabled>
+
+                                                                    <!-- Row 2.5 -->
+                                                                    <div class="row mb-3">
+
+
+                                                                        <div class="col">
+                                                                            <label for="viewing_location"
+                                                                                class="form-label">Viewing
+                                                                                Location:</label>
+
+                                                                            <div
+                                                                                style="display: flex; align-items: center;">
+                                                                                <select id="viewing_location"
+                                                                                    name="viewing_location"
+                                                                                    class="form-select"
+                                                                                    data-control="select2"
+                                                                                    data-placeholder="Select Viewing Location"
+                                                                                    data-allow-clear="true"
+                                                                                    style="margin-right: 10px;">
+                                                                                    <option></option>
+                                                                                    <!-- Keep this for the placeholder functionality -->
+                                                                                    @foreach ($viewinglocations as $viewinglocation)
+                                                                                        <option
+                                                                                            value="{{ $viewinglocation->id }}">
+                                                                                            {{ $viewinglocation->name }}
+                                                                                            ({{ $viewinglocation->line1 }}
+                                                                                            -
+                                                                                            {{ $viewinglocation->suburb }},
+                                                                                            {{ $viewinglocation->city }},
+                                                                                            {{ $viewinglocation->ZIP }})
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                    @if ($viewinglocations->isEmpty())
+                                                                                        <option disabled>No viewing
+                                                                                            locations available</option>
+                                                                                    @endif
+
+                                                                                </select>
+
+
+                                                                                <button type="button"
+                                                                                    class="btn btn-dark btn-sm my-2 ml-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#kt_modal_1"
+                                                                                    data-location-type="Viewing">
+                                                                                    +
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 3 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col">
+                                                                            <label for="church_office"
+                                                                                class="form-label">Church office:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="church_office" name="church_office">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="church_caretaker"
+                                                                                class="form-label">Church
+                                                                                caretaker:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="church_caretaker"
+                                                                                name="church_caretaker">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 4 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col">
+                                                                            <label for="burial_person"
+                                                                                class="form-label">Burial person
+                                                                                (preacher):</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="burial_person" name="burial_person">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="contact_number"
+                                                                                class="form-label">Contact Number:</label>
+                                                                            <input type="tel" class="form-control"
+                                                                                id="contact_number" name="contact_number">
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label for="organist"
+                                                                                class="form-label">Organist:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="organist" name="organist">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Row 5 -->
+                                                                    <div class="row mb-3">
+                                                                        <div class="col">
+                                                                            <label for="funeral_notices"
+                                                                                class="form-label">Notices:</label>
+                                                                            <textarea class="form-control" id="funeral_notices" name="funeral_notices" rows="3"></textarea>
+                                                                        </div>
+                                                                    </div>
+
+
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    
-                                                    <tfoot style="background-color: #f7f7f7">
-                                                        <tr class="fw-bold fs-6">
-                                                            <th colspan="1" class="text-nowrap align-end">Total:</th>
-                                                            <th colspan="1" class="text-danger fs-3">R<span id="totalBenefits">2000.00</span></th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                            {{-- End Benefits Calculator--}}
 
-
-
-
-
-
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Fourth Accordion Item for Funeral Costs -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="kt_accordion_header_4">
-                                            <button class="accordion-button fs-4 fw-semibold collapsed"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#kt_accordion_body_4"
-                                                    aria-expanded="false"
-                                                    aria-controls="kt_accordion_body_4">
-                                                Shortfall / Payouts
-                                            </button>
-                                        </h2>
-                                        <div id="kt_accordion_body_4"
-                                            class="accordion-collapse collapse"
-                                            aria-labelledby="kt_accordion_header_4"
-                                            data-bs-parent="#kt_accordion_funeral">
-                                            <div class="accordion-body" style="background-color: #E9F0EC">
-
-                                                    
-                                                    {{-- @if (!$item['']->isEmpty()) --}}
-                                                        <div class="card inner-card my-8 bg-light">
-                                                            <div class="card-header" style="background-color: #448C74;">
-                                                                <h3 class="card-title" style="color: white">Shortfall Transactions</h3>
-                                                                
-                                                                    <button type="button" class="btn btn-dark btn-sm my-6 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_payment">
-                                                                        + New Payment
-                                                                    </button>
-                                                                
                                                             </div>
-                                                           
-                                                            <div class="card-body">
-                                                                    
-                                                                {{-- Start Shortfalls --}}
-                                    
-                                                                    <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                        <thead style="background-color: #ffffff">
-                                                                            <tr class="fw-bold fs-6">
-                                                                                <th>Details</th>
-                                                                                <th>Amount</th>
-                                                                                <th>Payment Method</th>  
-                                                                                <th>Account Number</th>
-                                                                                <th>Bank</th>
-                                                                                <th>Ref. #</th>
-                                                                                <th>Actions</th>
 
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    John Doe      
-                                                                                </td>
-                                                                                <td>
-                                                                                    R950
-                                                                                </td>
-                                                                                <td>
-                                                                                    Cash
-                                                                                </td>
-                                                                                <td>
-                                                                                    N/A
-                                                                                </td>
-                                                                                <td>
-                                                                                    N/A
-                                                                                </td>
-                                                                                <td>
-                                                                                    N/A
-                                                                                </td>
-                                                                                <td>
-                                                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
-                                                                                        Remove
-                                                                                    </button> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                        </tbody>
-                                                                        
-                                                        
-                                                                    </table>
-                                                                
-                                                                {{-- End Shortfalls--}}
-                                                               
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Third Accordion Item for Funeral Costs -->
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="kt_accordion_header_3">
+                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#kt_accordion_body_3" aria-expanded="false"
+                                                        aria-controls="kt_accordion_body_3">
+                                                        Funeral Costs (R <span id="totalCostHeader">0.00</span> ) &
+                                                        Benefits (R2000)
+                                                    </button>
+                                                </h2>
+                                                <div id="kt_accordion_body_3" class="accordion-collapse collapse"
+                                                    aria-labelledby="kt_accordion_header_3"
+                                                    data-bs-parent="#kt_accordion_funeral">
+                                                    <div class="accordion-body d-flex justify-content-center align-items-start"
+                                                        style=" min-height: 100vh;">
+
+
+                                                        <!-- Accordion content for Funeral Costs -->
+
+
+
+                                                        {{-- Start Cost Calculator --}}
+                                                        <div class="col-12 col-md-6">
+                                                            <h3 style="text-align: center">Cost Calculator</h3>
+                                                            <table id="kt_datatable_footer_callback"
+                                                                class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                <thead style="background-color: #ffffff">
+                                                                    <tr class="fw-bold fs-6">
+                                                                        <th>Product/Service</th>
+                                                                        <th>Amount ( R <span class="text-danger"
+                                                                                id="totalCost2">0.00</span> )</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Grave</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="grave" name="grave"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cremation</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="cremation" name="cremation"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Casket</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="casket" name="casket"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Notices</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="notice" name="notices"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Brochure</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="brochure" name="brochure"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>1st Doctor</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="firstDoctor" name="firstDoctor"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>2nd Doctor</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="secondDoctor" name="secondDoctor"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>3rd Doctor</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="thirdDoctor" name="thirdDoctor"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Burial person (preacher)</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="burialPerson" name="burialPerson"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Organist</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="organist" name="organist"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Sound person</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="soundPerson" name="soundPerson"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Communication</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="communication"
+                                                                                    name="communication"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Ash Case</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="ashCase" name="ashCase"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Outsourced costs</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="outsourcedCosts"
+                                                                                    name="outsourcedCosts"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Other</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="other" name="other"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Transport</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control cost-input"
+                                                                                    id="transport" name="transport"
+                                                                                    oninput="calculateTotal()">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                                <tfoot style="background-color: #f7f7f7">
+                                                                    <tr class="fw-bold fs-6">
+                                                                        <th colspan="1" class="text-nowrap align-end">
+                                                                            Total:</th>
+                                                                        <th colspan="1" class="text-danger fs-3">R<span
+                                                                                id="totalCost">0.00</span></th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                        {{-- End Cost Calculator --}}
+
+                                                        {{-- Start Benefits Calculator --}}
+                                                        <div class="col-12 col-md-6">
+                                                            <h3 style="text-align: center">Membership Type: Temp </h3>
+                                                            {{-- {{$deceased_person->membership[0]->bu_membership_type_id}} --}}
+                                                            <table id="kt_datatable_benefit_footer_callback"
+                                                                class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                <thead style="background-color: #ffffff">
+                                                                    <tr class="fw-bold fs-6">
+                                                                        <th>Benefits</th>
+                                                                        <th>Amount ( R <span class="text-danger"
+                                                                                id="totalBenefits2">2000.00</span> )</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>GBA Benefit</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control " id="benefit"
+                                                                                    value="2000" name="benefit"
+                                                                                    oninput="" disabled>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Other</td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">R</span>
+                                                                                </div>
+                                                                                <input type="number"
+                                                                                    class="form-control "
+                                                                                    id="benefit_other" value="0"
+                                                                                    name="benefit_other" oninput=""
+                                                                                    disabled>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                                <tfoot style="background-color: #f7f7f7">
+                                                                    <tr class="fw-bold fs-6">
+                                                                        <th colspan="1" class="text-nowrap align-end">
+                                                                            Total:</th>
+                                                                        <th colspan="1" class="text-danger fs-3">R<span
+                                                                                id="totalBenefits">2000.00</span></th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                        {{-- End Benefits Calculator --}}
+
+
+
+
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Fourth Accordion Item for Funeral Costs -->
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="kt_accordion_header_4">
+                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#kt_accordion_body_4" aria-expanded="false"
+                                                        aria-controls="kt_accordion_body_4">
+                                                        Shortfall / Payouts
+                                                    </button>
+                                                </h2>
+                                                <div id="kt_accordion_body_4" class="accordion-collapse collapse"
+                                                    aria-labelledby="kt_accordion_header_4"
+                                                    data-bs-parent="#kt_accordion_funeral">
+                                                    <div class="accordion-body" >
+
+
+                                                        {{-- @if (!$item['']->isEmpty()) --}}
+                                                        <div class="card inner-card my-8 ">
+                                                            <div class="card-header" style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Shortfall
+                                                                    Transactions</h3>
+
+                                                                <button type="button"
+                                                                    class="btn btn-dark btn-sm my-6 ml-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#kt_modal_payment">
+                                                                    + New Payment
+                                                                </button>
+
+                                                            </div>
+
+                                                            <div class="card-body">
+
+                                                                {{-- Start Shortfalls --}}
+
+                                                                <table id="kt_datatable_footer_callback"
+                                                                    class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                    <thead style="background-color: #ffffff">
+                                                                        <tr class="fw-bold fs-6">
+                                                                            <th>Details</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Payment Method</th>
+                                                                            <th>Account Number</th>
+                                                                            <th>Bank</th>
+                                                                            <th>Ref. #</th>
+                                                                            <th>Actions</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                John Doe
+                                                                            </td>
+                                                                            <td>
+                                                                                R950
+                                                                            </td>
+                                                                            <td>
+                                                                                Cash
+                                                                            </td>
+                                                                            <td>
+                                                                                N/A
+                                                                            </td>
+                                                                            <td>
+                                                                                N/A
+                                                                            </td>
+                                                                            <td>
+                                                                                N/A
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    class="btn btn-danger btn-sm my-2 ml-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#kt_modal_1"
+                                                                                    data-location-type="Postal">
+                                                                                    Remove
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+
+
+                                                                </table>
+
+                                                                {{-- End Shortfalls --}}
+
                                                             </div>
 
 
                                                         </div>
-                                                    {{-- @else
+                                                        {{-- @else
                                                         <div class="card inner-card border border-secondary mt-4">
                                                             <div class="card-header"style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Title</h3>
@@ -1208,81 +2392,94 @@
                                                     @endif --}}
 
 
-                                            
-                                 
-                                                              
-                                                    {{-- @if (!$item['']->isEmpty()) --}}
-                                                        <div class="card inner-card my-8 bg-light">
+
+
+
+                                                        {{-- @if (!$item['']->isEmpty()) --}}
+                                                        <div class="card inner-card my-8">
                                                             <div class="card-header" style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Payouts</h3>
-                                                             
-                                                                    <button type="button" class="btn btn-dark btn-sm my-6 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary" data-location-type="Postal">
-                                                                        + New Beneficiary
-                                                                    </button>
-                                                                
-                                                            </div>
-                                                           
-                                                            <div class="card-body">
-                                                              
-                                                                
-                                                                {{-- Start Payouts --}}
-                                                                
-                                                        
-                                                                
-                                                                    <table id="kt_datatable_footer_callback" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                        <thead style="background-color: #ffffff">
-                                                                            <tr class="fw-bold fs-6">
-                                                                                <th>Beneficiary</th>
-                                                                                <th>Amount</th>
-                                                                                <th>Beneficiary - Postal Address</th>  
-                                                                                <th>Account Number</th>
-                                                                                <th>Bank</th>
-                                                                                <th>Actions</th>
 
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    Jane Doe        
-                                                                                </td>
-                                                                                <td>
-                                                                                    R1800
-                                                                                </td>
-                                                                                <td>
-                                                                                    line 1 </br>
-                                                                                    suburb </br>
-                                                                                    town </br>
-                                                                                    postal code
-                                                                                </td>
-                                                                                <td>
-                                                                                    1534850245
-                                                                                </td>
-                                                                                <td>
-                                                                                    Capitec Bank
-                                                                                </td>
-                                                                                <td>
-                                                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
-                                                                                        Edit
-                                                                                    </button> 
-                                                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="Postal">
-                                                                                        Remove
-                                                                                    </button> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                        </tbody>
-                                                                        
-                                                        
-                                                                    </table>
-                                                                
-                                                                {{-- End Payouts--}}
-                                                               
+                                                                <button type="button"
+                                                                    class="btn btn-dark btn-sm my-6 ml-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#kt_modal_beneficiary"
+                                                                    data-location-type="Postal">
+                                                                    + New Beneficiary
+                                                                </button>
+
+                                                            </div>
+
+                                                            <div class="card-body">
+
+
+                                                                {{-- Start Payouts --}}
+
+
+
+                                                                <table id="kt_datatable_footer_callback"
+                                                                    class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                                                    <thead style="background-color: #ffffff">
+                                                                        <tr class="fw-bold fs-6">
+                                                                            <th>Beneficiary</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Beneficiary - Postal Address</th>
+                                                                            <th>Account Number</th>
+                                                                            <th>Bank</th>
+                                                                            <th>Actions</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Jane Doe
+                                                                            </td>
+                                                                            <td>
+                                                                                R1800
+                                                                            </td>
+                                                                            <td>
+                                                                                line 1 </br>
+                                                                                suburb </br>
+                                                                                town </br>
+                                                                                postal code
+                                                                            </td>
+                                                                            <td>
+                                                                                1534850245
+                                                                            </td>
+                                                                            <td>
+                                                                                Capitec Bank
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    class="btn btn-dark btn-sm my-2 ml-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#kt_modal_1"
+                                                                                    data-location-type="Postal">
+                                                                                    Edit
+                                                                                </button>
+                                                                                <button type="button"
+                                                                                    class="btn btn-danger btn-sm my-2 ml-2"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#kt_modal_1"
+                                                                                    data-location-type="Postal">
+                                                                                    Remove
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+
+
+                                                                </table>
+
+                                                                {{-- End Payouts --}}
+
                                                             </div>
 
 
                                                         </div>
-                                                    {{-- @else
+                                                        {{-- @else
                                                         <div class="card inner-card border border-secondary mt-4">
                                                             <div class="card-header"style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Title</h3>
@@ -1293,778 +2490,3305 @@
                                                         </div>
                                                     @endif --}}
 
-                     
 
 
 
 
 
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Accordion-->
+
+
+
+
+
+                                        <!--begin::Alert (initially hidden)-->
+                                        <div id="requiredAlert"
+                                            class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
+                                            style="display: none !important;">
+                                            <!--begin::Icon-->
+                                            <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span
+                                                    class="path1"></span><span class="path2"></span><span
+                                                    class="path3"></span></i>
+                                            <!--end::Icon-->
+
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                                <!--begin::Title-->
+                                                <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
+                                                <!--end::Title-->
+
+                                                <!--begin::Content-->
+                                                <span>All Tabs Need to be completed ('Green') before you can save.</span>
+                                                <!--end::Content-->
+                                            </div>
+                                            <!--end::Wrapper-->
 
                                         </div>
+                                        <!--end::Alert-->
+
+
+
+                                        <!-- Add more accordion cards as needed following the structure above -->
+
+
+
+
+                                        <!-- Hidden Button for Submit Action 1 -->
+                                        <button type="submit" name="action" value="submitActionOne"
+                                            style="display:none;">Save
+                                            Funeral</button>
+                                        <!-- Hidden Button for Submit Action 2 -->
+                                        <button type="submit" name="action" value="submitActionTwo"
+                                            style="display:none;">Test
+                                            Output</button>
+                                    </form>
+
+
+
+
+
+
+
+                                    <!-- Something Card -->
+
+
+
+
+
+
+                                    {{-- Action Buttons for Main Record --}}
+                                    <div class="form-group text-center d-flex justify-content-around  mt-8 mb-8">
+                                        <!-- External Button for Submit Action 1 -->
+                                        <button id="externalSubmitActionOne" class="btn btn-success">Save Funeral</button>
+                                        <!-- External Button for Submit Action 2 -->
+                                        <button id="externalSubmitActionTwo" class="btn btn-dark">Test Output</button>
+
+
+
+
+
+                                    </div>
+
+
+                                    <!-- Start Shortfall Payment Modal -->
+                                    <div class="modal fade" tabindex="-1" id="kt_modal_payment">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content" style="background-color: #448C74">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title text-white">Add Payment</h3>
+
+                                                    <!--begin::Close-->
+                                                    <div class="btn btn-icon btn-sm btn-active-light-dark ms-2"
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                        <i class="ki-duotone ki-cross fs-1"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                    </div>
+                                                    <!--end::Close-->
+                                                </div>
+                                                <form id="shortfallPaymentForm" method="POST"
+                                                    action="{{ route('StoreFuneralBeneficiary') }}">
+                                                    @csrf
+                                                    <div class="modal-body">
+
+
+
+
+
+                                                        <div class="pt-4 p-3">
+
+
+
+                                                            <!-- Row 1 -->
+                                                            <div class="row my-3">
+                                                                <div class="col">
+                                                                    <label for="shortfall_payment_name"
+                                                                        class="form-label text-white">Name:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="shortfall_payment_name"
+                                                                        name="shortfall_payment_name">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="shortfall_payment_surname"
+                                                                        class="form-label text-white">Surname:</label>
+                                                                    <input type="tel" class="form-control"
+                                                                        id="shortfall_payment_surname"
+                                                                        name="shortfall_payment_surname">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="payout_amount"
+                                                                        class="form-label text-white">Amount:</label>
+                                                                    <div class="input-group mx-auto">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"
+                                                                                style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
+                                                                        </div>
+                                                                        <input type="number"
+                                                                            class="form-control cost-input"
+                                                                            id="payout_amount" name="payout_amount">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="separator border-light my-8"></div>
+
+
+                                                            <div class="pt-4"
+                                                                style="display: flex; align-items: center;">
+                                                                <label for="ShortfallPaymentMethodSelect"
+                                                                    class="form-label text-white">Payment Method:</label>
+                                                                <select id="ShortfallPaymentMethodSelect"
+                                                                    name="ShortfallPaymentMethodSelect"
+                                                                    class="form-select bg-white form-select-solid"
+                                                                    data-control="select2"
+                                                                    data-placeholder="Select Payment Method"
+                                                                    data-allow-clear="true" style="margin-right: 10px;">
+
+                                                                    <option value="2">Cash</option>
+                                                                    <option value="5">EFT/Bank Payment</option>
+
+                                                                </select>
+
+
+
+                                                            </div>
+
+                                                            <div class="separator border-light my-8"></div>
+
+                                                            <!-- Payout Payment Details -->
+                                                            <div class="row my-3">
+                                                                <div class="col">
+                                                                    <label for="payout_acc_number"
+                                                                        class="form-label text-white">Account
+                                                                        number:</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="payout_acc_number" name="payout_acc_number">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="ShortfallbankSelect"
+                                                                        class="form-label text-white">Bank:</label>
+                                                                    <select id="ShortfallbankSelect"
+                                                                        name="ShortfallbankSelect"
+                                                                        class="form-select bg-white form-select-solid"
+                                                                        data-control="select2"
+                                                                        data-placeholder="Select Bank"
+                                                                        data-allow-clear="true"
+                                                                        style="margin-right: 10px;">
+                                                                        <option></option>
+                                                                        <!-- Placeholder option for user prompt -->
+                                                                        @foreach ($banks as $bank)
+                                                                            <option value="{{ $bank->id }}">
+                                                                                {{ $bank->name }}
+                                                                            </option>
+                                                                        @endforeach
+
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- <div class="separator border-light my-8"></div> --}}
+
+
+
+
+
+
+                                                        </div>
+
+
+
+
+
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-dark"
+                                                            id="savePaymentBtn">Save Payment</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Shortfall Payment Modal -->
+
+                                    <!-- Start Beneficiary Modal -->
+                                    <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content" style="background-color: #448C74">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title text-white">Add Beneficiary</h3>
+
+                                                    <!--begin::Close-->
+                                                    <div class="btn btn-icon btn-sm btn-active-light-dark ms-2"
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                        <i class="ki-duotone ki-cross fs-1"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                    </div>
+                                                    <!--end::Close-->
+                                                </div>
+                                                <form id="beneficiaryAddressForm" method="POST"
+                                                    action="{{ route('StoreFuneralBeneficiary') }}">
+                                                    @csrf
+                                                    <div class="modal-body">
+
+
+
+
+
+                                                        <div class="pt-4 p-3">
+
+
+
+                                                            <!-- Row 1 -->
+                                                            <div class="row my-3">
+                                                                <div class="col">
+                                                                    <label for="beneficiary_name"
+                                                                        class="form-label text-white">Name:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="beneficiary_name" name="beneficiary_name">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="beneficiary_surname"
+                                                                        class="form-label text-white">Surname:</label>
+                                                                    <input type="tel" class="form-control"
+                                                                        id="beneficiary_surname"
+                                                                        name="beneficiary_surname">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="payout_amount"
+                                                                        class="form-label text-white">Amount:</label>
+                                                                    <div class="input-group mx-auto">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"
+                                                                                style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
+                                                                        </div>
+                                                                        <input type="number"
+                                                                            class="form-control cost-input"
+                                                                            id="payout_amount" name="payout_amount">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="separator border-light my-8"></div>
+
+
+
+                                                            <select id="addressType" name="addressType"
+                                                                class="form-select form-select-solid"
+                                                                data-control="select2"
+                                                                data-placeholder="Select Location Type"
+                                                                data-hide-search="true">
+                                                                <option></option>
+                                                                <option value="1">Residential</option>
+                                                                <option value="2">Postal</option>
+                                                            </select>
+
+
+
+                                                            <div class="row mt-3">
+                                                                <div class="col">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Line1_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Line1_beneficiary"
+                                                                            id="Line1_beneficiary"
+                                                                            value="{{ old('Line1_beneficiary') }}"
+                                                                            required>
+                                                                    </div>
+                                                                    @error('Line1_beneficiary')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row mt-3">
+                                                                <div class="col-6 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Line2_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Line2_beneficiary"
+                                                                            id="Line2_beneficiary"
+                                                                            value="{{ old('Line2_beneficiary') }}"
+                                                                            placeholder="Address Line 2">
+                                                                    </div>
+                                                                    @error('Line2')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('TownSuburb_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="TownSuburb_beneficiary"
+                                                                            id="TownSuburb_beneficiary"
+                                                                            value="{{ old('TownSuburb_beneficiary') }}"
+                                                                            placeholder="Town/Suburb_beneficiary">
+                                                                    </div>
+                                                                    @error('TownSuburb_beneficiary')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('City_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="City_beneficiary" id="City_beneficiary"
+                                                                            value="{{ old('City_beneficiary') }}"
+                                                                            placeholder="City">
+                                                                    </div>
+                                                                    @error('City')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Province_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Province_beneficiary"
+                                                                            id="Province_beneficiary"
+                                                                            value="{{ old('Province_beneficiary') }}"
+                                                                            placeholder="Province">
+                                                                    </div>
+                                                                    @error('Province')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-2 mt-3 mt-sm-0">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('PostalCode_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="PostalCode_beneficiary"
+                                                                            id="PostalCode_beneficiary"
+                                                                            value="{{ old('PostalCode_beneficiary') }}"
+                                                                            placeholder="Postal Code">
+                                                                    </div>
+                                                                    @error('PostalCode')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-4">
+
+                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Country_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Country_beneficiary"
+                                                                            id="Country_beneficiary"
+                                                                            value="{{ old('Province_beneficiary') }}"
+                                                                            placeholder="Country">
+                                                                    </div>
+                                                                    @error('Country')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+
+
+                                                            </div>
+
+
+
+                                                            <div
+                                                                style="text-align: center; display: flex; justify-content: center; align-items: center; ">
+                                                                <span style="color: white; margin-right: 10px;">Powered
+                                                                    by</span>
+                                                                <img src="{{ asset('img/google.png') }}"
+                                                                    alt="Google Logo" style="width: 50px; height: auto;">
+                                                            </div>
+
+
+                                                            <div class="separator border-light my-8"></div>
+
+
+                                                            <!-- Payout Payment Details -->
+                                                            <div class="row my-3">
+                                                                <div class="col">
+                                                                    <label for="payout_acc_number"
+                                                                        class="form-label text-white">Account
+                                                                        number:</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="payout_acc_number" name="payout_acc_number">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="bankSelect"
+                                                                        class="form-label text-white">Bank:</label>
+                                                                    <select id="bankSelect" name="bankSelect"
+                                                                        class="form-select bg-white form-select-solid"
+                                                                        data-control="select2"
+                                                                        data-placeholder="Select Bank"
+                                                                        data-allow-clear="true"
+                                                                        style="margin-right: 10px;">
+                                                                        <option></option>
+                                                                        <!-- Placeholder option for user prompt -->
+                                                                        @foreach ($banks as $bank)
+                                                                            <option value="{{ $bank->id }}">
+                                                                                {{ $bank->name }}
+                                                                            </option>
+                                                                        @endforeach
+
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+
+
+
+
+
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-dark"
+                                                            id="saveBeneficiaryBtn">Save Beneficiary</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Beneficiary Modal -->
+
+
+
+                                    <!-- Start Location Address Modal -->
+                                    <div class="modal fade" tabindex="-1" id="kt_modal_1">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Add Location</h3>
+
+                                                    <!--begin::Close-->
+                                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                        <i class="ki-duotone ki-cross fs-1"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                    </div>
+                                                    <!--end::Close-->
+                                                </div>
+                                                <form id="addressForm" method="POST"
+                                                    action="{{ route('StoreFuneralAddress') }}">
+                                                    @csrf
+                                                    <div class="modal-body">
+
+
+
+
+
+
+                                                        <div class="pt-4 p-3">
+
+                                                            <select id="addressType" name="addressType"
+                                                                class="form-select form-select-solid"
+                                                                data-control="select2"
+                                                                data-placeholder="Select Location Type"
+                                                                data-hide-search="true">
+                                                                <option></option>
+                                                                <option value="{{ $churchTypeId }}">Church</option>
+                                                                <option value="{{ $graveyardTypeId }}">Graveyard</option>
+                                                                <option value="21">Viewing Location</option>
+                                                            </select>
+
+
+                                                            <div class="row mt-3">
+                                                                <div class="col">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            id="Line1" name="Line1"
+                                                                            value="{{ old('Line1') }}" required>
+                                                                    </div>
+                                                                    @error('Line1')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('PlaceName') is-invalid focused is-focused  @enderror  mb-0">
+                                                                        <input type="text" class="form-control"
+                                                                            name="PlaceName" id="PlaceName"
+                                                                            value="{{ old('PlaceName') }}"
+                                                                            placeholder="Location Name" required>
+                                                                    </div>
+                                                                    @error('PlaceName')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-6 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Line2" id="Line2"
+                                                                            value="{{ old('Line2') }}"
+                                                                            placeholder="Address Line 2">
+                                                                    </div>
+                                                                    @error('Line2')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="TownSuburb" id="TownSuburb"
+                                                                            value="{{ old('TownSuburb') }}"
+                                                                            placeholder="Town/Suburb">
+                                                                    </div>
+                                                                    @error('TownSuburb')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="City" id="City"
+                                                                            value="{{ old('City') }}"
+                                                                            placeholder="City">
+                                                                    </div>
+                                                                    @error('City')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Province" id="Province"
+                                                                            value="{{ old('Province') }}"
+                                                                            placeholder="Province">
+                                                                    </div>
+                                                                    @error('Province')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-6 col-sm-2 mt-3 mt-sm-0">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="PostalCode" id="PostalCode"
+                                                                            value="{{ old('PostalCode') }}"
+                                                                            placeholder="Postal Code">
+                                                                    </div>
+                                                                    @error('PostalCode')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-4">
+
+                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
+                                                                    <div
+                                                                        class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                        <input type="text" class="form-control"
+                                                                            name="Country" id="Country"
+                                                                            value="{{ old('Province') }}"
+                                                                            placeholder="Country">
+                                                                    </div>
+                                                                    @error('Country')
+                                                                        <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+
+
+                                                            </div>
+
+
+
+                                                            <div
+                                                                style="text-align: center; display: flex; justify-content: center; align-items: center; ">
+                                                                <span style="color: white; margin-right: 10px;">Powered
+                                                                    by</span>
+                                                                <img src="{{ asset('img/google.png') }}"
+                                                                    alt="Google Logo"
+                                                                    style="width: 50px; height: auto;">
+                                                            </div>
+
+
+                                                        </div>
+
+
+
+
+
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-dark"
+                                                            id="saveLocationBtn">Save Location</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Church Address Modal -->
+
+
+
+
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+
+
+
+                        </div>
+                        <!--end:::Tab pane-->
+
+                        <!--begin:::Tab pane-->
+                        <div class="tab-pane fade" id="funeral_costs_tab" role="tabpanel">
+
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2>Logs</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Button-->
+                                        <button type="button" class="btn btn-sm btn-light-primary">
+                                            <i class="ki-duotone ki-cloud-download fs-3"><span
+                                                    class="path1"></span><span class="path2"></span></i>
+                                            Download Report
+                                        </button>
+                                        <!--end::Button-->
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body py-0">
+                                    <!--begin::Table wrapper-->
+                                    <div class="table-responsive">
+                                        <!--begin::Table-->
+                                        <table
+                                            class="table align-middle table-row-dashed fw-semibold text-gray-600 fs-6 gy-5"
+                                            id="kt_table_customers_logs">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_1093_7458/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        05 May 2024, 10:10 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-warning">404 WRN</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/customer/c_6687f5279a9d5/not_found </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        05 May 2024, 5:20 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_1093_7458/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Dec 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5324_1715/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        10 Nov 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_4645_4860/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Dec 2024, 6:43 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_7984_6335/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        15 Apr 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5458_5829/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        19 Aug 2024, 11:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_4645_4860/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        10 Mar 2024, 8:43 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_7984_6335/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        25 Jul 2024, 11:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5037_4076/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Jun 2024, 5:20 pm </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--end::Table wrapper-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2>Events</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Button-->
+                                        <button type="button" class="btn btn-sm btn-light-primary">
+                                            <i class="ki-duotone ki-cloud-download fs-3"><span
+                                                    class="path1"></span><span class="path2"></span></i>
+                                            Download Report
+                                        </button>
+                                        <!--end::Button-->
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body py-0">
+                                    <!--begin::Table-->
+                                    <table class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-5"
+                                        id="kt_table_customers_events">
+                                        <tbody>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    25 Jul 2024, 9:23 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    22 Sep 2024, 8:43 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    19 Aug 2024, 10:30 am </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#DER-45645</a>
+                                                    status has changed from <span class="badge badge-light-info me-1">In
+                                                        Progress</span> to <span class="badge badge-light-primary">In
+                                                        Transit</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    10 Mar 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    24 Jun 2024, 2:40 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Emma
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    19 Aug 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    15 Apr 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#WER-45670</a>
+                                                    is <span class="badge badge-light-info">In Progress</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    20 Jun 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#SEP-45656</a>
+                                                    status has changed from <span
+                                                        class="badge badge-light-warning me-1">Pending</span> to <span
+                                                        class="badge badge-light-info">In Progress</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    20 Dec 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    15 Apr 2024, 10:30 am </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--end::Table-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+                        </div>
+                        <!--end:::Tab pane-->
+
+                        <!--begin:::Tab pane-->
+                        <div class="tab-pane fade" id="shortfalls_and_payouts_tab" role="tabpanel">
+                            <!--begin::Earnings-->
+                            <div class="card mb-6 mb-xl-9">
+                                <!--begin::Header-->
+                                <div class="card-header border-0">
+                                    <div class="card-title">
+                                        <h2>Earnings</h2>
                                     </div>
                                 </div>
+                                <!--end::Header-->
+
+                                <!--begin::Body-->
+                                <div class="card-body py-0">
+                                    <div class="fs-5 fw-semibold text-gray-500 mb-4">
+                                        Last 30 day earnings calculated. Apart from arranging the order of topics.
+                                    </div>
+
+                                    <!--begin::Left Section-->
+                                    <div class="d-flex flex-wrap flex-stack mb-5">
+                                        <!--begin::Row-->
+                                        <div class="d-flex flex-wrap">
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span data-kt-countup="true" data-kt-countup-value="6,840"
+                                                        data-kt-countup-prefix="$">0</span>
+                                                    <i class="ki-duotone ki-arrow-up fs-1 text-success"><span
+                                                            class="path1"></span><span class="path2"></span></i>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Net
+                                                    Earnings</span>
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span class="" data-kt-countup="true"
+                                                        data-kt-countup-value="16">0</span>%
+                                                    <i class="ki-duotone ki-arrow-down fs-1 text-danger"><span
+                                                            class="path1"></span><span class="path2"></span></i>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Change</span>
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span data-kt-countup="true" data-kt-countup-value="1,240"
+                                                        data-kt-countup-prefix="$">0</span>
+                                                    <span class="text-primary">--</span>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Fees</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Row-->
+
+                                        <a href="#" class="btn btn-sm btn-light-primary flex-shrink-0">Withdraw
+                                            Earnings</a>
+                                    </div>
+                                    <!--end::Left Section-->
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::Earnings-->
+
+
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="fw-bold">Credit Balance</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <a href="#" class="btn btn-sm btn-flex btn-light-primary"
+                                            data-bs-toggle="modal" data-bs-target="#kt_modal_adjust_balance">
+                                            <i class="ki-duotone ki-pencil fs-3"><span class="path1"></span><span
+                                                    class="path2"></span></i> Adjust Balance
+                                        </a>
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+                                    <div class="fw-bold fs-2">
+                                        $32,487.57 <span class="text-muted fs-4 fw-semibold">USD</span>
+                                        <div class="fs-7 fw-normal text-muted">Balance will increase the amount due on the
+                                            customer's next invoice.</div>
+                                    </div>
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+
+                            <!--begin::Statements-->
+                            <div class="card mb-6 mb-xl-9">
+                                <!--begin::Header-->
+                                <div class="card-header">
+                                    <!--begin::Title-->
+                                    <div class="card-title">
+                                        <h2>Statement</h2>
+                                    </div>
+                                    <!--end::Title-->
+
+                                    <!--begin::Toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Tab nav-->
+                                        <ul class="nav nav-stretch fs-5 fw-semibold nav-line-tabs nav-line-tabs-2x border-transparent"
+                                            role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-active-primary active" data-bs-toggle="tab"
+                                                    role="tab" href="#kt_customer_view_statement_1">
+                                                    This Year
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-active-primary ms-3" data-bs-toggle="tab"
+                                                    role="tab" href="#kt_customer_view_statement_2">
+                                                    2020
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-active-primary ms-3" data-bs-toggle="tab"
+                                                    role="tab" href="#kt_customer_view_statement_3">
+                                                    2019
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link text-active-primary ms-3" data-bs-toggle="tab"
+                                                    role="tab" href="#kt_customer_view_statement_4">
+                                                    2018
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!--end::Tab nav-->
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </div>
+                                <!--end::Header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pb-5">
+                                    <!--begin::Tab Content-->
+                                    <div id="kt_customer_view_statement_tab_content" class="tab-content">
+                                        <!--begin::Tab panel-->
+                                        <div id="kt_customer_view_statement_1" class="py-0 tab-pane fade show active"
+                                            role="tabpanel">
+                                            <!--begin::Table-->
+                                            <table id="kt_customer_view_statement_table_1"
+                                                class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-4">
+                                                <thead class="border-bottom border-gray-200">
+                                                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                                        <th class="w-125px">Date</th>
+                                                        <th class="w-100px">Order ID</th>
+                                                        <th class="w-300px">Details</th>
+                                                        <th class="w-100px">Amount</th>
+                                                        <th class="w-100px text-end pe-7">Invoice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Nov 01, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2021</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Tab panel-->
+                                        <!--begin::Tab panel-->
+                                        <div id="kt_customer_view_statement_2" class="py-0 tab-pane fade "
+                                            role="tabpanel">
+                                            <!--begin::Table-->
+                                            <table id="kt_customer_view_statement_table_2"
+                                                class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-4">
+                                                <thead class="border-bottom border-gray-200">
+                                                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                                        <th class="w-125px">Date</th>
+                                                        <th class="w-100px">Order ID</th>
+                                                        <th class="w-300px">Details</th>
+                                                        <th class="w-100px">Amount</th>
+                                                        <th class="w-100px text-end pe-7">Invoice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>May 30, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2020</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Tab panel-->
+                                        <!--begin::Tab panel-->
+                                        <div id="kt_customer_view_statement_3" class="py-0 tab-pane fade "
+                                            role="tabpanel">
+                                            <!--begin::Table-->
+                                            <table id="kt_customer_view_statement_table_3"
+                                                class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-4">
+                                                <thead class="border-bottom border-gray-200">
+                                                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                                        <th class="w-125px">Date</th>
+                                                        <th class="w-100px">Order ID</th>
+                                                        <th class="w-300px">Details</th>
+                                                        <th class="w-100px">Amount</th>
+                                                        <th class="w-100px text-end pe-7">Invoice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Feb 09, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Tab panel-->
+                                        <!--begin::Tab panel-->
+                                        <div id="kt_customer_view_statement_4" class="py-0 tab-pane fade "
+                                            role="tabpanel">
+                                            <!--begin::Table-->
+                                            <table id="kt_customer_view_statement_table_4"
+                                                class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-4">
+                                                <thead class="border-bottom border-gray-200">
+                                                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                                        <th class="w-125px">Date</th>
+                                                        <th class="w-100px">Order ID</th>
+                                                        <th class="w-300px">Details</th>
+                                                        <th class="w-100px">Amount</th>
+                                                        <th class="w-100px text-end pe-7">Invoice</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Nov 01, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2018</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Feb 09, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">426445943</a>
+                                                        </td>
+                                                        <td>Visual Design Illustration</td>
+                                                        <td class="text-success">$31.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">984445943</a>
+                                                        </td>
+                                                        <td>Abstract Vusial Pack</td>
+                                                        <td class="text-success">$52.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jan 04, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">324442313</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-0.80</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sep 15, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Iphone 12 Pro Mockup Mega Bundle</td>
+                                                        <td class="text-success">$5.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nov 01, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">102445788</a>
+                                                        </td>
+                                                        <td>Darknight transparency 36 Icons Pack</td>
+                                                        <td class="text-success">$38.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 24, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">423445721</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-2.60</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Oct 08, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">312445984</a>
+                                                        </td>
+                                                        <td>Cartoon Mobile Emoji Phone Pack</td>
+                                                        <td class="text-success">$76.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>May 30, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">523445943</a>
+                                                        </td>
+                                                        <td>Seller Fee</td>
+                                                        <td class="text-danger">$-1.30</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Apr 22, 2019</td>
+                                                        <td><a href="#"
+                                                                class="text-gray-600 text-hover-primary">231445943</a>
+                                                        </td>
+                                                        <td>Parcel Shipping / Delivery Service App</td>
+                                                        <td class="text-success">$204.00</td>
+                                                        <td class="text-end"><button
+                                                                class="btn btn-sm btn-light btn-active-light-primary">Download</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Tab panel-->
+                                    </div>
+                                    <!--end::Tab Content-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Statements-->
                         </div>
-                            <!--end::Accordion-->
-
-
-
-
-
-<!--begin::Alert (initially hidden)-->
-<div id="requiredAlert" class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10" style="display: none !important;">
-    <!--begin::Icon-->
-    <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-    <!--end::Icon-->
-
-    <!--begin::Wrapper-->
-    <div class="d-flex flex-column pe-0 pe-sm-10">
-        <!--begin::Title-->
-        <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
-        <!--end::Title-->
-
-        <!--begin::Content-->
-        <span>All Tabs Need to be completed ('Green') before you can save.</span>
-        <!--end::Content-->
-    </div>
-    <!--end::Wrapper-->
-
-</div>
-<!--end::Alert-->
-
-
-                        </div>
-                        <!-- Add more accordion cards as needed following the structure above -->
-
-                        
+                        <!--end:::Tab pane-->
                     </div>
-
-                    <!-- Hidden Button for Submit Action 1 -->
-                    <button type="submit" name="action" value="submitActionOne" style="display:none;">Save
-                        Funeral</button>
-                    <!-- Hidden Button for Submit Action 2 -->
-                    <button type="submit" name="action" value="submitActionTwo" style="display:none;">Test
-                        Output</button>
-            </form>
-
-
-
-
-
-
-
-                <!-- Something Card -->
-
-
-
-          
-
-
-                {{-- Action Buttons for Main Record --}}
-                <div class="form-group text-center d-flex justify-content-around  mt-8 mb-8">
-                    <!-- External Button for Submit Action 1 -->
-                    <button id="externalSubmitActionOne" class="btn btn-success">Save Funeral</button>
-                    <!-- External Button for Submit Action 2 -->
-                    <button id="externalSubmitActionTwo" class="btn btn-dark">Test Output</button>
-
-
-
-
-
+                    <!--end:::Tab content-->
                 </div>
-    
+                <!--end::Content-->
+            </div>
+            <!--end::Layout-->
 
-                                <!-- Start Shortfall Payment Modal -->
-                                <div class="modal fade" tabindex="-1" id="kt_modal_payment">
-                                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                                        <div class="modal-content" style="background-color: #448C74">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title text-white">Add Payment</h3>
-                                
-                                                <!--begin::Close-->
-                                                <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                                </div>
-                                                <!--end::Close-->
-                                            </div>
-                                            <form id="shortfallPaymentForm" method="POST" action="{{ route('StoreFuneralBeneficiary') }}">
-                                                @csrf
-                                            <div class="modal-body">
-                                                
-                                                
+            <!--begin::Modals-->
+            <!--begin::Modal - Add Payment-->
+            <div class="modal fade" id="kt_modal_add_payment" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Modal header-->
+                        <div class="modal-header">
+                            <!--begin::Modal title-->
+                            <h2 class="fw-bold">Add a Payment Record</h2>
+                            <!--end::Modal title-->
 
+                            <!--begin::Close-->
+                            <div id="kt_modal_add_payment_close" class="btn btn-icon btn-sm btn-active-icon-primary">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <!--end::Modal header-->
 
+                        <!--begin::Modal body-->
+                        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                            <!--begin::Form-->
+                            <form id="kt_modal_add_payment_form" class="form" action="#">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Invoice Number</span>
 
-                                                <div  class="pt-4 p-3">
-                                                
+                                        <span class="ms-2" data-bs-toggle="tooltip"
+                                            title="The invoice number must be unique.">
+                                            <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span></i> </span>
+                                    </label>
+                                    <!--end::Label-->
 
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid" name="invoice"
+                                        value="" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
 
-                                                     <!-- Row 1 -->
-                                                     <div class="row my-3">
-                                                        <div class="col">
-                                                            <label for="shortfall_payment_name" class="form-label text-white">Name:</label>
-                                                            <input type="text" class="form-control" id="shortfall_payment_name" name="shortfall_payment_name">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="shortfall_payment_surname" class="form-label text-white">Surname:</label>
-                                                            <input type="tel" class="form-control" id="shortfall_payment_surname" name="shortfall_payment_surname">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="payout_amount" class="form-label text-white">Amount:</label>
-                                                            <div class="input-group mx-auto">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text" style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
-                                                                </div>
-                                                                <input type="number" class="form-control cost-input" id="payout_amount" name="payout_amount" >
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Status</label>
+                                    <!--end::Label-->
 
+                                    <!--begin::Input-->
+                                    <select class="form-select form-select-solid fw-bold" name="status"
+                                        data-control="select2" data-placeholder="Select an option"
+                                        data-hide-search="true">
+                                        <option></option>
+                                        <option value="0">Approved</option>
+                                        <option value="1">Pending</option>
+                                        <option value="2">Rejected</option>
+                                        <option value="3">In progress</option>
+                                        <option value="4">Completed</option>
+                                    </select>
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
 
-                                                    <div class="separator border-light my-8"></div>
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Invoice Amount</label>
+                                    <!--end::Label-->
 
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid" name="amount"
+                                        value="" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
 
-                                                    <div class="pt-4" style="display: flex; align-items: center;" > 
-                                                        <label for="ShortfallPaymentMethodSelect" class="form-label text-white">Payment Method:</label>
-                                                        <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Payment Method" data-allow-clear="true" style="margin-right: 10px;">
-                                                        
-                                                            <option value="2">Cash</option>
-                                                            <option value="5">EFT/Bank Payment</option>
-    
-                                                        </select>
-                                                        
-                                                    
-                
-                                                    </div>
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-15">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Additional Information</span>
 
-                                                    <div class="separator border-light my-8"></div>
+                                        <span class="ms-2" data-bs-toggle="tooltip"
+                                            title="Information such as description of invoice or product purchased.">
+                                            <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span></i> </span>
+                                    </label>
+                                    <!--end::Label-->
 
-                                                     <!-- Payout Payment Details -->
-                                                     <div class="row my-3">
-                                                        <div class="col">
-                                                            <label for="payout_acc_number" class="form-label text-white">Account number:</label>
-                                                            <input type="number" class="form-control" id="payout_acc_number" name="payout_acc_number">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="ShortfallbankSelect" class="form-label text-white">Bank:</label>
-                                                            <select id="ShortfallbankSelect" name="ShortfallbankSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Bank" data-allow-clear="true" style="margin-right: 10px;">
-                                                                <option></option> <!-- Placeholder option for user prompt -->
-                                                                @foreach ($banks as $bank)
-                                                                    <option value="{{ $bank->id }}">
-                                                                        {{ $bank->name }} 
-                                                                    </option>
-                                                                @endforeach
-                                                           
-        
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                    <!--begin::Input-->
+                                    <textarea class="form-control form-control-solid rounded-3" name="additional_info"></textarea>
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
 
-                                                    {{-- <div class="separator border-light my-8"></div> --}}
+                                <!--begin::Actions-->
+                                <div class="text-center">
+                                    <button type="reset" id="kt_modal_add_payment_cancel"
+                                        class="btn btn-light me-3">
+                                        Discard
+                                    </button>
 
+                                    <button type="submit" id="kt_modal_add_payment_submit" class="btn btn-primary">
+                                        <span class="indicator-label">
+                                            Submit
+                                        </span>
+                                        <span class="indicator-progress">
+                                            Please wait... <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Modal body-->
+                    </div>
+                    <!--end::Modal content-->
+                </div>
+                <!--end::Modal dialog-->
+            </div>
+            <!--end::Modal - New Card--><!--begin::Modal - Adjust Balance-->
+            <div class="modal fade" id="kt_modal_adjust_balance" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Modal header-->
+                        <div class="modal-header">
+                            <!--begin::Modal title-->
+                            <h2 class="fw-bold">Adjust Balance</h2>
+                            <!--end::Modal title-->
 
+                            <!--begin::Close-->
+                            <div id="kt_modal_adjust_balance_close" class="btn btn-icon btn-sm btn-active-icon-primary">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <!--end::Modal header-->
 
-
-
-
-                                                    </div>
-                                                
-
-
-
-
-
-                                            </div>
-                                    
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-dark" id="savePaymentBtn">Save Payment</button>
-                                                </div>
-                                        </form>    
-                                        </div>
+                        <!--begin::Modal body-->
+                        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                            <!--begin::Balance preview-->
+                            <div class="d-flex text-center mb-9">
+                                <div class="w-50 border border-dashed border-gray-300 rounded mx-2 p-4">
+                                    <div class="fs-6 fw-semibold mb-2 text-muted">Current Balance</div>
+                                    <div class="fs-2 fw-bold" kt-modal-adjust-balance="current_balance">US$ 32,487.57
                                     </div>
                                 </div>
-                            <!-- END Shortfall Payment Modal -->
-                
-                                <!-- Start Beneficiary Modal -->
-                                <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
-                                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                                        <div class="modal-content" style="background-color: #448C74">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title text-white">Add Beneficiary</h3>
-                                
-                                                <!--begin::Close-->
-                                                <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                                </div>
-                                                <!--end::Close-->
-                                            </div>
-                                            <form id="beneficiaryAddressForm" method="POST" action="{{ route('StoreFuneralBeneficiary') }}">
-                                                @csrf
-                                            <div class="modal-body">
-                                                
-                                                
+                                <div class="w-50 border border-dashed border-gray-300 rounded mx-2 p-4">
+                                    <div class="fs-6 fw-semibold mb-2 text-muted">
+                                        New Balance
 
-
-
-                                                <div  class="pt-4 p-3">
-                                                
-
-
-                                                     <!-- Row 1 -->
-                                                     <div class="row my-3">
-                                                        <div class="col">
-                                                            <label for="beneficiary_name" class="form-label text-white">Name:</label>
-                                                            <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="beneficiary_surname" class="form-label text-white">Surname:</label>
-                                                            <input type="tel" class="form-control" id="beneficiary_surname" name="beneficiary_surname">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="payout_amount" class="form-label text-white">Amount:</label>
-                                                            <div class="input-group mx-auto">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text" style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
-                                                                </div>
-                                                                <input type="number" class="form-control cost-input" id="payout_amount" name="payout_amount" >
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="separator border-light my-8"></div>
-
-
-
-                                                    <select id="addressType" name="addressType" class="form-select form-select-solid" data-control="select2" data-placeholder="Select Location Type" data-hide-search="true">
-                                                        <option></option>
-                                                        <option value="1">Residential</option>
-                                                        <option value="2">Postal</option>
-                                                    </select>
-                                                    
-
-
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Line1_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="Line1_beneficiary"
-                                                                    id="Line1_beneficiary" value="{{ old('Line1_beneficiary') }}" required>
-                                                            </div>
-                                                            @error('Line1_beneficiary')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row mt-3">
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Line2_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="Line2_beneficiary"
-                                                                    id="Line2_beneficiary" value="{{ old('Line2_beneficiary') }}"
-                                                                    placeholder="Address Line 2">
-                                                            </div>
-                                                            @error('Line2')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('TownSuburb_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="TownSuburb_beneficiary" id="TownSuburb_beneficiary"
-                                                                    value="{{ old('TownSuburb_beneficiary') }}"
-                                                                    placeholder="Town/Suburb_beneficiary">
-                                                            </div>
-                                                            @error('TownSuburb_beneficiary')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-12 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('City_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="City_beneficiary"
-                                                                    id="City_beneficiary" value="{{ old('City_beneficiary') }}"
-                                                                    placeholder="City">
-                                                            </div>
-                                                            @error('City')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Province_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="Province_beneficiary" id="Province_beneficiary"
-                                                                    value="{{ old('Province_beneficiary') }}" placeholder="Province">
-                                                            </div>
-                                                            @error('Province')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('PostalCode_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="PostalCode_beneficiary" id="PostalCode_beneficiary"
-                                                                    value="{{ old('PostalCode_beneficiary') }}"
-                                                                    placeholder="Postal Code">
-                                                            </div>
-                                                            @error('PostalCode')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Country_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="Country_beneficiary"
-                                                                    id="Country_beneficiary" value="{{ old('Province_beneficiary') }}"
-                                                                    placeholder="Country">
-                                                            </div>
-                                                            @error('Country')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-
-
-                                                    </div>
-
-
-
-                                                        <div
-                                                            style="text-align: center; display: flex; justify-content: center; align-items: center; ">
-                                                            <span style="color: white; margin-right: 10px;">Powered by</span>
-                                                            <img src="{{ asset('img/google.png') }}" alt="Google Logo"
-                                                                style="width: 50px; height: auto;">
-                                                        </div>
-
-
-                                                        <div class="separator border-light my-8"></div>
-
-
-                                                     <!-- Payout Payment Details -->
-                                                     <div class="row my-3">
-                                                        <div class="col">
-                                                            <label for="payout_acc_number" class="form-label text-white">Account number:</label>
-                                                            <input type="number" class="form-control" id="payout_acc_number" name="payout_acc_number">
-                                                        </div>
-                                                        <div class="col">
-                                                            <label for="bankSelect" class="form-label text-white">Bank:</label>
-                                                            <select id="bankSelect" name="bankSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Bank" data-allow-clear="true" style="margin-right: 10px;">
-                                                                <option></option> <!-- Placeholder option for user prompt -->
-                                                                @foreach ($banks as $bank)
-                                                                    <option value="{{ $bank->id }}">
-                                                                        {{ $bank->name }} 
-                                                                    </option>
-                                                                @endforeach
-                                                           
-        
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-
-
-                                                    </div>
-                                                
-
-
-
-
-
-                                            </div>
-                                    
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-dark" id="saveBeneficiaryBtn">Save Beneficiary</button>
-                                                </div>
-                                        </form>    
-                                        </div>
+                                        <span class="ms-2" data-bs-toggle="tooltip"
+                                            title="Enter an amount to preview the new balance.">
+                                            <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
+                                                    class="path2"></span><span class="path3"></span></i> </span>
                                     </div>
+                                    <div class="fs-2 fw-bold" kt-modal-adjust-balance="new_balance">--</div>
                                 </div>
-                            <!-- END Beneficiary Modal -->
+                            </div>
+                            <!--end::Balance preview-->
 
+                            <!--begin::Form-->
+                            <form id="kt_modal_adjust_balance_form" class="form" action="#">
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Adjustment type</label>
+                                    <!--end::Label-->
 
+                                    <!--begin::Dropdown-->
+                                    <select class="form-select form-select-solid fw-bold" name="adjustment"
+                                        aria-label="Select an option" data-control="select2"
+                                        data-dropdown-parent="#kt_modal_adjust_balance"
+                                        data-placeholder="Select an option" data-hide-search="true">
+                                        <option></option>
+                                        <option value="1">Credit</option>
+                                        <option value="2">Debit</option>
+                                    </select>
+                                    <!--end::Dropdown-->
+                                </div>
+                                <!--end::Input group-->
 
-                                <!-- Start Location Address Modal -->
-                                <div class="modal fade" tabindex="-1" id="kt_modal_1">
-                                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title">Add Location</h3>
-                                
-                                                <!--begin::Close-->
-                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                                </div>
-                                                <!--end::Close-->
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Amount</label>
+                                    <!--end::Label-->
+
+                                    <!--begin::Input-->
+                                    <input id="kt_modal_inputmask" type="text"
+                                        class="form-control form-control-solid" name="amount" value="" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-7">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-semibold form-label mb-2">Add adjustment note</label>
+                                    <!--end::Label-->
+
+                                    <!--begin::Input-->
+                                    <textarea class="form-control form-control-solid rounded-3 mb-5"></textarea>
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Disclaimer-->
+                                <div class="fs-7 text-muted mb-15">
+                                    Please be aware that all manual balance changes will be audited by the financial team
+                                    every fortnight. Please maintain your invoices and receipts until then. Thank you.
+                                </div>
+                                <!--end::Disclaimer-->
+
+                                <!--begin::Actions-->
+                                <div class="text-center">
+                                    <button type="reset" id="kt_modal_adjust_balance_cancel"
+                                        class="btn btn-light me-3">
+                                        Discard
+                                    </button>
+
+                                    <button type="submit" id="kt_modal_adjust_balance_submit"
+                                        class="btn btn-primary">
+                                        <span class="indicator-label">
+                                            Submit
+                                        </span>
+                                        <span class="indicator-progress">
+                                            Please wait... <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Modal body-->
+                    </div>
+                    <!--end::Modal content-->
+                </div>
+                <!--end::Modal dialog-->
+            </div>
+            <!--end::Modal - New Card--><!--begin::Modal - New Address-->
+            <div class="modal fade" id="kt_modal_update_customer" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Form-->
+                        <form class="form" action="#" id="kt_modal_update_customer_form">
+                            <!--begin::Modal header-->
+                            <div class="modal-header" id="kt_modal_update_customer_header">
+                                <!--begin::Modal title-->
+                                <h2 class="fw-bold">Update Customer</h2>
+                                <!--end::Modal title-->
+
+                                <!--begin::Close-->
+                                <div id="kt_modal_update_customer_close"
+                                    class="btn btn-icon btn-sm btn-active-icon-primary">
+                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                            class="path2"></span></i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--end::Modal header-->
+
+                            <!--begin::Modal body-->
+                            <div class="modal-body py-10 px-lg-17">
+                                <!--begin::Scroll-->
+                                <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_customer_scroll"
+                                    data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}"
+                                    data-kt-scroll-max-height="auto"
+                                    data-kt-scroll-dependencies="#kt_modal_update_customer_header"
+                                    data-kt-scroll-wrappers="#kt_modal_update_customer_scroll"
+                                    data-kt-scroll-offset="300px">
+                                    <!--begin::Notice-->
+
+                                    <!--begin::Notice-->
+                                    <div
+                                        class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
+                                        <!--begin::Icon-->
+                                        <i class="ki-duotone ki-information fs-2tx text-primary me-4"><span
+                                                class="path1"></span><span class="path2"></span><span
+                                                class="path3"></span></i> <!--end::Icon-->
+
+                                        <!--begin::Wrapper-->
+                                        <div class="d-flex flex-stack flex-grow-1 ">
+                                            <!--begin::Content-->
+                                            <div class=" fw-semibold">
+
+                                                <div class="fs-6 text-gray-700 ">Updating customer details will receive a
+                                                    privacy audit. For more info, please read our <a
+                                                        href="#">Privacy Policy</a></div>
                                             </div>
-                                            <form id="addressForm" method="POST" action="{{ route('StoreFuneralAddress') }}">
-                                                @csrf
-                                            <div class="modal-body">
-                                                
-                                                
-                                               
-                                
+                                            <!--end::Content-->
 
-
-                                                <div  class="pt-4 p-3">
-                                                
-                                                    <select id="addressType" name="addressType" class="form-select form-select-solid" data-control="select2" data-placeholder="Select Location Type" data-hide-search="true">
-                                                        <option></option>
-                                                        <option value="{{ $churchTypeId }}">Church</option>
-                                                        <option value="{{ $graveyardTypeId}}">Graveyard</option>
-                                                        <option value="21">Viewing Location</option>
-                                                    </select>
-
-        
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" id="Line1" name="Line1"
-                                                                     value="{{ old('Line1') }}" required>
-                                                            </div>
-                                                            @error('Line1')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <div class="input-group input-group-outline  @error('PlaceName') is-invalid focused is-focused  @enderror  mb-0">
-                                                                <input type="text" class="form-control" name="PlaceName"
-                                                                    id="PlaceName" value="{{ old('PlaceName') }}" placeholder="Location Name" required>
-                                                            </div>
-                                                            @error('PlaceName')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="Line2"
-                                                                    id="Line2" value="{{ old('Line2') }}"
-                                                                    placeholder="Address Line 2">
-                                                            </div>
-                                                            @error('Line2')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="TownSuburb" id="TownSuburb"
-                                                                    value="{{ old('TownSuburb') }}"
-                                                                    placeholder="Town/Suburb">
-                                                            </div>
-                                                            @error('TownSuburb')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-12 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="City"
-                                                                    id="City" value="{{ old('City') }}"
-                                                                    placeholder="City">
-                                                            </div>
-                                                            @error('City')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="Province" id="Province"
-                                                                    value="{{ old('Province') }}" placeholder="Province">
-                                                            </div>
-                                                            @error('Province')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="PostalCode" id="PostalCode"
-                                                                    value="{{ old('PostalCode') }}"
-                                                                    placeholder="Postal Code">
-                                                            </div>
-                                                            @error('PostalCode')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="Country"
-                                                                    id="Country" value="{{ old('Province') }}"
-                                                                    placeholder="Country">
-                                                            </div>
-                                                            @error('Country')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-
-
-                                                    </div>
-
-
-
-                                                        <div
-                                                            style="text-align: center; display: flex; justify-content: center; align-items: center; ">
-                                                            <span style="color: white; margin-right: 10px;">Powered by</span>
-                                                            <img src="{{ asset('img/google.png') }}" alt="Google Logo"
-                                                                style="width: 50px; height: auto;">
-                                                        </div>
-
-
-                                                    </div>
-                                                
-
-
-
-
-
-                                            </div>
-                                    
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-dark" id="saveLocationBtn">Save Location</button>
-                                                </div>
-                                        </form>    
                                         </div>
+                                        <!--end::Wrapper-->
                                     </div>
+                                    <!--end::Notice-->
+                                    <!--end::Notice-->
+
+                                    <!--begin::User toggle-->
+                                    <div class="fw-bold fs-3 rotate collapsible mb-7" data-bs-toggle="collapse"
+                                        href="#kt_modal_update_customer_user_info" role="button"
+                                        aria-expanded="false" aria-controls="kt_modal_update_customer_user_info">
+                                        User Information
+                                        <span class="ms-2 rotate-180">
+                                            <i class="ki-duotone ki-down fs-3"></i> </span>
+                                    </div>
+                                    <!--end::User toggle-->
+
+                                    <!--begin::User form-->
+                                    <div id="kt_modal_update_customer_user_info" class="collapse show">
+                                        <!--begin::Input group-->
+                                        <div class="mb-7">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">
+                                                <span>Update Avatar</span>
+
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="Allowed file types: png, jpg, jpeg.">
+                                                    <i class="ki-duotone ki-information fs-7"><span
+                                                            class="path1"></span><span class="path2"></span><span
+                                                            class="path3"></span></i> </span>
+                                            </label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Image input wrapper-->
+                                            <div class="mt-1">
+                                                <!--begin::Image input-->
+                                                <div class="image-input image-input-outline" data-kt-image-input="true"
+                                                    style="background-image: url('/metronic8/demo15/assets/media/svg/avatars/blank.svg')">
+                                                    <!--begin::Preview existing avatar-->
+                                                    <div class="image-input-wrapper w-125px h-125px"
+                                                        style="background-image: url(/metronic8/demo15/assets/media/avatars/300-1.jpg)">
+                                                    </div>
+                                                    <!--end::Preview existing avatar-->
+
+                                                    <!--begin::Edit-->
+                                                    <label
+                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                        data-kt-image-input-action="change" data-bs-toggle="tooltip"
+                                                        title="Change avatar">
+                                                        <i class="ki-duotone ki-pencil fs-7"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                        <!--begin::Inputs-->
+                                                        <input type="file" name="avatar"
+                                                            accept=".png, .jpg, .jpeg" />
+                                                        <input type="hidden" name="avatar_remove" />
+                                                        <!--end::Inputs-->
+                                                    </label>
+                                                    <!--end::Edit-->
+
+                                                    <!--begin::Cancel-->
+                                                    <span
+                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                        data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+                                                        title="Cancel avatar">
+                                                        <i class="ki-duotone ki-cross fs-2"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                    </span>
+                                                    <!--end::Cancel-->
+
+                                                    <!--begin::Remove-->
+                                                    <span
+                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                        data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+                                                        title="Remove avatar">
+                                                        <i class="ki-duotone ki-cross fs-2"><span
+                                                                class="path1"></span><span class="path2"></span></i>
+                                                    </span>
+                                                    <!--end::Remove-->
+                                                </div>
+                                                <!--end::Image input-->
+                                            </div>
+                                            <!--end::Image input wrapper-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-7">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">Name</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input type="text" class="form-control form-control-solid"
+                                                placeholder="" name="name" value="Sean Bean" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-7">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">
+                                                <span>Email</span>
+
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="Email address must be active">
+                                                    <i class="ki-duotone ki-information fs-7"><span
+                                                            class="path1"></span><span class="path2"></span><span
+                                                            class="path3"></span></i> </span>
+                                            </label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input type="email" class="form-control form-control-solid"
+                                                placeholder="" name="email" value="sean@dellito.com" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-15">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">Description</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input type="text" class="form-control form-control-solid"
+                                                placeholder="" name="description" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::User form-->
+
+                                    <!--begin::Billing toggle-->
+                                    <div class="fw-bold fs-3 rotate collapsible collapsed mb-7"
+                                        data-bs-toggle="collapse" href="#kt_modal_update_customer_billing_info"
+                                        role="button" aria-expanded="false"
+                                        aria-controls="kt_modal_update_customer_billing_info">
+                                        Shipping Information
+                                        <span class="ms-2 rotate-180">
+                                            <i class="ki-duotone ki-down fs-3"></i> </span>
+                                    </div>
+                                    <!--end::Billing toggle-->
+
+                                    <!--begin::Billing form-->
+                                    <div id="kt_modal_update_customer_billing_info" class="collapse">
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column mb-7 fv-row">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">Address Line 1</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input class="form-control form-control-solid" placeholder=""
+                                                name="address1" value="101, Collins Street" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column mb-7 fv-row">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">Address Line 2</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input class="form-control form-control-solid" placeholder=""
+                                                name="address2" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column mb-7 fv-row">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">Town</label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <input class="form-control form-control-solid" placeholder=""
+                                                name="city" value="Melbourne" />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="row g-9 mb-7">
+                                            <!--begin::Col-->
+                                            <div class="col-md-6 fv-row">
+                                                <!--begin::Label-->
+                                                <label class="fs-6 fw-semibold mb-2">State / Province</label>
+                                                <!--end::Label-->
+
+                                                <!--begin::Input-->
+                                                <input class="form-control form-control-solid" placeholder=""
+                                                    name="state" value="Victoria" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div class="col-md-6 fv-row">
+                                                <!--begin::Label-->
+                                                <label class="fs-6 fw-semibold mb-2">Post Code</label>
+                                                <!--end::Label-->
+
+                                                <!--begin::Input-->
+                                                <input class="form-control form-control-solid" placeholder=""
+                                                    name="postcode" value="3000" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column mb-7 fv-row">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold mb-2">
+                                                <span>Country</span>
+
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="Country of origination">
+                                                    <i class="ki-duotone ki-information fs-7"><span
+                                                            class="path1"></span><span class="path2"></span><span
+                                                            class="path3"></span></i> </span>
+                                            </label>
+                                            <!--end::Label-->
+
+                                            <!--begin::Input-->
+                                            <select name="country" aria-label="Select a Country"
+                                                data-control="select2" data-placeholder="Select a Country..."
+                                                data-dropdown-parent="#kt_modal_update_customer"
+                                                class="form-select form-select-solid fw-bold">
+                                                <option value="">Select a Country...</option>
+                                                <option value="AF">Afghanistan</option>
+                                                <option value="AX">Aland Islands</option>
+                                                <option value="AL">Albania</option>
+                                                <option value="DZ">Algeria</option>
+                                                <option value="AS">American Samoa</option>
+                                                <option value="AD">Andorra</option>
+                                                <option value="AO">Angola</option>
+                                                <option value="AI">Anguilla</option>
+                                                <option value="AG">Antigua and Barbuda</option>
+                                                <option value="AR">Argentina</option>
+                                                <option value="AM">Armenia</option>
+                                                <option value="AW">Aruba</option>
+                                                <option value="AU">Australia</option>
+                                                <option value="AT">Austria</option>
+                                                <option value="AZ">Azerbaijan</option>
+                                                <option value="BS">Bahamas</option>
+                                                <option value="BH">Bahrain</option>
+                                                <option value="BD">Bangladesh</option>
+                                                <option value="BB">Barbados</option>
+                                                <option value="BY">Belarus</option>
+                                                <option value="BE">Belgium</option>
+                                                <option value="BZ">Belize</option>
+                                                <option value="BJ">Benin</option>
+                                                <option value="BM">Bermuda</option>
+                                                <option value="BT">Bhutan</option>
+                                                <option value="BO">Bolivia, Plurinational State of</option>
+                                                <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                                <option value="BA">Bosnia and Herzegovina</option>
+                                                <option value="BW">Botswana</option>
+                                                <option value="BR">Brazil</option>
+                                                <option value="IO">British Indian Ocean Territory</option>
+                                                <option value="BN">Brunei Darussalam</option>
+                                                <option value="BG">Bulgaria</option>
+                                                <option value="BF">Burkina Faso</option>
+                                                <option value="BI">Burundi</option>
+                                                <option value="KH">Cambodia</option>
+                                                <option value="CM">Cameroon</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="CV">Cape Verde</option>
+                                                <option value="KY">Cayman Islands</option>
+                                                <option value="CF">Central African Republic</option>
+                                                <option value="TD">Chad</option>
+                                                <option value="CL">Chile</option>
+                                                <option value="CN">China</option>
+                                                <option value="CX">Christmas Island</option>
+                                                <option value="CC">Cocos (Keeling) Islands</option>
+                                                <option value="CO">Colombia</option>
+                                                <option value="KM">Comoros</option>
+                                                <option value="CK">Cook Islands</option>
+                                                <option value="CR">Costa Rica</option>
+                                                <option value="CI">Côte d'Ivoire</option>
+                                                <option value="HR">Croatia</option>
+                                                <option value="CU">Cuba</option>
+                                                <option value="CW">Curaçao</option>
+                                                <option value="CZ">Czech Republic</option>
+                                                <option value="DK">Denmark</option>
+                                                <option value="DJ">Djibouti</option>
+                                                <option value="DM">Dominica</option>
+                                                <option value="DO">Dominican Republic</option>
+                                                <option value="EC">Ecuador</option>
+                                                <option value="EG">Egypt</option>
+                                                <option value="SV">El Salvador</option>
+                                                <option value="GQ">Equatorial Guinea</option>
+                                                <option value="ER">Eritrea</option>
+                                                <option value="EE">Estonia</option>
+                                                <option value="ET">Ethiopia</option>
+                                                <option value="FK">Falkland Islands (Malvinas)</option>
+                                                <option value="FJ">Fiji</option>
+                                                <option value="FI">Finland</option>
+                                                <option value="FR">France</option>
+                                                <option value="PF">French Polynesia</option>
+                                                <option value="GA">Gabon</option>
+                                                <option value="GM">Gambia</option>
+                                                <option value="GE">Georgia</option>
+                                                <option value="DE">Germany</option>
+                                                <option value="GH">Ghana</option>
+                                                <option value="GI">Gibraltar</option>
+                                                <option value="GR">Greece</option>
+                                                <option value="GL">Greenland</option>
+                                                <option value="GD">Grenada</option>
+                                                <option value="GU">Guam</option>
+                                                <option value="GT">Guatemala</option>
+                                                <option value="GG">Guernsey</option>
+                                                <option value="GN">Guinea</option>
+                                                <option value="GW">Guinea-Bissau</option>
+                                                <option value="HT">Haiti</option>
+                                                <option value="VA">Holy See (Vatican City State)</option>
+                                                <option value="HN">Honduras</option>
+                                                <option value="HK">Hong Kong</option>
+                                                <option value="HU">Hungary</option>
+                                                <option value="IS">Iceland</option>
+                                                <option value="IN">India</option>
+                                                <option value="ID">Indonesia</option>
+                                                <option value="IR">Iran, Islamic Republic of</option>
+                                                <option value="IQ">Iraq</option>
+                                                <option value="IE">Ireland</option>
+                                                <option value="IM">Isle of Man</option>
+                                                <option value="IL">Israel</option>
+                                                <option value="IT">Italy</option>
+                                                <option value="JM">Jamaica</option>
+                                                <option value="JP">Japan</option>
+                                                <option value="JE">Jersey</option>
+                                                <option value="JO">Jordan</option>
+                                                <option value="KZ">Kazakhstan</option>
+                                                <option value="KE">Kenya</option>
+                                                <option value="KI">Kiribati</option>
+                                                <option value="KP">Korea, Democratic People's Republic of</option>
+                                                <option value="KW">Kuwait</option>
+                                                <option value="KG">Kyrgyzstan</option>
+                                                <option value="LA">Lao People's Democratic Republic</option>
+                                                <option value="LV">Latvia</option>
+                                                <option value="LB">Lebanon</option>
+                                                <option value="LS">Lesotho</option>
+                                                <option value="LR">Liberia</option>
+                                                <option value="LY">Libya</option>
+                                                <option value="LI">Liechtenstein</option>
+                                                <option value="LT">Lithuania</option>
+                                                <option value="LU">Luxembourg</option>
+                                                <option value="MO">Macao</option>
+                                                <option value="MG">Madagascar</option>
+                                                <option value="MW">Malawi</option>
+                                                <option value="MY">Malaysia</option>
+                                                <option value="MV">Maldives</option>
+                                                <option value="ML">Mali</option>
+                                                <option value="MT">Malta</option>
+                                                <option value="MH">Marshall Islands</option>
+                                                <option value="MQ">Martinique</option>
+                                                <option value="MR">Mauritania</option>
+                                                <option value="MU">Mauritius</option>
+                                                <option value="MX">Mexico</option>
+                                                <option value="FM">Micronesia, Federated States of</option>
+                                                <option value="MD">Moldova, Republic of</option>
+                                                <option value="MC">Monaco</option>
+                                                <option value="MN">Mongolia</option>
+                                                <option value="ME">Montenegro</option>
+                                                <option value="MS">Montserrat</option>
+                                                <option value="MA">Morocco</option>
+                                                <option value="MZ">Mozambique</option>
+                                                <option value="MM">Myanmar</option>
+                                                <option value="NA">Namibia</option>
+                                                <option value="NR">Nauru</option>
+                                                <option value="NP">Nepal</option>
+                                                <option value="NL">Netherlands</option>
+                                                <option value="NZ">New Zealand</option>
+                                                <option value="NI">Nicaragua</option>
+                                                <option value="NE">Niger</option>
+                                                <option value="NG">Nigeria</option>
+                                                <option value="NU">Niue</option>
+                                                <option value="NF">Norfolk Island</option>
+                                                <option value="MP">Northern Mariana Islands</option>
+                                                <option value="NO">Norway</option>
+                                                <option value="OM">Oman</option>
+                                                <option value="PK">Pakistan</option>
+                                                <option value="PW">Palau</option>
+                                                <option value="PS">Palestinian Territory, Occupied</option>
+                                                <option value="PA">Panama</option>
+                                                <option value="PG">Papua New Guinea</option>
+                                                <option value="PY">Paraguay</option>
+                                                <option value="PE">Peru</option>
+                                                <option value="PH">Philippines</option>
+                                                <option value="PL">Poland</option>
+                                                <option value="PT">Portugal</option>
+                                                <option value="PR">Puerto Rico</option>
+                                                <option value="QA">Qatar</option>
+                                                <option value="RO">Romania</option>
+                                                <option value="RU">Russian Federation</option>
+                                                <option value="RW">Rwanda</option>
+                                                <option value="BL">Saint Barthélemy</option>
+                                                <option value="KN">Saint Kitts and Nevis</option>
+                                                <option value="LC">Saint Lucia</option>
+                                                <option value="MF">Saint Martin (French part)</option>
+                                                <option value="VC">Saint Vincent and the Grenadines</option>
+                                                <option value="WS">Samoa</option>
+                                                <option value="SM">San Marino</option>
+                                                <option value="ST">Sao Tome and Principe</option>
+                                                <option value="SA">Saudi Arabia</option>
+                                                <option value="SN">Senegal</option>
+                                                <option value="RS">Serbia</option>
+                                                <option value="SC">Seychelles</option>
+                                                <option value="SL">Sierra Leone</option>
+                                                <option value="SG">Singapore</option>
+                                                <option value="SX">Sint Maarten (Dutch part)</option>
+                                                <option value="SK">Slovakia</option>
+                                                <option value="SI">Slovenia</option>
+                                                <option value="SB">Solomon Islands</option>
+                                                <option value="SO">Somalia</option>
+                                                <option value="ZA">South Africa</option>
+                                                <option value="KR">South Korea</option>
+                                                <option value="SS">South Sudan</option>
+                                                <option value="ES">Spain</option>
+                                                <option value="LK">Sri Lanka</option>
+                                                <option value="SD">Sudan</option>
+                                                <option value="SR">Suriname</option>
+                                                <option value="SZ">Swaziland</option>
+                                                <option value="SE">Sweden</option>
+                                                <option value="CH">Switzerland</option>
+                                                <option value="SY">Syrian Arab Republic</option>
+                                                <option value="TW">Taiwan, Province of China</option>
+                                                <option value="TJ">Tajikistan</option>
+                                                <option value="TZ">Tanzania, United Republic of</option>
+                                                <option value="TH">Thailand</option>
+                                                <option value="TG">Togo</option>
+                                                <option value="TK">Tokelau</option>
+                                                <option value="TO">Tonga</option>
+                                                <option value="TT">Trinidad and Tobago</option>
+                                                <option value="TN">Tunisia</option>
+                                                <option value="TR">Turkey</option>
+                                                <option value="TM">Turkmenistan</option>
+                                                <option value="TC">Turks and Caicos Islands</option>
+                                                <option value="TV">Tuvalu</option>
+                                                <option value="UG">Uganda</option>
+                                                <option value="UA">Ukraine</option>
+                                                <option value="AE">United Arab Emirates</option>
+                                                <option value="GB">United Kingdom</option>
+                                                <option value="US">United States</option>
+                                                <option value="UY">Uruguay</option>
+                                                <option value="UZ">Uzbekistan</option>
+                                                <option value="VU">Vanuatu</option>
+                                                <option value="VE">Venezuela, Bolivarian Republic of</option>
+                                                <option value="VN">Vietnam</option>
+                                                <option value="VI">Virgin Islands</option>
+                                                <option value="YE">Yemen</option>
+                                                <option value="ZM">Zambia</option>
+                                                <option value="ZW">Zimbabwe</option>
+                                            </select>
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <!--begin::Input group-->
+                                        <div class="fv-row mb-7">
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-stack">
+                                                <!--begin::Label-->
+                                                <div class="me-5">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold">Use as a billing adderess?</label>
+                                                    <!--end::Label-->
+
+                                                    <!--begin::Input-->
+                                                    <div class="fs-7 fw-semibold text-muted">If you need more info, please
+                                                        check budget planning</div>
+                                                    <!--end::Input-->
+                                                </div>
+                                                <!--end::Label-->
+
+                                                <!--begin::Switch-->
+                                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                                    <!--begin::Input-->
+                                                    <input class="form-check-input" name="billing" type="checkbox"
+                                                        value="1" id="kt_modal_update_customer_billing"
+                                                        checked="checked" />
+                                                    <!--end::Input-->
+
+                                                    <!--begin::Label-->
+                                                    <span class="form-check-label fw-semibold text-muted"
+                                                        for="kt_modal_update_customer_billing">
+                                                        Yes
+                                                    </span>
+                                                    <!--end::Label-->
+                                                </label>
+                                                <!--end::Switch-->
+                                            </div>
+                                            <!--begin::Wrapper-->
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--end::Billing form-->
                                 </div>
-                            <!-- END Church Address Modal -->
+                                <!--end::Scroll-->
+                            </div>
+                            <!--end::Modal body-->
+
+                            <!--begin::Modal footer-->
+                            <div class="modal-footer flex-center">
+                                <!--begin::Button-->
+                                <button type="reset" id="kt_modal_update_customer_cancel"
+                                    class="btn btn-light me-3">
+                                    Discard
+                                </button>
+                                <!--end::Button-->
+
+                                <!--begin::Button-->
+                                <button type="submit" id="kt_modal_update_customer_submit" class="btn btn-primary">
+                                    <span class="indicator-label">
+                                        Submit
+                                    </span>
+                                    <span class="indicator-progress">
+                                        Please wait... <span
+                                            class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                                <!--end::Button-->
+                            </div>
+                            <!--end::Modal footer-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal - New Address--><!--begin::Modal - New Card-->
+            <div class="modal fade" id="kt_modal_new_card" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content">
+                        <!--begin::Modal header-->
+                        <div class="modal-header">
+                            <!--begin::Modal title-->
+                            <h2>Add New Card</h2>
+                            <!--end::Modal title-->
+
+                            <!--begin::Close-->
+                            <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <!--end::Modal header-->
+
+                        <!--begin::Modal body-->
+                        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                            <!--begin::Form-->
+                            <form id="kt_modal_new_card_form" class="form" action="#">
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-column mb-7 fv-row">
+                                    <!--begin::Label-->
+                                    <label class="d-flex align-items-center fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Name On Card</span>
 
 
+                                        <span class="ms-1" data-bs-toggle="tooltip"
+                                            title="Specify a card holder's name">
+                                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span
+                                                    class="path1"></span><span class="path2"></span><span
+                                                    class="path3"></span></i></span> </label>
+                                    <!--end::Label-->
+
+                                    <input type="text" class="form-control form-control-solid" placeholder=""
+                                        name="card_name" value="Max Doe" />
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-column mb-7 fv-row">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Card Number</label>
+                                    <!--end::Label-->
+
+                                    <!--begin::Input wrapper-->
+                                    <div class="position-relative">
+                                        <!--begin::Input-->
+                                        <input type="text" class="form-control form-control-solid"
+                                            placeholder="Enter card number" name="card_number"
+                                            value="4111 1111 1111 1111" />
+                                        <!--end::Input-->
+
+                                        <!--begin::Card logos-->
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-5">
+                                            <img src="/metronic8/demo15/assets/media/svg/card-logos/visa.svg"
+                                                alt="" class="h-25px" />
+                                            <img src="/metronic8/demo15/assets/media/svg/card-logos/mastercard.svg"
+                                                alt="" class="h-25px" />
+                                            <img src="/metronic8/demo15/assets/media/svg/card-logos/american-express.svg"
+                                                alt="" class="h-25px" />
+                                        </div>
+                                        <!--end::Card logos-->
+                                    </div>
+                                    <!--end::Input wrapper-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="row mb-10">
+                                    <!--begin::Col-->
+                                    <div class="col-md-8 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required fs-6 fw-semibold form-label mb-2">Expiration Date</label>
+                                        <!--end::Label-->
+
+                                        <!--begin::Row-->
+                                        <div class="row fv-row">
+                                            <!--begin::Col-->
+                                            <div class="col-6">
+                                                <select name="card_expiry_month" class="form-select form-select-solid"
+                                                    data-control="select2" data-hide-search="true"
+                                                    data-placeholder="Month">
+                                                    <option></option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div class="col-6">
+                                                <select name="card_expiry_year" class="form-select form-select-solid"
+                                                    data-control="select2" data-hide-search="true"
+                                                    data-placeholder="Year">
+                                                    <option></option>
+                                                    <option value="2024">2024</option>
+                                                    <option value="2025">2025</option>
+                                                    <option value="2026">2026</option>
+                                                    <option value="2027">2027</option>
+                                                    <option value="2028">2028</option>
+                                                    <option value="2029">2029</option>
+                                                    <option value="2030">2030</option>
+                                                    <option value="2031">2031</option>
+                                                    <option value="2032">2032</option>
+                                                    <option value="2033">2033</option>
+                                                    <option value="2034">2034</option>
+                                                </select>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Row-->
+                                    </div>
+                                    <!--end::Col-->
+
+                                    <!--begin::Col-->
+                                    <div class="col-md-4 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="d-flex align-items-center fs-6 fw-semibold form-label mb-2">
+                                            <span class="required">CVV</span>
 
 
-</div>
+                                            <span class="ms-1" data-bs-toggle="tooltip"
+                                                title="Enter a card CVV code">
+                                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span
+                                                        class="path1"></span><span class="path2"></span><span
+                                                        class="path3"></span></i></span> </label>
+                                        <!--end::Label-->
+
+                                        <!--begin::Input wrapper-->
+                                        <div class="position-relative">
+                                            <!--begin::Input-->
+                                            <input type="text" class="form-control form-control-solid"
+                                                minlength="3" maxlength="4" placeholder="CVV" name="card_cvv" />
+                                            <!--end::Input-->
+
+                                            <!--begin::CVV icon-->
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="ki-duotone ki-credit-cart fs-2hx"><span
+                                                        class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                            <!--end::CVV icon-->
+                                        </div>
+                                        <!--end::Input wrapper-->
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Label-->
+                                    <div class="me-5">
+                                        <label class="fs-6 fw-semibold form-label">Save Card for further billing?</label>
+                                        <div class="fs-7 fw-semibold text-muted">If you need more info, please check
+                                            budget planning</div>
+                                    </div>
+                                    <!--end::Label-->
+
+                                    <!--begin::Switch-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" value="1"
+                                            checked="checked" />
+                                        <span class="form-check-label fw-semibold text-muted">
+                                            Save Card
+                                        </span>
+                                    </label>
+                                    <!--end::Switch-->
+                                </div>
+                                <!--end::Input group-->
+
+
+                                <!--begin::Actions-->
+                                <div class="text-center pt-15">
+                                    <button type="reset" id="kt_modal_new_card_cancel" class="btn btn-light me-3">
+                                        Discard
+                                    </button>
+
+                                    <button type="submit" id="kt_modal_new_card_submit" class="btn btn-primary">
+                                        <span class="indicator-label">
+                                            Submit
+                                        </span>
+                                        <span class="indicator-progress">
+                                            Please wait... <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Modal body-->
+                    </div>
+                    <!--end::Modal content-->
+                </div>
+                <!--end::Modal dialog-->
+            </div>
+            <!--end::Modal - New Card--><!--end::Modals-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Content-->
 @endsection
 
 @push('scripts')
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 
- <!-- jQuery -->
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <!-- Bootstrap Bundle JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
- <!-- DataTables JS -->
- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Google places setup
+            initAutocomplete('Line1', {
+                Line1: 'Line1',
+                Line2: 'Line2',
+                PostalCode: 'PostalCode',
+                City: 'City',
+                TownSuburb: 'TownSuburb',
+                Province: 'Province',
+                Country: 'Country',
+                PlaceName: 'PlaceName'
+            });
 
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Google places setup
-        initAutocomplete('Line1', {
-            Line1: 'Line1',
-            Line2: 'Line2',
-            PostalCode: 'PostalCode',
-            City: 'City',
-            TownSuburb: 'TownSuburb',
-            Province: 'Province',
-            Country: 'Country',
-            PlaceName: 'PlaceName'
+            // Google places setup for beneficiary
+            initAutocomplete('Line1_beneficiary', {
+                Line1: 'Line1_beneficiary',
+                Line2: 'Line2_beneficiary',
+                PostalCode: 'PostalCode_beneficiary',
+                City: 'City_beneficiary',
+                TownSuburb: 'TownSuburb_beneficiary',
+                Province: 'Province_beneficiary',
+                Country: 'Country_beneficiary',
+            });
         });
+    </script>
 
-        // Google places setup for beneficiary
-        initAutocomplete('Line1_beneficiary', {
-            Line1: 'Line1_beneficiary',
-            Line2: 'Line2_beneficiary',
-            PostalCode: 'PostalCode_beneficiary',
-            City: 'City_beneficiary',
-            TownSuburb: 'TownSuburb_beneficiary',
-            Province: 'Province_beneficiary',
-            Country: 'Country_beneficiary',
+    {{-- This is for blocking funeral section if not required --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+            
+            var button = document.querySelector("#funeral_required");
+            var target = document.querySelector("#funeral_card");
+    
+            console.log('button:', button);
+            console.log('target:', target);
+    
+            var blockUI = new KTBlockUI(target, {
+                overlayClass: "bg-danger bg-opacity-25",
+                message: '<div class="blockui-message"><span class="fs-2 text-danger"> Funeral not required</span></div>',
+            });
+    
+            console.log('blockUI initialized:', blockUI);
+    
+            function updateBlockUI() {
+                if (button.checked) {
+                    console.log('Checkbox is checked, releasing blockUI');
+                    blockUI.release();
+                } else {
+                    console.log('Checkbox is not checked, blocking blockUI');
+                    blockUI.block();
+                }
+            }
+    
+            // Initialize the block UI based on the initial state of the checkbox
+            updateBlockUI();
+    
+            button.addEventListener("click", function() {
+                console.log('Checkbox clicked');
+                updateBlockUI();
+            });
         });
-    });
-</script>
+    </script>
+    
 
-{{-- This is used for the checklist --}}
-<script>
-   $(document).ready(function() {
-    $('.save-btn').click(function() {
-        var itemId = $(this).data('id');
-        var completedDate = $('#' + itemId + '_completed_date').val();
-        var completedTime = $('#' + itemId + '_completed_time').val();
-        var note = $('#' + itemId + '_note').val();
-        var funeralId = $('input[name="funeral_id"]').val();
-        var funeralChecklistId = $('input[name="funeral_checklist_id"]').val();
-        var buId = $('input[name="bu_id"]').val();
 
-        $.ajax({
-            url: '/funeral/checklist/' + itemId,
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                funeral_id: funeralId,
-                funeral_checklist_id: funeralChecklistId,
-                bu_id: buId,
-                completed_date: completedDate,
-                completed_time: completedTime,
-                note: note
-            },
-            success: function(response) {
-                alert('Item saved/updated successfully!');
-            },
-            error: function(response) {
-                alert('Error saving/updating item.');
+    {{-- This is used for the checklist --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.checklist-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const itemId = this.getAttribute('data-item-id');
+                    const dateSpan = document.getElementById(`dated_completed_${itemId}`);
+                    const noteTextarea = document.getElementById(`${itemId}_note`);
+                    const hiddenDateCompleted = document.getElementById(
+                        `hidden_dated_completed_${itemId}`);
+                    const hiddenNote = document.getElementById(`hidden_note_${itemId}`);
+
+                    if (this.checked) {
+                        const currentDateTime = new Date().toLocaleString('en-GB', {
+                            hour12: false
+                        });
+                        dateSpan.textContent = currentDateTime;
+                        noteTextarea.readOnly = true;
+                        hiddenDateCompleted.value = currentDateTime;
+                        hiddenNote.value = noteTextarea.value;
+                    } else {
+                        dateSpan.textContent = 'Not completed';
+                        noteTextarea.readOnly = false;
+                        hiddenDateCompleted.value = '';
+                        hiddenNote.value = '';
+                    }
+                });
+
+                document.getElementById(`${checkbox.getAttribute('data-item-id')}_note`).addEventListener(
+                    'input',
+                    function() {
+                        const itemId = this.getAttribute('data-item-id');
+                        const hiddenNote = document.getElementById(`hidden_note_${itemId}`);
+                        hiddenNote.value = this.value;
+                    });
+            });
+        });
+    </script>
+
+    <script>
+        $("#kt_datatable_footer_callback").DataTable({
+            "searching": false, // Disables the search box
+            "lengthChange": false, // Hides the 'show entries' dropdown
+            "footerCallback": function(row, data, start, end, display) {
+                var api = this.api(),
+                    data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function(i) {
+                    return typeof i === "string" ?
+                        i.replace(/[\$,]/g, "") * 1 :
+                        typeof i === "number" ?
+                        i : 0;
+                };
+
+                // Total over all pages
+                var total = api
+                    .column(4)
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total over this page
+                var pageTotal = api
+                    .column(4, {
+                        page: "current"
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Update footer
+                $(api.column(4).footer()).html(
+                    "$" + pageTotal + " ( $" + total + " total)"
+                );
             }
         });
-    });
-
-    $('.cancel-btn').click(function() {
-        location.reload();
-    });
-});
-
-</script>
-
- <script>
-$("#kt_datatable_footer_callback").DataTable({
-    "searching": false, // Disables the search box
-    "lengthChange": false, // Hides the 'show entries' dropdown
-    "footerCallback": function(row, data, start, end, display) {
-        var api = this.api(),
-            data;
-
-        // Remove the formatting to get integer data for summation
-        var intVal = function(i) {
-            return typeof i === "string" ?
-                i.replace(/[\$,]/g, "") * 1 :
-                typeof i === "number" ?
-                i : 0;
-        };
-
-        // Total over all pages
-        var total = api
-            .column(4)
-            .data()
-            .reduce(function(a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
-
-        // Total over this page
-        var pageTotal = api
-            .column(4, {
-                page: "current"
-            })
-            .data()
-            .reduce(function(a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
-
-        // Update footer
-        $(api.column(4).footer()).html(
-            "$" + pageTotal + " ( $" + total + " total)"
-        );
-    }
-});
- </script>
+    </script>
 
 
-  <script>
-$("#kt_datatable_benefit_footer_callback").DataTable({
-    "searching": false, // Disables the search box
-    "lengthChange": false, // Hides the 'show entries' dropdown
-    "footerCallback": function(row, data, start, end, display) {
-        var api = this.api(),
-            data;
+    <script>
+        $("#kt_datatable_benefit_footer_callback").DataTable({
+            "searching": false, // Disables the search box
+            "lengthChange": false, // Hides the 'show entries' dropdown
+            "footerCallback": function(row, data, start, end, display) {
+                var api = this.api(),
+                    data;
 
-        // Remove the formatting to get integer data for summation
-        var intVal = function(i) {
-            return typeof i === "string" ?
-                i.replace(/[\$,]/g, "") * 1 :
-                typeof i === "number" ?
-                i : 0;
-        };
+                // Remove the formatting to get integer data for summation
+                var intVal = function(i) {
+                    return typeof i === "string" ?
+                        i.replace(/[\$,]/g, "") * 1 :
+                        typeof i === "number" ?
+                        i : 0;
+                };
 
-        // Total over all pages
-        var total = api
-            .column(4)
-            .data()
-            .reduce(function(a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
+                // Total over all pages
+                var total = api
+                    .column(4)
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
 
-        // Total over this page
-        var pageTotal = api
-            .column(4, {
-                page: "current"
-            })
-            .data()
-            .reduce(function(a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
+                // Total over this page
+                var pageTotal = api
+                    .column(4, {
+                        page: "current"
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
 
-        // Update footer
-        $(api.column(4).footer()).html(
-            "$" + pageTotal + " ( $" + total + " total)"
-        );
-    }
-});
- </script>
+                // Update footer
+                $(api.column(4).footer()).html(
+                    "$" + pageTotal + " ( $" + total + " total)"
+                );
+            }
+        });
+    </script>
 
 
     {{-- <!-- Include jQuery first -->
@@ -2101,39 +5825,39 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
         });
     </script> --}}
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Listen for the modal showing up
-        $('#kt_modal_beneficiary').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var locationType = button.data('location-type'); // Extract info from data-* attributes
-            var modal = $(this);
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Listen for the modal showing up
+            $('#kt_modal_beneficiary').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var locationType = button.data('location-type'); // Extract info from data-* attributes
+                var modal = $(this);
 
-            // Determine which option to select based on the clicked button
-            if(locationType === 'Postal') {
-                modal.find('#addressType').val('2').trigger('change');
-            } else if(locationType === 'Residential') {
-                modal.find('#addressType').val('1').trigger('change');
-            }
+                // Determine which option to select based on the clicked button
+                if (locationType === 'Postal') {
+                    modal.find('#addressType').val('2').trigger('change');
+                } else if (locationType === 'Residential') {
+                    modal.find('#addressType').val('1').trigger('change');
+                }
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Listen for the modal showing up
-        $('#kt_modal_payment').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            
-            var modal = $(this);
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Listen for the modal showing up
+            $('#kt_modal_payment').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+
+                var modal = $(this);
+            });
         });
-    });
-</script>
+    </script>
 
 
 
 
-   
+
 
     {{-- This is for accordion header validation colour change --}}
 
@@ -2151,7 +5875,7 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
 
                     accordionBody.querySelectorAll(
                         'input[required], textarea[required], select[required]').forEach((
-                    input) => {
+                        input) => {
                         if (!input.value.trim()) {
                             allFilled = false;
                         }
@@ -2216,24 +5940,28 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
             // Function to check for empty required fields within a specific form
             function areRequiredFieldsFilled() {
                 // Select only required inputs within the specified form
-                const requiredInputs = document.querySelectorAll('#funeralForm input[required], #funeralForm textarea[required], #funeralForm select[required]');
+                const requiredInputs = document.querySelectorAll(
+                    '#funeralForm input[required], #funeralForm textarea[required], #funeralForm select[required]'
+                );
                 return Array.from(requiredInputs).every(input => input.value.trim() !== '');
             }
-        
+
             // Function to display the alert
             function showAlert() {
                 const alert = document.getElementById('requiredAlert');
                 alert.style.setProperty('display', 'flex', 'important');
                 alert.style.setProperty('opacity', '1', 'important'); // Make it fully visible
-        
+
                 setTimeout(() => {
-                    alert.style.setProperty('opacity', '0', 'important'); // Start fading out after 4 seconds
+                    alert.style.setProperty('opacity', '0',
+                        'important'); // Start fading out after 4 seconds
                     setTimeout(() => {
-                        alert.style.setProperty('display', 'none', 'important'); // Hide completely after fade-out completes
+                        alert.style.setProperty('display', 'none',
+                            'important'); // Hide completely after fade-out completes
                     }, 500); // Wait for the transition to finish
                 }, 4000);
             }
-        
+
             function handleClick(actionValue) {
                 if (window.updateRequiredAttributes) {
                     window.updateRequiredAttributes();
@@ -2245,116 +5973,125 @@ $("#kt_datatable_benefit_footer_callback").DataTable({
                 // Trigger the corresponding hidden submit button
                 document.querySelector(`button[name="action"][value="${actionValue}"]`).click();
             }
-        
+
             document.getElementById('externalSubmitActionOne').addEventListener('click', function() {
                 handleClick('submitActionOne');
             });
-        
+
             document.getElementById('externalSubmitActionTwo').addEventListener('click', function() {
                 handleClick('submitActionTwo');
             });
         });
-        </script>
-        
+    </script>
 
-        {{-- This is for address modal submission --}}
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                $('#saveLocationBtn').on('click', function(event) {
-                    event.preventDefault();  // Prevent the default form submission behavior
-        
-                    var formData = new FormData(document.getElementById('addressForm'));  // Create FormData object from the form
-        
-                    $.ajax({
-                        url: '{{ route("StoreFuneralAddress") }}',  // Use the route name as the endpoint
-                        type: 'POST',  // Method type POST
-                        data: formData,
-                        processData: false,  // Tells jQuery not to convert the data into a string
-                        contentType: false,  // Tells jQuery not to set the content type header
-                        success: function(response) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'Address has been saved successfully!',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    $('#kt_modal_1').modal('hide'); // Hide the modal on success
-        
-                                    // Clear all input fields in the form
-                                    $('#addressForm').find('input[type=text], input[type=number], textarea, select').val('');
-        
-                                    // Append the new address to the correct dropdown based on the type and select it
-                                    var newOption = new Option(response.name + ' (' + response.line1 + ' - ' + response.suburb + ', ' + response.city + ', ' + response.ZIP + ')', response.id, true, true); // true for selected and defaultSelected
-                                    if (response.type === 'Church') {
-                                        $('#churchSelect').append(newOption).trigger('change');
-                                    } else if (response.type === 'Graveyard') {
-                                        $('#graveyardSelect').append(newOption).trigger('change');
-                                    } else if (response.type === 'Viewing') {
-                                        $('#viewing_location').append(newOption).trigger('change');
-                                    }
-        
-                                    // Check and remove modal backdrop if still present
-                                    setTimeout(function() { 
-                                        if ($('.modal-backdrop').length) {
-                                            $('.modal-backdrop').remove();
-                                            $('body').removeClass('modal-open');
-                                        }
-                                    }, 200); // Wait a bit to ensure modal has closed
+
+    {{-- This is for address modal submission --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#saveLocationBtn').on('click', function(event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+
+                var formData = new FormData(document.getElementById(
+                    'addressForm')); // Create FormData object from the form
+
+                $.ajax({
+                    url: '{{ route('StoreFuneralAddress') }}', // Use the route name as the endpoint
+                    type: 'POST', // Method type POST
+                    data: formData,
+                    processData: false, // Tells jQuery not to convert the data into a string
+                    contentType: false, // Tells jQuery not to set the content type header
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Address has been saved successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#kt_modal_1').modal(
+                                    'hide'); // Hide the modal on success
+
+                                // Clear all input fields in the form
+                                $('#addressForm').find(
+                                    'input[type=text], input[type=number], textarea, select'
+                                ).val('');
+
+                                // Append the new address to the correct dropdown based on the type and select it
+                                var newOption = new Option(response.name + ' (' +
+                                    response.line1 + ' - ' + response.suburb +
+                                    ', ' + response.city + ', ' + response.ZIP +
+                                    ')', response.id, true, true
+                                ); // true for selected and defaultSelected
+                                if (response.type === 'Church') {
+                                    $('#churchSelect').append(newOption).trigger(
+                                        'change');
+                                } else if (response.type === 'Graveyard') {
+                                    $('#graveyardSelect').append(newOption).trigger(
+                                        'change');
+                                } else if (response.type === 'Viewing') {
+                                    $('#viewing_location').append(newOption).trigger(
+                                        'change');
                                 }
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to save the address. Please check the form for errors.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                            console.error('Error:', error);
-                        }
-                    });
-                });
-        
-                $('#kt_modal_1').on('show.bs.modal', function(event) {
-                    var button = $(event.relatedTarget); // Button that triggered the modal
-                    var locationType = button.data('location-type'); // Extract info from data-* attributes
-                    var modal = $(this);
-        
-                    // Determine which option to select based on the clicked button
-                    if(locationType === 'Church') {
-                        modal.find('#addressType').val('{{ $churchTypeId }}').trigger('change');
-                    } else if(locationType === 'Graveyard') {
-                        modal.find('#addressType').val('{{ $graveyardTypeId}}').trigger('change');
-                    } else if(locationType === 'Viewing') {
-                        modal.find('#addressType').val('{{ $viewingTypeId}}').trigger('change');
+
+                                // Check and remove modal backdrop if still present
+                                setTimeout(function() {
+                                    if ($('.modal-backdrop').length) {
+                                        $('.modal-backdrop').remove();
+                                        $('body').removeClass('modal-open');
+                                    }
+                                }, 200); // Wait a bit to ensure modal has closed
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to save the address. Please check the form for errors.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        console.error('Error:', error);
                     }
                 });
             });
-        </script>
-        
-            
-            
-            
-            
 
-            <script>
-                $(document).ready(function() {
-                    $('#churchSelect').select2({
-                        placeholder: "Select Church",
-                        allowClear: true
-                    });
-                });
-            </script>
+            $('#kt_modal_1').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var locationType = button.data('location-type'); // Extract info from data-* attributes
+                var modal = $(this);
 
-            <script>
-                $(document).ready(function() {
-                    $('#graveyardSelect').select2({
-                        placeholder: "Select Cemetery",
-                        allowClear: true
-                    });
-                });
-            </script>
-                
+                // Determine which option to select based on the clicked button
+                if (locationType === 'Church') {
+                    modal.find('#addressType').val('{{ $churchTypeId }}').trigger('change');
+                } else if (locationType === 'Graveyard') {
+                    modal.find('#addressType').val('{{ $graveyardTypeId }}').trigger('change');
+                } else if (locationType === 'Viewing') {
+                    modal.find('#addressType').val('{{ $viewingTypeId }}').trigger('change');
+                }
+            });
+        });
+    </script>
 
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#churchSelect').select2({
+                placeholder: "Select Church",
+                allowClear: true
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#graveyardSelect').select2({
+                placeholder: "Select Cemetery",
+                allowClear: true
+            });
+        });
+    </script>
 @endpush

@@ -23,366 +23,11 @@
 @section('row_content')
 
         <div class="row">
-            <div class="col-3">
-                <div class="w-300px pt-10 mb-10">
-                    <!--begin::Card-->
-                    <div class="card card-flush bg-light mb-0 bg-secondary" data-kt-sticky="false"
-                        data-kt-sticky-name="docs-sticky-summary" data-kt-sticky-offset="{default: false, xl: '50px'}"
-                        data-kt-sticky-width="{lg: '250px', xl: '300px'}" data-kt-sticky-left="auto"
-                        data-kt-sticky-top="50px" data-kt-sticky-animation="true" data-kt-sticky-zindex="95"
-                        style="">
-                        <!--begin::Card header-->
-                        <div class="card-header">
-                            <!--begin::Card title-->
-                            <div class="card-title">
-                                <h2>Membership Details</h2>
-                            </div>
-                            <!--end::Card title-->
 
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <!--begin::More options-->
-                                <a href="#" class="btn btn-sm btn-light btn-icon" data-kt-menu-trigger="click"
-                                    data-kt-menu-placement="bottom-end">
-                                    <i class="ki-duotone ki-dots-horizontal fs-3x"><span class="path1"></span><span
-                                            class="path2"></span><span class="path3"></span></i> </a>
-                                <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-6 w-200px py-4"
-                                    data-kt-menu="true">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3">
-                                            Pause Membership
-                                        </a>
-                                    </div>
-                                    <!--end::Menu item-->
-
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-subscriptions-view-action="delete">
-                                            Edit Membership
-                                        </a>
-                                    </div>
-                                    <!--end::Menu item-->
-
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link text-danger px-3"
-                                            data-kt-subscriptions-view-action="edit">
-                                            Cancel Membership
-                                        </a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu-->
-                                <!--end::More options-->
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end::Card header-->
-
-                        <!--begin::Card body-->
-                        <div class="card-body pt-0 fs-6">
-                            <!--begin::Section-->
-                            <div class="mb-7">
-
-                                <!--begin::Detai1s-->
-                                <div class="d-flex align-items-center">
-                                    <!--begin::Avatar-->
-                                    {{-- <div class="symbol symbol-60px symbol-circle me-3" style="border: 1px solid black;">
-                                        <img alt="Pic" src="/html/metronic/docs/assets/media/avatars/300-5.jpg">
-                                    </div> --}}
-                                    <div class="symbol symbol-60px symbol-circle "><span class="symbol-label bg-light-danger text-info fs-6 fw-bolder">Photo</span></div>
-                                    <!--end::Avatar-->
-
-                                    <!--begin::Info-->
-                                    <div class="d-flex flex-column">
-                                        <!--begin::Name-->
-                                        <a href="#"
-                                            class="fs-4 fw-bold text-gray-900 text-hover-primary me-2">{{ $membership->name }}
-                                            {{ $membership->surname }}
-
-                                            @if (
-                                                $membership->gender_id == 'M' ||
-                                                    $membership->gender_id == 'm' ||
-                                                    $membership->gender_id == '1' ||
-                                                    $membership->gender_id == 'male')
-                                                <i class="fa-sharp fa-solid fa-person fs-1"></i> {{-- Icon for Male --}}
-                                            @elseif (
-                                                $membership->gender_id == 'F' ||
-                                                    $membership->gender_id == 'f' ||
-                                                    $membership->gender_id == '2' ||
-                                                    $membership->gender_id == 'female')
-                                                <i class="fa-sharp fa-solid fa-person-dress fs-1"></i> {{-- Icon for Female --}}
-                                            @else
-                                                <i class="fa-sharp fa-solid fa-venus-mars fs-1"></i> {{-- Icon for Other --}}
-                                            @endif
-                                        </a>
-
-                                        <!--end::Name-->
-
-                                        <!--begin::Email-->
-                                        <a href="#"
-                                            class="fw-semibold text-gray-600 text-hover-primary">{{ $membership->primary_e_mail_address }}</a>
-                                        <!--end::Email-->
-                                    </div>
-                                    <!--end::Info-->
-                                </div>
-                                <!--end::Details-->
-                            </div>
-                            <!--end::Section-->
-
-
-                            <!--begin::Section-->
-                            <div class="mb-10">
-                                <!--begin::Title-->
-                                <h5 class="mb-4">Personal Details</h5>
-                                <!--end::Title-->
-
-                                <!--begin::Details-->
-                                <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2">
-                                    <!--begin::Row-->
-                                    <tbody>
-                                        <!--begin::Row-->
-                                        {{-- <tr class="">
-                                            <td class="text-gray-500">Name(s):</td>
-                                            <td class="text-gray-800"></td>
-                                        </tr> --}}
-                                        <!--end::Row-->
-
-                                        {{-- <tr class="">
-                                            <td class="text-gray-500">Surname:</td>
-                                            <td class="text-gray-800">{{ $membership->surname }}</td>
-                                        </tr> --}}
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Gender:</td>
-                                            <td class="text-gray-800">
-                                                @if (
-                                                    $membership->gender_id == 'M' ||
-                                                        $membership->gender_id == 'm' ||
-                                                        $membership->gender_id == '1' ||
-                                                        $membership->gender_id == 'male')
-                                                    Male
-                                                @elseif (
-                                                    $membership->gender_id == 'F' ||
-                                                        $membership->gender_id == 'f' ||
-                                                        $membership->gender_id == '2' ||
-                                                        $membership->gender_id == 'female')
-                                                    Female
-                                                @else
-                                                    Other
-                                                @endif
-                                            <td>
-                                            </td>
-                                            </td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500"> Identity Number:</td>
-                                            <td class="text-gray-800">{{ $membership->id_number }}</td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500"> Telephone (Cell):</td>
-                                            <td class="text-gray-800">{{ $membership->primary_contact_number ?? 'N/A'}}</td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        {{-- <tr class="">
-                                            <td class="text-gray-500"> Email Address:</td>
-                                            <td class="text-gray-800">{{ $membership->primary_e_mail_address }}</td>
-                                        </tr> --}}
-                                        <!--end::Row-->
-
-
-
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Status:</td>
-                                            <td><span class="badge badge-light-success"> {{ $statuses[$membership->bu_membership_status_id] }}</span>
-                                            </td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Next Payment:</td>
-                                            <td class="text-gray-800">15 Apr 2022</td>
-                                        </tr>
-                                        <!--end::Row-->
-                                    </tbody>
-                                </table>
-                                <!--end::Details-->
-                            </div>
-                            <!--end::Section-->
-
-
-                            <!--begin::Seperator-->
-                            <div class="separator separator-dashed mb-7"></div>
-                            <!--end::Seperator-->
-
-                            <!--begin::Section-->
-                            <div class="mb-7">
-                                <!--begin::Title-->
-                                <h5 class="mb-4">Membership Type</h5>
-                                <!--end::Title-->
-
-                                <!--begin::Details-->
-                                <div class="mb-0">
-                                    <!--begin::Plan-->
-                                    <span class="badge badge-info me-2">Bundle</span>
-                                    <!--end::Plan-->
-
-                                    <!--begin::Price-->
-                                    <span class="fw-semibold text-gray-600">Type: {{ $membership->bu_membership_type_id }}
-                                        with fee:</span><span
-                                        class="badge badge-success fw-semibold text-dark">R{{ $membership->membership_fee ?? ' N/A' }}</span>
-
-
-
-                                    <!--end::Price-->
-                                </div>
-                                <!--end::Details-->
-
-                                <!-- Membership Type Section -->
-                                <div class="mb-10">
-                                    <h5 class="mb-4 text-decoration-underline text-dark"></h5>
-                                    <span class="fw-semibold text-dark"></span>
-                                    <!-- Replace A1 with actual data -->
-                                </div>
-                            </div>
-                            <!--end::Section-->
-
-                            <!--begin::Seperator-->
-                            <div class="separator separator-dashed mb-7"></div>
-                            <!--end::Seperator-->
-
-                            <!--begin::Section-->
-                            <div class="mb-10">
-                                <!--begin::Title-->
-                                <h5 class="mb-4">Payment Details</h5>
-                                <!--end::Title-->
-
-                                <!--begin::Details-->
-                                <div class="mb-0">
-                                    <!--begin::Card info-->
-                                    <div class="fw-semibold text-gray-600 d-flex align-items-center">
-                                        Mastercard
-                                        <img src="https://preview.keenthemes.com/html/metronic/docs/assets/media/svg/card-logos/mastercard.svg"
-                                            class="w-35px ms-2" alt="">
-                                    </div>
-                                    <!--end::Card info-->
-
-                                    <!--begin::Card expiry-->
-                                    <div class="fw-semibold text-gray-600">Expires Dec 2024</div>
-                                    <!--end::Card expiry-->
-                                </div>
-                                <!--end::Details-->
-                            </div>
-                            <!--end::Section-->
-
-                            <!--begin::Seperator-->
-                            <div class="separator separator-dashed mb-7"></div>
-                            <!--end::Seperator-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <!--begin::Section-->
-                            <div class="mb-10">
-                                <!--begin::Title-->
-                                <h5 class="mb-4">Static Details</h5>
-                                <!--end::Title-->
-
-                                <!--begin::Details-->
-                                <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2">
-                                    <!--begin::Row-->
-                                    <tbody>
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Language:</td>
-                                            <td class="text-gray-800">
-                                                {{ $membership->language_id == '2' ? 'English' : 'Afrikaans' }}</td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <tr class="">
-                                            <td class="text-gray-500">MEM. Code:</td>
-                                            <td class="text-dark badge badge-info"><span
-                                            class="badge badge-success fw-semibold text-dark">R{{ $membership->membership_code ?? ' N/A' }}</span></td>
-                                        </tr>
-                                        <!--end::Row-->
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Joined:</td>
-                                            <td class="text-gray-800">{{ $membership->join_date }}</td>
-                                        </tr>
-                                        <!--end::Row-->
-
-
-
-                                        <!--begin::Row-->
-                                        <tr class="">
-                                            <td class="text-gray-500">Last Payment:</td>
-                                            <td class="text-gray-800">{{ $membership->last_payment_date ?? ' N/A' }}</td>
-                                        </tr>
-                                        <!--end::Row-->
-                                    </tbody>
-                                </table>
-                                <!--end::Details-->
-                            </div>
-                            <!--end::Section-->
-
-                            <!--begin::Actions-->
-                            <div class="mb-0">
-                                <a href="/edit-member/{{ $membership->id }}" class="btn btn-warning text-dark"
-                                    id="kt_subscriptions_create_button"><i class="bi bi-pencil-fill"></i>
-                                    Edit Membership
-                                </a>
-                            </div>
-                            <!--end::Actions-->
-                        </div>
-                        <!--end::Card body-->
-                    </div>
-                    <!--end::Card-->
-                </div>
-            </div>
-            <div class="col-9 mt-8">
+            <div class="mt-8">
 
                 <ul class="nav nav-pills mb-3 justify-content-evenly" id="pills-tab" role="tablist">
-                    {{-- <li class="nav-item" role="presentation">
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
                             aria-selected="true">
@@ -396,7 +41,7 @@
                                 </svg>
                             </div>
                         </button>
-                    </li> --}}
+                    </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
@@ -445,15 +90,15 @@
                 </ul>
 
                 <div class="tab-content" id="pills-tabContent">
-                    {{-- <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                         aria-labelledby="pills-home-tab" tabindex="0">
-                        <div id="membership" class="container bg-gba-light m-6 text-center mx-auto border-gba">
+                        <div id="membership" class="container m-6 text-center mx-auto">
                             <div class="card">
-                                <div class="card-title bg-gba my-0">
+                                <div class="card-title bg-secondary my-0 p-4">
                                     <h2 class="text-center">Membership Details</h2>
                                 </div>
 
-                                <div class="card-body fs-6 bg-gba-light">
+                                <div class="card-body fs-6 bg-secondary-subtle">
                                     <!-- Preferred Language Section -->
                                     <div class="mb-7">
                                         <div class="mb-4">
@@ -472,10 +117,13 @@
 
                                     <div class="separator separator-dashed mb-7"></div>
 
+                                    
+
                                     <!-- Personal Details Section -->
                                     <div class="mb-7">
                                         <h5 class="mb-4 text-decoration-underline text-dark">Personal Details</h5>
                                         <div class="mb-0">
+    
                                             <span class="fw-semibold text-dark">Name: {{ $membership->name }}</span><br>
                                             <span class="fw-semibold text-dark">Surname:
                                                 {{ $membership->surname }}</span><br>
@@ -487,6 +135,22 @@
                                                 @else
                                                     Other
                                                 @endif
+
+                                                @if (
+                                                $membership->gender_id == 'M' ||
+                                                    $membership->gender_id == 'm' ||
+                                                    $membership->gender_id == '1' ||
+                                                    $membership->gender_id == 'male')
+                                                <i class="fa-sharp fa-solid fa-person fs-1"></i> {{-- Icon for Male --}}
+                                            @elseif (
+                                                $membership->gender_id == 'F' ||
+                                                    $membership->gender_id == 'f' ||
+                                                    $membership->gender_id == '2' ||
+                                                    $membership->gender_id == 'female')
+                                                <i class="fa-sharp fa-solid fa-person-dress fs-1"></i> {{-- Icon for Female --}}
+                                            @else
+                                                <i class="fa-sharp fa-solid fa-venus-mars fs-1"></i> {{-- Icon for Other --}}
+                                            @endif
                                             </span>
                                             <br>
                                             <span class="fw-semibold text-dark">Identity Number:
@@ -509,11 +173,14 @@
                                             R{{ $membership->membership_fee }}</span>
                                         <!-- Replace A1 with actual data -->
                                     </div>
-
+                                    <a class="btn btn-sm btn-warning" href="/edit-member/{{ $membership->id }}"
+                                            style="text-decoration: none;"  data-bs-toggle="tooltip" title="Edit"><i class="bi bi-pencil-fill fs-4 me-0"></i>Edit Membership
+                                            </a>
                                 </div>
+                                
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
                         tabindex="0">
@@ -727,10 +394,6 @@
             </div>
 
         </div>
-
-
-
-
 
     {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script> --}}
     <link rel="stylesheet"

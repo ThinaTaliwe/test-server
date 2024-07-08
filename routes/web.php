@@ -51,6 +51,9 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserBuController;
 use App\Http\Controllers\PersonController;
 
+// to be deleted
+use App\Http\Controllers\GbaFormsController;
+
 // ---------------- Sanitizer -----------------------------------------
 /* These Are For Mappings */
 use App\Http\Controllers\MappingController;
@@ -474,6 +477,10 @@ Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuner
 
 Route::post('/funeral/checklist/{id}', [FuneralController::class, 'updateChecklistItem']);
 
+// These are for testing the gba forms if they can be displayed - to be deleted
+Route::get('/gba-forms', [GbaFormsController::class, 'index'])->name('gba-forms.index');
+Route::get('/gba-forms/{id}', [GbaFormsController::class, 'show'])->name('gba-forms.show');
+
 
 //Used this to set/get current bu
 Route::post('/update-current-bu', [UserBuController::class, 'updateCurrentBu'])->name('update.current.bu');
@@ -485,7 +492,6 @@ Route::get('/api/rowdetails', [DataController::class, 'getRowDetails'])->name('a
 
 use App\Http\Controllers\CommentController;
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::delete('/notifications/{notification}', [MembershipsController::class, 'deleteNotification'])->name('notifications.delete');
 
@@ -498,6 +504,15 @@ use App\Http\Controllers\TestController;
 // Resource route for the Test model
 /** This sets up routes for index, create, store, show, edit, update, and destroy methods in the TestController.*/
 Route::resource('tests', TestController::class)->withTrashed();
+Route::put('/comments/{id}', [CommentController::class, 'update']);
+Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+Route::get('comments/{id}/edit', [CommentController::class, 'edit']);
+Route::put('comments/{id}', [CommentController::class, 'update']);
+
+
+
 
 
 

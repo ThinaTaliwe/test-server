@@ -64,33 +64,30 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{{-- Start Styling for the header breadcrum --}}
-<style>
-/* Target the page-title container */
-.page-title {
-    /* Other styles for .page-title can be placed here if needed */
-}
 
-/* Specific styling for breadcrumb links */
-.page-title a {
-    color: #007bbf; /* Default link color */
-    text-decoration: none; /* Optional: removes underline from links */
-    transition: color 0.3s; /* Smooth transition for color change */
-}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Define the spin animation */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-/* Hover state for breadcrumb links */
-.page-title a:hover {
-    color: #aa56b3; /* Color when hovered */
-    
-}
-</style>
-{{-- End Styling for the header breadcrum --}}
-
+        /* Apply the spin animation only on hover */
+        .spin-on-hover:hover {
+            animation: spin 2s infinite linear;
+        }
+    </style>
 
     {{--START Siya: Google auto-complete always on top --}}
     <style>
         .pac-container {
             z-index: 10000 !important; /* Ensure this value is higher than the modal's z-index */
+        }
+
+        .custom-tooltip {
+        --bs-tooltip-bg: var(--bs-danger);
+        --bs-tooltip-color: var(--bs-white);
         }
     </style>
     {{--END Siya: Google auto-complete always on top --}}
@@ -99,9 +96,9 @@
             {{-- <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places&callback=initAutocomplete">
             </script> --}}
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38CS0nTzAmM&libraries=places" async defer></script>
     
-        {{--Start: Trying a modularized version of Google maps auto-complete --}}
+        {{--Start- Siya: Trying a modularized version of Google maps auto-complete --}}
         <script>
             "use strict";
         
@@ -192,7 +189,7 @@
             color: #0056b3; /* Change the color to blue or any color that suits your design */
             font-weight: bold; /* Make it bold to highlight */
         }
-        </style>
+    </style>
     
     
 
@@ -352,7 +349,7 @@
          data-kt-drawer-toggle="#kt_aside_toggle">
         <!--begin::Brand-->
         <div class="d-flex justify-content-center p-4 mb-10">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home') }}" class="shadow">
                 {{-- <h1 class="text-center">{{ __('messages.GBASystem') }}</h1> --}}
                 <a href="/">
                     <img alt="Logo" src="{{ asset('img/GBA-LOGO-white.png') }}" class="h-90px logo theme-light-show">
@@ -369,7 +366,7 @@
             <x-aside.profile name="{{ ucfirst(Auth::user()->name) }}"
                             profileLink="{{ route('admin.account.info') }}"
                             profileImg="{{ asset('assets/media/avatars/blank.png') }}"
-                            description="{{ ucfirst(Auth::user()->email) }}"
+                            description="{{ (Auth::user()->email) }}"
                             class="additional-css-classes"/>
             <!--end::User-->
         @else
@@ -441,14 +438,14 @@
                         <!--end:Menu item-->
 
 
-    <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover"><!--begin:Menu link--><span
+        <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover"><!--begin:Menu link--><span
             class="menu-link"><span class="menu-icon"><i class="bi bi-briefcase fs-2"><span
                         class="path1"></span><span class="path2"></span></i></span><span
                 class="menu-title">Admin Space</span><span
                 class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
-        <div class="menu-sub menu-sub-accordion" kt-hidden-height="97" style=""><!--begin:Menu item-->
-        <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/user"><span class="menu-bullet"><span
+            <div class="menu-sub menu-sub-accordion" kt-hidden-height="97" style=""><!--begin:Menu item-->
+            <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                href="/admin/user"><span class="menu-bullet"><span
                                     class="bullet bullet-dot"></span></span><span
                                 class="menu-title">Users</span></a><!--end:Menu link--></div>
                                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
@@ -481,7 +478,7 @@
                 </div><!--end:Menu sub-->
             </div><!--end:Menu item-->
         </div><!--end:Menu sub-->
-    </div>
+        </div>
 
 
 
@@ -613,43 +610,49 @@
         <!--end::Footer-->
     </div>
     {{-- <div id="google_translate_element"></div> --}}
+
+        
 @endsection
 
 @section('header')
-    <div id="kt_header" class="header border-gba-light mx-auto bg-gba-light my-4 p-0 shadow">
+    <div id="kt_header" class="header my-4 p-0 shadow bg-body border-secondary rounded-2 w-50 mx-auto">
         <!--begin::Container-->
-        <div class="container-fluid d-flex align-items-center flex-wrap justify-content-between"
+        <div class="container-fluid d-flex flex-row flex-wrap justify-content-between text-wrap"
              id="kt_header_container">
-
-
-            {{-- Start SidePanel Toggle Button --}}
-            {{-- <div id="toggleDrawerButton" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle me-n2"
-                 data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
-                 data-kt-toggle-name="aside-minimize" style="padding: 10px; font-size: 24px;">
-                <i class="ki-outline ki-double-left fs-1 rotate-180" style="font-size: 24px;"></i></div> --}}
-            {{-- Start SidePanel Toggle Button --}}
-
 
             <!--begin::Page title-->
             <x-header.page-title title="Current Dashboard" subtitle="current page" class="additional-classes"/>
             <!--end::Page title=-->
-
-            <!--begin::Solid input group style-->
-            <div class="input-group input-group-solid flex-nowrap mx-2" style="width: 170px;">
-                <div class="overflow-hidden flex-grow-1">
-                    <form action="{{ route('direction.switch') }}" method="POST" class="w-100">
-                        @csrf
-                        <select name="direction" class="form-select form-select-solid" data-control="select2"
-                                data-placeholder="Select a direction" onchange="this.form.submit();">
-                            <option value="ltr" {{ session('appdirection') == 'ltr' ? 'selected' : '' }}>LTR</option>
-                            <option value="rtl" {{ session('appdirection') == 'rtl' ? 'selected' : '' }}>RTL</option>
-                        </select>
-                    </form>
+            
+            <div class="d-flex justify-content-center my-auto">
+                <!--begin::Solid input group style-->
+                <div class="dropdown">
+                        <form action="{{ route('direction.switch') }}" method="POST">
+                            @csrf
+                            <select name="direction" class="btn bg-secondary shadow-dark dropdown-toggle border border-secondary" data-control="select2"
+                                    data-placeholder="Select a direction" onchange="this.form.submit();">
+                                <option value="ltr" {{ session('appdirection') == 'ltr' ? 'selected' : '' }}>LTR</option>
+                                <option value="rtl" {{ session('appdirection') == 'rtl' ? 'selected' : '' }}>RTL</option>
+                            </select>
+                        </form>
                 </div>
-            </div>
-            <!-- end::Solid input group style-->
+                <!-- end::Solid input group style-->
 
-            @canany(['user edit', 'role edit', 'permission edit'])
+                <!--begin::Solid input group style-->
+                <div class="dropdown mx-2">
+                        <form action="{{ route('language.switch') }}" method="POST" class="w-100">
+                            @csrf
+                            <select name="language" class="btn bg-secondary shadow-dark dropdown-toggle border border-secondary" data-control="select2"
+                                    data-placeholder="Select a Language" onchange="this.form.submit();">
+                                <option value="en" {{ session('applocale') == 'en' ? 'selected' : '' }}>English</option>
+                                <option value="af" {{ session('applocale') == 'af' ? 'selected' : '' }}>Afrikaans</option>
+                            </select>
+                        </form>
+                </div>
+                <!--end::Solid input group style-->
+            </div>
+
+            {{-- @canany(['user edit', 'role edit', 'permission edit']) --}}
                 <!--begin::Solid input group style-->
                 {{-- <div class="input-group input-group-solid" style="width: 190px; font-size: 0.8rem;">
                     <div class="overflow-hidden flex-grow-1">
@@ -668,23 +671,7 @@
                     </div>
                 </div> --}}
                 <!--end::Solid input group style-->
-            @endcanany
-
-            <!--begin::Solid input group style-->
-            <div class="input-group input-group-solid mx-2" style="width: 190px; font-size: 0.8rem;">
-                <div class="overflow-hidden flex-grow-1">
-                    <form action="{{ route('language.switch') }}" method="POST" class="w-100">
-                        @csrf
-                        <select name="language" class="form-select form-select-solid" data-control="select2"
-                                data-placeholder="Select a Language" onchange="this.form.submit();"
-                                style="background-color: #e2e2e2 !important;">
-                            <option value="en" {{ session('applocale') == 'en' ? 'selected' : '' }}>English</option>
-                            <option value="af" {{ session('applocale') == 'af' ? 'selected' : '' }}>Afrikaans</option>
-                        </select>
-                    </form>
-                </div>
-            </div>
-            <!--end::Solid input group style-->
+            {{-- @endcanany --}}
 
             <!--begin::Wrapper-->
             <x-header.brand class="my-custom-class" href="{{ route('admin.home') }}" logoSrc="img/GBA-LOGO-white2.png"
@@ -697,10 +684,7 @@
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
                     <!--begin::Drawer toggle-->
                     
-                    
-                
-                    
-                    
+            
                     
                     
                     
@@ -722,14 +706,10 @@
                     </div> --}}
 
 
-                    <div class="btn btn-icon btn-active-color-primary btn-outline w-40px h-40px bg-light"
+                    <div class="btn btn-icon btn-active-color-success btn-outline w-40px h-40px bg-body border border-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Notifications"
                         id="kt_activities_toggle">
                         <!-- Notification Icon -->
-                        <i class="ki-duotone ki-notification-bing" style="font-size: 34px; color: #646c9a;">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                            <span class="path3"></span>
-                        </i>
+                            <i class="bi bi-bell-fill fs-1"></i>
                         <!-- Notification Badge -->
                         {{-- @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
                         <span class="notification-badge fs-8" id="unreadCount">
@@ -740,12 +720,12 @@
 
                      
                     <!--end::Drawer toggle-->
-                </div>
-                <!--end::Activities-->
-                <!--begin::Theme mode-->
-                <div class="d-flex align-items-center ms-3 ms-lg">
+                    </div>
+                    <!--end::Activities-->
+                    <!--begin::Theme mode-->
+                    <div class="d-flex align-items-center ms-3 ms-lg">
                     <!--begin::Menu toggle-->
-                    <a href="#" class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light border border-dark"
+                    <a href="#" class="btn btn-icon btn-active-color-success btn-outline w-40px h-40px bg-body border border-secondary"
                        data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent"
                        data-kt-menu-placement="bottom-end">
                         <!-- <i class="ki-duotone ki-night-day theme-light-show fs-1">
@@ -785,7 +765,7 @@
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
                                 <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-duotone ki-night-day fs-2">
+                                    <i class="ki-duotone ki-night-day fs-1">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                         <span class="path3"></span>
@@ -806,7 +786,7 @@
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
                                 <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-duotone ki-night-day fs-2">
+                                    <i class="bi bi-moon fs-4">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                         <span class="path3"></span>
@@ -1021,16 +1001,16 @@
                 <!--begin::Sidebar Toggler-->
                 <!--begin::Activities-->
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
-    <!--begin::Logout Form-->
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-    <button class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-light  border border-dark" onclick="document.getElementById('logout-form').submit();">
-        <i class="bi bi-power" style="font-size: 28px; color: red;"></i>
-    </button>
-    <!--end::Logout Form-->
-    
-</div>
+                    <!--begin::Logout Form-->
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <div class="btn btn-icon btn-active-color-danger btn-outline w-40px h-40px bg-body border border-secondary" onclick="document.getElementById('logout-form').submit();" data-bs-toggle="tooltip" data-bs-placement="top" title="Log out" data-bs-custom-class="custom-tooltip">
+                        <i class="bi bi-power" style="font-size: 28px;"></i>
+                    </div>
+                    <!--end::Logout Form-->
+                    
+                </div>
 
                 <!--end::Activities-->
                 <!--end::Sidebar Toggler-->
@@ -1140,21 +1120,16 @@
 
 @section('footer')
         <!--begin::Container-->
-        <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-gba mx-auto" id="kt_footer">
+        <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-body mx-auto mt-auto shadow-lg" id="kt_footer">
             <!--begin::Copyright-->
             <div class="text-dark order-2 order-md-1">
-                <a href="/home" target="_blank" class="text-black text-hover-primary fw-semibold me-1 fs-4"></a>
+                <a href="/contact" target="_blank" class="text-dark text-hover-primary fw-semibold me-1 fs-4">GBA</a>
             </div>
             <!--end::Copyright-->
 
             <!--begin::Menu-->
             <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                {{-- <li class="menu-item">
-                    <a href="{{ route('user-settings') }}" target="_blank"
-                       class="menu-link px-2">{{ __('messages.Contacts') }}</a>
-                </li> --}}
-
-                <a href="/contact" target="_blank" class="pt-2 text-black text-hover-primary fw-semibold me-1 fs-4">Contacts</a>
+                <a href="/contact" target="_blank" class="pt-2 text-dark text-hover-primary fw-semibold me-1 fs-4">Contacts</a>
             </ul>
             <!--end::Menu-->
         </div>
@@ -1356,7 +1331,7 @@
     </script>
     {{-- Start Aside Script For Button Toggle --}}
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggleButtons = [document.getElementById('kt_aside_toggle'), document.getElementById('kt_aside_toggle_new')];
             const wrapper = document.getElementById('kt_wrapper');
@@ -1381,7 +1356,7 @@
             });
         });
 
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -1428,7 +1403,7 @@
 
     <!-- Core JS Files -->
     <script src="{{ asset('js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/core/bootstrap.min.js') }}"></script> --}}
     <script src="{{ asset('js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script src="{{ asset('js/plugins/chartjs.min.js') }}"></script>
@@ -1880,7 +1855,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script> --}}
     <script>
       function startTour() {
-//introJs().start();
+    //introJs().start();
       }
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->

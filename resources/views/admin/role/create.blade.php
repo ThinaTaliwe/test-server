@@ -1,63 +1,61 @@
 @extends('layouts.app2')
 @section('row_content')
 
-    <div class="modal-content bg-gray-300 border rounded mb-4">
-        <div class="modal-header">
-            <h1 class="fw-bold mt-6 center-content border-bottom border-4 border-info" style="margin-left: auto; margin-right: auto; width: fit-content;">
-                {{ __('Create Role') }}</h1>
-            @if ($errors->any())
-                <ul class="text-danger fw-semibold">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </div>
         <div class="modal-body mx-lg-5 my-7">
+            <div class="modal-header">
+                <h1 class="fw-bold mt-6 center-content" style="margin-left: auto; margin-right: auto; width: fit-content;">
+                    {{ __('Create Role') }}</h1>
+
+            </div>
             <form method="POST" action="{{ route('role.store') }}" id="kt_modal_add_role_form" class="form">
                 @csrf
-                <div class="d-flex flex-column me-n7 pe-7">
-                    <div class="fv-row mb-10">
-                        <label for="name" class="fs-5 fw-bold form-label mb-2">{{ __('Name') }}</label>
-                        <input id="name" type="text" name="name" value="{{ old('name') }}"
-                            class="form-control form-control-solid" />
+                <div class="row">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <label for="name" class="form-label fs-5 fw-bold">{{ __('Name') }}</label>
+                                        <input id="name" type="text" name="name" value="{{ old('name') }}"
+                                            class="form-control form-control-lg" />
+                                        @if ($errors->any())
+                                            <ul class="text-danger fw-semibold">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <h3 class="fs-4 fw-bold border-bottom pb-2 mb-4">
+                                            Select Permissions
+                                        </h3>
+                                        <div class="row">
+                                            @forelse ($permissions as $permission)
+                                                <div class="col-3 mb-3">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" name="permissions[]"
+                                                            value="{{ $permission->name }}" class="form-check-input">
+                                                        <label class="form-check-label">{{ $permission->name }}</label>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                                <div class="col-12 text-center text-muted">No permissions available</div>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                    <div class="text-center pt-4">
+                                        <button type='submit' class='btn btn-success me-2'>
+                                            {{ __('Create') }}
+                                        </button>
+                                        <button type="reset" class="btn btn-danger">Clear</button>
+                                        <button type="button" class="btn btn-secondary me-2" onclick="history.back()">Back</button>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
-                    <div class="fv-row">
-                        <h3 class="fs-2 fw-bold form-label border-bottom border-dark">
-                            Select Permissions
-                        </h3>
-                        <div class="table-responsive">
-                            <table class="table align-middle table-row-dashed fs-6 gy-5">
-                                <tbody class="text-gray-600 fw-semibold">
-                                    @forelse ($permissions as $permission)
-                                        <tr>
-                                            <td class="text-gray-800">{{ $permission->name }}</td>
-                                            <td>
-                                                <label class="form-check form-check-custom form-check-solid me-9">
-                                                    <input type="checkbox" name="permissions[]"
-                                                        value="{{ $permission->name }}" class="form-check-input">
-                                                    <span class="form-check-label">{{ $permission->name }}</span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        ----
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center pt-15">
-                    
-                    <button type='submit' class='btn bg-gba' id='kt_docs_sweetalert_basic'>
-                        {{ __('Create') }}
-                    </button>
-                    <button type="reset" class="btn btn-light me-3">Discard</button>
-                </div>
+
+
             </form>
         </div>
-    </div>
 
 @endsection
 

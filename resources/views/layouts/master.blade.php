@@ -21,9 +21,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
         <!--end::Fonts-->
         <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-        <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
-        <!--end::Global Stylesheets Bundle-->
+
+        {{-- <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" /> --}}
+        {{-- <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" /> --}}
+        
+		<!--end::Global Stylesheets Bundle-->
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 		<!-- Styles Start-->
 		@stack('styles')
@@ -78,7 +80,6 @@
 			@if (session('success'))
 				toastr.success('{{ session('success') }}');
 			@endif
-
 			
 		</script>
         <!--end::Javascript-->

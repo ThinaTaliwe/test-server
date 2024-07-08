@@ -16,7 +16,7 @@ class ChartController extends Controller
     // Main function that uses the filtered data inputs to provide outputs
     public function index(Request $request)
     {
-        $genders = Gender::all()->pluck('name', 'id')->toArray();
+        $genders = Gender::all()->pluck('id', 'id')->toArray();
         $genderColors = [
             '1' => '#007bff', // Blue for Male
             '2' => '#ff7db0', // Pink for Female

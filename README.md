@@ -29,6 +29,7 @@ We extend our gratitude to the sponsors who support the development of the GBA s
 ### Partners
 
 - **[List of specific partners/sponsors for GBA]**
+- 1Office
 
 ## Contributing to GBA
 

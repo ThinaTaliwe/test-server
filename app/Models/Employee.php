@@ -29,7 +29,7 @@ class Employee extends Model
 
     public function role()
     {
-        return $this->belongsTo(EmployeeRole::class, 'role_id');
+        return $this->belongsTo(EmployeeRole::class, 'employee_role_id');
     }
 
     public function company()

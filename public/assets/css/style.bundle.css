@@ -47516,14 +47516,14 @@ body[data-kt-sticky-landing-header=on] {
   --bs-header-desktop-bottom: ;
   --bs-header-tablet-and-mobile: #ffffff;
   --bs-header-tablet-and-mobile-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.08);
-  --bs-aside-bg-color: rgba(1, 187, 134, 0.21);
+  --bs-aside-bg-color: var(--bs-secondary);
   --bs-aside-scrollbar-hover-color: #e6ddd0;
 }
 
 [data-bs-theme=dark] {
   --bs-page-bg: #151521;
   --bs-app-blank-bg: #151521;
-  --bs-header-desktop-fixed-bg-color: #1e1e2d;
+  --bs-header-desktop-fixed-bg-color: var(--bs-aside-bg-color);
   --bs-header-desktop-fixed-shadow: none;
   --bs-header-desktop-bottom: ;
   --bs-header-tablet-and-mobile: #1e1e2d;

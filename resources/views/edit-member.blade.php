@@ -41,7 +41,7 @@
 
 @section('row_content')
     <!--begin::Card-->
-    <div class="card mb-4">
+    <div class="card mb-4 shadow">
         <!--begin::Card body-->
         <div class="card-body row">
             <!--begin::Stepper-->
@@ -237,7 +237,7 @@
                                         {{-- <hr class="dark horizontal mt-2 mb-0"> --}}
                                         <div class="col-3 d-flex align-items-center">
                                             <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
-                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                            </div> -->
                                             <div class="form-floating ">
 
                                                 <input type="text" onkeypress="return isNumberKey(event)"
@@ -947,31 +947,83 @@
                             <h3>Comments Details</h3>
                             <div class="mt-6">
                                 <!-- Payment Details Modal Start -->
+
                                 {{-- <h2 class="text-center">Payments Content</h2> --}}
                                 <p class="text-dark fw-semibold fs-6 mb-12">See all comments details.</p>
+
+                                <!-- Button trigger modal -->
+                                <a class="btn btn-sm btn-icon btn-success" title="Add Comment" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                </a>
+
                                 @foreach ($comments as $comment)
-                                    <div>
-                                        @if (is_array($comment->text))
-                                            @foreach ($comment->text as $ct)
-                                                <!--begin::Option-->
-                                                {{-- <input type="radio" class="btn-check"
+                                        @if (!is_array($comment->text))
+                                            <!--begin::Option-->
+                                            {{-- <input type="radio" class="btn-check"
                                                                 name="radio_buttons_2" value="sms"
                                                                 id="kt_radio_buttons_2_option_2" /> --}}
-                                                <label
-                                                    class="bg-gba-light btn btn-outline btn-outline-dashed btn-active-light-primary p-3 d-flex align-items-center m-2 bordered border-primary-subtle"
-                                                    for="kt_radio_buttons_2_option_2">
-                                                    {{-- <i class="ki-duotone ki-message-text-2 fs-4x me-4"><span
+                                            <label
+                                                class="bg-secondary btn btn-outline btn-outline-dashed p-3 d-flex align-items-center m-2 bordered border-primary-subtle"
+                                                for="kt_radio_buttons_2_option_2">
+                                                {{-- <i class="ki-duotone ki-message-text-2 fs-4x me-4"><span
                                                                         class="path1"></span><span
                                                                         class="path2"></span><span
                                                                         class="path3"></span></i> --}}
 
-                                                    <span class="d-block fw-semibold text-start">
-                                                        <span {{-- class="text-gray-900 fw-bold d-block fs-3">{{ $ct->id }}</span> --}} <span
-                                                            class="text-dark fw-semibold fs-6">{{ $ct->title }}</span>
-                                                    </span>
-                                                </label>
-                                                <!--end::Option-->
-                                            @endforeach
+                                                <div class="d-block fw-semibold text-start d-flex flex-row">
+                                                 <div class="mx-auto">
+                                                        <!-- Button trigger modal -->
+                                                        <a href="#" class="btn btn-sm btn-icon btn-warning"
+                                                            title="Edit" data-bs-toggle="modal"
+                                                            data-bs-target="#editCommentModal"
+                                                            onclick="openEditModal({{ $comment->id }})">
+                                                            <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                                        </a>
+
+                                                        <form method="POST"
+                                                            action="{{ url('comments/' . $comment->id) }}"
+                                                            style="display:inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-icon btn-danger"
+                                                                data-bs-toggle="tooltip" title="Remove"><i
+                                                                    class="bi bi-trash3 fs-4 me-0"></i></button>
+                                                        </form>
+                                                    </div>
+                                                    <!-- Display the comment ID -->
+                                                    <div class="text-dark fw-semibold fs-4 mx-auto my-auto">
+                                                        {{-- {{ $comment->id }} --}}
+
+                                                        <!-- Check if $comment->text is a string that needs to be decoded or already an object/array -->
+                                                        @php
+                                                            if (is_string($comment->text)) {
+                                                                // Decode if it's a string
+                                                                                $commentText = json_decode($comment->text, true);
+                                                                            } else {
+                                                                                // Use it directly if it's already an object/array
+                                                                $commentText = $comment->text;
+                                                            }
+                                                        @endphp
+
+                                                        <!-- Display the decoded or direct data -->
+                                                        @if (is_array($commentText) || is_object($commentText))
+                                                            @foreach ($commentText as $key => $value)
+                                                                    @if ($key === 'title')
+                                                            <!-- Display only the value of the 'title' key -->
+                                                            <div>{{ $value }}</div>
+
+                                                        @endif                                     
+                                                            @endforeach
+                                                        @else
+                                                            <!-- If it's not an array/object, display it directly -->
+                                                            {{ $commentText }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </label>
+
+                                            <!--end::Option-->
                                         @else
                                             <label
                                                 class="bg-danger btn btn-outline btn-outline-dashed p-4 d-flex align-items-center m-2"
@@ -986,7 +1038,6 @@
                                                 </span>
                                             </label>
                                         @endif
-                                    </div>
                                 @endforeach
                                 <!-- Payment Details Modal End -->
                             </div>
@@ -997,6 +1048,127 @@
                 </div>
                 <!--end::Nav-->
             </div>
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Comment</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="{{ route('comments.store') }}">
+                            @csrf <!-- CSRF token for security -->
+                            <div class="modal-body">
+
+
+
+                                <!--begin::Input group-->
+
+
+
+
+
+                                <div class="form-floating">
+                                    {{-- <textarea class="form-control bg-light text-dark" placeholder="Enter your comment here." id="floatingTextarea2"
+                                    name="text" style="height:90px"></textarea> --}}
+
+                                    {{-- <label for="floatingTextarea2">Insert your comment here.</label> --}}
+                                    {{-- @error('floatingTextarea2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong style="color: red">{{ $message }}</strong>
+                                </span>
+                            @enderror --}}
+
+                                    {{-- <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">Title:</label>
+                                        <input type="text" class="form-control" id="recipient-name">
+                                    </div> --}}
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Comment:</label>
+                                        <textarea class="form-control" name="text"id="message-text"></textarea>
+                                    </div>
+
+
+                                    {{-- <a id="addComment"><i class="bi bi-check-circle text-success"></i></a>
+                                <a id="removeComment"><i class="bi bi-x-circle text-danger"></i></a> --}}
+                                    {{-- <input type="hidden" name="text" id="text"> --}}
+                                    <input type="hidden" name="author" value="{{ Auth::user()->name }}">
+                                    <!-- Example value -->
+                                    <input type="hidden" name="link"
+                                        value="{{ route('view-member', $membership->id) }}">
+                                    <!-- Example value -->
+                                    <input type="hidden" name="users_id" value="{{ Auth::user()->id }}">
+                                    <input type="hidden" name="model_name" value="Membership"> <!-- Example value -->
+                                    <input type="hidden" name="model_record" value="{{ $membership->id }}">
+                                    <!-- Example, should be dynamically set -->
+                                    {{-- <button type="submit" class="btn btn-success mt-2">Add</button> --}}
+
+
+                                    <!--end::Input group-->
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Comment Modal -->
+            <div class="modal fade" id="editCommentModal" tabindex="-1" aria-labelledby="editCommentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editCommentModalLabel">Edit Comment</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form method="POST" id="editCommentForm" action="#">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="edit-comment-text" class="col-form-label">Comment:</label>
+                                    <textarea class="form-control" name="text" id="edit-comment-text"></textarea>
+                                </div>
+                                <input type="hidden" name="comment_id" id="edit-comment-id">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            {{-- <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                    <i class="bi bi-plus-lg fs-4 me-0"></i>
+                </a>
+                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                </a>
+                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                        <i class="bi bi-trash3 fs-4 me-0"></i>
+                    </button>
+                </form> --}}
+
         </div>
         <!--end::Card body-->
     </div>
@@ -1086,6 +1258,30 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.edit-comment-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const commentId = this.dataset.commentId;
+                    fetch(`/comments/${commentId}/edit`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Populate the modal with the comment data
+                            document.getElementById('commentText').value = data
+                                .text; // Assuming 'text' is the field name
+                            document.getElementById('editCommentForm').action =
+                                `/comments/${commentId}/update`; // Update form action URL
+
+                            // Show the modal
+                            var editCommentModal = new bootstrap.Modal(document.getElementById(
+                                'editCommentModal'));
+                            editCommentModal.show();
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
 
     {{-- <script>
         var membershipId = {{ $membership->id }};
@@ -1157,7 +1353,7 @@
                 }
             });
         });
-    </script> --}}
+    </> --}}
 
     {{-- Start script to populate they table for billing --}}
     <script>
@@ -1195,4 +1391,19 @@
         });
     </script>
     {{-- End script to populate they table for billing --}}
+
+    <script>
+        function openEditModal(commentId) {
+            // Fetch comment data
+            fetch('/comments/' + commentId + '/edit')
+                .then(response => response.json())
+                .then(comment => {
+                    // Populate the modal fields with comment data
+                    document.getElementById('edit-comment-id').value = comment.id;
+                    document.getElementById('edit-comment-text').value = JSON.parse(comment.text).title;
+                    document.getElementById('editCommentForm').action = '/comments/' + commentId;
+                })
+                .catch(error => console.error('Error fetching comment:', error));
+        }
+    </script>
 @endpush

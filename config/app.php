@@ -200,6 +200,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\GBAServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class,
+        
 
     ],
 
@@ -218,6 +220,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
 ];

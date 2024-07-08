@@ -297,8 +297,6 @@ Breadcrumbs::for('deaths.edit', function ($trail, $death) {
     $trail->push(__('Edit'), route('deaths.edit', $death));
 });
 
-
-
 //------------------------ Start Funeral Breadcrums  -------------------------------------
 
 // Home > funerals

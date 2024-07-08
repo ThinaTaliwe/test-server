@@ -28,6 +28,7 @@ use App\Models\MembershipAddress;
 use App\Models\PersonRelationship;
 use App\Models\Gender;
 use App\Models\MarriageStatus;
+use App\Models\PersonHasAddress;
 
 // use App\Actions\StorePerson;
 use App\Actions\StoreAddress;
@@ -254,6 +255,18 @@ private function fetchOrRetrieveMembershipIds($search = null, $sort = null)
             $this->personService->handleDeathRecords($request, 'death_'); // Normal deaths
             $this->personService->handleDeathRecords($request, 'pmp_death_'); // PMP(Previous Main Person) deaths
     
+            // Person Has Address
+            $personAddress = new PersonHasAddress([
+                'person_id' => $main_person->id,
+                'address_id' => $address->id,
+                'adress_type_id' => 1, // 1 = Residential
+                'start_date' => Carbon::today(), // Carbon today
+            ]);
+
+            $personAddress->save();
+
+            $membershipAddress->save();
+
             DB::commit();
             Log::info('All data processed successfully.');
     

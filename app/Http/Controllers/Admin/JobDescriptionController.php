@@ -69,7 +69,7 @@ class JobDescriptionController extends Controller
         $jobDescription->description = $request->jobdescription_description;
         $jobDescription->pre_amble = $request->jobdescription_preamble;
         $jobDescription->bu_id = $request->bu_id;
-        $jobDescription->role_id = $request->role_id;
+        $jobDescription->employee_role_id = $request->role_id;
 
         $jobDescription->save();
 

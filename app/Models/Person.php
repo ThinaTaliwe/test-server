@@ -106,7 +106,26 @@ class Person extends Model
     {
         return $this->hasMany(MembershipAddress::class, 'membership_id', 'id');
     }
+    // For person
+    public function addresses()
+    {
+        return $this->hasManyThrough(
+            Address::class,
+            PersonHasAddress::class,
+            'person_id',  // Foreign key on PersonHasAddress table...
+            'id',         // Foreign key on Address table...
+            'id',         // Local key on Person table...
+            'address_id'  // Local key on PersonHasAddress table...
+        );
+    }
 
+    // For person where address type is specific
+    public function addressesWithType($typeId)
+    {
+        return $this->addresses()
+                    ->where('person_has_address.adress_type_id', $typeId)
+                    ->get();
+    }
     
     public function user()
     {

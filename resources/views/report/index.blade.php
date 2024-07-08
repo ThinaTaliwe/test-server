@@ -65,7 +65,7 @@
             <!--begin::Row-->
             <div class="row g-3 p-2">
                 <!--begin::Col-->
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <!--begin::List widget 25-->
                     <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-light shadow-lg">
                         <div class="h-lg-50">
@@ -162,7 +162,7 @@
                 </div>
                 <!--end::Col-->
                 <!--begin::Col-->
-                <div class="col-xl-6">
+                <div class="col-xl-8">
                     <!--begin::List widget 25-->
                     <div class="card bg-gradient px-5 pt-5 mt-5 mb-5 rounded-2 bg-light shadow-lg">
                         <div class="h-lg-50">
@@ -189,43 +189,24 @@
                                             <span class="path2"></span>
                                         </i> --}}
                                         <!--begin::Number-->
-
                                         <div class="text-gray-900 fw-bolder fs-3">
                                             @foreach ($membershipsByGender as $membership)
-                                                [<span>
+                                                <span>[
                                                     {{ $membership->count }}
-                                                    @if ($membership->gender_id == 'M')
-                                                        <span class="badge bg-primary">Male</span>
-                                                    @elseif ($membership->gender_id == 'F')
+                                                    @if (array_key_exists($membership->gender_id, $genders))
+                                                        <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
+                                                        {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
                                                         <span class="badge"
-                                                            style="background-color: #ff7db0;">Female</span>
+                                                            style="background-color: #ff7db0;">{{ $genders[$membership->gender_id] }}</span>
                                                     @else
+                                                        <!-- If no match found in the genders array, show a default badge -->
                                                         <span class="badge bg-info-subtle text-dark">Others</span>
                                                     @endif
-                                                </span>]
+                                                    ]
+                                                </span>
                                             @endforeach
                                         </div>
                                         <!--end::Number-->
-                                    </div>
-
-
-
-                                    <div class="text-gray-900 fw-bolder fs-3">
-                                        @foreach ($membershipsByGender as $membership)
-                                            <span>[
-                                                {{ $membership->count }}
-                                                @if (array_key_exists($membership->gender_id, $genders))
-                                                    <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
-                                                    {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
-                                                    <span class="badge"
-                                                        style="background-color: #ff7db0;">{{ $genders[$membership->gender_id] }}</span>
-                                                @else
-                                                    <!-- If no match found in the genders array, show a default badge -->
-                                                    <span class="badge bg-info-subtle text-dark">Others</span>
-                                                @endif
-                                                ]
-                                            </span>
-                                        @endforeach
                                     </div>
                                     <!--end::Statistics-->
                                 </div>
@@ -241,41 +222,27 @@
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
                                         {{-- <i class="ki-duotone ki-arrow-up-right fs-2 text-success me-2">
-                                                                            <span class="path1"></span>
-                                                                            <span class="path2"></span>
-                                                                        </i> --}}
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i> --}}
                                         <!--begin::Number-->
                                         <div class="text-gray-900 fw-bolder fs-3">
                                             @foreach ($membershipsByGenderActive as $membership)
-                                                [<span>
+                                               <span>[
                                                     {{ $membership->count }}
-                                                    @if ($membership->gender_id == 'M')
-                                                        <span class="badge bg-primary">Male</span>
-                                                    @elseif ($membership->gender_id == 'F')
+                                                    @if (array_key_exists($membership->gender_id, $genders))
+                                                        <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
+                                                        {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
                                                         <span class="badge"
-                                                            style="background-color: #ff7db0;">Female</span>
+                                                            style="background-color: #ff7db0;">{{ $genders[$membership->gender_id] }}</span>
                                                     @else
+                                                        <!-- If no match found in the genders array, show a default badge -->
                                                         <span class="badge bg-info-subtle text-dark">Others</span>
                                                     @endif
-                                                </span>]
+                                                    ]
+                                                </span>
                                             @endforeach
                                         </div>
-
-                                        @foreach ($membershipsByGenderActive as $membership)
-                                            <span>[
-                                                {{ $membership->count }}
-                                                @if (array_key_exists($membership->gender_id, $genders))
-                                                    <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
-                                                    {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
-                                                    <span class="badge"
-                                                        style="background-color: #ff7db0;">{{ $genders[$membership->gender_id] }}</span>
-                                                @else
-                                                    <!-- If no match found in the genders array, show a default badge -->
-                                                    <span class="badge bg-info-subtle text-dark">Others</span>
-                                                @endif
-                                                ]
-                                            </span>
-                                        @endforeach
                                     </div>
                                     <!--end::Number-->
                                 </div>
@@ -299,33 +266,22 @@
                                     <!--begin::Number-->
                                     <div class="text-gray-900 fw-bolder fs-3">
                                         @foreach ($membershipsByGenderDeleted as $membership)
-                                            [<span>
-                                                {{ $membership->count }}
-                                                @if ($membership->gender_id == 'M')
-                                                    <span class="badge bg-primary">Male</span>
-                                                @elseif ($membership->gender_id == 'F')
-                                                    <span class="badge" style="background-color: #ff7db0;">Female</span>
-                                                @else
-                                                    <span class="badge bg-info-subtle text-dark">Others</span>
-                                                @endif
-                                            </span>]
+                                            <span>[
+                                                    {{ $membership->count }}
+                                                    @if (array_key_exists($membership->gender_id, $genders))
+                                                        <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
+                                                        {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
+                                                        <span class="badge"
+                                                            style="background-color: #ff7db0;">{{ $genders[$membership->gender_id] }}</span>
+                                                    @else
+                                                        <!-- If no match found in the genders array, show a default badge -->
+                                                        <span class="badge bg-info-subtle text-dark">Others</span>
+                                                    @endif
+                                                    ]
+                                                </span>
                                         @endforeach
                                     </div>
 
-                                    @foreach ($membershipsByGenderDeleted as $membership)
-                                        <span>[
-                                            {{ $membership->count }}
-                                            @if (array_key_exists($membership->gender_id, $genders))
-                                                <!-- If the gender_id is in the genders array, dump the gender_id and show the badge with the gender name -->
-                                                {{-- @dump($membership->gender_id) <!-- This will show the gender_id being processed --> --}}
-                                                <span class="badge" style="background-color: {{ $genderColors[$membership->gender_id] ?? '#6c757d' }};">{{ $genders[$membership->gender_id] }}</span>
-                                            @else
-                                                <!-- If no match found in the genders array, show a default badge -->
-                                                <span class="badge bg-info-subtle text-dark">Others</span>
-                                            @endif
-                                            ]
-                                        </span>
-                                    @endforeach
                                     <!--end::Number-->
                                 </div>
                                 <!--end::Statistics-->
@@ -345,7 +301,7 @@
     {{-- End Data Statistics Overview --}}
 
     {{-- Start Filtering Form Submit --}}
-    <div id="feature_one" class="border border-solid mt-8 mb-4 bg-gba-light rounded-2 shadow-lg">
+    <div id="feature_one" class="border border-solid mt-8 mb-4 bg-gba-light rounded-2 shadow-lg mx-auto">
         <div style="margin-left: auto; margin-right: auto; width: fit-content;">
             <h2 class="m-5">Data Filtering</h2>
         </div>

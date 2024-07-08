@@ -5,25 +5,26 @@
 @endpush
 
 @section('content')
-    <div class="row m-12">
+    <div class="row rounded m-12 shadow-lg">
 
         {{-- Start Search Results --}}
-        <div class="card mt-4 border-gba p-4">
+        <div class="card mt-4 p-4">
             {{-- Start Membership Search --}}
-            <div class="card mb-4 p-4 border-gba-light bg-gba-light">
+            <div class="card mb-4 p-4 bg-secondary">
                 <h1 class="text-center mb-2 p-2">Membership Search</h1>
                 <form action="{{ route('payments') }}" method="GET">
                     <div class="input-group mb-3">
-    <div class="d-flex flex-row" style="width: 100%;">
-        <div class="p-2 w-100">
-            <input type="text" name="search" class="form-control text-dark"
-                placeholder="Enter Membership Code or ID number" aria-label="Membership ID or ID number" required>
-        </div>
-        <div class="p-2">
-            <button class="btn btn-outline-primary bg-gba" type="submit">Search</button>
-        </div>
-    </div>
-</div>
+                        <div class="d-flex flex-row" style="width: 100%;">
+                            <div class="p-2 w-100">
+                                <input type="text" name="search" class="form-control text-dark"
+                                    placeholder="Enter Membership Code or ID number" aria-label="Membership ID or ID number"
+                                    required>
+                            </div>
+                            <div class="p-2">
+                                <button class="btn btn-outline-primary bg-success" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </div>
 
                 </form>
             </div>
@@ -36,11 +37,11 @@
                         {{-- Your membership details and billing history layout here --}}
                         <div class="p-2">
                             @foreach ($memberships as $membership)
-                                <div class="separator separator-dotted border-success my-4"></div>
+                                <div class="separator separator-dotted border-secondary my-4"></div>
                                 <div class="row mt-1">
                                     <!-- Membership Details (3 columns) -->
                                     <div class="col-3">
-                                        <div class="card bg-light">
+                                        <div class="card bg-secondary">
                                             <div class="card-body">
 
                                                 <!-- Membership Name and Surname -->
@@ -58,11 +59,10 @@
                                                         class="additional-css-classes pt-2" />
                                                     <!--end::User-->
                                                     <div class="mt-2 p-1 text-center">
-                                                        <a href="#" class="btn btn-flex bg-gba-light"
+                                                        <a href="#" class="btn btn-flex bg-success"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#membershipInfoModal{{ $membership->id }}">
-                                                            <i class="ki-duotone ki-book-open fs-2x"><span
-                                                                    class="path1"></span><span class="path2"></span></i>
+                                                            <i class="bi bi-book fs-1 text-dark"></i>
                                                             <span class="d-flex flex-column align-items-start ms-2">
                                                                 <span class="fs-3 fw-bold">All Details</span>
                                                             </span>
@@ -153,16 +153,16 @@
                                     </div>
                                     <!-- Billing History (6 columns) -->
                                     <div class="col-9">
-                                        <div class="card mb-4 bg-light">
-                                            <div class="card-title border-gba p-2 m-4 bg-gba">
-                                                <h3 class="m-0 text-center">Billing History</h3>
+                                        <div class="card mb-4 bg-secondary">
+                                            <div class="card-title rounded p-2 m-4">
+                                                <h3 class="card-title m-0 text-center">Billing History</h3>
                                             </div>
 
                                             <div class="card-body p-0 m-4">
                                                 <div class="table-responsive">
                                                     <table
                                                         class="table align-middle gy-4 gs-9 themed-table border border-solid">
-                                                        <thead class="border border-gba bg-gba-light">
+                                                        <thead class="border border-secondary bg-secondary-subtle">
                                                             <tr>
                                                                 <th class="min-w-150px">Date</th>
                                                                 <th class="min-w-250px">Amount Paid</th>
@@ -171,15 +171,15 @@
                                                                 <th class="min-w-150px">Invoice</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="fw-semibold bg-gba-light border border-gba">
-                                                            {{-- <tr>
+                                                        <tbody class="fw-semibold border border-secondary bg-light">
+                                                            <tr>
                                                                 <td>2023-01-15</td>
                                                                 <td>R100.00</td>
                                                                 <td>R200.00</td>
                                                                 <td>Owing</td>
                                                                 <td>
                                                                     <a href="#"
-                                                                        class="btn btn-sm btn-active-light-primary bg-info"
+                                                                        class="btn btn-sm btn-active-light-primary bg-success"
                                                                         style="border-radius: 5px;">PDF</a>
                                                                 </td>
                                                             </tr>
@@ -190,10 +190,10 @@
                                                                 <td>Owing</td>
                                                                 <td>
                                                                     <a href="#"
-                                                                        class="btn btn-sm btn-active-light-primary bg-info"
+                                                                        class="btn btn-sm btn-active-light-primary bg-success"
                                                                         style="border-radius: 5px;">PDF</a>
                                                                 </td>
-                                                            </tr> --}}
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -212,14 +212,14 @@
         {{-- End Search Results --}}
 
         {{-- Start Payment Method --}}
-        <div class="card mt-4 border-gba">
+        <div class="card mt-4">
             <div class="accordion my-4" id="paymentMethodsAccordion">
                 <h1 class="text-center my-4" style="color: green;">Payments Methods</h1>
 
                 <!-- Cash Payment Method -->
-                <div class="accordion-item border-gba m-1">
+                <div class="accordion-item m-1">
                     <h2 class="accordion-header mx-auto" id="headingCash">
-                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseCash" aria-expanded="false" aria-controls="collapseCash">
                             Cash
                         </button>
@@ -228,7 +228,7 @@
                         data-bs-parent="#paymentMethodsAccordion">
                         <div class="accordion-body bg-light">
                             <form id="cashPaymentForm" action="{{ route('saveCashPaymentDetails') }}" method="POST"
-                                class="payment-section border-gba card p-0 m-0">
+                                class="payment-section card p-0 m-0">
 
                                 <h2 class="m-4 text-center">Cash Payment</h2>
                                 @csrf <!-- CSRF token for Laravel -->
@@ -237,7 +237,8 @@
                                         <!-- Membership ID -->
                                         <div class="col-2 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Membership ID</label>
-                                            <select class="form-control form-control-solid srchable" name="membership_id" required>
+                                            <select class="form-control form-control-solid srchable border border-secondary" name="membership_id"
+                                                required>
                                                 <option value="">Select Membership</option>
                                                 @foreach ($memberships as $membership)
                                                     <option value="{{ $membership->id }}">
@@ -256,20 +257,20 @@
                                         <div class="col-md-3 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                 Date</label>
-                                            <input type="date" class="form-control form-control-solid"
+                                            <input type="date" class="form-control form-control-solid border border-secondary"
                                                 id="transaction_date" name="transaction_date" required readonly>
                                         </div>
                                         <!-- Receipt Value Amount -->
                                         <div class="col-md-3 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Receipt Value
                                                 Amount</label>
-                                            <input type="text" class="form-control form-control-solid"
+                                            <input type="text" class="form-control form-control-solid border border-secondary"
                                                 placeholder="Enter Receipt Value Amount" name="receipt_value" required>
                                         </div>
                                         <!-- Currency ID -->
                                         <div class="col-md-1 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Currency</label>
-                                            <select class="form-control" name="currency_id" required>
+                                            <select class="form-control border border-secondary" name="currency_id" required>
                                                 <option value="149">ZAR</option>
                                                 <!-- Populate with currencies -->
                                             </select>
@@ -282,14 +283,14 @@
                                         <div class="col-5 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                 Description</label>
-                                            <input type="text" class="form-control form-control-solid"
+                                            <input type="text" class="form-control form-control-solid border border-secondary"
                                                 placeholder="Enter Transaction Description" name="transaction_description"
                                                 required>
                                         </div>
                                         <!-- Receipt Number -->
                                         <div class="col-3 mb-7 fv-row">
                                             <label class="required fs-6 fw-semibold form-label mb-2">Receipt Number</label>
-                                            <input type="text" class="form-control form-control-solid"
+                                            <input type="text" class="form-control form-control-solid border border-secondary"
                                                 placeholder="Enter Receipt Number" name="receipt_number" required>
                                         </div>
 
@@ -302,7 +303,7 @@
 
                                         <!-- Submission Button -->
                                         <div class="col-3 mb-7 fv-row my-auto">
-                                            <button type="submit" class="btn bg-gba text-center my-auto mx-auto">Submit
+                                            <button type="submit" class="btn bg-success text-center my-auto mx-auto border border-secondary">Submit
                                                 Payment
                                                 Details</button>
                                         </div>
@@ -315,9 +316,9 @@
                 </div>
 
                 <!-- Debit Order Payment Method -->
-                <div class="accordion-item border-gba m-1">
+                <div class="accordion-item m-1">
                     <h2 class="accordion-header" id="headingDebitOrder">
-                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseDebitOrder" aria-expanded="false"
                             aria-controls="collapseDebitOrder">
                             Debit Order
@@ -330,7 +331,7 @@
                             <div class="accordion-body m-0 p-0">
                                 <!-- Debit Order Payment Form Content Here -->
                                 <form id="membershipRegistrationForm" action="{{ route('saveBankDetails') }}"
-                                    method="POST" class="payment-section border-gba card p-0 m-0">
+                                    method="POST" class="payment-section card p-0 m-0">
 
                                     <h2 class="m-4 text-center">Debit Order Payment</h2>
                                     @csrf <!-- CSRF token for Laravel -->
@@ -349,8 +350,8 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid srchable" name="membership_id"
-                                                    required>
+                                                <select class="form-control form-control-solid srchable border border-secondary"
+                                                    name="membership_id" required>
                                                     <option value="">Select Membership ID</option>
                                                     @foreach ($memberships as $membership)
                                                         <option value="{{ $membership->id }}">{{ $membership->id }} -
@@ -362,8 +363,8 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Branch
                                                     ID</label>
-                                                <select class="form-control form-control-solid srchable" name="bank_branch_id"
-                                                    required>
+                                                <select class="form-control form-control-solid srchable border border-secondary"
+                                                    name="bank_branch_id" required>
                                                     <option value="">Select Bank Branch</option>
                                                     @foreach ($branchCodes as $branch)
                                                         <option value="{{ $branch->id }}">{{ $branch->branch_name }}
@@ -386,8 +387,8 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Account Type
                                                     ID</label>
-                                                <select class="form-control form-select-solid srchable" name="bank_account_type_id"
-                                                    required>
+                                                <select class="form-control form-select-solid srchable border border-secondary"
+                                                    name="bank_account_type_id" required>
                                                     <option value="">Select Account Type</option>
                                                     @foreach ($accountTypes as $type)
                                                         <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -400,7 +401,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Name</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Account Name" name="account_name" required>
                                             </div>
                                         </div>
@@ -410,7 +411,7 @@
                                             <div class="col-md-6 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Number</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Account Number" name="account_number" required>
                                             </div>
                                             <!-- Branch Code (Note: If universal_branch_code is different, add another field for it) -->
@@ -483,7 +484,7 @@
                                             <!-- Submission Button -->
                                             <div class="col-md-2 mb-7 fv-row my-auto">
                                                 <button type="submit"
-                                                    class="btn bg-gba text-center my-auto mx-auto">Submit Debit
+                                                    class="btn bg-success text-center my-auto mx-auto">Submit Debit
                                                     Order Details</button>
                                             </div>
                                         </div>
@@ -502,9 +503,9 @@
                 </div>
 
                 <!-- EFT Payment Method -->
-                <div class="accordion-item border-gba m-1">
+                <div class="accordion-item m-1">
                     <h2 class="accordion-header" id="headingEft">
-                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseEft" aria-expanded="false" aria-controls="collapseEft">
                             EFT
                         </button>
@@ -513,7 +514,7 @@
                         data-bs-parent="#paymentMethodsAccordion">
                         <div class="accordion-body bg-light">
                             <!-- Content for EFT Payment Method -->
-                            <div id="eftSection" class="payment-section card border-gba m-0 p-0">
+                            <div id="eftSection" class="payment-section card m-0 p-0">
                                 <h2 class="m-4 text-center">EFT Payment Details</h2>
                                 <!-- Begin Form -->
                                 <form id="eftForm" method="POST" action="{{ route('saveEFTDetails') }}">
@@ -526,8 +527,8 @@
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid srchable" name="membership_id"
-                                                    required>
+                                                <select class="form-control form-control-solid srchable border border-secondary"
+                                                    name="membership_id" required>
                                                     <option value="">Select Membership</option>
                                                     @foreach ($memberships as $membership)
                                                         <option value="{{ $membership->id }}">
@@ -540,7 +541,7 @@
                                             <div class="col-md-2 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Receipt
                                                     Number</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Receipt Number" name="receipt_number" required>
                                             </div>
 
@@ -548,17 +549,18 @@
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Amount
                                                     Value</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Amount Value" name="receipt_value" />
                                             </div>
 
                                             <!-- Bank Name -->
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Bank Name</label>
-                                                <select class="form-control form-control-solid srchable" name="bankName">
+                                                <select class="form-control form-control-solid srchable border border-secondary" name="bankName">
                                                     <option value="">Select Bank</option>
                                                     @foreach ($banks as $bank)
-                                                        <option value="{{ $bank->id }}">{{ $bank->short_name }}</option>
+                                                        <option value="{{ $bank->id }}">{{ $bank->short_name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -567,20 +569,23 @@
                                             <div class="col-md-2 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                     Date</label>
-                                                <input type="date" class="form-control form-control-solid"
+                                                <input type="date" class="form-control form-control-solid border border-secondary"
                                                     id="transaction_date" name="transaction_date" required>
                                             </div>
 
                                             <!-- Branch Code -->
-<div class="col-md-2 fv-row">
-    <label class="required fs-6 fw-semibold form-label mb-2">Branch Code</label>
-    <select class="form-control form-control-solid srchable" name="branchCode">
-        <option value="">Select Branch Code</option>
-        @foreach ($branchCodes as $branch)
-            <option value="{{ $branch->id }}">{{ $branch->branch_code }} {{ $branch->bank_short_name }}</option>
-        @endforeach
-    </select>
-</div>
+                                            <div class="col-md-2 fv-row">
+                                                <label class="required fs-6 fw-semibold form-label mb-2">Branch
+                                                    Code</label>
+                                                <select class="form-control form-control-solid srchable border border-secondary"
+                                                    name="branchCode">
+                                                    <option value="">Select Branch Code</option>
+                                                    @foreach ($branchCodes as $branch)
+                                                        <option value="{{ $branch->id }}">{{ $branch->branch_code }}
+                                                            {{ $branch->bank_short_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
                                         </div>
 
@@ -590,14 +595,14 @@
                                             <div class="col-md-4 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Holder</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Account Holder" name="accountHolder" />
                                             </div>
                                             <!-- Account Number -->
                                             <div class="col-md-4 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Number</label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     placeholder="Enter Account Number" name="transaction_description" />
                                             </div>
 
@@ -605,8 +610,8 @@
                                             <div class="col-md-2 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Account
                                                     Type</label>
-                                                <select class="form-select srchable" name="accountType" data-control="select2"
-                                                    data-hide-search="true">
+                                                <select class="form-select srchable border border-secondary" name="accountType"
+                                                    data-control="select2" data-hide-search="true">
                                                     <option value="">Select Account Type</option>
                                                     <option value="checking">Checking</option>
                                                     <option value="savings">Savings</option>
@@ -622,7 +627,7 @@
 
                                             <!-- Submit Button -->
                                             <div class="col-md-2">
-                                                <button type="submit" class="btn bg-gba mt-8">Submit EFT Details</button>
+                                                <button type="submit" class="btn bg-success mt-8">Submit EFT Details</button>
                                             </div>
                                         </div>
                                     </div>
@@ -633,9 +638,9 @@
                 </div>
 
                 <!-- Data Via Payment Method -->
-                <div class="accordion-item border-gba m-1">
+                <div class="accordion-item m-1">
                     <h2 class="accordion-header" id="headingDataVia">
-                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseDataVia" aria-expanded="false" aria-controls="collapseDataVia">
                             Data Via
                         </button>
@@ -644,7 +649,7 @@
                         data-bs-parent="#paymentMethodsAccordion">
                         <div class="accordion-body bg-light">
                             <!-- Data Via Section -->
-                            <div id="dataViaSection" class="payment-section border-gba card m-0 p-0">
+                            <div id="dataViaSection" class="payment-section card m-0 p-0">
                                 <h2 class="m-4 text-center">Data Via Payment Details</h2>
                                 <!-- Assuming 'saveDataViaDetails' is a method in your controller for handling Data Via payments -->
                                 <form id="dataViaForm" action="{{ route('saveDataViaDetails') }}" method="POST">
@@ -657,8 +662,8 @@
                                             <div class="col-md-3 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Membership
                                                     ID</label>
-                                                <select class="form-control form-control-solid srchable" name="membership_id"
-                                                    required>
+                                                <select class="form-control form-control-solid srchable border border-secondary"
+                                                    name="membership_id" required>
                                                     <option value="">Select Membership ID</option>
                                                     @foreach ($memberships as $membership)
                                                         <option value="{{ $membership->id }}">{{ $membership->id }} -
@@ -673,7 +678,7 @@
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                     Description
                                                 </label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     name="transaction_description"
                                                     placeholder="Enter Transaction Description" required>
                                             </div>
@@ -684,7 +689,7 @@
                                             <div class="col-md-3 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Receipt Number
                                                 </label>
-                                                <input type="text" class="form-control form-control-solid"
+                                                <input type="text" class="form-control form-control-solid border border-secondary"
                                                     name="receipt_number" placeholder="Enter Receipt Number" required>
                                             </div>
 
@@ -692,7 +697,7 @@
                                             <div class="col-md-3 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Amount
                                                     Value</label>
-                                                <input type="number" class="form-control form-control-solid"
+                                                <input type="number" class="form-control form-control-solid border border-secondary"
                                                     name="receipt_value" placeholder="Enter Amount Value" required>
                                             </div>
 
@@ -708,13 +713,13 @@
                                             <div class="col-md-2 mb-7 fv-row">
                                                 <label class="required fs-6 fw-semibold form-label mb-2">Transaction
                                                     Date</label>
-                                                <input type="date" class="form-control form-control-solid"
+                                                <input type="date" class="form-control form-control-solid border border-secondary"
                                                     name="transaction_date" required>
                                             </div>
 
                                             <!-- Submission Button -->
                                             <div class="col-3 mx-auto my-auto">
-                                                <button type="submit" class="btn bg-gba mt-3">Submit Data Via
+                                                <button type="submit" class="btn bg-success mt-3">Submit Data Via
                                                     Details</button>
                                             </div>
                                         </div>
@@ -790,6 +795,4 @@
             document.getElementById('transaction_date').value = today;
         });
     </script>
-
-
 @endpush

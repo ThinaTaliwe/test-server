@@ -71,7 +71,7 @@ class DependantsController extends Controller
         $person->save();
         \Log::info('Memory usage after operation: ' . memory_get_usage());
 
-        // Create a new dependant object
+        // Create a new dependant object (Person_has_person)
         $dependant = new Dependant();
 
         // Set the dependant's attributes

@@ -15,6 +15,8 @@ use App\Models\PersonDetail;
 use App\Models\DeathReporter;
 use App\Models\Funeral;
 
+use Illuminate\Support\Facades\Auth;
+
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
@@ -116,17 +118,17 @@ class DeathController extends Controller
             $memberships = $deceased_person->allMemberships();
 
             // Create funeral records for each membership
-            foreach ($memberships as $membership) {
-                $funeral = new Funeral();
-                $funeral->person_id = $deceased_person->id;
-                $funeral->bu_id = Auth::user()->current_bu_id;
-                $funeral->membership_id = $membership->id;
-                $funeral->main_or_dependent = $membership->pivot->secondary_person_id == $deceased_person->id ? 'Dependent' : 'Main Member';
-                $funeral->membership_status = 'Pending'; // or any other status you want to assign
-                $funeral->last_payment_date = $membership->last_payment_date; // assuming this field exists
-                $funeral->save();
-            }
-            Log::info('Funeral records created for all memberships', ['funerals' => $memberships]);
+            // foreach ($memberships as $membership) {
+            //     $funeral = new Funeral();
+            //     $funeral->person_id = $deceased_person->id;
+            //     $funeral->bu_id = Auth::user()->current_bu_id;
+            //     $funeral->membership_id = $membership->id;
+            //TODO->I might need this line     $funeral->main_or_dependent = $membership->pivot->secondary_person_id == $deceased_person->id ? 'Dependent' : 'Main Member';
+            //     $funeral->membership_status = 'Pending'; // or any other status you want to assign
+            //     $funeral->last_payment_date = $membership->last_payment_date; // assuming this field exists
+            //     $funeral->save();
+            // }
+            // Log::info('Funeral records created for all memberships', ['funerals' => $memberships]);
 
 
             // Commit the transaction

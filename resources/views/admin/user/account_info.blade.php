@@ -11,51 +11,44 @@
             /* Half your total desired margin */
         }
 
-        button .bga{
+        button .bga {
             background-color: red;
             color: var(--bs-success-inverse);
         }
     </style>
-
 @endpush
 
 @section('row_content')
-    <div class="bg-gba-light mb-4 pt-4 border-gba row">
-        <div class="bg-gba border-gba">
-            <h1 class="text-center">Account Management</h1>
-        </div>
-
-  
-           
-            <div class="card-body">
-                    
-               <div class="d-flex justify-content-center align-items-center">
+    <div class="card mb-10 mt-10 pt-4 row shadow">
+        <div class="card-header">
+            <h1 class="card-title">Account Management</h1>
+            <div class="card-toolbar">
+                               
                 <form action="{{ route('update.current.bu') }}" method="POST" id="buForm" class="p-3 border rounded">
                     @csrf
                     <div class="form-group">
                         <label for="bu_id">Select BU:</label>
-                        <select name="bu_id" id="bu_id" class="form-control" onchange="document.getElementById('buForm').submit();">
+                        <select name="bu_id" id="bu_id" class="form-control"
+                            onchange="document.getElementById('buForm').submit();">
                             @php
                                 $currentBuId = session('current_bu_id');
                             @endphp
-                            @foreach(Auth::user()->bus as $bu)
-                                <option value="{{ $bu->id }}" {{ $currentBuId == $bu->id ? 'selected' : '' }}>{{ $bu->bu_name }}</option>
+                            @foreach (Auth::user()->bus as $bu)
+                                <option value="{{ $bu->id }}" {{ $currentBuId == $bu->id ? 'selected' : '' }}>
+                                    {{ $bu->bu_name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="card-body">
 
-            </div>
 
-
-        
-
-      
+        </div>
         <!--begin::Basic info-->
         <div class="row mt-4">
-            <div class="card mb-2 mb-xl-10 custom-col border-gba">
-
+            <div class="card mb-2 mb-xl-10 custom-col border border-secondary">
                 <!--begin::User-->
                 <div class="d-flex flex-column mt-4">
                     <!--begin::Name-->
@@ -104,7 +97,6 @@
                 <div id="kt_account_settings_profile_details" class="collapse show">
                     <!--begin::Form-->
                     <!--begin::Card body-->
-
                     <form method="POST" action="{{ route('admin.account.info.store') }}" class="form">
                         @csrf
                         <div class="card-body border-top p-9">
@@ -161,7 +153,7 @@
                 <!--end::Content-->
             </div>
 
-            <div class="card mb-2 mb-xl-10 custom-col border-gba">
+            <div class="card mb-2 mb-xl-10 custom-col border border-secondary">
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_account_profile_details" aria-expanded="true"
@@ -279,7 +271,7 @@
 
         <div class="row">
             <!--begin::Sign-in Method-->
-            <div class="card mb-5 mb-xl-10 custom-col border-gba">
+            <div class="card mb-5 mb-xl-10 custom-col border border-secondary">
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_account_signin_method">
@@ -292,10 +284,8 @@
                 <div id="kt_account_settings_signin_method" class="collapse show">
                     <!--begin::Card body-->
                     <div class="card-body border-top p-9">
-
-
                         <!--begin::Notice-->
-                        <div class="notice d-flex bg-gba-light rounded border-gba border border-dashed p-6">
+                        <div class="notice d-flex bg-gba-light rounded border border-secondary border border-dashed p-6">
                             <!--begin::Icon-->
                             <i class="ki-duotone ki-shield-tick fs-2tx text-dark me-4">
                                 <span class="path1"></span>
@@ -327,7 +317,7 @@
             </div>
             <!--end::Sign-in Method-->
             <!--begin::Deactivate Account-->
-            <div class="card  mb-4 custom-col border-gba">
+            <div class="card  mb-4 custom-col border border-secondary">
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_account_deactivate" aria-expanded="true" aria-controls="kt_account_deactivate">
@@ -374,7 +364,8 @@
                             <div class="form-check form-check-solid fv-row">
                                 <input name="deactivate" class="form-check-input" type="checkbox" value=""
                                     id="deactivate" />
-                                <label class="form-check-label fw-semibold ps-2 fs-6 text-dark" for="deactivate">I confirm my
+                                <label class="form-check-label fw-semibold ps-2 fs-6 text-dark" for="deactivate">I confirm
+                                    my
                                     account
                                     deactivation</label>
                             </div>
@@ -395,6 +386,5 @@
             <!--end::Deactivate Account-->
         </div>
     </div>
-
 
 @endsection

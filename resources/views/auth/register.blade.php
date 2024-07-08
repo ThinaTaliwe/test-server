@@ -51,7 +51,7 @@
               <!--begin::Input group=-->
               <div class="fv-row mb-8">
                 <!--begin::Name-->
-                <x-label for="name" :value="__('Name')" />
+                <x-label for="name" :value="__('Name(s)')" />
                 <input class="form-control bg-transparent" id="name" type="text" name="name" value="{{old('name')}}" required autofocus>
                 <!--end::Name-->
               </div>

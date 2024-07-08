@@ -1,7 +1,7 @@
 @extends('layouts.app2')
 
 @section('row_content')
-<div class="card">
+<div class="card mb-10">
   <!--begin::Header-->
   <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">

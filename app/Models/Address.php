@@ -71,5 +71,19 @@ class Address extends Model
     {
         return $this->belongsTo(AddressType::class, 'adress_type_id', 'id');
     }
+
+
+        // Assuming we need the reverse relationship(address belongs to which persons), which might be rare
+        public function persons()
+        {
+            return $this->hasManyThrough(
+                Person::class,
+                PersonHasAddress::class,
+                'address_id',  // Foreign key on PersonHasAddress table...
+                'id',          // Foreign key on Person table...
+                'id',          // Local key on Address table...
+                'person_id'    // Local key on PersonHasAddress table...
+            );
+        }
     
 }

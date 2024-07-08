@@ -72,6 +72,15 @@ class Membership extends Model
         );
     }
 
+        // For membership where address type is specific
+        public function addressesWithType($typeId)
+        {
+            return $this->address()
+                        ->where('membership_has_address.adress_type_id', $typeId)
+                        ->get();
+        }
+        
+
     /**
      * Get the membership addresses associated with the membership.
      */
@@ -82,6 +91,11 @@ class Membership extends Model
 
     public function status()
     {
-        return $this->belongsTo(MembershipStatus::class, 'status_id');
+        return $this->belongsTo(BuMembershipStatus::class, 'bu_membership_status_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(BuMembershipType::class, 'bu_membership_type_id');
     }
 }

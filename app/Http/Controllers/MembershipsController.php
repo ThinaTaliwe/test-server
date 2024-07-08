@@ -32,6 +32,7 @@ use App\Models\Gender;
 use App\Models\MarriageStatus;
 use App\Models\Language;
 use App\Models\Comment;
+use App\Models\PersonHasAddress;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembershipsExport;
@@ -67,8 +68,6 @@ class MembershipsController extends Controller
         ];
         //$numberOfMemberships = $query->count();
 
-
-
         //$memberships = $query->orderBy('name')->paginate();
         $memberships = Membership::all();
 
@@ -100,7 +99,6 @@ class MembershipsController extends Controller
 
     public function store(StoreMembershipRequest $request, StorePerson $storePerson, StoreAddress $storeAddress)
     {
-        
         DB::beginTransaction(); // Start the transaction
 
         try {
@@ -149,6 +147,8 @@ class MembershipsController extends Controller
             $membership->save();
             Log::info('Saved membership');
 
+            //dd($request);
+
             //dd($request->all());
             $request->validate([
                 'text' => 'nullable|string',
@@ -158,37 +158,31 @@ class MembershipsController extends Controller
                 'model_name' => 'required|string',
                 'model_record' => 'nullable|integer',
             ]);
-            
+
             // Generate the URL
             $url = route('view-member', ['id' => $membership->id]);
 
-            $Comment = new Comment();
-            $Comment->users_id = auth()->user()->id;
-            $Comment->text = $request->input('tasksData');
-            $Comment->author = $request->author;
-            $Comment->link = $url;
-            $Comment->model_name = "Membership";
-            $Comment->model_record = $membership->id;
+            // Decode JSON data from the request
+            $tasksData = json_decode($request->input('tasksData'), true);
+            
 
-            $Comment->save();
+            // Check if data is an array and not empty
+            if (is_array($tasksData) && !empty($tasksData)) {
+                foreach ($tasksData as $task) {
+                    // Create a new task in the database
+                    $Comment = new Comment();
+                    //$Comment->users_id = auth()->user()->id;
+                    //$Comment->text = $request->input($task);
+                    $Comment->users_id = auth()->user()->id;
+                    $Comment->text = json_encode($task);                  
+                    $Comment->author = $request->author;
+                    $Comment->link = $url;
+                    $Comment->model_name = 'Membership';
+                    $Comment->model_record = $membership->id;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    $Comment->save();
+                }
+            }
 
             // Membership Has Address
             $membershipAddress = new MembershipAddress([
@@ -199,6 +193,16 @@ class MembershipsController extends Controller
             ]);
 
             $membershipAddress->save();
+
+            // Person Has Address
+            $personAddress = new PersonHasAddress([
+                'person_id' => $person->id,
+                'address_id' => $address->id,
+                'adress_type_id' => 1, // 1 = Residential
+                'start_date' => Carbon::today(), // Carbon today
+            ]);
+
+            $personAddress->save();
 
             DB::commit(); // Commit the transaction
 
@@ -306,11 +310,11 @@ class MembershipsController extends Controller
         $billings = DB::select('select * from membership_payment_receipts');
 
         $statuses = [
-        1 => 'Active',
-        2 => 'Inactive',
-        3 => 'Suspended',
-        // Add other statuses as needed
-    ];
+            1 => 'Active',
+            2 => 'Inactive',
+            3 => 'Suspended',
+            // Add other statuses as needed
+        ];
 
         // dd($billings);
         return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
