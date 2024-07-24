@@ -88,9 +88,14 @@ class User extends Authenticatable
 
 
     // Relationship to Person
+    // public function person()
+    // {
+    //     return $this->hasOne(Person::class);
+    // }
+
     public function person()
     {
-        return $this->hasOne(Person::class);
+        return $this->belongsTo(Person::class, 'person_id');
     }
 
         // Relationship with UserHasBu

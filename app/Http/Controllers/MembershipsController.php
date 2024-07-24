@@ -33,6 +33,7 @@ use App\Models\MarriageStatus;
 use App\Models\Language;
 use App\Models\Comment;
 use App\Models\PersonHasAddress;
+use Illuminate\Support\Facades\Auth;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MembershipsExport;
@@ -120,28 +121,27 @@ class MembershipsController extends Controller
             $membershipCode = generateUniqueMembershipCode();
 
             $membership = new Membership();
-            $membership->fill([
-                'membership_code' => $membershipCode,
-                'name' => ucfirst($request->Name),
-                'initials' => ucfirst(substr($request->Name, 0, 1)) . '.' . ucfirst(substr($request->Surname, 0, 1)),
-                'surname' => ucfirst($request->Surname),
-                'id_number' => $request->IDNumber,
-                'gender_id' => $request->radioGender,
-                'join_date' => Carbon::today(),
-                'bu_id' => 7,
-                'bu_membership_type_id' => $request->memtype,
-                'bu_membership_region_id' => 1,
-                'bu_membership_status_id' => 1,
-                'language_id' => $language,
-                'person_id' => $person->id, // Ensure StorePerson action returns saved Person
-                'primary_contact_number' => $request->Telephone,
-                'secondary_contact_number' => $request->WorkTelephone,
-                'sms_number' => $request->Telephone,
-                'primary_e_mail_address' => $request->Email,
-                'preferred_payment_method_id' => 1, //$request->paymentMethod
-                'fee_currency_id' => 149,
-            ]);
-
+            $membership->membership_code = $membershipCode;
+            $membership->name = ucfirst($request->Name);
+            $membership->initials = ucfirst(substr($request->Name, 0, 1)) . '.' . ucfirst(substr($request->Surname, 0, 1));
+            $membership->surname = ucfirst($request->Surname);
+            $membership->id_number = $request->IDNumber;
+            $membership->gender_id = $request->radioGender;
+            $membership->join_date = Carbon::today();
+            $membership->bu_id = Auth::user()->currentBu()->id;
+            $membership->bu_membership_type_id = $request->memtype;
+            $membership->bu_membership_region_id = 1;
+            $membership->bu_membership_status_id = 1;
+            $membership->language_id = $language;
+            $membership->person_id = $person->id; // Ensure StorePerson action returns saved Person
+            $membership->primary_contact_number = $request->Telephone;
+            $membership->secondary_contact_number = $request->WorkTelephone;
+            $membership->sms_number = $request->Telephone;
+            $membership->primary_e_mail_address = $request->Email;
+            $membership->preferred_payment_method_id = 1; //$request->paymentMethod
+            $membership->fee_currency_id = 149;
+            
+            
             //$tasksData = $request->input('tasksData');
 
             $membership->save();
@@ -184,25 +184,22 @@ class MembershipsController extends Controller
                 }
             }
 
-            // Membership Has Address
-            $membershipAddress = new MembershipAddress([
-                'membership_id' => $membership->id,
-                'address_id' => $address->id,
-                'adress_type_id' => 1, // 1 = Residential
-                'start_date' => Carbon::today(), // Carbon today
-            ]);
-
+           // Membership Has Address
+            $membershipAddress = new MembershipAddress();
+            $membershipAddress->membership_id = $membership->id;
+            $membershipAddress->address_id = $address->id;
+            $membershipAddress->adress_type_id = 1; // 1 = Residential
+            $membershipAddress->start_date = Carbon::today();
             $membershipAddress->save();
 
             // Person Has Address
-            $personAddress = new PersonHasAddress([
-                'person_id' => $person->id,
-                'address_id' => $address->id,
-                'adress_type_id' => 1, // 1 = Residential
-                'start_date' => Carbon::today(), // Carbon today
-            ]);
-
+            $personAddress = new PersonHasAddress();
+            $personAddress->person_id = $person->id;
+            $personAddress->address_id = $address->id;
+            $personAddress->adress_type_id = 1; // 1 = Residential
+            $personAddress->start_date = Carbon::today();
             $personAddress->save();
+
 
             DB::commit(); // Commit the transaction
 

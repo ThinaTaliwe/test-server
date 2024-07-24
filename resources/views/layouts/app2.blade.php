@@ -2,6 +2,8 @@
 @section('title', 'GBA System')
 
  @push('styles')
+
+ 
 {{--<script>
         // Function to stringify an element's attributes
         function stringifyAttributes(element) {
@@ -54,7 +56,7 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
     {{-- <link href="{{ asset('css/dynamic_styles.css') }}" rel="stylesheet"> --}}
-    <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
+    {{-- <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/> --}}
     <!--end::Global Stylesheets Bundle-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     
@@ -78,6 +80,10 @@
             animation: spin 2s infinite linear;
         }
     </style>
+    <link id="bootstrapCss" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link id="bootswatchCss" rel="stylesheet" href="{{ asset('assets/css/style.bundle.css') }}">
+     {{-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> --}}
+    
 
     {{--START Siya: Google auto-complete always on top --}}
     <style>
@@ -176,23 +182,40 @@
             
         {{--End: Trying a modularized version of Google maps auto-complete --}}
         <style>
-        /* Underline active link */
-        .menu-link.active .menu-title, 
-        .menu-link:active .menu-title,
-        .menu-link:visited .menu-title {
-            text-decoration: highlight;
-            text-size: 8em;
-        }
+            /* Underline active link */
+            .menu-link.active .menu-title, 
+            .menu-link:active .menu-title,
+            .menu-link:visited .menu-title {
+                text-decoration: highlight;
+                text-size: 8em;
+            }
 
-        /* Additional style for the active menu item */
-        .menu-link.active {
-            color: #0056b3; /* Change the color to blue or any color that suits your design */
-            font-weight: bold; /* Make it bold to highlight */
-        }
-    </style>
+            /* Additional style for the active menu item */
+            .menu-link.active {
+                color: #0056b3; /* Change the color to blue or any color that suits your design */
+                font-weight: bold; /* Make it bold to highlight */
+            }
+        </style>
     
     
-
+     <style>
+    .table-rounded {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .table-rounded thead tr:first-child th:first-child {
+      border-top-left-radius: 10px;
+    }
+    .table-rounded thead tr:first-child th:last-child {
+      border-top-right-radius: 10px;
+    }
+    .table-rounded tfoot tr:last-child th:first-child {
+      border-bottom-left-radius: 10px;
+    }
+    .table-rounded tfoot tr:last-child th:last-child {
+      border-bottom-right-radius: 10px;
+    }
+  </style>
 
     <style>
         select {
@@ -336,7 +359,7 @@
         <i class="ki-outline ki-double-left fs-1 rotate-180" style="font-size: 24px;"></i>
     </div> --}}
     {{-- End SidePanel Toggle Button --}}
-    <div id="toggleDrawerButton" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle me-n2"
+    <div id="toggleDrawerButton" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle me-n2 overflow-y-auto"
     data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
     data-kt-toggle-name="aside-minimize" style="padding: 10px; font-size: 24px; position: fixed; top: 50%; left: 0; transform: translateY(-50%);">
     <i class="ki-outline ki-double-right fs-1 rotate-180" style="font-size: 34px;"></i>
@@ -611,20 +634,73 @@
     </div>
     {{-- <div id="google_translate_element"></div> --}}
 
-        
+      {{-- <div>
+                    <select id="themeSelect" onchange="changeTheme()">
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cerulean/bootstrap.min.css">Cerulean</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css">Cosmo</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cyborg/bootstrap.min.css">Cyborg</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css">Darkly</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">Flatly</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css">Journal</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css">Litera</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/lumen/bootstrap.min.css">Lumen</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/lux/bootstrap.min.css">Lux</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/materia/bootstrap.min.css">Materia</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/minty/bootstrap.min.css">Minty</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/morph/bootstrap.min.css">Morph</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/pulse/bootstrap.min.css">Pulse</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/quartz/bootstrap.min.css">Quartz</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/sandstone/bootstrap.min.css">Sandstone</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/simplex/bootstrap.min.css">Simplex</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/sketchy/bootstrap.min.css">Sketchy</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/slate/bootstrap.min.css">Slate</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/solar/bootstrap.min.css">Solar</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/spacelab/bootstrap.min.css">Spacelab</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/superhero/bootstrap.min.css">Superhero</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/united/bootstrap.min.css">United</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/vapor/bootstrap.min.css">Vapor</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/yeti/bootstrap.min.css">Yeti</option>
+                        <option value="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/zephyr/bootstrap.min.css">Zephyr</option>
+                    </select>
+                </div> --}}
+
 @endsection
 
 @section('header')
-    <div id="kt_header" class="header my-4 p-0 shadow bg-body border-secondary rounded-2 w-50 mx-auto">
+    <div id="kt_header" class="header my-1 p-0 shadow bg-body border-secondary rounded-2 w-50 mx-auto" style="height:60px;">
         <!--begin::Container-->
         <div class="container-fluid d-flex flex-row flex-wrap justify-content-between text-wrap"
              id="kt_header_container">
+        
+        {{-- 
+        <ul class="breadcrumb fs-3">
+            <li>
+                <a href="/home">Home</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Library</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Shelf</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Books</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Chapters</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Verses</a> <span class="divider">/</span>
+            </li>
+            <li class="active">Data</li>
+        </ul> 
+        --}}
 
             <!--begin::Page title-->
             <x-header.page-title title="Current Dashboard" subtitle="current page" class="additional-classes"/>
             <!--end::Page title=-->
             
-            <div class="d-flex justify-content-center my-auto">
+            <div class="d-flex justify-content-center my-auto" hidden>
                 <!--begin::Solid input group style-->
                 <div class="dropdown">
                         <form action="{{ route('direction.switch') }}" method="POST">
@@ -637,7 +713,7 @@
                         </form>
                 </div>
                 <!-- end::Solid input group style-->
-
+ 
                 <!--begin::Solid input group style-->
                 <div class="dropdown mx-2">
                         <form action="{{ route('language.switch') }}" method="POST" class="w-100">
@@ -683,11 +759,7 @@
                 <!--begin::Activities-->
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
                     <!--begin::Drawer toggle-->
-                    
-            
-                    
-                    
-                    
+                  
                     {{-- <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px bg-gba-light ribbon ribbon-top ribbon-vertical"
                          id="kt_activities_toggle">
                          <div class="ribbon-label bg-transparent">
@@ -704,7 +776,6 @@
                             <span class="path3"></span>
                         </i>                      
                     </div> --}}
-
 
                     <div class="btn btn-icon btn-active-color-success btn-outline w-40px h-40px bg-body border border-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Notifications"
                         id="kt_activities_toggle">
@@ -1118,7 +1189,35 @@
     </div>
 @endsection
 
+
+    <!--SIYA:: Block UI if user is not an employee -->
+    @if (Auth::check() && (!Auth::user()->person || !Auth::user()->person->employee))
+        <div class="modal fade show" id="accessDeniedModal" tabindex="-1" role="dialog" style="display: block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Access Denied</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>You do not have access to this system as you are not registered as an employee.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('logout') }}" class="btn btn-primary"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade show"></div>
+    @endif
+
 @section('footer')
+
         <!--begin::Container-->
         <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-body mx-auto mt-auto shadow-lg" id="kt_footer">
             <!--begin::Copyright-->
@@ -1143,7 +1242,7 @@
             <div class="card shadow-none border-0 rounded-0">
                 <!--begin::Header-->
                 <div class="card-header" id="kt_activities_header">
-                    <h3 class="card-title fw-bold text-dark">Activity Logs : <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span></h3>
+                    {{-- <h3 class="card-title fw-bold text-dark">Activity Logs : <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span></h3> --}}
                     <div class="card-toolbar">
                         <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5"
                                 id="kt_activities_close">
@@ -1171,7 +1270,7 @@
                             </div>
                         
                         {{-- @dump(auth()->user()->unreadNotifications) --}}
-                        @foreach(auth()->user()->notifications as $notification)
+                        {{-- @foreach(auth()->user()->notifications as $notification) --}}
                             <!-- Notification Badge for Unread Notifications -->
 
                         <div class="timeline-item">
@@ -1194,7 +1293,7 @@
                                 <div class="overflow-auto pe-3">
                                     <!--begin::Title-->
                                     {{-- <div class="fs-5 fw-semibold mb-2">{{ $notification->data['message'] }} <button onclick="deleteNotification('{{ $notification->id }}', this)" class="badge badge-sm bg-danger" style="cursor: pointer;">clear</button></div> --}}
-                                    <div class="fs-5 fw-semibold mb-2">{{ $notification->data['message'] }}<button onclick="deleteNotification('{{ $notification->id }}', this)" class="badge badge-sm bg-danger" style="cursor: pointer;">clear</button></div>
+                                    {{-- <div class="fs-5 fw-semibold mb-2">{{ $notification->data['message'] }}<button onclick="deleteNotification('{{ $notification->id }}', this)" class="badge badge-sm bg-danger" style="cursor: pointer;">clear</button></div> --}}
                                     {{-- <div class="fs-5 fw-semibold mb-2"></div> --}}
                                     <!--end::Title-->
                                     <!--begin::Description-->
@@ -1203,10 +1302,10 @@
                                         {{-- <div class="me-2 fs-7 text-gray-700">{{ $notification->created_at }}</div> --}}
                                         <!--end::Info-->
                                         <!--begin::User-->
-                                        <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
-                                            data-bs-boundary="window" data-bs-placement="top" title="{{Auth::user()->email}} ">
+                                        {{-- <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
+                                            data-bs-boundary="window" data-bs-placement="top" title="{{Auth::user()->email}} "> --}}
                                             <!--begin::User-->
-                                            <span>{{ $notification->data['action'] }}  <span class="me-2 fs-7 text-gray-700">{{ $notification->created_at->diffForHumans() }} </span> by </span><a href="#" class="text-primary fw-bold me-1">{{Auth::user()->name}}</a>
+                                            {{-- <span>{{ $notification->data['action'] }}  <span class="me-2 fs-7 text-gray-700">{{ $notification->created_at->diffForHumans() }} </span> by </span><a href="#" class="text-primary fw-bold me-1">{{Auth::user()->name}}</a> --}}
                                             {{-- <span> by </span><a href="#" class="text-primary fw-bold me-1"></a> --}}
                                             {{-- <!--end::User--> --}}                                          
                                         </div>
@@ -1218,7 +1317,7 @@
                             </div>
                             <!--end::Timeline content-->
                         </div>
-                        @endforeach
+                        {{-- @endforeach --}}
                     </div>
                             <!--end::Timeline item-->
                             <!--begin::Timeline item-->
@@ -1930,11 +2029,50 @@ $(document).ready(function() {
         $(document).ready(function() {
             $('.srchable').select2({
                 width: '100%', // Ensures the width of the select matches container
-                placeholder: 'Select Membership Type', // Placeholder if needed
+                placeholder: 'Select Options', // Placeholder if needed
                 allowClear: true // Allows clearing the selection
             });
         });
     </script>
 
     <!--end::Custom Javascript-->
+
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#datetime-picker", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, Y h:i K",
+            time_24hr: false
+        });
+    });
+</script>
+
+<script>
+        function changeTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            document.getElementById('bootswatchCss').href = theme;
+        }
+    </script>
+
+<script>
+    $("#kt_datepicker_1").flatpickr();
+    </script>
+
+    <script>
+    $("#kt_datepicker_3").flatpickr({
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+});
+</script>
+
+{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+  duration: 1200,
+})
+</script> --}}
+
 @endpush

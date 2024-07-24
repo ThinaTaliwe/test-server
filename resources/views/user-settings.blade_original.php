@@ -4,136 +4,187 @@
     <!--begin::Vendor Stylesheets(used for this page only)-->
     <link href="assets/plugins/custom/leaflet/leaflet.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+
+	{{-- Start Overlayed Layout Style --}}
+    <style>
+        .extended-width {
+            margin-left: -100px;
+            width: calc(100% + 100px);
+			border: 1px whitesmoke solid;
+        }
+    </style>
+	{{-- End Overlayed Layout Style --}}
 @endpush
 
 @section('row_content')
-    <div class="card">
-        <!--begin::Body-->
-        <div class="card-body p-lg-17">
-            <!--begin::Row-->
-            <div class="row mb-3">
-                <!--begin::Col-->
-                <div class="col-md-6 pe-lg-10">
-                    <!--begin::Form-->
-                    <form action="" class="form mb-15" method="post" id="kt_contact_form">
-                        <h1 class="fw-bold text-dark mb-9">Send Us Email</h1>
-                        <!--begin::Input group-->
-                        <div class="row mb-5">
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
+    <div>
+        <div class="card" style="border: 1px solid gray;">
+            <!--begin::Body-->
+            <div class="card-body p-lg-17">
+                <!--begin::Row-->
+                <div class="row mb-3">
+                    <!--begin::Col-->
+                    <div class="col-md-6 pe-lg-10">
+                        <!--begin::Form-->
+                        <form action="" class="form mb-15" method="post" id="kt_contact_form">
+                            <h1 class="fw-bold text-dark mb-9">Send Us Email</h1>
+                            <!--begin::Input group-->
+                            <div class="row mb-5">
+                                <!--begin::Col-->
+                                <div class="col-md-6 fv-row">
+                                    <!--begin::Label-->
+                                    <label class="fs-5 fw-semibold mb-2">Name</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid" placeholder=""
+                                        name="name" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-md-6 fv-row">
+                                    <!--end::Label-->
+                                    <label class="fs-5 fw-semibold mb-2">Email</label>
+                                    <!--end::Label-->
+                                    <!--end::Input-->
+                                    <input type="text" class="form-control form-control-solid" placeholder=""
+                                        name="email" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-5 fv-row">
                                 <!--begin::Label-->
-                                <label class="fs-5 fw-semibold mb-2">Name</label>
+                                <label class="fs-5 fw-semibold mb-2">Subject</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder=""
-                                    name="name" />
+                                <input class="form-control form-control-solid" placeholder="" name="subject" />
                                 <!--end::Input-->
                             </div>
-                            <!--end::Col-->
-                            <!--begin::Col-->
-                            <div class="col-md-6 fv-row">
-                                <!--end::Label-->
-                                <label class="fs-5 fw-semibold mb-2">Email</label>
-                                <!--end::Label-->
-                                <!--end::Input-->
-                                <input type="text" class="form-control form-control-solid" placeholder=""
-                                    name="email" />
-                                <!--end::Input-->
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-10 fv-row">
+                                <label class="fs-6 fw-semibold mb-2">Message</label>
+                                <textarea class="form-control form-control-solid" rows="6" name="message" placeholder=""></textarea>
                             </div>
-                            <!--end::Col-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="d-flex flex-column mb-5 fv-row">
-                            <!--begin::Label-->
-                            <label class="fs-5 fw-semibold mb-2">Subject</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input class="form-control form-control-solid" placeholder="" name="subject" />
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="d-flex flex-column mb-10 fv-row">
-                            <label class="fs-6 fw-semibold mb-2">Message</label>
-                            <textarea class="form-control form-control-solid" rows="6" name="message" placeholder=""></textarea>
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Submit-->
-                        <button type="submit" class="btn btn-primary" id="kt_contact_submit_button">
-                            <!--begin::Indicator label-->
-                            <span class="indicator-label">Send Feedback</span>
-                            <!--end::Indicator label-->
-                            <!--begin::Indicator progress-->
-                            <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                            <!--end::Indicator progress-->
-                        </button>
-                        <!--end::Submit-->
-                    </form>
-                    <!--end::Form-->
-                </div>
-                <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-md-6 ps-lg-10">
-                    <!--begin::Map-->
-                    <!-- <div id="kt_contact_map" class="w-100 rounded mb-2 mb-lg-0 mt-2" style="height: 486px"></div> -->
-                    <div class="card card-bordered">
-                        <div class="card-body">
-                            <div id="kt_amcharts_2" style="height: 460px;"></div>
-                        </div>
+                            <!--end::Input group-->
+                            <!--begin::Submit-->
+                            <button type="submit" class="btn btn-primary" id="kt_contact_submit_button">
+                                <!--begin::Indicator label-->
+                                <span class="indicator-label">Send Feedback</span>
+                                <!--end::Indicator label-->
+                                <!--begin::Indicator progress-->
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                <!--end::Indicator progress-->
+                            </button>
+                            <!--end::Submit-->
+                        </form>
+                        <!--end::Form-->
                     </div>
-                    <!--end::Map-->
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6 ps-lg-10">
+                        <!--begin::Map-->
+                        <!-- <div id="kt_contact_map" class="w-100 rounded mb-2 mb-lg-0 mt-2" style="height: 486px"></div> -->
+                        <div class="card card-bordered">
+                            <div class="card-body">
+                                <div id="kt_amcharts_2" style="height: 460px;"></div>
+                            </div>
+                        </div>
+                        <!--end::Map-->
+                    </div>
+                    <!--end::Col-->
                 </div>
-                <!--end::Col-->
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row g-5 mb-5 mb-lg-15">
+                    <!--begin::Col-->
+                    <div class="col-sm-6 pe-lg-10">
+                        <!--begin::Phone-->
+                        <div class="bg-light card-rounded d-flex flex-column flex-center flex-center p-10 h-100">
+                            <!--begin::Icon-->
+                            <i class="ki-duotone ki-briefcase fs-3tx text-primary">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <!--end::Icon-->
+                            <!--begin::Subtitle-->
+                            <h1 class="text-dark fw-bold my-5">Let’s Speak</h1>
+                            <!--end::Subtitle-->
+                            <!--begin::Number-->
+                            <div class="text-gray-700 fw-semibold fs-2">011 873-8630 (Tel)</div>
+                            <div class="text-gray-700 fw-semibold fs-2">011 825 1493 (Office)</div>
+                            <div class="text-gray-700 fw-semibold fs-2">072 857 2033 (WhatsApp)</div><br>
+                            <div class="text-gray-700 fw-semibold fs-2">info@gba.co.za (Email)</div>
+                            <!--end::Number-->
+                        </div>
+                        <!--end::Phone-->
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-sm-6 ps-lg-10">
+                        <!--begin::Address-->
+                        <div class="text-center bg-light card-rounded d-flex flex-column flex-center p-10 h-100">
+                            <!--begin::Icon-->
+                            <i class="ki-duotone ki-geolocation fs-3tx text-primary">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <!--end::Icon-->
+                            <!--begin::Subtitle-->
+                            <h1 class="text-dark fw-bold my-5">Our Office</h1>
+                            <!--end::Subtitle-->
+                            <!--begin::Description-->
+                            <div class="text-gray-700 fs-3 fw-semibold"> 49 Joubert St, Germiston, Johannesburg, 1401</div>
+                            <!--end::Description-->
+                        </div>
+                        <!--end::Address-->
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
             </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row g-5 mb-5 mb-lg-15">
-                <!--begin::Col-->
-                <div class="col-sm-6 pe-lg-10">
-                    <!--begin::Phone-->
-                    <div class="bg-light card-rounded d-flex flex-column flex-center flex-center p-10 h-100">
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-briefcase fs-3tx text-primary">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                        <!--end::Icon-->
-                        <!--begin::Subtitle-->
-                        <h1 class="text-dark fw-bold my-5">Let’s Speak</h1>
-                        <!--end::Subtitle-->
-                        <!--begin::Number-->
-                        <div class="text-gray-700 fw-semibold fs-2">1 (833) 597-7538</div>
-                        <!--end::Number-->
-                    </div>
-                    <!--end::Phone-->
-                </div>
-                <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-sm-6 ps-lg-10">
-                    <!--begin::Address-->
-                    <div class="text-center bg-light card-rounded d-flex flex-column flex-center p-10 h-100">
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-geolocation fs-3tx text-primary">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                        <!--end::Icon-->
-                        <!--begin::Subtitle-->
-                        <h1 class="text-dark fw-bold my-5">Our Head Office</h1>
-                        <!--end::Subtitle-->
-                        <!--begin::Description-->
-                        <div class="text-gray-700 fs-3 fw-semibold">Churchill-laan 16 II, Gauteng</div>
-                        <!--end::Description-->
-                    </div>
-                    <!--end::Address-->
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
+            <!--end::Body-->
         </div>
-        <!--end::Body-->
+        <br><br>
+		{{-- Start Overlayed Layout Content--}}
+        {{-- <div class="card bg-gradient extended-width" style="border: 1px solid gray;">
+            <div class="card-body p-lg-17">
+                <div class="row mb-3">
+                    <div class="col-md-6 pe-lg-10">
+                        <form action="{{ route('login') }}" class="form mb-15" method="post" id="kt_login_form">
+                            @csrf
+                            <h1 class="fw-bold text-dark mb-9">Login Tester</h1>
+                            <div class="row mb-5">
+                                <div class="col-md-12 fv-row">
+                                    <label class="fs-5 fw-semibold mb-2">Email</label>
+                                    <input type="email" class="form-control form-control-solid" name="email" required />
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-12 fv-row">
+                                    <label class="fs-5 fw-semibold mb-2">Password</label>
+                                    <input type="password" class="form-control form-control-solid" name="password"
+                                        required />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="kt_login_submit_button">
+                                <span class="indicator-label">Login</span>
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </form>
+                        <a href="{{ route('register') }}" class="mt-3">Don't have an account? Register</a>
+                    </div>
+                    <!-- You can keep the other part of the code as it is, or remove it based on your requirements -->
+                </div>
+            </div>
+        </div> --}}
+		{{-- End Overlayed Layout content --}}
     </div>
 @endsection
 

@@ -49,20 +49,26 @@
 @endpush
 
 @section('content')
+
     <div class="m-8">
-        <div class="card mb-4">
+        <div class="card shadow">
+        <div class="card-header ">
+                <h2 class="card-title mx-auto mb-4">Payments Report</h2>
+                </div>
             <div class="card-body">
-                <h2 class="card-title text-center mb-4">Payments Report</h2>
+            
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card bg-gba">
+                    <div class="col-md-4 col-4">
+                        <div class="card shadow">
+                        <div class="card-header bg-gray">
+                <h2 class="card-title mx-auto">Payment Search</h2>
+                </div>
                             <div class="card-body">
-                                <h5 class="text-center bg-gba-light p-2">Payment Search</h5>
                                 <form method="GET" action="{{ route('api.rowdetails') }}">
                                     <div class="mb-3">
                                         <label for="membership_id" class="form-label">Membership ID</label>
                                         
-                                        <select class="form-select select2" id="membership_id" name="membership_id">
+                                        <select class="form-select select2 border border-dark" id="membership_id" name="membership_id">
                                             <option value="">Select Membership ID</option>
                                             @foreach ($memberships as $membership)
                                                 <option value="{{ $membership->id }}"
@@ -85,16 +91,17 @@
                                                 value="{{ request('end_date') }}">
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-filter bg-gba-light text-center">Filter</button>
+                                    <button type="submit" class="btn btn-filter btn-success btn-sm text-center card-center w-50">Filter</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card bg-white">
+                    <div class="col-md-8 col-8">
+                        <div class="card shadow">
                             <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead class="bg-info-subtle p-4">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="kt_payment_table">
+                                    <thead class="bg-secondary p-4">
                                         <tr>
                                             <th>ID</th>
                                             <th>Membership ID</th>
@@ -117,14 +124,15 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                </div>
 
                                 <!-- Pagination links -->
-                                <div class="m-2 p-2 text-center bg-gba-light pt-2" style="border: 2px solid black;">
+                                <div class="m-2 p-2 text-center bg-secondary pt-2" style="border: 2px solid black;">
                                     {{-- Pagination links --}}
                                     {{ $payments->appends(Request::except('page'))->links() }}
                                     {{-- Display current page and total records --}}
                                     <div class="m-2">
-                                        <span class="bg-info-subtle m-4">Page {{ $payments->currentPage() }} of
+                                        <span class="m-4">Page {{ $payments->currentPage() }} of
                                             {{ $payments->lastPage() }} in {{ $payments->total() }} Total Record(s)</span>
                                     </div>
                                 </div>
@@ -215,5 +223,9 @@
             var selectedMembership = $(this).find('option:selected').text();
             console.log('Selected Membership ID: ' + selectedMembershipId + ', Details: ' + selectedMembership);
         });
+    </script>
+
+    <script>
+        $("#kt_payment_table").DataTable();
     </script>
 @endpush

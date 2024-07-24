@@ -51,7 +51,7 @@
 
         .special-link:hover,
         .special-link:focus {
-            background-color: #white;
+            background-color: white;
             /* Darker blue */
             color: white;
             text-decoration: none;
@@ -82,16 +82,13 @@
     {{-- This is for accordion -- SIYA --}}
 
     <style>
-
-     
-
         /* Style for accordion button when accordion is open */
         /* .accordion-button:not(.collapsed) {
-            background-color: #F2FAFF !important;
-            
-            color: #009ef7 !important;
-            
-        } */
+                        background-color: #F2FAFF !important;
+                        
+                        color: #009ef7 !important;
+                        
+                    } */
 
         /* Adjusting icon colors */
         .accordion-button .fas,
@@ -117,7 +114,6 @@
             color: #ffffff !important;
             /* Ensuring text color is readable on hover; adjust as needed */
         }
-
     </style>
 
     <style>
@@ -140,8 +136,8 @@
 
     <style>
         /* .form-control {
-                background-color: white !important;
-            } */
+                            background-color: white !important;
+                        } */
 
         .select2-container--bootstrap5 .select2-dropdown {
             background-color: white !important;
@@ -200,18 +196,12 @@
 
         /* Ensure the table itself is centered in its container */
         /* #kt_datatable_footer_callback
-            #kt_datatable_benefit_footer_callback  {
-                margin-left: auto;
-                margin-right: auto;
-            } */
+                        #kt_datatable_benefit_footer_callback  {
+                            margin-left: auto;
+                            margin-right: auto;
+                        } */
     </style>
     <style>
-        #kt_datatable_footer_callback .input-group-text,
-        #kt_datatable_benefit_footer_callback .input-group-text {
-            padding-top: 10% !important;
-            padding-bottom: 10% !important;
-        }
-
         #kt_datatable_footer_callback .input-group,
         #kt_datatable_benefit_footer_callback .input-group {
             width: 80% !important;
@@ -325,8 +315,7 @@
                                                             alt="" />
 
                                                         <div class="d-flex flex-column">
-                                                            <a href="#" class="fs-5 text-gray-900 fw-bold">Funeral
-                                                                Required</a>
+                                                            <a href="#" class="fs-5 text-gray-900 fw-bold">Funeral Required</a>
 
                                                         </div>
                                                     </div>
@@ -558,6 +547,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab"
                                 href="#shortfalls_and_payouts_tab">Shortfalls & Payouts</a>
+                        </li>
+                        <!--end:::Tab item-->
+
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true" data-bs-toggle="tab"
+                                href="#others_tab">Others</a>
                         </li>
                         <!--end:::Tab item-->
 
@@ -1201,9 +1197,10 @@
                                             <div class="py-3 d-flex flex-stack flex-wrap">
                                                 <!--begin::Toggle-->
                                                 <div class="d-flex align-items-center collapsible collapsed rotate"
-                                                    data-bs-toggle="collapse" href="#kt_membership_info_{{$membership->id}}"
-                                                    role="button" aria-expanded="false"
-                                                    aria-controls="kt_membership_info_{{$membership->id}}">
+                                                    data-bs-toggle="collapse"
+                                                    href="#kt_membership_info_{{ $membership->id }}" role="button"
+                                                    aria-expanded="false"
+                                                    aria-controls="kt_membership_info_{{ $membership->id }}">
                                                     <!--begin::Arrow-->
                                                     <div class="me-3 rotate-90"><i class="ki-duotone ki-right fs-3"></i>
                                                     </div>
@@ -1233,7 +1230,7 @@
                                                 </div>
                                                 <!--end::Toggle-->
 
-                                                <!--begin::Toolbar-->
+                                                {{-- <!--begin::Toolbar-->
                                                 <div class="d-flex my-3 ms-9">
                                                     <!--begin::Edit-->
                                                     <a href="#"
@@ -1282,12 +1279,13 @@
                                                     <!--end::Menu-->
                                                     <!--end::More-->
                                                 </div>
-                                                <!--end::Toolbar-->
+                                                <!--end::Toolbar--> --}}
                                             </div>
                                             <!--end::Header-->
 
                                             <!--begin::Body-->
-                                            <div id="kt_membership_info_{{$membership->id}}" class="collapse  fs-6 ps-10"
+                                            <div id="kt_membership_info_{{ $membership->id }}"
+                                                class="collapse  fs-6 ps-10"
                                                 data-bs-parent="#kt_customer_view_payment_method">
                                                 <!--begin::Details-->
                                                 <div class="d-flex flex-wrap py-5">
@@ -1402,7 +1400,15 @@
                                     </div>
                                     <!--end::Card title-->
 
-                                   
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                    
+                                        <button id="externalSubmitActionOne" class="btn btn-sm btn-flex btn-light-primary">
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                    <!--end::Card toolbar-->
+
                                 </div>
                                 <!--end::Card header-->
 
@@ -1416,15 +1422,19 @@
                                         @csrf {{-- CSRF token for form submission --}}
 
                                         {{-- <div class="card-header bg-light" >
-                            <h3 class="card-title" >Main Record ID: </h3>
-                        </div> --}}
+                                            <h3 class="card-title" >Main Record ID: </h3>
+                                        </div> --}}
 
 
                                         <input type="text" id="person_id" name="person_id"
                                             value="{{ $deceased_person->id }}" hidden>
                                         <input type="text" id="person_name" name="person_name"
                                             value="{{ $deceased_person->first_name }}" hidden>
-                                        {{-- <input type="text" id="funeral_id" name="funeral_id" value="{{ $deceased_person->funerals() }}" hidden> --}}
+                                        <input type="text" id="funeral_id" name="funeral_id"
+                                            value="{{ $funeral->id }}" hidden>
+
+
+
 
 
                                         <!--begin::Accordion-->
@@ -1432,45 +1442,35 @@
                                             <!-- Accordion Item for Membership Details -->
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="kt_accordion_header_1">
-                                                    <button class="accordion-button fs-4 fw-semibold "
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#kt_accordion_body_1" aria-expanded="true"
-                                                        aria-controls="kt_accordion_body_1">
+                                                    <button class="accordion-button fs-4 fw-semibold " type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#kt_accordion_body_1"
+                                                        aria-expanded="true" aria-controls="kt_accordion_body_1">
                                                         Church & Cemetery Details
                                                     </button>
                                                 </h2>
                                                 <div id="kt_accordion_body_1" class="accordion-collapse collapse show"
                                                     aria-labelledby="kt_accordion_header_1"
                                                     data-bs-parent="#kt_accordion_funeral">
-                                                    <div class="accordion-body" >
+                                                    <div class="accordion-body">
                                                         <!-- Accordion content for Membership Details -->
                                                         <h5>Church Information</h5>
                                                         <div class="pt-0" style="display: flex; align-items: center;">
                                                             <select id="churchSelect" name="churchSelect"
-                                                                class="form-select  "
-                                                                data-control="select2" data-placeholder="Select Church"
-                                                                data-allow-clear="true" style="margin-right: 10px;">
+                                                                class="form-select" data-control="select2"
+                                                                data-placeholder="Select Church" data-allow-clear="true"
+                                                                style="margin-right: 10px;">
                                                                 <option></option>
-                                                                <!-- Placeholder option for user prompt -->
                                                                 @foreach ($churches as $church)
                                                                     <option value="{{ $church->id }}">
                                                                         {{ $church->name }} ({{ $church->line1 }} -
                                                                         {{ $church->suburb }}, {{ $church->city }},
-                                                                        {{ $church->ZIP }})
-                                                                    </option>
+                                                                        {{ $church->ZIP }})</option>
                                                                 @endforeach
                                                                 @if ($churches->isEmpty())
                                                                     <option disabled>No churches available</option>
                                                                 @endif
-
                                                             </select>
 
-
-                                                            <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
-                                                                data-bs-toggle="modal" data-bs-target="#kt_modal_1"
-                                                                data-location-type="Church">
-                                                                +
-                                                            </button>
                                                         </div>
 
                                                         {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
@@ -1604,30 +1604,21 @@
                                                         <h5>Graveyard Information</h5>
                                                         <div style="display: flex; align-items: center;">
                                                             <select id="graveyardSelect" name="graveyardSelect"
-                                                                class="form-select"
-                                                                data-control="select2" data-placeholder="Select Cemetery"
-                                                                data-allow-clear="true" style="margin-right: 10px;">
+                                                                class="form-select" data-control="select2"
+                                                                data-placeholder="Select Cemetery" data-allow-clear="true"
+                                                                style="margin-right: 10px;">
                                                                 <option></option>
-                                                                <!-- Keep this for the placeholder functionality -->
                                                                 @foreach ($graveyards as $graveyard)
                                                                     <option value="{{ $graveyard->id }}">
                                                                         {{ $graveyard->name }} ({{ $graveyard->line1 }} -
                                                                         {{ $graveyard->suburb }}, {{ $graveyard->city }},
-                                                                        {{ $graveyard->ZIP }})
-                                                                    </option>
+                                                                        {{ $graveyard->ZIP }})</option>
                                                                 @endforeach
                                                                 @if ($graveyards->isEmpty())
                                                                     <option disabled>No graveyards available</option>
                                                                 @endif
-
                                                             </select>
 
-
-                                                            <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
-                                                                data-bs-toggle="modal" data-bs-target="#kt_modal_1"
-                                                                data-location-type="Graveyard">
-                                                                +
-                                                            </button>
                                                         </div>
 
                                                         {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
@@ -1872,13 +1863,6 @@
                                                                                 </select>
 
 
-                                                                                <button type="button"
-                                                                                    class="btn btn-dark btn-sm my-2 ml-2"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#kt_modal_1"
-                                                                                    data-location-type="Viewing">
-                                                                                    +
-                                                                                </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1943,563 +1927,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Third Accordion Item for Funeral Costs -->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="kt_accordion_header_3">
-                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#kt_accordion_body_3" aria-expanded="false"
-                                                        aria-controls="kt_accordion_body_3">
-                                                        Funeral Costs (R <span id="totalCostHeader">0.00</span> ) &
-                                                        Benefits (R2000)
-                                                    </button>
-                                                </h2>
-                                                <div id="kt_accordion_body_3" class="accordion-collapse collapse"
-                                                    aria-labelledby="kt_accordion_header_3"
-                                                    data-bs-parent="#kt_accordion_funeral">
-                                                    <div class="accordion-body d-flex justify-content-center align-items-start"
-                                                        style=" min-height: 100vh;">
 
-
-                                                        <!-- Accordion content for Funeral Costs -->
-
-
-
-                                                        {{-- Start Cost Calculator --}}
-                                                        <div class="col-12 col-md-6">
-                                                            <h3 style="text-align: center">Cost Calculator</h3>
-                                                            <table id="kt_datatable_footer_callback"
-                                                                class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                <thead style="background-color: #ffffff">
-                                                                    <tr class="fw-bold fs-6">
-                                                                        <th>Product/Service</th>
-                                                                        <th>Amount ( R <span class="text-danger"
-                                                                                id="totalCost2">0.00</span> )</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Grave</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="grave" name="grave"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Cremation</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="cremation" name="cremation"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Casket</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="casket" name="casket"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Notices</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="notice" name="notices"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Brochure</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="brochure" name="brochure"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>1st Doctor</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="firstDoctor" name="firstDoctor"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>2nd Doctor</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="secondDoctor" name="secondDoctor"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>3rd Doctor</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="thirdDoctor" name="thirdDoctor"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Burial person (preacher)</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="burialPerson" name="burialPerson"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Organist</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="organist" name="organist"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Sound person</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="soundPerson" name="soundPerson"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Communication</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="communication"
-                                                                                    name="communication"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Ash Case</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="ashCase" name="ashCase"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Outsourced costs</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="outsourcedCosts"
-                                                                                    name="outsourcedCosts"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Other</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="other" name="other"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Transport</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control cost-input"
-                                                                                    id="transport" name="transport"
-                                                                                    oninput="calculateTotal()">
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-
-                                                                <tfoot style="background-color: #f7f7f7">
-                                                                    <tr class="fw-bold fs-6">
-                                                                        <th colspan="1" class="text-nowrap align-end">
-                                                                            Total:</th>
-                                                                        <th colspan="1" class="text-danger fs-3">R<span
-                                                                                id="totalCost">0.00</span></th>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                        {{-- End Cost Calculator --}}
-
-                                                        {{-- Start Benefits Calculator --}}
-                                                        <div class="col-12 col-md-6">
-                                                            <h3 style="text-align: center">Membership Type: Temp </h3>
-                                                            {{-- {{$deceased_person->membership[0]->bu_membership_type_id}} --}}
-                                                            <table id="kt_datatable_benefit_footer_callback"
-                                                                class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                <thead style="background-color: #ffffff">
-                                                                    <tr class="fw-bold fs-6">
-                                                                        <th>Benefits</th>
-                                                                        <th>Amount ( R <span class="text-danger"
-                                                                                id="totalBenefits2">2000.00</span> )</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>GBA Benefit</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control " id="benefit"
-                                                                                    value="2000" name="benefit"
-                                                                                    oninput="" disabled>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Other</td>
-                                                                        <td>
-                                                                            <div class="input-group">
-                                                                                <div class="input-group-prepend">
-                                                                                    <span class="input-group-text">R</span>
-                                                                                </div>
-                                                                                <input type="number"
-                                                                                    class="form-control "
-                                                                                    id="benefit_other" value="0"
-                                                                                    name="benefit_other" oninput=""
-                                                                                    disabled>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-
-                                                                <tfoot style="background-color: #f7f7f7">
-                                                                    <tr class="fw-bold fs-6">
-                                                                        <th colspan="1" class="text-nowrap align-end">
-                                                                            Total:</th>
-                                                                        <th colspan="1" class="text-danger fs-3">R<span
-                                                                                id="totalBenefits">2000.00</span></th>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                        {{-- End Benefits Calculator --}}
-
-
-
-
-
-
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- Fourth Accordion Item for Funeral Costs -->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="kt_accordion_header_4">
-                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#kt_accordion_body_4" aria-expanded="false"
-                                                        aria-controls="kt_accordion_body_4">
-                                                        Shortfall / Payouts
-                                                    </button>
-                                                </h2>
-                                                <div id="kt_accordion_body_4" class="accordion-collapse collapse"
-                                                    aria-labelledby="kt_accordion_header_4"
-                                                    data-bs-parent="#kt_accordion_funeral">
-                                                    <div class="accordion-body" >
-
-
-                                                        {{-- @if (!$item['']->isEmpty()) --}}
-                                                        <div class="card inner-card my-8 ">
-                                                            <div class="card-header" style="background-color: #448C74;">
-                                                                <h3 class="card-title" style="color: white">Shortfall
-                                                                    Transactions</h3>
-
-                                                                <button type="button"
-                                                                    class="btn btn-dark btn-sm my-6 ml-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#kt_modal_payment">
-                                                                    + New Payment
-                                                                </button>
-
-                                                            </div>
-
-                                                            <div class="card-body">
-
-                                                                {{-- Start Shortfalls --}}
-
-                                                                <table id="kt_datatable_footer_callback"
-                                                                    class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                    <thead style="background-color: #ffffff">
-                                                                        <tr class="fw-bold fs-6">
-                                                                            <th>Details</th>
-                                                                            <th>Amount</th>
-                                                                            <th>Payment Method</th>
-                                                                            <th>Account Number</th>
-                                                                            <th>Bank</th>
-                                                                            <th>Ref. #</th>
-                                                                            <th>Actions</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                John Doe
-                                                                            </td>
-                                                                            <td>
-                                                                                R950
-                                                                            </td>
-                                                                            <td>
-                                                                                Cash
-                                                                            </td>
-                                                                            <td>
-                                                                                N/A
-                                                                            </td>
-                                                                            <td>
-                                                                                N/A
-                                                                            </td>
-                                                                            <td>
-                                                                                N/A
-                                                                            </td>
-                                                                            <td>
-                                                                                <button type="button"
-                                                                                    class="btn btn-danger btn-sm my-2 ml-2"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#kt_modal_1"
-                                                                                    data-location-type="Postal">
-                                                                                    Remove
-                                                                                </button>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                    </tbody>
-
-
-                                                                </table>
-
-                                                                {{-- End Shortfalls --}}
-
-                                                            </div>
-
-
-                                                        </div>
-                                                        {{-- @else
-                                                        <div class="card inner-card border border-secondary mt-4">
-                                                            <div class="card-header"style="background-color: #448C74;">
-                                                                <h3 class="card-title" style="color: white">Title</h3>
-                                                            </div>
-                                                            <div class="card-body bg-light">
-                                                                <p>No records found.</p>
-                                                            </div>
-                                                        </div>
-                                                    @endif --}}
-
-
-
-
-
-                                                        {{-- @if (!$item['']->isEmpty()) --}}
-                                                        <div class="card inner-card my-8">
-                                                            <div class="card-header" style="background-color: #448C74;">
-                                                                <h3 class="card-title" style="color: white">Payouts</h3>
-
-                                                                <button type="button"
-                                                                    class="btn btn-dark btn-sm my-6 ml-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#kt_modal_beneficiary"
-                                                                    data-location-type="Postal">
-                                                                    + New Beneficiary
-                                                                </button>
-
-                                                            </div>
-
-                                                            <div class="card-body">
-
-
-                                                                {{-- Start Payouts --}}
-
-
-
-                                                                <table id="kt_datatable_footer_callback"
-                                                                    class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                                                    <thead style="background-color: #ffffff">
-                                                                        <tr class="fw-bold fs-6">
-                                                                            <th>Beneficiary</th>
-                                                                            <th>Amount</th>
-                                                                            <th>Beneficiary - Postal Address</th>
-                                                                            <th>Account Number</th>
-                                                                            <th>Bank</th>
-                                                                            <th>Actions</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                Jane Doe
-                                                                            </td>
-                                                                            <td>
-                                                                                R1800
-                                                                            </td>
-                                                                            <td>
-                                                                                line 1 </br>
-                                                                                suburb </br>
-                                                                                town </br>
-                                                                                postal code
-                                                                            </td>
-                                                                            <td>
-                                                                                1534850245
-                                                                            </td>
-                                                                            <td>
-                                                                                Capitec Bank
-                                                                            </td>
-                                                                            <td>
-                                                                                <button type="button"
-                                                                                    class="btn btn-dark btn-sm my-2 ml-2"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#kt_modal_1"
-                                                                                    data-location-type="Postal">
-                                                                                    Edit
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-danger btn-sm my-2 ml-2"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#kt_modal_1"
-                                                                                    data-location-type="Postal">
-                                                                                    Remove
-                                                                                </button>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                    </tbody>
-
-
-                                                                </table>
-
-                                                                {{-- End Payouts --}}
-
-                                                            </div>
-
-
-                                                        </div>
-                                                        {{-- @else
-                                                        <div class="card inner-card border border-secondary mt-4">
-                                                            <div class="card-header"style="background-color: #448C74;">
-                                                                <h3 class="card-title" style="color: white">Title</h3>
-                                                            </div>
-                                                            <div class="card-body bg-light">
-                                                                <p>No records found.</p>
-                                                            </div>
-                                                        </div>
-                                                    @endif --}}
-
-
-
-
-
-
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <!--end::Accordion-->
 
@@ -2565,9 +1993,23 @@
                                     {{-- Action Buttons for Main Record --}}
                                     <div class="form-group text-center d-flex justify-content-around  mt-8 mb-8">
                                         <!-- External Button for Submit Action 1 -->
-                                        <button id="externalSubmitActionOne" class="btn btn-success">Save Funeral</button>
+                                        <button id="externalSubmitActionOne" class="btn btn-flex btn-light-primary"><i
+                                                class="ki-duotone ki-send fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                            Save Funeral
+                                        </button>
                                         <!-- External Button for Submit Action 2 -->
-                                        <button id="externalSubmitActionTwo" class="btn btn-dark">Test Output</button>
+                                        <button id="externalSubmitActionTwo" class="btn btn-light-secondary"><i
+                                                class="ki-duotone ki-square-brackets fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i>
+                                            Test Output
+                                        </button>
 
 
 
@@ -2576,623 +2018,7 @@
                                     </div>
 
 
-                                    <!-- Start Shortfall Payment Modal -->
-                                    <div class="modal fade" tabindex="-1" id="kt_modal_payment">
-                                        <div class="modal-dialog modal-dialog-centered modal-xl">
-                                            <div class="modal-content" style="background-color: #448C74">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title text-white">Add Payment</h3>
 
-                                                    <!--begin::Close-->
-                                                    <div class="btn btn-icon btn-sm btn-active-light-dark ms-2"
-                                                        data-bs-dismiss="modal" aria-label="Close">
-                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                class="path1"></span><span class="path2"></span></i>
-                                                    </div>
-                                                    <!--end::Close-->
-                                                </div>
-                                                <form id="shortfallPaymentForm" method="POST"
-                                                    action="{{ route('StoreFuneralBeneficiary') }}">
-                                                    @csrf
-                                                    <div class="modal-body">
-
-
-
-
-
-                                                        <div class="pt-4 p-3">
-
-
-
-                                                            <!-- Row 1 -->
-                                                            <div class="row my-3">
-                                                                <div class="col">
-                                                                    <label for="shortfall_payment_name"
-                                                                        class="form-label text-white">Name:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="shortfall_payment_name"
-                                                                        name="shortfall_payment_name">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="shortfall_payment_surname"
-                                                                        class="form-label text-white">Surname:</label>
-                                                                    <input type="tel" class="form-control"
-                                                                        id="shortfall_payment_surname"
-                                                                        name="shortfall_payment_surname">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="payout_amount"
-                                                                        class="form-label text-white">Amount:</label>
-                                                                    <div class="input-group mx-auto">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text"
-                                                                                style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
-                                                                        </div>
-                                                                        <input type="number"
-                                                                            class="form-control cost-input"
-                                                                            id="payout_amount" name="payout_amount">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="separator border-light my-8"></div>
-
-
-                                                            <div class="pt-4"
-                                                                style="display: flex; align-items: center;">
-                                                                <label for="ShortfallPaymentMethodSelect"
-                                                                    class="form-label text-white">Payment Method:</label>
-                                                                <select id="ShortfallPaymentMethodSelect"
-                                                                    name="ShortfallPaymentMethodSelect"
-                                                                    class="form-select bg-white form-select-solid"
-                                                                    data-control="select2"
-                                                                    data-placeholder="Select Payment Method"
-                                                                    data-allow-clear="true" style="margin-right: 10px;">
-
-                                                                    <option value="2">Cash</option>
-                                                                    <option value="5">EFT/Bank Payment</option>
-
-                                                                </select>
-
-
-
-                                                            </div>
-
-                                                            <div class="separator border-light my-8"></div>
-
-                                                            <!-- Payout Payment Details -->
-                                                            <div class="row my-3">
-                                                                <div class="col">
-                                                                    <label for="payout_acc_number"
-                                                                        class="form-label text-white">Account
-                                                                        number:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="payout_acc_number" name="payout_acc_number">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="ShortfallbankSelect"
-                                                                        class="form-label text-white">Bank:</label>
-                                                                    <select id="ShortfallbankSelect"
-                                                                        name="ShortfallbankSelect"
-                                                                        class="form-select bg-white form-select-solid"
-                                                                        data-control="select2"
-                                                                        data-placeholder="Select Bank"
-                                                                        data-allow-clear="true"
-                                                                        style="margin-right: 10px;">
-                                                                        <option></option>
-                                                                        <!-- Placeholder option for user prompt -->
-                                                                        @foreach ($banks as $bank)
-                                                                            <option value="{{ $bank->id }}">
-                                                                                {{ $bank->name }}
-                                                                            </option>
-                                                                        @endforeach
-
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            {{-- <div class="separator border-light my-8"></div> --}}
-
-
-
-
-
-
-                                                        </div>
-
-
-
-
-
-
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-dark"
-                                                            id="savePaymentBtn">Save Payment</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END Shortfall Payment Modal -->
-
-                                    <!-- Start Beneficiary Modal -->
-                                    <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
-                                        <div class="modal-dialog modal-dialog-centered modal-xl">
-                                            <div class="modal-content" style="background-color: #448C74">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title text-white">Add Beneficiary</h3>
-
-                                                    <!--begin::Close-->
-                                                    <div class="btn btn-icon btn-sm btn-active-light-dark ms-2"
-                                                        data-bs-dismiss="modal" aria-label="Close">
-                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                class="path1"></span><span class="path2"></span></i>
-                                                    </div>
-                                                    <!--end::Close-->
-                                                </div>
-                                                <form id="beneficiaryAddressForm" method="POST"
-                                                    action="{{ route('StoreFuneralBeneficiary') }}">
-                                                    @csrf
-                                                    <div class="modal-body">
-
-
-
-
-
-                                                        <div class="pt-4 p-3">
-
-
-
-                                                            <!-- Row 1 -->
-                                                            <div class="row my-3">
-                                                                <div class="col">
-                                                                    <label for="beneficiary_name"
-                                                                        class="form-label text-white">Name:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="beneficiary_name" name="beneficiary_name">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="beneficiary_surname"
-                                                                        class="form-label text-white">Surname:</label>
-                                                                    <input type="tel" class="form-control"
-                                                                        id="beneficiary_surname"
-                                                                        name="beneficiary_surname">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="payout_amount"
-                                                                        class="form-label text-white">Amount:</label>
-                                                                    <div class="input-group mx-auto">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text"
-                                                                                style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
-                                                                        </div>
-                                                                        <input type="number"
-                                                                            class="form-control cost-input"
-                                                                            id="payout_amount" name="payout_amount">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="separator border-light my-8"></div>
-
-
-
-                                                            <select id="addressType" name="addressType"
-                                                                class="form-select form-select-solid"
-                                                                data-control="select2"
-                                                                data-placeholder="Select Location Type"
-                                                                data-hide-search="true">
-                                                                <option></option>
-                                                                <option value="1">Residential</option>
-                                                                <option value="2">Postal</option>
-                                                            </select>
-
-
-
-                                                            <div class="row mt-3">
-                                                                <div class="col">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Line1_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Line1_beneficiary"
-                                                                            id="Line1_beneficiary"
-                                                                            value="{{ old('Line1_beneficiary') }}"
-                                                                            required>
-                                                                    </div>
-                                                                    @error('Line1_beneficiary')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row mt-3">
-                                                                <div class="col-6 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Line2_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Line2_beneficiary"
-                                                                            id="Line2_beneficiary"
-                                                                            value="{{ old('Line2_beneficiary') }}"
-                                                                            placeholder="Address Line 2">
-                                                                    </div>
-                                                                    @error('Line2')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('TownSuburb_beneficiary') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="TownSuburb_beneficiary"
-                                                                            id="TownSuburb_beneficiary"
-                                                                            value="{{ old('TownSuburb_beneficiary') }}"
-                                                                            placeholder="Town/Suburb_beneficiary">
-                                                                    </div>
-                                                                    @error('TownSuburb_beneficiary')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-12 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('City_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="City_beneficiary" id="City_beneficiary"
-                                                                            value="{{ old('City_beneficiary') }}"
-                                                                            placeholder="City">
-                                                                    </div>
-                                                                    @error('City')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Province_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Province_beneficiary"
-                                                                            id="Province_beneficiary"
-                                                                            value="{{ old('Province_beneficiary') }}"
-                                                                            placeholder="Province">
-                                                                    </div>
-                                                                    @error('Province')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('PostalCode_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="PostalCode_beneficiary"
-                                                                            id="PostalCode_beneficiary"
-                                                                            value="{{ old('PostalCode_beneficiary') }}"
-                                                                            placeholder="Postal Code">
-                                                                    </div>
-                                                                    @error('PostalCode')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4">
-
-                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Country_beneficiary') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Country_beneficiary"
-                                                                            id="Country_beneficiary"
-                                                                            value="{{ old('Province_beneficiary') }}"
-                                                                            placeholder="Country">
-                                                                    </div>
-                                                                    @error('Country')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-
-
-                                                            </div>
-
-
-
-                                                            <div
-                                                                style="text-align: center; display: flex; justify-content: center; align-items: center; ">
-                                                                <span style="color: white; margin-right: 10px;">Powered
-                                                                    by</span>
-                                                                <img src="{{ asset('img/google.png') }}"
-                                                                    alt="Google Logo" style="width: 50px; height: auto;">
-                                                            </div>
-
-
-                                                            <div class="separator border-light my-8"></div>
-
-
-                                                            <!-- Payout Payment Details -->
-                                                            <div class="row my-3">
-                                                                <div class="col">
-                                                                    <label for="payout_acc_number"
-                                                                        class="form-label text-white">Account
-                                                                        number:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="payout_acc_number" name="payout_acc_number">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="bankSelect"
-                                                                        class="form-label text-white">Bank:</label>
-                                                                    <select id="bankSelect" name="bankSelect"
-                                                                        class="form-select bg-white form-select-solid"
-                                                                        data-control="select2"
-                                                                        data-placeholder="Select Bank"
-                                                                        data-allow-clear="true"
-                                                                        style="margin-right: 10px;">
-                                                                        <option></option>
-                                                                        <!-- Placeholder option for user prompt -->
-                                                                        @foreach ($banks as $bank)
-                                                                            <option value="{{ $bank->id }}">
-                                                                                {{ $bank->name }}
-                                                                            </option>
-                                                                        @endforeach
-
-
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-
-
-
-
-
-
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-dark"
-                                                            id="saveBeneficiaryBtn">Save Beneficiary</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END Beneficiary Modal -->
-
-
-
-                                    <!-- Start Location Address Modal -->
-                                    <div class="modal fade" tabindex="-1" id="kt_modal_1">
-                                        <div class="modal-dialog modal-dialog-centered modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title">Add Location</h3>
-
-                                                    <!--begin::Close-->
-                                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                        data-bs-dismiss="modal" aria-label="Close">
-                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                class="path1"></span><span class="path2"></span></i>
-                                                    </div>
-                                                    <!--end::Close-->
-                                                </div>
-                                                <form id="addressForm" method="POST"
-                                                    action="{{ route('StoreFuneralAddress') }}">
-                                                    @csrf
-                                                    <div class="modal-body">
-
-
-
-
-
-
-                                                        <div class="pt-4 p-3">
-
-                                                            <select id="addressType" name="addressType"
-                                                                class="form-select form-select-solid"
-                                                                data-control="select2"
-                                                                data-placeholder="Select Location Type"
-                                                                data-hide-search="true">
-                                                                <option></option>
-                                                                <option value="{{ $churchTypeId }}">Church</option>
-                                                                <option value="{{ $graveyardTypeId }}">Graveyard</option>
-                                                                <option value="21">Viewing Location</option>
-                                                            </select>
-
-
-                                                            <div class="row mt-3">
-                                                                <div class="col">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            id="Line1" name="Line1"
-                                                                            value="{{ old('Line1') }}" required>
-                                                                    </div>
-                                                                    @error('Line1')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('PlaceName') is-invalid focused is-focused  @enderror  mb-0">
-                                                                        <input type="text" class="form-control"
-                                                                            name="PlaceName" id="PlaceName"
-                                                                            value="{{ old('PlaceName') }}"
-                                                                            placeholder="Location Name" required>
-                                                                    </div>
-                                                                    @error('PlaceName')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-6 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Line2" id="Line2"
-                                                                            value="{{ old('Line2') }}"
-                                                                            placeholder="Address Line 2">
-                                                                    </div>
-                                                                    @error('Line2')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="TownSuburb" id="TownSuburb"
-                                                                            value="{{ old('TownSuburb') }}"
-                                                                            placeholder="Town/Suburb">
-                                                                    </div>
-                                                                    @error('TownSuburb')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-12 col-sm-6">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="City" id="City"
-                                                                            value="{{ old('City') }}"
-                                                                            placeholder="City">
-                                                                    </div>
-                                                                    @error('City')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Province" id="Province"
-                                                                            value="{{ old('Province') }}"
-                                                                            placeholder="Province">
-                                                                    </div>
-                                                                    @error('Province')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="PostalCode" id="PostalCode"
-                                                                            value="{{ old('PostalCode') }}"
-                                                                            placeholder="Postal Code">
-                                                                    </div>
-                                                                    @error('PostalCode')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-4">
-
-                                                                <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                                    <div
-                                                                        class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                        <input type="text" class="form-control"
-                                                                            name="Country" id="Country"
-                                                                            value="{{ old('Province') }}"
-                                                                            placeholder="Country">
-                                                                    </div>
-                                                                    @error('Country')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-
-
-                                                            </div>
-
-
-
-                                                            <div
-                                                                style="text-align: center; display: flex; justify-content: center; align-items: center; ">
-                                                                <span style="color: white; margin-right: 10px;">Powered
-                                                                    by</span>
-                                                                <img src="{{ asset('img/google.png') }}"
-                                                                    alt="Google Logo"
-                                                                    style="width: 50px; height: auto;">
-                                                            </div>
-
-
-                                                        </div>
-
-
-
-
-
-
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-dark"
-                                                            id="saveLocationBtn">Save Location</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END Church Address Modal -->
 
 
 
@@ -3211,342 +2037,166 @@
                         <!--begin:::Tab pane-->
                         <div class="tab-pane fade" id="funeral_costs_tab" role="tabpanel">
 
+
                             <!--begin::Card-->
-                            <div class="card pt-4 mb-6 mb-xl-9">
-                                <!--begin::Card header-->
-                                <div class="card-header border-0">
-                                    <!--begin::Card title-->
-                                    <div class="card-title">
-                                        <h2>Logs</h2>
-                                    </div>
-                                    <!--end::Card title-->
+                            <form id="funeralCostsForm" method="POST" action="{{ route('StoreFuneralCosts') }}">
+                                @csrf {{-- CSRF token for form submission --}}
 
-                                    <!--begin::Card toolbar-->
-                                    <div class="card-toolbar">
-                                        <!--begin::Button-->
-                                        <button type="button" class="btn btn-sm btn-light-primary">
-                                            <i class="ki-duotone ki-cloud-download fs-3"><span
-                                                    class="path1"></span><span class="path2"></span></i>
-                                            Download Report
-                                        </button>
-                                        <!--end::Button-->
-                                    </div>
-                                    <!--end::Card toolbar-->
-                                </div>
-                                <!--end::Card header-->
+                                <div id="funeral_card" class="card pt-4 mb-6 mb-xl-9">
+                                    <!--begin::Card header-->
+                                    <div class="card-header border-0">
+                                        <!--begin::Card title-->
+                                        <div class="card-title">
+                                            <h2 class="fw-bold">Funeral Costs | R <span
+                                                    class="text-danger"id="totalCostHeader">0.00</span> </h2>
+                                        </div>
+                                        <!--end::Card title-->
 
-                                <!--begin::Card body-->
-                                <div class="card-body py-0">
-                                    <!--begin::Table wrapper-->
-                                    <div class="table-responsive">
-                                        <!--begin::Table-->
-                                        <table
-                                            class="table align-middle table-row-dashed fw-semibold text-gray-600 fs-6 gy-5"
-                                            id="kt_table_customers_logs">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_1093_7458/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        05 May 2024, 10:10 pm </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-warning">404 WRN</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/customer/c_6687f5279a9d5/not_found </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        05 May 2024, 5:20 pm </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_1093_7458/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        20 Dec 2024, 10:30 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-danger">500 ERR</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoice/in_5324_1715/invalid </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        10 Nov 2024, 10:30 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_4645_4860/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        20 Dec 2024, 6:43 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_7984_6335/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        15 Apr 2024, 10:30 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-danger">500 ERR</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoice/in_5458_5829/invalid </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        19 Aug 2024, 11:30 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_4645_4860/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        10 Mar 2024, 8:43 pm </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-success">200 OK</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoices/in_7984_6335/payment </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        25 Jul 2024, 11:30 am </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="min-w-70px">
-                                                        <div class="badge badge-light-danger">500 ERR</div>
-                                                    </td>
-                                                    <td>
-                                                        POST /v1/invoice/in_5037_4076/invalid </td>
-                                                    <td class="pe-0 text-end min-w-200px">
-                                                        20 Jun 2024, 5:20 pm </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <!--begin::Card toolbar-->
+                                        <div class="card-toolbar">
+                                            <button type="submit" class="btn btn-sm btn-flex btn-light-primary">
+                                                Save Changes
+                                            </button>
+                                        </div>
+                                        <!--end::Card toolbar-->
+
                                     </div>
-                                    <!--end::Table wrapper-->
+                                    <!--end::Card header-->
+
+                                    <!--begin::Card body-->
+                                    <div class="card-body pt-0">
+
+
+
+
+
+                                        {{-- <div class="card-header bg-light" >
+                                            <h3 class="card-title" >Main Record ID: </h3>
+                                        </div> --}}
+
+
+                                        <input type="text" id="person_id" name="person_id"
+                                            value="{{ $deceased_person->id }}" hidden>
+                                        <input type="text" id="person_name" name="person_name"
+                                            value="{{ $deceased_person->first_name }}" hidden>
+                                        <input type="text" id="funeral_id" name="funeral_id"
+                                            value="{{ $funeral->id }}" hidden>
+
+
+
+
+                                        @php
+                                            use Illuminate\Support\Str;
+                                        @endphp
+
+                                        {{-- Start Cost Calculator --}}
+                                        <div class="col-12 ">
+                                            <h3 style="text-align: center">Cost Calculator</h3>
+                                            <table id="kt_datatable_footer_callback"
+                                                class="table table-row-bordered gy-5 gs-7  rounded mx-auto">
+                                                <thead>
+                                                    <tr class="fw-bold fs-6">
+                                                        <th>Product/Service</th>
+                                                        <th>Amount ( R <span class="text-danger"
+                                                                id="totalCost2">0.00</span> )</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="funeral-costs-table-body">
+                                                    @foreach ($funeral_costs as $cost)
+                                                        <tr>
+                                                            <td>{{ $cost->name }}</td>
+                                                            <td>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">R</span>
+                                                                    <input type="number" class="form-control cost-input"
+                                                                        id="fc_{{ Str::slug($cost->name, '_') }}"
+                                                                        name="fc_{{ Str::slug($cost->name, '_') }}"
+                                                                        oninput="calculateTotal()">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-bs-toggle="modal" data-bs-target="#addCostModal">
+                                                                <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
+                                                                    class="path2"></span><span class="path3"></span></i>
+                                                                Add Another Cost</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot style="background-color: #f7f7f7">
+                                                    <tr class="fw-bold fs-6">
+                                                        <th colspan="1" class="text-nowrap align-end">Total:</th>
+                                                        <th colspan="1" class="text-danger fs-3">R<span
+                                                                id="totalCost">0.00</span></th>
+                                                    </tr>
+                                                   
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        {{-- End Cost Calculator --}}
+
+
+
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                    <!--end::Card body-->
                                 </div>
-                                <!--end::Card body-->
-                            </div>
+                            </form>
                             <!--end::Card-->
-                            <!--begin::Card-->
-                            <div class="card pt-4 mb-6 mb-xl-9">
-                                <!--begin::Card header-->
-                                <div class="card-header border-0">
-                                    <!--begin::Card title-->
-                                    <div class="card-title">
-                                        <h2>Events</h2>
-                                    </div>
-                                    <!--end::Card title-->
 
-                                    <!--begin::Card toolbar-->
-                                    <div class="card-toolbar">
-                                        <!--begin::Button-->
-                                        <button type="button" class="btn btn-sm btn-light-primary">
-                                            <i class="ki-duotone ki-cloud-download fs-3"><span
-                                                    class="path1"></span><span class="path2"></span></i>
-                                            Download Report
-                                        </button>
-                                        <!--end::Button-->
-                                    </div>
-                                    <!--end::Card toolbar-->
-                                </div>
-                                <!--end::Card header-->
+                            <!--begin:::Add Costs modal-->
 
-                                <!--begin::Card body-->
-                                <div class="card-body py-0">
-                                    <!--begin::Table-->
-                                    <table class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-5"
-                                        id="kt_table_customers_events">
-                                        <tbody>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
-                                                        Bean</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    25 Jul 2024, 9:23 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
-                                                        Bean</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    22 Sep 2024, 8:43 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
-                                                        Smith</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    19 Aug 2024, 10:30 am </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    Invoice <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#DER-45645</a>
-                                                    status has changed from <span class="badge badge-light-info me-1">In
-                                                        Progress</span> to <span class="badge badge-light-primary">In
-                                                        Transit</span>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    10 Mar 2024, 6:05 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
-                                                        Bean</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    24 Jun 2024, 2:40 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Emma
-                                                        Smith</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    19 Aug 2024, 6:05 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
-                                                        Smith</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    15 Apr 2024, 6:05 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    Invoice <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#WER-45670</a>
-                                                    is <span class="badge badge-light-info">In Progress</span>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    20 Jun 2024, 6:05 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    Invoice <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#SEP-45656</a>
-                                                    status has changed from <span
-                                                        class="badge badge-light-warning me-1">Pending</span> to <span
-                                                        class="badge badge-light-info">In Progress</span>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    20 Dec 2024, 6:05 pm </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="min-w-400px">
-                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
-                                                        Smith</a> has made payment to <a href="#"
-                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
-                                                </td>
-                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
-                                                    15 Apr 2024, 10:30 am </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!--end::Table-->
+                            <div class="modal fade" id="addCostModal" tabindex="-1" aria-labelledby="addCostModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addCostModalLabel">Add New Cost</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="addCostForm">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="newCostName" class="form-label">Cost Name</label>
+                                                    <input type="text" class="form-control" id="newCostName" name="name" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="newCostDescription" class="form-label">Cost Description</label>
+                                                    <input type="text" class="form-control" id="newCostDescription" name="description">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="addCostButton">Add Cost</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--end::Card body-->
                             </div>
-                            <!--end::Card-->
+                            
+
+                            <!--end:::Add Costs modal-->
+
+
                         </div>
                         <!--end:::Tab pane-->
 
                         <!--begin:::Tab pane-->
                         <div class="tab-pane fade" id="shortfalls_and_payouts_tab" role="tabpanel">
-                            <!--begin::Earnings-->
-                            <div class="card mb-6 mb-xl-9">
-                                <!--begin::Header-->
-                                <div class="card-header border-0">
-                                    <div class="card-title">
-                                        <h2>Earnings</h2>
-                                    </div>
-                                </div>
-                                <!--end::Header-->
 
-                                <!--begin::Body-->
-                                <div class="card-body py-0">
-                                    <div class="fs-5 fw-semibold text-gray-500 mb-4">
-                                        Last 30 day earnings calculated. Apart from arranging the order of topics.
-                                    </div>
 
-                                    <!--begin::Left Section-->
-                                    <div class="d-flex flex-wrap flex-stack mb-5">
-                                        <!--begin::Row-->
-                                        <div class="d-flex flex-wrap">
-                                            <!--begin::Col-->
-                                            <div
-                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
-                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
-                                                    <span data-kt-countup="true" data-kt-countup-value="6,840"
-                                                        data-kt-countup-prefix="$">0</span>
-                                                    <i class="ki-duotone ki-arrow-up fs-1 text-success"><span
-                                                            class="path1"></span><span class="path2"></span></i>
-                                                </span>
-                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Net
-                                                    Earnings</span>
-                                            </div>
-                                            <!--end::Col-->
 
-                                            <!--begin::Col-->
-                                            <div
-                                                class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
-                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
-                                                    <span class="" data-kt-countup="true"
-                                                        data-kt-countup-value="16">0</span>%
-                                                    <i class="ki-duotone ki-arrow-down fs-1 text-danger"><span
-                                                            class="path1"></span><span class="path2"></span></i>
-                                                </span>
-                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Change</span>
-                                            </div>
-                                            <!--end::Col-->
-
-                                            <!--begin::Col-->
-                                            <div
-                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
-                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
-                                                    <span data-kt-countup="true" data-kt-countup-value="1,240"
-                                                        data-kt-countup-prefix="$">0</span>
-                                                    <span class="text-primary">--</span>
-                                                </span>
-                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Fees</span>
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Row-->
-
-                                        <a href="#" class="btn btn-sm btn-light-primary flex-shrink-0">Withdraw
-                                            Earnings</a>
-                                    </div>
-                                    <!--end::Left Section-->
-                                </div>
-                                <!--end::Body-->
-                            </div>
-                            <!--end::Earnings-->
 
 
                             <!--begin::Card-->
@@ -3573,16 +2223,336 @@
 
                                 <!--begin::Card body-->
                                 <div class="card-body pt-0">
+
+                                    <!--begin::Countup Section-->
+                                    {{-- <div class="d-flex flex-wrap flex-center mt-4 mb-5">
+                                        <!--begin::Row-->
+                                        <div class="d-flex flex-wrap ">
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span data-kt-countup="true" data-kt-countup-value="6,840"
+                                                        data-kt-countup-prefix="R">0</span>
+                                                    <i class="ki-duotone ki-arrow-up fs-1 text-success"><span
+                                                            class="path1"></span><span class="path2"></span></i>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Membership
+                                                    1</span>
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span class="" data-kt-countup="true"
+                                                        data-kt-countup-value="16">0</span>%
+                                                    <i class="ki-duotone ki-arrow-down fs-1 text-danger"><span
+                                                            class="path1"></span><span class="path2"></span></i>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Membership
+                                                    2</span>
+                                            </div>
+                                            <!--end::Col-->
+
+                                            <!--begin::Col-->
+                                            <div
+                                                class="border border-dashed border-gray-300 w-150px rounded my-3 p-4 me-6">
+                                                <span class="fs-1 fw-bold text-gray-800 lh-1">
+                                                    <span data-kt-countup="true" data-kt-countup-value="1,240"
+                                                        data-kt-countup-prefix="R">0</span>
+                                                    <span class="text-primary">--</span>
+                                                </span>
+                                                <span class="fs-6 fw-semibold text-muted d-block lh-1 pt-2">Membership
+                                                    3</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Row-->
+
+
+                                    </div> --}}
+                                    <!--end::Countup Section-->
+
+
+
                                     <div class="fw-bold fs-2">
-                                        $32,487.57 <span class="text-muted fs-4 fw-semibold">USD</span>
+                                        R3,487.50 <span class="text-muted fs-4 fw-semibold">ZAR</span>
                                         <div class="fs-7 fw-normal text-muted">Balance will increase the amount due on the
                                             customer's next invoice.</div>
                                     </div>
+
+
+
+
+
+
+
                                 </div>
                                 <!--end::Card body-->
                             </div>
                             <!--end::Card-->
 
+
+                            <!--begin::Card-->
+                            <div id="shortfall_card" class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="fw-bold">Shortfall Transactions</h2>
+                                    </div>
+                                    <!--end::Card title-->
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <a href="#" class="btn btn-sm btn-flex btn-light-primary"
+                                            data-bs-toggle="modal" data-bs-target="#kt_modal_payment">
+                                            <i class="ki-duotone ki-plus fs-3"><span class="path1"></span><span
+                                                    class="path2"></span></i> New Payment
+                                        </a>
+                                    </div>
+                                    <!--end::Card toolbar-->
+
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+
+
+                                    {{-- @if (!$item['']->isEmpty()) --}}
+
+
+                                    {{-- Start Shortfalls --}}
+
+                                    <table id=""
+                                        class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                        <thead>
+                                            <tr class="fw-bold fs-6">
+                                                <th>Details</th>
+                                                <th>Amount</th>
+                                                <th>Payment Method</th>
+                                                <th>Account Number</th>
+                                                <th>Bank</th>
+                                                <th>Ref. #</th>
+                                                <th>Actions</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    John Doe
+                                                </td>
+                                                <td>
+                                                    R950
+                                                </td>
+                                                <td>
+                                                    Cash
+                                                </td>
+                                                <td>
+                                                    N/A
+                                                </td>
+                                                <td>
+                                                    N/A
+                                                </td>
+                                                <td>
+                                                    N/A
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2"
+                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_1"
+                                                        data-location-type="Postal">
+                                                        Remove
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+
+                                    </table>
+
+                                    {{-- End Shortfalls --}}
+
+
+
+
+
+                                    {{-- @else
+                                    <div class="card inner-card border border-secondary mt-4">
+                                        <div class="card-header"style="background-color: #448C74;">
+                                            <h3 class="card-title" style="color: white">Title</h3>
+                                        </div>
+                                        <div class="card-body bg-light">
+                                            <p>No records found.</p>
+                                        </div>
+                                    </div>
+                                @endif --}}
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+                            <!--begin::Card-->
+                            <div id="payouts_card" class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2 class="fw-bold">Payouts</h2>
+                                    </div>
+                                    <!--end::Card title-->
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <a href="#" class="btn btn-sm btn-flex btn-light-primary"
+                                            data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary"
+                                            data-location-type="Postal">
+                                            <i class="ki-duotone ki-plus fs-3"><span class="path1"></span><span
+                                                    class="path2"></span></i> New Beneficiary
+                                        </a>
+                                    </div>
+                                    <!--end::Card toolbar-->
+
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
+
+
+
+
+                                    {{-- @if (!$item['']->isEmpty()) --}}
+
+
+
+
+
+                                    {{-- Start Payouts --}}
+
+
+
+                                    <table id=""
+                                        class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+                                        <thead>
+                                            <tr class="fw-bold fs-6">
+                                                <th>Beneficiary</th>
+                                                <th>Amount</th>
+                                                <th>Beneficiary - Postal Address</th>
+                                                <th>Cash</th>
+                                                <th>Account Number</th>                                               
+                                                <th>Bank</th>
+                                                <th>Actions</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($funeral_payouts as $payout)
+                                            <tr>
+                                                <td>
+                                                    {{ $payout->person->first_name }} {{ $payout->person->last_name }}
+                                                </td>
+                                                <td>
+                                                    {{ $payout->transaction_local_value }}
+                                                </td>
+                                                <td>
+                                                    {{ $payout->address->line1 }}</br>
+                                                    {{ $payout->address->suburb }} </br>
+                                                    {{ $payout->address->city }} </br>
+                                                    {{ $payout->address->ZIP }} 
+                                                </td>
+                                                <td>
+                                                    {{ $payout->cash_payout === 1 ? 'Yes' : 'No' }} 
+                                                </td>
+                                                <td>
+                                                    {{ $payout->person->bankDetails->account_number ?? '' }} 
+                                                </td>
+                                                <td>
+                                                    {{ $payout->person->bankDetails->bank->name ?? '' }} 
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
+                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary"
+                                                        data-beneficiary-id="{{ $payout->person->id }}"
+                                                        data-beneficiary-name="{{ $payout->person->first_name }}"
+                                                        data-beneficiary-surname="{{ $payout->person->last_name }}"
+                                                        data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}"
+                                                        data-payout-amount="{{ $payout->transaction_local_value }}"
+                                                        data-address-type-id="{{ $payout->address->addressType->id }}"
+                                                        data-line1="{{ $payout->address->line1 }}"
+                                                        data-line2="{{ $payout->address->district }}"
+                                                        data-townsuburb="{{ $payout->address->suburb }}"
+                                                        data-city="{{ $payout->address->city }}"
+                                                        data-province="{{ $payout->address->province }}"
+                                                        data-postalcode="{{ $payout->address->ZIP }}"
+                                                        data-country-name="{{ $payout->address->country->name }}"
+                                                        data-payout-acc-number="{{ $payout->person->bankDetails->account_number ?? '' }}"
+                                                        data-bank-id="{{ $payout->person->bankDetails->bank_id ?? '' }}"
+                                                        data-universal-branch-code="{{ $payout->person->bankDetails->universal_branch_code ?? '' }}"
+                                                        data-bank-account-type-id="{{ $payout->person->bankDetails->bank_account_type_id ?? '' }}">
+                                                        Edit
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#confirmDeleteModal"
+                                                        data-beneficiary-id="{{ $payout->person->id }}"
+                                                        data-funeral-id="{{ $payout->funeral_id }}"
+                                                        data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}">
+                                                        Remove
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            
+                                            
+                                            
+                                            
+                                        </tbody>
+
+
+                                    </table>
+
+                                    {{-- End Payouts --}}
+
+                                    {{-- @else
+                                                        <div class="card inner-card border border-secondary mt-4">
+                                                            <div class="card-header"style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Title</h3>
+                                                            </div>
+                                                            <div class="card-body bg-light">
+                                                                <p>No records found.</p>
+                                                            </div>
+                                                        </div>
+                                                    @endif --}}
+
+
+
+
+
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+
+                        </div>
+                        <!--end:::Tab pane-->
+                        <!--begin:::Tab pane-->
+                        <div class="tab-pane fade" id="others_tab" role="tabpanel">
 
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9">
@@ -4519,6 +3489,274 @@
                                 <!--end::Card body-->
                             </div>
                             <!--end::Statements-->
+
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2>Logs</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Button-->
+                                        <button type="button" class="btn btn-sm btn-light-primary">
+                                            <i class="ki-duotone ki-cloud-download fs-3"><span
+                                                    class="path1"></span><span class="path2"></span></i>
+                                            Download Report
+                                        </button>
+                                        <!--end::Button-->
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body py-0">
+                                    <!--begin::Table wrapper-->
+                                    <div class="table-responsive">
+                                        <!--begin::Table-->
+                                        <table
+                                            class="table align-middle table-row-dashed fw-semibold text-gray-600 fs-6 gy-5"
+                                            id="kt_table_customers_logs">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_1093_7458/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        05 May 2024, 10:10 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-warning">404 WRN</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/customer/c_6687f5279a9d5/not_found </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        05 May 2024, 5:20 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_1093_7458/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Dec 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5324_1715/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        10 Nov 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_4645_4860/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Dec 2024, 6:43 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_7984_6335/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        15 Apr 2024, 10:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5458_5829/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        19 Aug 2024, 11:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_4645_4860/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        10 Mar 2024, 8:43 pm </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-success">200 OK</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoices/in_7984_6335/payment </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        25 Jul 2024, 11:30 am </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="min-w-70px">
+                                                        <div class="badge badge-light-danger">500 ERR</div>
+                                                    </td>
+                                                    <td>
+                                                        POST /v1/invoice/in_5037_4076/invalid </td>
+                                                    <td class="pe-0 text-end min-w-200px">
+                                                        20 Jun 2024, 5:20 pm </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--end::Table wrapper-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+
+
+                            <!--begin::Card-->
+                            <div class="card pt-4 mb-6 mb-xl-9">
+                                <!--begin::Card header-->
+                                <div class="card-header border-0">
+                                    <!--begin::Card title-->
+                                    <div class="card-title">
+                                        <h2>Events</h2>
+                                    </div>
+                                    <!--end::Card title-->
+
+                                    <!--begin::Card toolbar-->
+                                    <div class="card-toolbar">
+                                        <!--begin::Button-->
+                                        <button type="button" class="btn btn-sm btn-light-primary">
+                                            <i class="ki-duotone ki-cloud-download fs-3"><span
+                                                    class="path1"></span><span class="path2"></span></i>
+                                            Download Report
+                                        </button>
+                                        <!--end::Button-->
+                                    </div>
+                                    <!--end::Card toolbar-->
+                                </div>
+                                <!--end::Card header-->
+
+                                <!--begin::Card body-->
+                                <div class="card-body py-0">
+                                    <!--begin::Table-->
+                                    <table class="table align-middle table-row-dashed fs-6 text-gray-600 fw-semibold gy-5"
+                                        id="kt_table_customers_events">
+                                        <tbody>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    25 Jul 2024, 9:23 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    22 Sep 2024, 8:43 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    19 Aug 2024, 10:30 am </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#DER-45645</a>
+                                                    status has changed from <span class="badge badge-light-info me-1">In
+                                                        Progress</span> to <span class="badge badge-light-primary">In
+                                                        Transit</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    10 Mar 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Sean
+                                                        Bean</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    24 Jun 2024, 2:40 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Emma
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#XRS-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    19 Aug 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    15 Apr 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#WER-45670</a>
+                                                    is <span class="badge badge-light-info">In Progress</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    20 Jun 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    Invoice <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary me-1">#SEP-45656</a>
+                                                    status has changed from <span
+                                                        class="badge badge-light-warning me-1">Pending</span> to <span
+                                                        class="badge badge-light-info">In Progress</span>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    20 Dec 2024, 6:05 pm </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="min-w-400px">
+                                                    <a href="#" class="text-gray-600 text-hover-primary me-1">Max
+                                                        Smith</a> has made payment to <a href="#"
+                                                        class="fw-bold text-gray-900 text-hover-primary">#SDK-45670</a>
+                                                </td>
+                                                <td class="pe-0 text-gray-600 text-end min-w-200px">
+                                                    15 Apr 2024, 10:30 am </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!--end::Table-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+
+
                         </div>
                         <!--end:::Tab pane-->
                     </div>
@@ -4779,7 +4017,9 @@
                 </div>
                 <!--end::Modal dialog-->
             </div>
-            <!--end::Modal - New Card--><!--begin::Modal - New Address-->
+            <!--end::Modal - New Card-->
+
+            <!--begin::Modal - New Address-->
             <div class="modal fade" id="kt_modal_update_customer" tabindex="-1" aria-hidden="true">
                 <!--begin::Modal dialog-->
                 <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -5582,6 +4822,475 @@
                 <!--end::Modal dialog-->
             </div>
             <!--end::Modal - New Card--><!--end::Modals-->
+
+             <!-- Start Delete beneficiary Confirmation  Modal -->
+            <div class="modal fade" tabindex="-1" id="confirmDeleteModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to remove this beneficiary?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal - Delete beneficiary Confirmation-->
+
+    <!-- Start Beneficiary Modal -->
+    <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Beneficiary</h3>
+                    <div class="btn btn-icon btn-sm btn-danger btn-active-light-danger ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <form id="BeneficiaryForm" method="POST">
+                    @csrf
+                    <input type="hidden" id="beneficiary_id" name="beneficiary_id">
+                    <input type="hidden" id="funeral_id" name="funeral_id" value="{{ $funeral->id }}">
+                    <input type="hidden" id="transaction_id" name="transaction_id">
+
+                    <div class="modal-body">
+                        <div class="pt-4 p-3">
+                            <div class="row my-3">
+                                <div class="col">
+                                    <label for="beneficiary_name" class="form-label">Name:</label>
+                                    <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name">
+                                </div>
+                                <div class="col">
+                                    <label for="beneficiary_surname" class="form-label">Surname:</label>
+                                    <input type="text" class="form-control" id="beneficiary_surname" name="beneficiary_surname">
+                                </div>
+                                <div class="col">
+                                    <label for="payout_amount" class="form-label">Amount:</label>
+                                    <div class="input-group mx-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">R</span>
+                                        </div>
+                                        <input type="number" class="form-control" id="payout_amount" name="payout_amount">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="separator my-8"></div>
+
+                            <select id="beneficiary_addresstype" name="addressType" class="form-select" data-control="select2" data-placeholder="Select Location Type" data-hide-search="true">
+                                <option value="1">Residential</option>
+                                <option value="2">Postal</option>
+                            </select>
+                            
+
+                            <!-- Address fields -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <input type="text" class="form-control" name="Line1" id="Line1_beneficiary" required>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="Line2" id="Line2_beneficiary" placeholder="Address Line 2">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="TownSuburb" id="TownSuburb_beneficiary" placeholder="Town/Suburb">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="City" id="City_beneficiary" placeholder="City">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="Province" id="Province_beneficiary" placeholder="Province">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="PostalCode" id="PostalCode_beneficiary" placeholder="Postal Code">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" name="Country" id="Country_beneficiary" placeholder="Country">
+                                </div>
+                            </div>
+
+                            <div class="separator my-8"></div>
+
+                            <!-- Payout Payment Details -->
+                            <div class="row my-3">
+                                <div class="col">
+                                    <label for="payout_acc_number" class="form-label">Account number:</label>
+                                    <input type="number" class="form-control" id="payout_acc_number" name="payout_acc_number">
+                                </div>
+                                <div class="col">
+                                    <label for="bankSelect" class="form-label">Bank:</label>
+                                    <select id="bankSelect" name="bankSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Bank" data-allow-clear="true">
+                                        <option></option>
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}" data-universal-branch-code="{{ $bank->universal_branch_code }}">{{ $bank->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="universal_branch_code" class="form-label">Universal Branch Code:</label>
+                                    <input type="text" class="form-control" id="universal_branch_code" name="universal_branch_code">
+                                </div>
+                                <div class="col">
+                                    <label for="bank_account_type_id" class="form-label">Bank Account Type:</label>
+                                    <select id="bank_account_type_id" name="bank_account_type_id" class="form-select" data-control="select2" data-placeholder="Select Account type" data-allow-clear="true">
+                                        <option></option>
+                                        @foreach ($bank_account_types as $account_type)
+                                            <option value="{{ $account_type->id }}">{{ $account_type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-dark" id="saveBeneficiaryBtn">Save Beneficiary</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Beneficiary Modal -->
+
+
+            <!-- Start Shortfall Payment Modal -->
+            <div class="modal fade" tabindex="-1" id="kt_modal_payment">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <h3 class="modal-title ">Add Payment</h3>
+
+                            <!--begin::Close-->
+                            <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <form id="shortfallPaymentForm" method="POST"
+                            action="{{ route('StoreFuneralShortfall') }}">
+                            @csrf
+                            <div class="modal-body">
+
+                                <input type="text" id="funeral_id" name="funeral_id"
+                                value="{{ $funeral->id }}" hidden>
+
+
+
+                                <div class="pt-4 p-3">
+
+
+
+                                    <!-- Row 1 -->
+                                    <div class="row my-3">
+                                        <div class="col">
+                                            <label for="shortfall_payment_name"
+                                                class="form-label ">Name:</label>
+                                            <input type="text" class="form-control" id="shortfall_payment_name"
+                                                name="shortfall_payment_name">
+                                        </div>
+                                        <div class="col">
+                                            <label for="shortfall_payment_surname"
+                                                class="form-label  ">Surname:</label>
+                                            <input type="tel" class="form-control" id="shortfall_payment_surname"
+                                                name="shortfall_payment_surname">
+                                        </div>
+                                        <div class="col">
+                                            <label for="payout_amount" class="form-label  ">Amount:</label>
+                                            <div class="input-group mx-auto">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"
+                                                        style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
+                                                </div>
+                                                <input type="number" class="form-control cost-input"
+                                                    id="payout_amount" name="payout_amount">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="separator border-light my-8"></div>
+
+
+                                    <div class="pt-4" style="display: flex; align-items: center;">
+                                        <label for="ShortfallPaymentMethodSelect" class="form-label  ">Payment
+                                            Method:</label>
+                                        <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect"
+                                            class="form-select bg-white form-select-solid" data-control="select2"
+                                            data-placeholder="Select Payment Method" data-allow-clear="true"
+                                            style="margin-right: 10px;">
+
+                                            <option value="2">Cash</option>
+                                            <option value="5">EFT/Bank Payment</option>
+
+                                        </select>
+
+
+
+                                    </div>
+
+                                    <div class="separator border-light my-8"></div>
+
+                                    <!-- Payout Payment Details -->
+                                    <div class="row my-3">
+                                        <div class="col">
+                                            <label for="payout_acc_number" class="form-label  ">Account
+                                                number:</label>
+                                            <input type="number" class="form-control" id="payout_acc_number"
+                                                name="payout_acc_number">
+                                        </div>
+                                        <div class="col">
+                                            <label for="ShortfallbankSelect" class="form-label  ">Bank:</label>
+                                            <select id="ShortfallbankSelect" name="ShortfallbankSelect"
+                                                class="form-select bg-white form-select-solid" data-control="select2"
+                                                data-placeholder="Select Bank" data-allow-clear="true"
+                                                style="margin-right: 10px;">
+                                                <option></option>
+                                                <!-- Placeholder option for user prompt -->
+                                                @foreach ($banks as $bank)
+                                                    <option value="{{ $bank->id }}">
+                                                        {{ $bank->name }}
+                                                    </option>
+                                                @endforeach
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="separator border-light my-8"></div> --}}
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-dark" id="savePaymentBtn">Save Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- END Shortfall Payment Modal -->
+
+
+
+
+
+            <!-- Start Location Address Modal -->
+            <div class="modal fade" tabindex="-1" id="kt_modal_1" style="z-index: 1057;">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add Location</h3>
+
+                            <!--begin::Close-->
+                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                        class="path2"></span></i>
+                            </div>
+                            <!--end::Close-->
+                        </div>
+                        <form id="addressForm" method="POST" action="{{ route('StoreFuneralAddress') }}">
+                            @csrf
+                            <div class="modal-body">
+
+
+
+
+
+
+                                <div class="pt-4 p-3">
+
+                                    <select id="addressType" name="addressType" class="form-select "
+                                        data-control="select2" data-placeholder="Select Location Type"
+                                        data-hide-search="true">
+                                        <option></option>
+                                        <option value="{{ $churchTypeId }}">Church</option>
+                                        <option value="{{ $graveyardTypeId }}">Graveyard</option>
+                                        <option value="21">Viewing Location</option>
+                                    </select>
+
+
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <div
+                                                class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                <input type="text" class="form-control" id="Line1"
+                                                    name="Line1" value="{{ old('Line1') }}">
+                                            </div>
+                                            @error('Line1')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <div
+                                                class="input-group input-group-outline  @error('PlaceName') is-invalid focused is-focused  @enderror  mb-0">
+                                                <input type="text" class="form-control" name="PlaceName"
+                                                    id="PlaceName" value="{{ old('PlaceName') }}"
+                                                    placeholder="Location Name">
+                                            </div>
+                                            @error('PlaceName')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6 col-sm-6">
+                                            <div
+                                                class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                <input type="text" class="form-control" name="Line2"
+                                                    id="Line2" value="{{ old('Line2') }}"
+                                                    placeholder="Address Line 2">
+                                            </div>
+                                            @error('Line2')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6 col-sm-6">
+                                            <div
+                                                class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                <input type="text" class="form-control" name="TownSuburb"
+                                                    id="TownSuburb" value="{{ old('TownSuburb') }}"
+                                                    placeholder="Town/Suburb">
+                                            </div>
+                                            @error('TownSuburb')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-sm-6">
+                                            <div
+                                                class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                <input type="text" class="form-control" name="City"
+                                                    id="City" value="{{ old('City') }}" placeholder="City">
+                                            </div>
+                                            @error('City')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
+                                            <div
+                                                class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                <input type="text" class="form-control" name="Province"
+                                                    id="Province" value="{{ old('Province') }}"
+                                                    placeholder="Province">
+                                            </div>
+                                            @error('Province')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
+                                            <div
+                                                class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                <input type="text" class="form-control" name="PostalCode"
+                                                    id="PostalCode" value="{{ old('PostalCode') }}"
+                                                    placeholder="Postal Code">
+                                            </div>
+                                            @error('PostalCode')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+
+                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
+                                            <div
+                                                class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                <input type="text" class="form-control" name="Country"
+                                                    id="Country" value="{{ old('Province') }}"
+                                                    placeholder="Country">
+                                            </div>
+                                            @error('Country')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div
+                                        style="text-align: center; display: flex; justify-content: center; align-items: center; ">
+                                        <span style="color: white; margin-right: 10px;">Powered
+                                            by</span>
+                                        <img src="{{ asset('img/google.png') }}" alt="Google Logo"
+                                            style="width: 50px; height: auto;">
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-dark" id="saveLocationBtn">Save
+                                    Location</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- END Location Address Modal -->
+
         </div>
         <!--end::Container-->
     </div>
@@ -5624,24 +5333,41 @@
         });
     </script>
 
+
+
+    {{-- start:: This is for getting the universal branch code from the selected bank --}}
+    <script>
+        $(document).ready(function() {
+            $('#bankSelect').select2();
+        
+            $('#bankSelect').on('select2:select', function(e) {
+                var selectedOption = e.params.data.element;
+                var branchCode = $(selectedOption).data('universal-branch-code');
+                $('#universal_branch_code').val(branchCode || '');
+            });
+        });
+        </script>
+    {{-- end:: This is for getting the universal branch code from the selected bank --}}
+
+
     {{-- This is for blocking funeral section if not required --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM fully loaded and parsed');
-            
+
             var button = document.querySelector("#funeral_required");
             var target = document.querySelector("#funeral_card");
-    
+
             console.log('button:', button);
             console.log('target:', target);
-    
+
             var blockUI = new KTBlockUI(target, {
                 overlayClass: "bg-danger bg-opacity-25",
                 message: '<div class="blockui-message"><span class="fs-2 text-danger"> Funeral not required</span></div>',
             });
-    
+
             console.log('blockUI initialized:', blockUI);
-    
+
             function updateBlockUI() {
                 if (button.checked) {
                     console.log('Checkbox is checked, releasing blockUI');
@@ -5651,17 +5377,17 @@
                     blockUI.block();
                 }
             }
-    
+
             // Initialize the block UI based on the initial state of the checkbox
             updateBlockUI();
-    
+
             button.addEventListener("click", function() {
                 console.log('Checkbox clicked');
                 updateBlockUI();
             });
         });
     </script>
-    
+
 
 
     {{-- This is used for the checklist --}}
@@ -5826,22 +5552,112 @@
     </script> --}}
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Listen for the modal showing up
-            $('#kt_modal_beneficiary').on('show.bs.modal', function(event) {
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#kt_modal_beneficiary').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); // Button that triggered the modal
-                var locationType = button.data('location-type'); // Extract info from data-* attributes
                 var modal = $(this);
-
-                // Determine which option to select based on the clicked button
-                if (locationType === 'Postal') {
-                    modal.find('#addressType').val('2').trigger('change');
-                } else if (locationType === 'Residential') {
-                    modal.find('#addressType').val('1').trigger('change');
+                var form = modal.find('#BeneficiaryForm');
+                var title = modal.find('.modal-title');
+    
+                var beneficiaryId = button.data('beneficiary-id');
+                var beneficiaryName = button.data('beneficiary-name');
+                var beneficiarySurname = button.data('beneficiary-surname');
+                var transactionId = button.data('transaction-id');
+                var payoutAmount = button.data('payout-amount');
+                var addressTypeId = button.data('address-type-id');
+                var line1 = button.data('line1');
+                var line2 = button.data('line2');
+                var townSuburb = button.data('townsuburb');
+                var city = button.data('city');
+                var province = button.data('province');
+                var postalCode = button.data('postalcode');
+                var countryName = button.data('country-name');
+                var payoutAccNumber = button.data('payout-acc-number');
+                var bankId = button.data('bank-id');
+                var universalBranchCode = button.data('universal-branch-code');
+                var bankAccountTypeId = button.data('bank-account-type-id');
+    
+                if (beneficiaryId) {
+                    // Editing existing beneficiary
+                    title.text('Edit Beneficiary');
+                    form.find('#beneficiary_id').val(beneficiaryId);
+                    form.find('#beneficiary_name').val(beneficiaryName);
+                    form.find('#beneficiary_surname').val(beneficiarySurname);
+                    form.find('#transaction_id').val(transactionId);
+                    form.find('#payout_amount').val(payoutAmount);
+                    form.find('#beneficiary_addresstype').val(addressTypeId).trigger('change');
+                    form.find('#Line1_beneficiary').val(line1);
+                    form.find('#Line2_beneficiary').val(line2);
+                    form.find('#TownSuburb_beneficiary').val(townSuburb);
+                    form.find('#City_beneficiary').val(city);
+                    form.find('#Province_beneficiary').val(province);
+                    form.find('#PostalCode_beneficiary').val(postalCode);
+                    form.find('#Country_beneficiary').val(countryName);
+                    form.find('#payout_acc_number').val(payoutAccNumber);
+                    form.find('#bankSelect').val(bankId).trigger('change');
+                    form.find('#universal_branch_code').val(universalBranchCode);
+                    form.find('#bank_account_type_id').val(bankAccountTypeId).trigger('change');
+                } else {
+                    // Adding new beneficiary
+                    title.text('Add Beneficiary');
+                    form.trigger('reset');
+                    form.find('#beneficiary_id').val(''); // Ensure beneficiary_id is empty
+                    form.find('#transaction_id').val(''); // Ensure transaction_id is empty
                 }
+    
+                form.attr('action', '{{ route('StoreFuneralBeneficiary') }}');
             });
         });
     </script>
+    
+    
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteBeneficiaryId;
+            var deleteFuneralId;
+            var deleteTransactionId;
+    
+            // Show confirmation modal on remove button click
+            $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                deleteBeneficiaryId = button.data('beneficiary-id');
+                deleteFuneralId = button.data('funeral-id');
+                deleteTransactionId = button.data('transaction-id');
+            });
+    
+            // Handle confirmation button click
+            $('#confirmDeleteBtn').on('click', function () {
+                $.ajax({
+                    url: '{{ route("RemoveFuneralBeneficiary") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        beneficiary_id: deleteBeneficiaryId,
+                        funeral_id: deleteFuneralId,
+                        transaction_id: deleteTransactionId
+                    },
+                    success: function (response) {
+                        // Handle success response (e.g., remove the row from the table)
+                        location.reload(); // Reload the page to reflect changes
+                    },
+                    error: function (response) {
+                        // Handle error response
+                        console.error('Error:', response);
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
+    
+    
+    
+    
+    
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -5988,18 +5804,59 @@
     {{-- This is for address modal submission --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            $('#saveLocationBtn').on('click', function(event) {
-                event.preventDefault(); // Prevent the default form submission behavior
+            let searchTerm = '';
 
-                var formData = new FormData(document.getElementById(
-                    'addressForm')); // Create FormData object from the form
+            function formatNoResults() {
+                return 'No results found';
+            }
+
+            function initializeSelect2(selector) {
+                $(selector).select2({
+                    placeholder: $(selector).data('placeholder'),
+                    allowClear: true,
+                    language: {
+                        noResults: formatNoResults
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }
+                }).on('select2:open', function() {
+                    console.log('Select2 dropdown opened');
+                    // Append the button to the dropdown
+                    if (!document.getElementById('add-new-location-btn')) {
+                        let locationType = $(selector).attr('id') === 'churchSelect' ? 'Church' :
+                            'Graveyard';
+                        if ($(selector).attr('id') === 'viewing_location') {
+                            locationType = 'Viewing';
+                        }
+                        let buttonHtml =
+                            '<div class="select2-add-button-container" style="text-align: center; padding: 10px;">' +
+                            '<button type="button" class="btn btn-dark btn-sm" id="add-new-location-btn" data-bs-toggle="modal" data-bs-target="#kt_modal_1" data-location-type="' +
+                            locationType + '">+ Add ' + locationType + '</button>' +
+                            '</div>';
+                        $('.select2-results__options').after(buttonHtml);
+                    }
+                    $('.select2-search__field').on('input', function() {
+                        searchTerm = $(this).val();
+                    }).focus(); // Ensure search field is focused when opened
+                });
+            }
+
+            initializeSelect2('#churchSelect');
+            initializeSelect2('#graveyardSelect');
+            initializeSelect2('#viewing_location');
+
+            $('#saveLocationBtn').on('click', function(event) {
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById('addressForm'));
 
                 $.ajax({
-                    url: '{{ route('StoreFuneralAddress') }}', // Use the route name as the endpoint
-                    type: 'POST', // Method type POST
+                    url: '{{ route('StoreFuneralAddress') }}',
+                    type: 'POST',
                     data: formData,
-                    processData: false, // Tells jQuery not to convert the data into a string
-                    contentType: false, // Tells jQuery not to set the content type header
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         Swal.fire({
                             title: 'Success!',
@@ -6008,20 +5865,12 @@
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $('#kt_modal_1').modal(
-                                    'hide'); // Hide the modal on success
-
-                                // Clear all input fields in the form
-                                $('#addressForm').find(
-                                    'input[type=text], input[type=number], textarea, select'
-                                ).val('');
-
-                                // Append the new address to the correct dropdown based on the type and select it
+                                $('#kt_modal_1').modal('hide');
+                                // Append the new option and select it
                                 var newOption = new Option(response.name + ' (' +
                                     response.line1 + ' - ' + response.suburb +
                                     ', ' + response.city + ', ' + response.ZIP +
-                                    ')', response.id, true, true
-                                ); // true for selected and defaultSelected
+                                    ')', response.id, true, true);
                                 if (response.type === 'Church') {
                                     $('#churchSelect').append(newOption).trigger(
                                         'change');
@@ -6033,13 +5882,17 @@
                                         'change');
                                 }
 
-                                // Check and remove modal backdrop if still present
+                                // Clear the form
+                                $('#addressForm').find(
+                                    'input[type=text], input[type=number], textarea, select'
+                                    ).val('');
+
                                 setTimeout(function() {
                                     if ($('.modal-backdrop').length) {
                                         $('.modal-backdrop').remove();
                                         $('body').removeClass('modal-open');
                                     }
-                                }, 200); // Wait a bit to ensure modal has closed
+                                }, 200);
                             }
                         });
                     },
@@ -6056,11 +5909,10 @@
             });
 
             $('#kt_modal_1').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var locationType = button.data('location-type'); // Extract info from data-* attributes
+                var button = $(event.relatedTarget);
+                var locationType = button.data('location-type');
                 var modal = $(this);
 
-                // Determine which option to select based on the clicked button
                 if (locationType === 'Church') {
                     modal.find('#addressType').val('{{ $churchTypeId }}').trigger('change');
                 } else if (locationType === 'Graveyard') {
@@ -6068,14 +5920,68 @@
                 } else if (locationType === 'Viewing') {
                     modal.find('#addressType').val('{{ $viewingTypeId }}').trigger('change');
                 }
+
+                // Set the Line1 field with the search term
+                $('#Line1').val(searchTerm);
+                setTimeout(function() {
+                    $('#Line1').focus();
+                }, 500); // Slight delay to ensure modal is fully opened
             });
         });
     </script>
 
 
 
+{{-- START::add costs modal script --}}
+<script>
+document.getElementById('addCostButton').addEventListener('click', function () {
+    var form = document.getElementById('addCostForm');
+    var formData = new FormData(form);
+
+    fetch('{{ route('AddFuneralCost') }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var tableBody = document.getElementById('funeral-costs-table-body');
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${data.cost.name}</td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-text">R</span>
+                        <input type="number" class="form-control cost-input" id="fc_${slugify(data.cost.name)}" name="fc_${slugify(data.cost.name)}" oninput="calculateTotal()">
+                    </div>
+                </td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            // Reset modal fields
+            form.reset();
+
+            // Close the modal using Bootstrap's modal method
+            var addCostModal = bootstrap.Modal.getInstance(document.getElementById('addCostModal'));
+            addCostModal.hide();
+        } else {
+            alert('Error adding cost');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function slugify(text) {
+    return text.toString().toLowerCase().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '_').replace(/^-+/, '').replace(/-+$/, '');
+}
 
 
+</script>
+{{-- END::add costs modal script --}}
 
     <script>
         $(document).ready(function() {

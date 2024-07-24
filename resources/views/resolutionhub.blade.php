@@ -140,7 +140,7 @@
 
         /* Uncomment if you want to use green borders for valid inputs */
         /* input:valid, select:valid {
-                        border-color: #28a745 !important; /* Change to green when the input becomes valid */
+                                            border-color: #28a745 !important; /* Change to green when the input becomes valid */
 
 
         */
@@ -157,7 +157,8 @@
         html {
             height: 100%;
             margin: 0;
-            overflow-y: auto; /* Add vertical scroll */
+            overflow-y: auto;
+            /* Add vertical scroll */
         }
 
         #main-container {
@@ -224,616 +225,643 @@
         $genderNames = $genders->pluck('name', 'id')->all();
     @endphp
 
-            <div class="col-9 card-column position-relative mb-10">
-                <div class="card rounded shadow h-100">
-                    <!-- Card Content Here -->
+    <div class="col-9 card-column position-relative mb-10">
+        {{-- <div class="card rounded shadow h-100"> --}}
+        <!-- Card Content Here -->
 
-                    {{-- <button id="show-button" class="btn btn-primary show-button">Show</button> --}}
-                    <div class="card rounded my-10 shadow">
-                        <h1 class="my-4" style="margin-left: auto; margin-right: auto; width: fit-content;">Resolution Hub</h1>
-                        {{-- <h2>Grouped Records by Membership ID</h2> --}}
-                        <div class="card inner-card"></div>
-                        <div class="card-header ">
-                            <h3 class="card-title">Search and Sort</h3>
+        {{-- <button id="show-button" class="btn btn-primary show-button">Show</button> --}}
+        <div class="card rounded shadow">
+            <h1 class="my-4" style="margin-left: auto; margin-right: auto; width: fit-content;">Resolution Hub</h1>
+            {{-- <h2>Grouped Records by Membership ID</h2> --}}
+            <div class="card inner-card"></div>
+            <div class="card-header ">
+                
+                    <form action="{{ route('resolutionhub') }}" method="GET" class="form-inline">
+                        <div class="form-group mb-2">
+                            <label for="search" class="sr-only">Membership ID:</label>
+                            <input type="text" class="form-control mt-2" id="search" name="search"
+                                placeholder="Enter Membership ID" value="{{ $search ?? '' }}">
                         </div>
-                        <div class="card-body">
-                        <div class="row">
-                        <div class="col-10">
-                        <form action="{{ route('resolutionhub') }}" method="GET" class="form-inline">
-                                <div class="form-group mb-2">
-                                    <label for="search" class="sr-only">Membership ID:</label>
-                                    <input type="text" class="form-control mt-2" id="search" name="search"
-                                        placeholder="Enter Membership ID" value="{{ $search ?? '' }}">
-                                </div>
 
 
 
-                                <button type="submit" class="btn btn-sm my-2 ml-2 btn-success">Search</button>
-                                <a href="{{ route('resolutionhub') }}" class="btn btn-sm mb-2 ml-2 my-2 btn-danger">Reset</a>
+                        <button type="submit" class="btn btn-sm my-2 ml-2 btn-success">Search</button>
+                        <a href="{{ route('resolutionhub') }}" class="btn btn-sm mb-2 ml-2 my-2 btn-danger">Reset</a>
 
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <label for="sort" class="sr-only">Sort By:</label>
-                                    <select name="sort" id="sort" class="form-select form-select-sm" style="height: 50%;"
-                                        onchange="this.form.submit()">
-                                        <option value="membership_id_asc"{{ request('sort') == 'membership_id_asc' ? ' selected' : '' }}>
-                                            Membership ID Ascending</option>
-                                        <option value="membership_id_desc"{{ request('sort') == 'membership_id_desc' ? ' selected' : '' }}>
-                                            Membership ID Descending</option>
-                                        <option value="join_date_asc"{{ request('sort') == 'join_date_asc' ? ' selected' : '' }}>Date Joined
-                                            Ascending</option>
-                                        <option value="join_date_desc"{{ request('sort') == 'join_date_desc' ? ' selected' : '' }}>Date
-                                            Joined Descending</option>
-                                    </select>
-                                </div>
-                            </form></div>
-                        <div class="col-2">
-                        <button id="show-button" class="btn btn-primary show-button btn-sm">Show Details</button></div>
+                        <div class="form-group mx-sm-3 mb-2 mt-2">
+                            <label for="sort" class="sr-only">Sort By:</label>
+                            <select name="sort" id="sort" class="form-select form-select-sm" style="height: 50%;"
+                                onchange="this.form.submit()">
+                                <option
+                                    value="membership_id_asc"{{ request('sort') == 'membership_id_asc' ? ' selected' : '' }}>
+                                    Membership ID Ascending</option>
+                                <option
+                                    value="membership_id_desc"{{ request('sort') == 'membership_id_desc' ? ' selected' : '' }}>
+                                    Membership ID Descending</option>
+                                <option value="join_date_asc"{{ request('sort') == 'join_date_asc' ? ' selected' : '' }}>
+                                    Date Joined
+                                    Ascending</option>
+                                <option value="join_date_desc"{{ request('sort') == 'join_date_desc' ? ' selected' : '' }}>
+                                    Date
+                                    Joined Descending</option>
+                            </select>
                         </div>
-                        </div>
-                            @if ($paginatedItems->count() > 0)
-                                @foreach ($paginatedItems as $item)
-                                    <form id="mainForm" method="POST" action="{{ route('handleMainRecordAction') }}">
-                                        @csrf {{-- CSRF token for form submission --}}
-                                        <div class="card mb-2 shadow">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Main Record ID: {{ $item['membershipId'] }}</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <!--begin::Accordion-->
-                                                <div class="accordion mb-3" id="kt_accordion_{{ $loop->index }}">
-                                                    <!-- First Accordion Item for Membership Details -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_1">
-                                                            <button class="accordion-button fs-4 fw-semibold{{ $loop->first ? '' : ' collapsed' }}"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_1"
-                                                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_1">
-                                                                Membership Details
-                                                            </button>
-                                                            
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_1"
-                                                            class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_1"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body" >
-                                                                <!-- Accordion content for Membership Details -->
-                                                                <!-- Main Record Card as Form -->
-                                                                @if ($item['main'])
-                                                                    <input type="hidden" id="main_original_json_{{ $item['main']->id }}"
-                                                                        name="main_original_json_{{ $item['main']->id }}"
-                                                                        value="{{ $item['main']->complete_original_record }}">
+                    </form>
 
-                                            <div class="row mb-4">
-                                                <!--begin::Trigger button-->
-                                                {{-- <button id="kt_drawer_main_member_button" class="btn btn-light-primary">See
+                    <h4><button id="show-button" class="btn btn-sm btn-info show-button mt-4">Show Details</button></h4>
+
+
+            </div>
+            <div class="card-body">
+            @if ($paginatedItems->count() > 0)
+                @foreach ($paginatedItems as $item)
+                    <form id="mainForm" method="POST" action="{{ route('handleMainRecordAction') }}">
+                        @csrf {{-- CSRF token for form submission --}}
+                        <div class="mb-2">
+                            <div class="">
+                                <h3 class="text-center">Main Record ID: {{ $item['membershipId'] }}</h3>
+                            </div>
+                            <div class="mx-2">
+                                <!--begin::Accordion-->
+                                <div class="accordion mb-3" id="kt_accordion_{{ $loop->index }}">
+                                    <!-- First Accordion Item for Membership Details -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_1">
+                                            <button
+                                                class="accordion-button fs-4 fw-semibold{{ $loop->first ? '' : ' collapsed' }}"
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_1"
+                                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                                aria-controls="kt_accordion_{{ $loop->index }}_body_1">
+                                                Membership Details
+                                            </button>
+
+                                        </h2>
+                                        <div id="kt_accordion_{{ $loop->index }}_body_1"
+                                            class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
+                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_1"
+                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                            <div class="accordion-body">
+                                                <!-- Accordion content for Membership Details -->
+                                                <!-- Main Record Card as Form -->
+                                                @if ($item['main'])
+                                                    <input type="hidden" id="main_original_json_{{ $item['main']->id }}"
+                                                        name="main_original_json_{{ $item['main']->id }}"
+                                                        value="{{ $item['main']->complete_original_record }}">
+
+                                                    <div class="row mb-4">
+                                                        <!--begin::Trigger button-->
+                                                        {{-- <button id="kt_drawer_main_member_button" class="btn btn-light-primary">See
                                                     Original Record</button> --}}
-                                                <!--end::Trigger button-->
-                                            </div>
-                                            <!--begin::Drawer-->
-                                            <div id="kt_drawer_main_member" class="bg-white" data-kt-drawer="true"
-                                                data-kt-drawer-activate="true"
-                                                data-kt-drawer-toggle="#kt_drawer_main_member_button"
-                                                data-kt-drawer-close="#kt_drawer_main_member_close"
-                                                data-kt-drawer-width="{default:'300px', 'md': '400px'}">
-
-                                                <!--begin::Card-->
-                                                <div class="card w-100 rounded-0">
-                                                    <!--begin::Card header-->
-                                                    <div class="card-header pe-5">
-                                                        <!--begin::Title-->
-                                                        <div class="card-title">
-                                                            <!--begin::User-->
-                                                            <div class="d-flex justify-content-center flex-column me-3">
-                                                                <a href="#"
-                                                                    class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
-                                                                    Membership Original Details</a>
-                                                            </div>
-                                                            <!--end::User-->
-                                                        </div>
-                                                        <!--end::Title-->
-
-                                                        <!--begin::Card toolbar-->
-                                                        <div class="card-toolbar">
-                                                            <!--begin::Close-->
-                                                            <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
-                                                                id="kt_drawer_main_member_close">
-                                                                <i class="ki-duotone ki-cross fs-2"><span
-                                                                        class="path1"></span><span
-                                                                        class="path2"></span></i>
-                                                            </div>
-                                                            <!--end::Close-->
-                                                        </div>
-                                                        <!--end::Card toolbar-->
+                                                        <!--end::Trigger button-->
                                                     </div>
-                                                    <!--end::Card header-->
+                                                    <!--begin::Drawer-->
+                                                    <div id="kt_drawer_main_member" class="bg-white" data-kt-drawer="true"
+                                                        data-kt-drawer-activate="true"
+                                                        data-kt-drawer-toggle="#kt_drawer_main_member_button"
+                                                        data-kt-drawer-close="#kt_drawer_main_member_close"
+                                                        data-kt-drawer-width="{default:'300px', 'md': '400px'}">
 
-                                                    <!--begin::Card body-->
-                                                    <div class="card-body hover-scroll-overlay-y">
-                                                        @php
-                                                            $originalRecord = json_decode(
-                                                                $item['main']->complete_original_record,
-                                                                true,
-                                                            );
-                                                        @endphp
-                                                        @if ($originalRecord)
-                                                            @foreach ($originalRecord as $key => $value)
-                                                                <div class="d-flex align-items-center flex-wrap mb-2">
-                                                                    <div id="kt_clipboard_{{ $loop->index }}"
-                                                                        class="me-5">
-                                                                        <strong>{{ $key }}:</strong> <span
-                                                                            class="copy-value">{{ $value }}</span>
+                                                        <!--begin::Card-->
+                                                        <div class="card w-100 rounded-0">
+                                                            <!--begin::Card header-->
+                                                            <div class="card-header pe-5">
+                                                                <!--begin::Title-->
+                                                                <div class="card-title">
+                                                                    <!--begin::User-->
+                                                                    <div
+                                                                        class="d-flex justify-content-center flex-column me-3">
+                                                                        <a href="#"
+                                                                            class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
+                                                                            Membership Original Details</a>
                                                                     </div>
-                                                                    @if (strlen($value) > 0)
-                                                                        <button class="btn btn-icon btn-sm btn-light"
-                                                                            data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                            <i
-                                                                                class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                        </button>
-                                                                    @endif
+                                                                    <!--end::User-->
                                                                 </div>
-                                                            @endforeach
-                                                        @else
-                                                            <p>No original record found.</p>
-                                                        @endif
-                                                    </div>
-                                                    <!--end::Card body-->
-                                                </div>
-                                                <!--end::Card-->
-                                            </div>
-                                            <!--end::Drawer-->
+                                                                <!--end::Title-->
 
 
-                                                                    <div class="row">
-                                                                        <!-- Membership ID and Membership Type -->
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="membership_id">Membership ID</label>
-                                                                                <input type="text" class="form-control" id="membership_id"
-                                                                                    name="membership_id" readonly
-                                                                                    value="{{ $item['main']->membership_id }}">
+                                                            </div>
+                                                            <!--end::Card header-->
+
+                                                            <!--begin::Card body-->
+                                                            <div class="card-body hover-scroll-overlay-y">
+                                                                @php
+                                                                    $originalRecord = json_decode(
+                                                                        $item['main']->complete_original_record,
+                                                                        true,
+                                                                    );
+                                                                @endphp
+                                                                @if ($originalRecord)
+                                                                    @foreach ($originalRecord as $key => $value)
+                                                                        <div
+                                                                            class="d-flex align-items-center flex-wrap mb-2">
+                                                                            <div id="kt_clipboard_{{ $loop->index }}"
+                                                                                class="me-5">
+                                                                                <strong>{{ $key }}:</strong>
+                                                                                <span
+                                                                                    class="copy-value">{{ $value }}</span>
                                                                             </div>
+                                                                            @if (strlen($value) > 0)
+                                                                                <button
+                                                                                    class="btn btn-icon btn-sm btn-light"
+                                                                                    data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                    <i
+                                                                                        class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                </button>
+                                                                            @endif
                                                                         </div>
-
-
-
-                                                                        <div class="col-md-8">
-                                                                            <div class="form-group">
-                                                                                <label for="bu_membership_type_id">Membership Type</label>
-                                                                                <select class="form-control" id="bu_membership_type_id"
-                                                                                    name="bu_membership_type_id" style="height: 50%;" required>
-                                                                                    <!-- Empty option for no selection/default -->
-                                                                                    <option disabled value="" selected>Select Membership
-                                                                                        Type</option>
-                                                                                    @foreach ($dropdownBuMemTyp as $type)
-                                                                                        <option value="{{ $type->id }}"
-                                                                                            {{ old('bu_membership_type_id', $item['main']->membership_type ?? '') == $type->name ? 'selected' : '' }}>
-                                                                                            {{ $type->id }}. {{ $type->name }} -
-                                                                                            {{ $type->description }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row">
-                                                                        <!-- First Name, Initials, and Last Name -->
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="first_name">First Name</label>
-                                                                                <input type="text" class="form-control" id="first_name"
-                                                                                    name="first_name" value="{{ $item['main']->first_name }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="initials">Initials</label>
-                                                                                <input type="text" class="form-control" id="initials"
-                                                                                    name="initials" value="{{ $item['main']->initials }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="last_name">Last Name</label>
-                                                                                <input type="text" class="form-control" id="last_name"
-                                                                                    name="last_name" value="{{ $item['main']->last_name }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="screen_name">Screen Name</label>
-                                                                                <input type="text" class="form-control" id="screen_name"
-                                                                                    name="screen_name" value="{{ $item['main']->screen_name }}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row">
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="id_number">ID Number</label>
-                                                                                <input type="text" class="form-control" id="id_number"
-                                                                                    name="id_number" value="{{ $item['main']->id_number }}">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="birth_date">Birth Date</label>
-                                                                                <input type="date" class="form-control" id="birth_date"
-                                                                                    name="birth_date"
-                                                                                    value="{{ !empty($item['main']->birth_date) ? \Carbon\Carbon::parse($item['main']->birth_date)->format('Y-m-d') : '' }}">
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="join_date">Join Date</label>
-                                                                                <input type="date" class="form-control" id="join_date"
-                                                                                    name="join_date"
-                                                                                    value="{{ !empty($item['main']->join_date) ? \Carbon\Carbon::parse($item['main']->join_date)->format('Y-m-d') : '' }}">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="end_date">End Date</label>
-                                                                                <input type="date" class="form-control" id="end_date"
-                                                                                    name="end_date"
-                                                                                    value="{{ !empty($item['main']->end_date) ? \Carbon\Carbon::parse($item['main']->end_date)->format('Y-m-d') : '' }}">
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="row">
-                                                                        <!-- primary_contact_number, secondary_contact_number, and tertiary_contact_number -->
-                                                                        <div class="col">
-                                                                            <div class="form-group">
-                                                                                <label for="primary_contact_number">Primary Contact
-                                                                                    Number</label>
-                                                                                <input type="text" class="form-control"
-                                                                                    id="primary_contact_number" name="primary_contact_number"
-                                                                                    value="{{ $item['main']->primary_contact_number }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <div class="form-group">
-                                                                                <label for="secondary_contact_number">Secondary Contact
-                                                                                    Number</label>
-                                                                                <input type="text" class="form-control"
-                                                                                    id="secondary_contact_number" name="secondary_contact_number"
-                                                                                    value="{{ $item['main']->secondary_contact_number }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <div class="form-group">
-                                                                                <label for="tertiary_contact_number">Tertiary Contact
-                                                                                    Number</label>
-                                                                                <input type="text" class="form-control"
-                                                                                    id="tertiary_contact_number" name="tertiary_contact_number"
-                                                                                    value="{{ $item['main']->tertiary_contact_number }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <div class="form-group">
-                                                                                <label for="primary_e_mail_address">Email Address</label>
-                                                                                <input type="text" class="form-control"
-                                                                                    id="primary_e_mail_address" name="primary_e_mail_address"
-                                                                                    value="{{ $item['main']->primary_e_mail_address }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="secondary_e_mail_address">Email Address 2
-                                                                                    (optional)
-                                                                                </label>
-                                                                                <input type="text" class="form-control"
-                                                                                    id="secondary_e_mail_address" name="secondary_e_mail_address"
-                                                                                    value="{{ $item['main']->secondary_e_mail_address }}">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-
-
-                                                                    <div class="row">
-
-
-
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="marriage_status_id">Marriage Status</label>
-                                                                                <select class="form-control" id="marriage_status_id"
-                                                                                    name="marriage_status_id" style="height: 50%;">
-                                                                                    @foreach ($marriageStatuses as $marriage_status)
-                                                                                        <option value="{{ $marriage_status->id }}"
-                                                                                            {{ $item['main']->married_status == $marriage_status->id ? 'selected' : '' }}>
-                                                                                            {{ $marriage_status->name }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="gender_id">Gender</label>
-                                                                                <select class="form-control" id="gender_id" name="gender_id"
-                                                                                    style="height: 50%;">
-                                                                                    @foreach ($genders as $gender)
-                                                                                        <option value="{{ $gender->id }}"
-                                                                                            {{ $item['main']->gender_id == $gender->id ? 'selected' : '' }}>
-                                                                                            {{ $gender->name }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-
-
-                                                                        <!-- Dropdown for Membership Status -->
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="bu_membership_status_id">Membership Status</label>
-                                                                                <select class="form-control" id="bu_membership_status_id"
-                                                                                    name="bu_membership_status_id" style="height: 50%;" required>
-                                                                                    <!-- Empty option for no selection/default -->
-                                                                                    <option disabled value="" selected>Select Membership
-                                                                                        Status</option>
-                                                                                    @foreach ($dropdownBuMemSta as $status)
-                                                                                        <option value="{{ $status->id }}">
-                                                                                            {{ $status->name }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-
-
-                                                                        <!-- Dropdown for Membership Region -->
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="bu_membership_region_id">Membership Region</label>
-                                                                                <select class="form-control" id="bu_membership_region_id"
-                                                                                    name="bu_membership_region_id" style="height: 50%;">
-                                                                                    <!-- Empty option for no selection/default -->
-                                                                                    <option disabled value="">Select Membership Region
-                                                                                    </option>
-                                                                                    @foreach ($dropdownBuMemReg as $index => $region)
-                                                                                        <option value="{{ $region->id }}"
-                                                                                            {{ $index == 0 ? 'selected' : '' }}>
-                                                                                            {{ $region->name }}
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-
-
-                                                                    </div>
-
-
-                                                                    <div class="row">
-                                                                        <!-- last_payment_date and paid_till_date -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="last_payment_date">Last Payment Date</label>
-                                                                                <input type="date" class="form-control" id="last_payment_date"
-                                                                                    name="last_payment_date"
-                                                                                    value="{{ !empty($item['main']->last_payment_date) ? \Carbon\Carbon::parse($item['main']->last_payment_date)->format('Y-m-d') : '' }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="paid_till_date">Paid Till Date</label>
-                                                                                <input type="date" class="form-control" id="paid_till_date"
-                                                                                    name="paid_till_date"
-                                                                                    value="{{ !empty($item['main']->paid_till_date) ? \Carbon\Carbon::parse($item['main']->paid_till_date)->format('Y-m-d') : '' }}">
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
+                                                                    @endforeach
                                                                 @else
-                                                                    <div class="card-header">Duplicate Records</div>
-                                                                    <div class="card-body">
-                                                                        <p>No main records found for this Membership ID.</p>
-                                                                    </div>
+                                                                    <p>No original record found.</p>
                                                                 @endif
                                                             </div>
+                                                            <!--end::Card body-->
                                                         </div>
+                                                        <!--end::Card-->
                                                     </div>
-
-                                                    <!-- Second Accordion Item for Physical Address -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_2">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_2" aria-expanded="false"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_2">
-                                                                Physical Address
-                                                            </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_2" class="accordion-collapse collapse"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_2"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Physical Address -->
-
-                                                                <div class=" mb-4 pb-4">
-                                                                    <div class="card-body pt-4 p-3">
-                                                                        <div class="row mt-3">
-                                                                            <div class="col">
-                                                                                <div class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
-                                                                                    <input type="text" class="form-control" name="Line1"
-                                                                                        id="Line1" value="{{ old('Line1') }}" required>
-                                                                                </div>
-                                                                                @error('Line1')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-6 col-sm-6">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                                    <input type="text" class="form-control" name="Line2"
-                                                                                        id="Line2" value="{{ old('Line2') }}"
-                                                                                        placeholder="Address Line 2">
-                                                                                </div>
-                                                                                @error('Line2')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                            <div class="col-6 col-sm-6">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                                    <input type="text" class="form-control" name="TownSuburb"
-                                                                                        id="TownSuburb" value="{{ old('TownSuburb') }}"
-                                                                                        placeholder="Town/Suburb">
-                                                                                </div>
-                                                                                @error('TownSuburb')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-12 col-sm-6">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                                    <input type="text" class="form-control" name="City"
-                                                                                        id="City" value="{{ old('City') }}"
-                                                                                        placeholder="City">
-                                                                                </div>
-                                                                                @error('City')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                            <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                                    <input type="text" class="form-control" name="Province"
-                                                                                        id="Province" value="{{ old('Province') }}"
-                                                                                        placeholder="Province">
-                                                                                </div>
-                                                                                @error('Province')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                            <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                                    <input type="text" class="form-control" name="PostalCode"
-                                                                                        id="PostalCode" value="{{ old('PostalCode') }}"
-                                                                                        placeholder="Postal Code">
-                                                                                </div>
-                                                                                @error('PostalCode')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row mb-4">
-
-                                                                            <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                                                <div
-                                                                                    class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                                    <input type="text" class="form-control" name="Country"
-                                                                                        id="Country" value="{{ old('Province') }}"
-                                                                                        placeholder="Country">
-                                                                                </div>
-                                                                                @error('Country')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
-                                                                            </div>
+                                                    <!--end::Drawer-->
 
 
-                                                                        </div>
-
-                                                                    </div>
-
-
-                                                                    <div
-                                                                        style="text-align: center; display: flex; justify-content: center; align-items: center; ">
-                                                                        <span style="color: white; margin-right: 10px;">Powered by</span>
-                                                                        <img src="{{ asset('img/google.png') }}" alt="Google Logo"
-                                                                            style="width: 50px; height: auto;">
-                                                                    </div>
-                                                                </div>
+                                                    <div class="row">
+                                                        <!-- Membership ID and Membership Type -->
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="membership_id">Membership ID</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="membership_id" name="membership_id" readonly
+                                                                    value="{{ $item['main']->membership_id }}">
+                                                            </div>
+                                                        </div>
 
 
 
-
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label for="bu_membership_type_id">Membership
+                                                                    Type</label>
+                                                                <select class="form-control" id="bu_membership_type_id"
+                                                                    name="bu_membership_type_id" style="height: 50%;"
+                                                                    required>
+                                                                    <!-- Empty option for no selection/default -->
+                                                                    <option disabled value="" selected>Select
+                                                                        Membership
+                                                                        Type</option>
+                                                                    @foreach ($dropdownBuMemTyp as $type)
+                                                                        <option value="{{ $type->id }}"
+                                                                            {{ old('bu_membership_type_id', $item['main']->membership_type ?? '') == $type->name ? 'selected' : '' }}>
+                                                                            {{ $type->id }}. {{ $type->name }} -
+                                                                            {{ $type->description }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--END: Second Accordion Item for Physical Address -->
 
-                                                    <!-- Third Accordion Item for Payment Details -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_3">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_3" aria-expanded="false"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_3">
-                                                                Payment Details
-                                                            </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_3" class="accordion-collapse collapse"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_3"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Payment Details -->
+                                                    <div class="row">
+                                                        <!-- First Name, Initials, and Last Name -->
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="first_name">First Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="first_name" name="first_name"
+                                                                    value="{{ $item['main']->first_name }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="initials">Initials</label>
+                                                                <input type="text" class="form-control" id="initials"
+                                                                    name="initials"
+                                                                    value="{{ $item['main']->initials }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="last_name">Last Name</label>
+                                                                <input type="text" class="form-control" id="last_name"
+                                                                    name="last_name"
+                                                                    value="{{ $item['main']->last_name }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="screen_name">Screen Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="screen_name" name="screen_name"
+                                                                    value="{{ $item['main']->screen_name }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="id_number">ID Number</label>
+                                                                <input type="text" class="form-control" id="id_number"
+                                                                    name="id_number"
+                                                                    value="{{ $item['main']->id_number }}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="birth_date">Birth Date</label>
+                                                                <input type="date" class="form-control"
+                                                                    id="birth_date" name="birth_date"
+                                                                    value="{{ !empty($item['main']->birth_date) ? \Carbon\Carbon::parse($item['main']->birth_date)->format('Y-m-d') : '' }}">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="join_date">Join Date</label>
+                                                                <input type="date" class="form-control" id="join_date"
+                                                                    name="join_date"
+                                                                    value="{{ !empty($item['main']->join_date) ? \Carbon\Carbon::parse($item['main']->join_date)->format('Y-m-d') : '' }}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="end_date">End Date</label>
+                                                                <input type="date" class="form-control" id="end_date"
+                                                                    name="end_date"
+                                                                    value="{{ !empty($item['main']->end_date) ? \Carbon\Carbon::parse($item['main']->end_date)->format('Y-m-d') : '' }}">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <!-- primary_contact_number, secondary_contact_number, and tertiary_contact_number -->
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="primary_contact_number">Primary Contact
+                                                                    Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="primary_contact_number"
+                                                                    name="primary_contact_number"
+                                                                    value="{{ $item['main']->primary_contact_number }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="secondary_contact_number">Secondary Contact
+                                                                    Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="secondary_contact_number"
+                                                                    name="secondary_contact_number"
+                                                                    value="{{ $item['main']->secondary_contact_number }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="tertiary_contact_number">Tertiary Contact
+                                                                    Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="tertiary_contact_number"
+                                                                    name="tertiary_contact_number"
+                                                                    value="{{ $item['main']->tertiary_contact_number }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="primary_e_mail_address">Email
+                                                                    Address</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="primary_e_mail_address"
+                                                                    name="primary_e_mail_address"
+                                                                    value="{{ $item['main']->primary_e_mail_address }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="secondary_e_mail_address">Email Address 2
+                                                                    (optional)
+                                                                </label>
+                                                                <input type="text" class="form-control"
+                                                                    id="secondary_e_mail_address"
+                                                                    name="secondary_e_mail_address"
+                                                                    value="{{ $item['main']->secondary_e_mail_address }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="row">
 
 
 
 
-                                                                {{-- Start Payment Method --}}
-                                                                <div class="my-4 mt-4">
-                                                                    <h4 class="text-center my-4">Select Default Payment Method</h4>
-                                                                    <div class="d-flex align-items-center mb-3 px-4">
-                                                                        <select class="form-select me-2" id="paymentMethod"
-                                                                            name="payment_method_id" style="background-color: white !important"
-                                                                            required>
-                                                                            <option selected disabled value="">Select Payment Method
-                                                                            </option>
-                                                                            @foreach ($paymentmethods as $paymentmethod)
-                                                                                <option value="{{ $paymentmethod->id }}">
-                                                                                    {{ $paymentmethod->name }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="marriage_status_id">Marriage Status</label>
+                                                                <select class="form-control" id="marriage_status_id"
+                                                                    name="marriage_status_id" style="height: 50%;">
+                                                                    @foreach ($marriageStatuses as $marriage_status)
+                                                                        <option value="{{ $marriage_status->id }}"
+                                                                            {{ $item['main']->married_status == $marriage_status->id ? 'selected' : '' }}>
+                                                                            {{ $marriage_status->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="gender_id">Gender</label>
+                                                                <select class="form-control" id="gender_id"
+                                                                    name="gender_id" style="height: 50%;">
+                                                                    @foreach ($genders as $gender)
+                                                                        <option value="{{ $gender->id }}"
+                                                                            {{ $item['main']->gender_id == $gender->id ? 'selected' : '' }}>
+                                                                            {{ $gender->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <!-- Dropdown for Membership Status -->
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="bu_membership_status_id">Membership
+                                                                    Status</label>
+                                                                <select class="form-control" id="bu_membership_status_id"
+                                                                    name="bu_membership_status_id" style="height: 50%;"
+                                                                    required>
+                                                                    <!-- Empty option for no selection/default -->
+                                                                    <option disabled value="" selected>Select
+                                                                        Membership
+                                                                        Status</option>
+                                                                    @foreach ($dropdownBuMemSta as $status)
+                                                                        <option value="{{ $status->id }}">
+                                                                            {{ $status->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <!-- Dropdown for Membership Region -->
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="bu_membership_region_id">Membership
+                                                                    Region</label>
+                                                                <select class="form-control" id="bu_membership_region_id"
+                                                                    name="bu_membership_region_id" style="height: 50%;">
+                                                                    <!-- Empty option for no selection/default -->
+                                                                    <option disabled value="">Select Membership
+                                                                        Region
+                                                                    </option>
+                                                                    @foreach ($dropdownBuMemReg as $index => $region)
+                                                                        <option value="{{ $region->id }}"
+                                                                            {{ $index == 0 ? 'selected' : '' }}>
+                                                                            {{ $region->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+
+
+                                                    <div class="row">
+                                                        <!-- last_payment_date and paid_till_date -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="last_payment_date">Last Payment
+                                                                    Date</label>
+                                                                <input type="date" class="form-control"
+                                                                    id="last_payment_date" name="last_payment_date"
+                                                                    value="{{ !empty($item['main']->last_payment_date) ? \Carbon\Carbon::parse($item['main']->last_payment_date)->format('Y-m-d') : '' }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="paid_till_date">Paid Till Date</label>
+                                                                <input type="date" class="form-control"
+                                                                    id="paid_till_date" name="paid_till_date"
+                                                                    value="{{ !empty($item['main']->paid_till_date) ? \Carbon\Carbon::parse($item['main']->paid_till_date)->format('Y-m-d') : '' }}">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                @else
+                                                    <div class="card-header">Duplicate Records</div>
+                                                    <div class="card-body">
+                                                        <p>No main records found for this Membership ID.</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Second Accordion Item for Physical Address -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_2">
+                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_2"
+                                                aria-expanded="false"
+                                                aria-controls="kt_accordion_{{ $loop->index }}_body_2">
+                                                Physical Address
+                                            </button>
+                                        </h2>
+                                        <div id="kt_accordion_{{ $loop->index }}_body_2"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_2"
+                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                            <div class="accordion-body">
+                                                <!-- Accordion content for Physical Address -->
+
+                                                <div class=" mb-4 pb-4">
+                                                    <div class="card-body pt-4 p-3">
+                                                        <div class="row mt-3">
+                                                            <div class="col">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+                                                                    <input type="text" class="form-control"
+                                                                        name="Line1" id="Line1"
+                                                                        value="{{ old('Line1') }}" required>
                                                                 </div>
-                                                                {{-- End Payment Metod --}}
+                                                                @error('Line1')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-6 col-sm-6">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('Line2') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="Line2" id="Line2"
+                                                                        value="{{ old('Line2') }}"
+                                                                        placeholder="Address Line 2">
+                                                                </div>
+                                                                @error('Line2')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('TownSuburb') is-invalid focused is-focused  @enderror  mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="TownSuburb" id="TownSuburb"
+                                                                        value="{{ old('TownSuburb') }}"
+                                                                        placeholder="Town/Suburb">
+                                                                </div>
+                                                                @error('TownSuburb')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12 col-sm-6">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('City') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="City" id="City"
+                                                                        value="{{ old('City') }}" placeholder="City">
+                                                                </div>
+                                                                @error('City')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-6 col-sm-4 mt-3 mt-sm-0">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('Province') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="Province" id="Province"
+                                                                        value="{{ old('Province') }}"
+                                                                        placeholder="Province">
+                                                                </div>
+                                                                @error('Province')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-6 col-sm-2 mt-3 mt-sm-0">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('PostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="PostalCode" id="PostalCode"
+                                                                        value="{{ old('PostalCode') }}"
+                                                                        placeholder="Postal Code">
+                                                                </div>
+                                                                @error('PostalCode')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+
+                                                            <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
+                                                                <div
+                                                                    class="input-group input-group-outline  @error('Country') is-invalid focused is-focused  @enderror mt-3 mb-0">
+
+                                                                    <input type="text" class="form-control"
+                                                                        name="Country" id="Country"
+                                                                        value="{{ old('Province') }}"
+                                                                        placeholder="Country">
+                                                                </div>
+                                                                @error('Country')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div
+                                                        style="text-align: center; display: flex; justify-content: center; align-items: center; ">
+                                                        <span style="color: white; margin-right: 10px;">Powered
+                                                            by</span>
+                                                        <img src="{{ asset('img/google.png') }}" alt="Google Logo"
+                                                            style="width: 50px; height: auto;">
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--END: Second Accordion Item for Physical Address -->
+
+                                    <!-- Third Accordion Item for Payment Details -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_3">
+                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_3"
+                                                aria-expanded="false"
+                                                aria-controls="kt_accordion_{{ $loop->index }}_body_3">
+                                                Payment Details
+                                            </button>
+                                        </h2>
+                                        <div id="kt_accordion_{{ $loop->index }}_body_3"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_3"
+                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                            <div class="accordion-body">
+                                                <!-- Accordion content for Payment Details -->
+
+
+
+
+                                                {{-- Start Payment Method --}}
+                                                    <h4 class="text-center mb-4">Select Default Payment Method</h4>
+                                                    <div class="d-flex align-items-center mb-3 px-4">
+                                                        <select class="form-select" id="paymentMethod"
+                                                            name="payment_method_id"
+                                                            style="background-color: white !important" required>
+                                                            <option selected disabled value="">Select Payment
+                                                                Method
+                                                            </option>
+                                                            @foreach ($paymentmethods as $paymentmethod)
+                                                                <option value="{{ $paymentmethod->id }}">
+                                                                    {{ $paymentmethod->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                {{-- End Payment Metod --}}
 
 
 
@@ -842,80 +870,88 @@
 
 
 
-                                                                {{-- Start Payment List --}}
-                                                                <div class="card my-4">
-                                                                    <!-- EFT Section -->
-                                                                    <div id="eftSection" class="payment-section card" style="display: none;">
-                                                                        <h2 class="m-4 text-center">EFT Payment Details</h2>
+                                                {{-- Start Payment List --}}
+                                                <div class="card my-4">
+                                                    <!-- EFT Section -->
+                                                    <div id="eftSection" class="payment-section card"
+                                                        style="display: none;">
+                                                        <h2 class="m-4 text-center">EFT Payment Details</h2>
 
-                                                                        <div class="container-fluid">
-                                                                            <!-- Row 1 for Account Holder and Bank Name -->
-                                                                            <div class="row">
-                                                                                <!-- Account Holder -->
-                                                                                <div class="col-md-5 fv-row">
-                                                                                    <label
-                                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
-                                                                                        Holder</label>
-                                                                                    <input type="text" class="form-control form-control-solid"
-                                                                                        placeholder="Enter Account Holder" name="accountHolder"
-                                                                                        value="" />
-                                                                                </div>
+                                                        <div class="container-fluid">
+                                                            <!-- Row 1 for Account Holder and Bank Name -->
+                                                            <div class="row">
+                                                                <!-- Account Holder -->
+                                                                <div class="col-md-5 fv-row">
+                                                                    <label
+                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
+                                                                        Holder</label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="Enter Account Holder"
+                                                                        name="accountHolder" value="" />
+                                                                </div>
 
-                                                                                <!-- Bank Name -->
-                                                                                <div class="col-md-4 fv-row">
-                                                                                    <label class="required fs-6 fw-semibold form-label mb-2">Bank
-                                                                                        Name</label>
-                                                                                    <input type="text" class="form-control form-control-solid"
-                                                                                        placeholder="Enter Bank Name" name="bankName"
-                                                                                        value="" />
-                                                                                </div>
+                                                                <!-- Bank Name -->
+                                                                <div class="col-md-4 fv-row">
+                                                                    <label
+                                                                        class="required fs-6 fw-semibold form-label mb-2">Bank
+                                                                        Name</label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="Enter Bank Name" name="bankName"
+                                                                        value="" />
+                                                                </div>
 
-                                                                                <!-- Branch Code -->
-                                                                                <div class="col-md-3 fv-row">
-                                                                                    <label class="required fs-6 fw-semibold form-label mb-2">Branch
-                                                                                        Code</label>
-                                                                                    <input type="text" class="form-control form-control-solid"
-                                                                                        placeholder="Enter Branch Code" name="branchCode"
-                                                                                        value="" />
-                                                                                </div>
-                                                                            </div>
+                                                                <!-- Branch Code -->
+                                                                <div class="col-md-3 fv-row">
+                                                                    <label
+                                                                        class="required fs-6 fw-semibold form-label mb-2">Branch
+                                                                        Code</label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="Enter Branch Code" name="branchCode"
+                                                                        value="" />
+                                                                </div>
+                                                            </div>
 
-                                                                            <!-- Row 2 for Account Number and Branch Code -->
-                                                                            <div class="row mb-4">
-                                                                                <!-- Account Number -->
-                                                                                <div class="col-md-6 fv-row">
-                                                                                    <label
-                                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
-                                                                                        Number</label>
-                                                                                    <input type="text" class="form-control form-control-solid"
-                                                                                        placeholder="Enter Account Number" name="accountNumber"
-                                                                                        value="" />
-                                                                                </div>
+                                                            <!-- Row 2 for Account Number and Branch Code -->
+                                                            <div class="row mb-4">
+                                                                <!-- Account Number -->
+                                                                <div class="col-md-6 fv-row">
+                                                                    <label
+                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
+                                                                        Number</label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        placeholder="Enter Account Number"
+                                                                        name="accountNumber" value="" />
+                                                                </div>
 
-                                                                                <div class="col-md-4 fv-row">
-                                                                                    <label
-                                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
-                                                                                        Type</label>
-                                                                                    <select class="form-select form-select-solid"
-                                                                                        name="accountType" data-control="select2"
-                                                                                        data-hide-search="true">
-                                                                                        <option value="">Select Account Type</option>
-                                                                                        <option value="checking">Checking</option>
-                                                                                        <option value="savings">Savings</option>
-                                                                                        <!-- Add more options as necessary -->
-                                                                                    </select>
-                                                                                </div>
+                                                                <div class="col-md-4 fv-row">
+                                                                    <label
+                                                                        class="required fs-6 fw-semibold form-label mb-2">Account
+                                                                        Type</label>
+                                                                    <select class="form-select form-select-solid"
+                                                                        name="accountType" data-control="select2"
+                                                                        data-hide-search="true">
+                                                                        <option value="">Select Account Type
+                                                                        </option>
+                                                                        <option value="checking">Checking</option>
+                                                                        <option value="savings">Savings</option>
+                                                                        <!-- Add more options as necessary -->
+                                                                    </select>
+                                                                </div>
 
-                                                                            </div>
-                                                                        </div>
+                                                            </div>
+                                                        </div>
 
-                                                                    </div>
-
-
+                                                    </div>
 
 
-                                                                    <!-- Debit Order Section -->
-                                                                    {{-- <div id="3Section" class="payment-section card p-4"
+
+
+                                                    <!-- Debit Order Section -->
+                                                    {{-- <div id="3Section" class="payment-section card p-4"
                                                                             style="display: none;">
 
                                                                             <h2 class="m-4 text-center">Debit Order Payment Details</h2>
@@ -1026,562 +1062,577 @@
 
 
 
-                                                                    <!-- Data Via Section -->
-                                                                    <div id="dataViaSection" class="payment-section card mx-4 pb-8"
-                                                                        style="display: none;">
-                                                                        <h2 class="m-4 text-center">Data Via Payment Details</h2>
+                                                    <!-- Data Via Section -->
+                                                    <div id="dataViaSection" class="payment-section card mx-4 pb-8"
+                                                        style="display: none;">
+                                                        <h2 class="m-4 text-center">Data Via Payment Details</h2>
 
 
-                                                                        <!-- User ID -->
-                                                                        <div class="mb-3">
-                                                                            <label for="dataViaUserID" class="form-label">User ID</label>
-                                                                            <input type="text" class="form-control" id="dataViaUserID"
-                                                                                name="user_id" placeholder="Enter User ID" required>
-                                                                        </div>
-
-                                                                        <!-- Transaction ID -->
-                                                                        <div class="mb-3">
-                                                                            <label for="dataViaTransactionID" class="form-label">Transaction
-                                                                                ID</label>
-                                                                            <input type="text" class="form-control" id="dataViaTransactionID"
-                                                                                name="transaction_id" placeholder="Enter Transaction ID" required>
-                                                                        </div>
-
-                                                                        <!-- Amount -->
-                                                                        <div class="mb-3">
-                                                                            <label for="dataViaAmount" class="form-label">Amount</label>
-                                                                            <input type="number" class="form-control" id="dataViaAmount"
-                                                                                name="amount" placeholder="Enter Amount" min="0"
-                                                                                required>
-                                                                        </div>
-
-                                                                        <!-- Payment Date -->
-                                                                        <div class="mb-3">
-                                                                            <label for="dataViaPaymentDate" class="form-label">Payment
-                                                                                Date</label>
-                                                                            <input type="date" class="form-control" id="dataViaPaymentDate"
-                                                                                name="payment_date" required>
-                                                                        </div>
-
-
-
-                                                                    </div>
-
-
-
-
-
-
-                                                                </div>
-                                                                {{-- End Payment List --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                            </div>
+                                                        <!-- User ID -->
+                                                        <div class="mb-3">
+                                                            <label for="dataViaUserID" class="form-label">User
+                                                                ID</label>
+                                                            <input type="text" class="form-control" id="dataViaUserID"
+                                                                name="user_id" placeholder="Enter User ID" required>
                                                         </div>
+
+                                                        <!-- Transaction ID -->
+                                                        <div class="mb-3">
+                                                            <label for="dataViaTransactionID"
+                                                                class="form-label">Transaction
+                                                                ID</label>
+                                                            <input type="text" class="form-control"
+                                                                id="dataViaTransactionID" name="transaction_id"
+                                                                placeholder="Enter Transaction ID" required>
+                                                        </div>
+
+                                                        <!-- Amount -->
+                                                        <div class="mb-3">
+                                                            <label for="dataViaAmount" class="form-label">Amount</label>
+                                                            <input type="number" class="form-control" id="dataViaAmount"
+                                                                name="amount" placeholder="Enter Amount" min="0"
+                                                                required>
+                                                        </div>
+
+                                                        <!-- Payment Date -->
+                                                        <div class="mb-3">
+                                                            <label for="dataViaPaymentDate" class="form-label">Payment
+                                                                Date</label>
+                                                            <input type="date" class="form-control"
+                                                                id="dataViaPaymentDate" name="payment_date" required>
+                                                        </div>
+
+
+
                                                     </div>
-                                                    <!--END: Third Accordion Item for Payment Details -->
-
-
-                                                    <!-- Fourth Accordion Item for Deaths -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_4">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_4" aria-expanded="false"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_4">
-                                                                Deaths
-                                                            </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_4" class="accordion-collapse collapse"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_4"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Deaths -->
-
-
-                                                                <div class=" mb-4 pb-4">
 
 
 
-                                                                    <div class="card-body pt-4 p-3">
 
 
-                                                                        <!-- Deaths Card -->
-                                                                        @if (!$item['deaths']->isEmpty())
-                                                                            <div class="card inner-card my-8 bg-light">
-                                                                                <div class="card-header" style="background-color: #448C74;">
-                                                                                    <h3 class="card-title" style="color: white">Deaths (Possibly
-                                                                                        Just Dependants)</h3>
-                                                                                </div>
-                                                                                {{-- ordinary deaths --}}
-                                                                                <div class="card-body">
-                                                                                    @foreach ($item['deaths'] as $death)
-                                                                                        <!-- Hidden Inputs for death's Details -->
 
-                                                                                        <input type="hidden"
-                                                                                            id="death_record_id_{{ $death->id }}"
-                                                                                            name="death_record_id[]" value="{{ $death->id }}">
+                                                </div>
+                                                {{-- End Payment List --}}
 
-                                                                                        <input type="hidden"
-                                                                                            id="death_original_json_{{ $death->id }}"
-                                                                                            name="death_original_json[]"
-                                                                                            value="{{ $death->complete_original_record }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="death_membership_id_{{ $death->id }}"
-                                                                                            name="death_membership_id[]"
-                                                                                            value="{{ $death->membership_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_first_name_{{ $death->id }}"
-                                                                                            name="death_first_name[]"
-                                                                                            value="{{ $death->first_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_initials_{{ $death->id }}"
-                                                                                            name="death_initials[]"
-                                                                                            value="{{ $death->initials }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_last_name_{{ $death->id }}"
-                                                                                            name="death_last_name[]"
-                                                                                            value="{{ $death->last_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_screen_name_{{ $death->id }}"
-                                                                                            name="death_screen_name[]"
-                                                                                            value="{{ $death->screen_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_id_number_{{ $death->id }}"
-                                                                                            name="death_id_number[]"
-                                                                                            value="{{ $death->id_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_birth_date_{{ $death->id }}"
-                                                                                            name="death_birth_date[]"
-                                                                                            value="{{ $death->birth_date }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_person_relationship_id_{{ $death->id }}"
-                                                                                            name="death_person_relationship_id[]"
-                                                                                            value="{{ $death->person_relationship_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_gender_id_{{ $death->id }}"
-                                                                                            name="death_gender_id[]"
-                                                                                            value="{{ $death->gender_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_join_date_{{ $death->id }}"
-                                                                                            name="death_join_date[]"
-                                                                                            value="{{ $death->join_date }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="death_deceased_date_{{ $death->id }}"
-                                                                                            name="death_deceased_date[]"
-                                                                                            value="{{ $death->death_date }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="death_primary_contact_number_{{ $death->id }}"
-                                                                                            name="death_primary_contact_number[]"
-                                                                                            value="{{ $death->primary_contact_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_secondary_contact_number_{{ $death->id }}"
-                                                                                            name="death_secondary_contact_number[]"
-                                                                                            value="{{ $death->secondary_contact_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="death_primary_e_mail_address_{{ $death->id }}"
-                                                                                            name="death_primary_e_mail_address[]"
-                                                                                            value="{{ $death->primary_e_mail_address }}">
 
-                                                                                        <input type="hidden" id="death_death_place"
-                                                                                            name="death_death_place"
-                                                                                            value="{{ $death->death_place }}">
-                                                                                        <input type="hidden" id="death_death_date"
-                                                                                            name="death_death_date"
-                                                                                            value="{{ $death->death_date }}">
 
-                                                                                        <!--END -- Hidden Inputs for death's Details -->
 
-                                                                                        <div class="row mb-4">
-                                                                                            <!--begin::Trigger button-->
-                                                                                            {{-- <button
+
+
+
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--END: Third Accordion Item for Payment Details -->
+
+
+                                    <!-- Fourth Accordion Item for Deaths -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_4">
+                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_4"
+                                                aria-expanded="false"
+                                                aria-controls="kt_accordion_{{ $loop->index }}_body_4">
+                                                Deaths
+                                            </button>
+                                        </h2>
+                                        <div id="kt_accordion_{{ $loop->index }}_body_4"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_4"
+                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                            <div class="accordion-body">
+                                                <!-- Accordion content for Deaths -->
+
+                                                    <div class="card-body">
+
+
+                                                        <!-- Deaths Card -->
+                                                        @if (!$item['deaths']->isEmpty())
+                                                            <div class="card inner-card my-8 bg-light">
+                                                                <div class="card-header"
+                                                                    style="background-color: #448C74;">
+                                                                    <h3 class="card-title" style="color: white">Deaths
+                                                                        (Possibly
+                                                                        Just Dependants)</h3>
+                                                                </div>
+                                                                {{-- ordinary deaths --}}
+                                                                <div class="card-body">
+                                                                    @foreach ($item['deaths'] as $death)
+                                                                        <!-- Hidden Inputs for death's Details -->
+
+                                                                        <input type="hidden"
+                                                                            id="death_record_id_{{ $death->id }}"
+                                                                            name="death_record_id[]"
+                                                                            value="{{ $death->id }}">
+
+                                                                        <input type="hidden"
+                                                                            id="death_original_json_{{ $death->id }}"
+                                                                            name="death_original_json[]"
+                                                                            value="{{ $death->complete_original_record }}">
+
+                                                                        <input type="hidden"
+                                                                            id="death_membership_id_{{ $death->id }}"
+                                                                            name="death_membership_id[]"
+                                                                            value="{{ $death->membership_id }}">
+                                                                        <input type="hidden"
+                                                                            id="death_first_name_{{ $death->id }}"
+                                                                            name="death_first_name[]"
+                                                                            value="{{ $death->first_name }}">
+                                                                        <input type="hidden"
+                                                                            id="death_initials_{{ $death->id }}"
+                                                                            name="death_initials[]"
+                                                                            value="{{ $death->initials }}">
+                                                                        <input type="hidden"
+                                                                            id="death_last_name_{{ $death->id }}"
+                                                                            name="death_last_name[]"
+                                                                            value="{{ $death->last_name }}">
+                                                                        <input type="hidden"
+                                                                            id="death_screen_name_{{ $death->id }}"
+                                                                            name="death_screen_name[]"
+                                                                            value="{{ $death->screen_name }}">
+                                                                        <input type="hidden"
+                                                                            id="death_id_number_{{ $death->id }}"
+                                                                            name="death_id_number[]"
+                                                                            value="{{ $death->id_number }}">
+                                                                        <input type="hidden"
+                                                                            id="death_birth_date_{{ $death->id }}"
+                                                                            name="death_birth_date[]"
+                                                                            value="{{ $death->birth_date }}">
+                                                                        <input type="hidden"
+                                                                            id="death_person_relationship_id_{{ $death->id }}"
+                                                                            name="death_person_relationship_id[]"
+                                                                            value="{{ $death->person_relationship_id }}">
+                                                                        <input type="hidden"
+                                                                            id="death_gender_id_{{ $death->id }}"
+                                                                            name="death_gender_id[]"
+                                                                            value="{{ $death->gender_id }}">
+                                                                        <input type="hidden"
+                                                                            id="death_join_date_{{ $death->id }}"
+                                                                            name="death_join_date[]"
+                                                                            value="{{ $death->join_date }}">
+
+                                                                        <input type="hidden"
+                                                                            id="death_deceased_date_{{ $death->id }}"
+                                                                            name="death_deceased_date[]"
+                                                                            value="{{ $death->death_date }}">
+
+                                                                        <input type="hidden"
+                                                                            id="death_primary_contact_number_{{ $death->id }}"
+                                                                            name="death_primary_contact_number[]"
+                                                                            value="{{ $death->primary_contact_number }}">
+                                                                        <input type="hidden"
+                                                                            id="death_secondary_contact_number_{{ $death->id }}"
+                                                                            name="death_secondary_contact_number[]"
+                                                                            value="{{ $death->secondary_contact_number }}">
+                                                                        <input type="hidden"
+                                                                            id="death_primary_e_mail_address_{{ $death->id }}"
+                                                                            name="death_primary_e_mail_address[]"
+                                                                            value="{{ $death->primary_e_mail_address }}">
+
+                                                                        <input type="hidden" id="death_death_place"
+                                                                            name="death_death_place"
+                                                                            value="{{ $death->death_place }}">
+                                                                        <input type="hidden" id="death_death_date"
+                                                                            name="death_death_date"
+                                                                            value="{{ $death->death_date }}">
+
+                                                                        <!--END -- Hidden Inputs for death's Details -->
+
+                                                                        <div class="row mb-4">
+                                                                            <!--begin::Trigger button-->
+                                                                            {{-- <button
                                                                                                 id="kt_drawer_death_button_{{ $death->id }}"
                                                                                                 class="btn btn-light-primary">See Original
                                                                                                 Record</button> --}}
-                                                                                            <!--end::Trigger button-->
+                                                                            <!--end::Trigger button-->
+                                                                        </div>
+                                                                        <!--begin::Drawer-->
+                                                                        <div id="kt_drawer_death" class="bg-white"
+                                                                            data-kt-drawer="true"
+                                                                            data-kt-drawer-activate="true"
+                                                                            data-kt-drawer-toggle="#kt_drawer_death_button_{{ $death->id }}"
+                                                                            data-kt-drawer-close="#kt_drawer_death_close"
+                                                                            data-kt-drawer-width="{default:'300px', 'md': '400px'}">
+
+                                                                            <!--begin::Card-->
+                                                                            <div class="card w-100 rounded-0">
+                                                                                <!--begin::Card header-->
+                                                                                <div class="card-header pe-5">
+                                                                                    <!--begin::Title-->
+                                                                                    <div class="card-title">
+                                                                                        <!--begin::User-->
+                                                                                        <div
+                                                                                            class="d-flex justify-content-center flex-column me-3">
+                                                                                            <a href="#"
+                                                                                                class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
+                                                                                                Membership Original
+                                                                                                Details</a>
                                                                                         </div>
-                                                                                        <!--begin::Drawer-->
-                                                                                        <div id="kt_drawer_death" class="bg-white"
-                                                                                            data-kt-drawer="true" data-kt-drawer-activate="true"
-                                                                                            data-kt-drawer-toggle="#kt_drawer_death_button_{{ $death->id }}"
-                                                                                            data-kt-drawer-close="#kt_drawer_death_close"
-                                                                                            data-kt-drawer-width="{default:'300px', 'md': '400px'}">
+                                                                                        <!--end::User-->
+                                                                                    </div>
+                                                                                    <!--end::Title-->
 
-                                                                                            <!--begin::Card-->
-                                                                                            <div class="card w-100 rounded-0">
-                                                                                                <!--begin::Card header-->
-                                                                                                <div class="card-header pe-5">
-                                                                                                    <!--begin::Title-->
-                                                                                                    <div class="card-title">
-                                                                                                        <!--begin::User-->
-                                                                                                        <div
-                                                                                                            class="d-flex justify-content-center flex-column me-3">
-                                                                                                            <a href="#"
-                                                                                                                class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
-                                                                                                                Membership Original Details</a>
-                                                                                                        </div>
-                                                                                                        <!--end::User-->
-                                                                                                    </div>
-                                                                                                    <!--end::Title-->
+                                                                                    <!--begin::Card toolbar-->
+                                                                                    <div class="card-toolbar">
+                                                                                        <!--begin::Close-->
+                                                                                        <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
+                                                                                            id="kt_drawer_death_close">
+                                                                                            <i
+                                                                                                class="ki-duotone ki-cross fs-2"><span
+                                                                                                    class="path1"></span><span
+                                                                                                    class="path2"></span></i>
+                                                                                        </div>
+                                                                                        <!--end::Close-->
+                                                                                    </div>
+                                                                                    <!--end::Card toolbar-->
+                                                                                </div>
+                                                                                <!--end::Card header-->
 
-                                                                                                    <!--begin::Card toolbar-->
-                                                                                                    <div class="card-toolbar">
-                                                                                                        <!--begin::Close-->
-                                                                                                        <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
-                                                                                                            id="kt_drawer_death_close">
-                                                                                                            <i class="ki-duotone ki-cross fs-2"><span
-                                                                                                                    class="path1"></span><span
-                                                                                                                    class="path2"></span></i>
-                                                                                                        </div>
-                                                                                                        <!--end::Close-->
-                                                                                                    </div>
-                                                                                                    <!--end::Card toolbar-->
+                                                                                <!--begin::Card body-->
+                                                                                <div
+                                                                                    class="card-body hover-scroll-overlay-y">
+                                                                                    @php
+                                                                                        $originalRecord = json_decode(
+                                                                                            $death->complete_original_record,
+                                                                                            true,
+                                                                                        );
+                                                                                    @endphp
+                                                                                    @if ($originalRecord)
+                                                                                        @foreach ($originalRecord as $key => $value)
+                                                                                            <div
+                                                                                                class="d-flex align-items-center flex-wrap mb-2">
+                                                                                                <div id="kt_clipboard_{{ $loop->index }}"
+                                                                                                    class="me-5">
+                                                                                                    <strong>{{ $key }}:</strong>
+                                                                                                    <span
+                                                                                                        class="copy-value">{{ $value }}</span>
                                                                                                 </div>
-                                                                                                <!--end::Card header-->
-
-                                                                                                <!--begin::Card body-->
-                                                                                                <div class="card-body hover-scroll-overlay-y">
-                                                                                                    @php
-                                                                                                        $originalRecord = json_decode(
-                                                                                                            $death->complete_original_record,
-                                                                                                            true,
-                                                                                                        );
-                                                                                                    @endphp
-                                                                                                    @if ($originalRecord)
-                                                                                                        @foreach ($originalRecord as $key => $value)
-                                                                                                            <div
-                                                                                                                class="d-flex align-items-center flex-wrap mb-2">
-                                                                                                                <div id="kt_clipboard_{{ $loop->index }}"
-                                                                                                                    class="me-5">
-                                                                                                                    <strong>{{ $key }}:</strong>
-                                                                                                                    <span
-                                                                                                                        class="copy-value">{{ $value }}</span>
-                                                                                                                </div>
-                                                                                                                @if (strlen($value) > 0)
-                                                                                                                    <button
-                                                                                                                        class="btn btn-icon btn-sm btn-light"
-                                                                                                                        data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                                                                        <i
-                                                                                                                            class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                                                                    </button>
-                                                                                                                @endif
-                                                                                                            </div>
-                                                                                                        @endforeach
-                                                                                                    @else
-                                                                                                        <p>No original record found.</p>
-                                                                                                    @endif
-                                                                                                </div>
-                                                                                                <!--end::Card body-->
+                                                                                                @if (strlen($value) > 0)
+                                                                                                    <button
+                                                                                                        class="btn btn-icon btn-sm btn-light"
+                                                                                                        data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                        <i
+                                                                                                            class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                    </button>
+                                                                                                @endif
                                                                                             </div>
-                                                                                            <!--end::Card-->
-                                                                                        </div>
-                                                                                        <!--end::Drawer-->
-
-
-                                                                                        <div class="record-container">
-                                                                                            @if ($death->record_completed)
-                                                                                                <span style="color: green;">&#10004;</span>
-                                                                                            @endif
-                                                                                            <p>
-                                                                                                <span
-                                                                                                    id="record_status_{{ $death->id }}"></span>
-                                                                                                <b>Summary:</b>
-                                                                                            </p>
-                                                                                            <p>
-                                                                                                <b>Membership ID:</b> <span
-                                                                                                    id="summary_membership_id_{{ $death->id }}">{{ $death->membership_id ?? 'N/A' }}</span>,
-                                                                                                <b>First Name:</b> <span
-                                                                                                    id="summary_first_name_{{ $death->id }}">{{ $death->first_name ?? 'N/A' }}</span>,
-                                                                                                <b>Initials:</b> <span
-                                                                                                    id="summary_initials_{{ $death->id }}">{{ $death->initials ?? 'N/A' }}</span>,
-                                                                                                <b>Last Name:</b> <span
-                                                                                                    id="summary_last_name_{{ $death->id }}">{{ $death->last_name ?? 'N/A' }}</span>,
-                                                                                                <b>Screen Name:</b> <span
-                                                                                                    id="summary_screen_name_{{ $death->id }}">{{ $death->screen_name ?? 'N/A' }}</span>,
-                                                                                                <b>ID Number:</b> <span
-                                                                                                    id="summary_id_number_{{ $death->id }}">{{ $death->id_number ?? 'N/A' }}</span>,
-                                                                                                <b>Birth Date:</b> <span
-                                                                                                    id="summary_birth_date_{{ $death->id }}">{{ $death->birth_date ?? 'N/A' }}</span>,
-                                                                                                <b>Death Date:</b> <span
-                                                                                                    id="summary_death_date_{{ $death->id }}">{{ $death->death_date ?? 'N/A' }}</span>,
-                                                                                                <b>Relationship:</b> <span
-                                                                                                    id="summary_person_relationship_id_{{ $death->id }}">
-                                                                                                    {{ $relationshipNames[$relationshipMappings[$death->relationship_id] ?? $death->relationship_id] ?? 'N/A' }}
-                                                                                                </span>,
-
-                                                                                                <b>Gender:</b> <span
-                                                                                                    id="summary_gender_id_{{ $death->id }}">
-                                                                                                    {{ $genderNames[$death->gender_id] ?? 'N/A' }}
-                                                                                                </span>,
-
-                                                                                                <b>Join Date:</b> <span
-                                                                                                    id="summary_join_date_{{ $death->id }}">{{ $death->join_date ?? 'N/A' }}</span>,
-                                                                                                <b>Primary Contact Number:</b> <span
-                                                                                                    id="summary_primary_contact_number_{{ $death->id }}">{{ $death->primary_contact_number ?? 'N/A' }}</span>,
-                                                                                                <b>Secondary Contact Number:</b> <span
-                                                                                                    id="summary_secondary_contact_number_{{ $death->id }}">{{ $death->secondary_contact_number ?? 'N/A' }}</span>,<br>
-                                                                                                <b>Primary Email Address:</b> <span
-                                                                                                    id="summary_primary_e_mail_address_{{ $death->id }}">{{ $death->primary_e_mail_address ?? 'N/A' }}</span>
-                                                                                            </p>
-
-
-
-                                                                                        </div>
-                                                                                    @endforeach
+                                                                                        @endforeach
+                                                                                    @else
+                                                                                        <p>No original record found.</p>
+                                                                                    @endif
                                                                                 </div>
-
-
+                                                                                <!--end::Card body-->
                                                                             </div>
-                                                                        @else
-                                                                            <div class="card inner-card border border-secondary mt-4">
-                                                                                <div class="card-header"style="background-color: #448C74;">
-                                                                                    <h3 class="card-title" style="color: white">Deaths</h3>
-                                                                                </div>
-                                                                                <div class="card-body bg-light">
-                                                                                    <p>No death records found.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif
+                                                                            <!--end::Card-->
+                                                                        </div>
+                                                                        <!--end::Drawer-->
+
+
+                                                                        <div class="record-container">
+                                                                            @if ($death->record_completed)
+                                                                                <span style="color: green;">&#10004;</span>
+                                                                            @endif
+                                                                            <p>
+                                                                                <span
+                                                                                    id="record_status_{{ $death->id }}"></span>
+                                                                                <b>Summary:</b>
+                                                                            </p>
+                                                                            <p>
+                                                                                <b>Membership ID:</b> <span
+                                                                                    id="summary_membership_id_{{ $death->id }}">{{ $death->membership_id ?? 'N/A' }}</span>,
+                                                                                <b>First Name:</b> <span
+                                                                                    id="summary_first_name_{{ $death->id }}">{{ $death->first_name ?? 'N/A' }}</span>,
+                                                                                <b>Initials:</b> <span
+                                                                                    id="summary_initials_{{ $death->id }}">{{ $death->initials ?? 'N/A' }}</span>,
+                                                                                <b>Last Name:</b> <span
+                                                                                    id="summary_last_name_{{ $death->id }}">{{ $death->last_name ?? 'N/A' }}</span>,
+                                                                                <b>Screen Name:</b> <span
+                                                                                    id="summary_screen_name_{{ $death->id }}">{{ $death->screen_name ?? 'N/A' }}</span>,
+                                                                                <b>ID Number:</b> <span
+                                                                                    id="summary_id_number_{{ $death->id }}">{{ $death->id_number ?? 'N/A' }}</span>,
+                                                                                <b>Birth Date:</b> <span
+                                                                                    id="summary_birth_date_{{ $death->id }}">{{ $death->birth_date ?? 'N/A' }}</span>,
+                                                                                <b>Death Date:</b> <span
+                                                                                    id="summary_death_date_{{ $death->id }}">{{ $death->death_date ?? 'N/A' }}</span>,
+                                                                                <b>Relationship:</b> <span
+                                                                                    id="summary_person_relationship_id_{{ $death->id }}">
+                                                                                    {{ $relationshipNames[$relationshipMappings[$death->relationship_id] ?? $death->relationship_id] ?? 'N/A' }}
+                                                                                </span>,
+
+                                                                                <b>Gender:</b> <span
+                                                                                    id="summary_gender_id_{{ $death->id }}">
+                                                                                    {{ $genderNames[$death->gender_id] ?? 'N/A' }}
+                                                                                </span>,
+
+                                                                                <b>Join Date:</b> <span
+                                                                                    id="summary_join_date_{{ $death->id }}">{{ $death->join_date ?? 'N/A' }}</span>,
+                                                                                <b>Primary Contact Number:</b> <span
+                                                                                    id="summary_primary_contact_number_{{ $death->id }}">{{ $death->primary_contact_number ?? 'N/A' }}</span>,
+                                                                                <b>Secondary Contact Number:</b> <span
+                                                                                    id="summary_secondary_contact_number_{{ $death->id }}">{{ $death->secondary_contact_number ?? 'N/A' }}</span>,<br>
+                                                                                <b>Primary Email Address:</b> <span
+                                                                                    id="summary_primary_e_mail_address_{{ $death->id }}">{{ $death->primary_e_mail_address ?? 'N/A' }}</span>
+                                                                            </p>
+
+
+
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+
+
+                                                            </div>
+                                                        @else
+                                                            <div class="card inner-card border border-secondary mt-4">
+                                                                <div class="card-header"style="background-color: #448C74;">
+                                                                    <h3 class="card-title" style="color: white">Deaths
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="card-body bg-light">
+                                                                    <p>No death records found.</p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
 
 
 
 
 
-                                                                        <!-- Deaths (Previous Main Person) Card -->
-                                                                        @if (!$item['previousdeaths']->isEmpty())
-                                                                            <div class="card inner-card my-8 bg-light">
-                                                                                <div class="card-header" style="background-color: #448C74;">
-                                                                                    <h3 class="card-title" style="color: white">Deaths (Previous
-                                                                                        Main Person)</h3>
-                                                                                </div>
-                                                                                {{-- START: possible previous main member death --}}
-                                                                                <div class="card-body">
-                                                                                    @foreach ($item['previousdeaths'] as $pmp_death)
-                                                                                        <!-- Hidden Inputs for pmp_death's Details -->
+                                                        <!-- Deaths (Previous Main Person) Card -->
+                                                        @if (!$item['previousdeaths']->isEmpty())
+                                                            <div class="card inner-card my-8 bg-light">
+                                                                <div class="card-header"
+                                                                    style="background-color: #448C74;">
+                                                                    <h3 class="card-title" style="color: white">Deaths
+                                                                        (Previous
+                                                                        Main Person)</h3>
+                                                                </div>
+                                                                {{-- START: possible previous main member death --}}
+                                                                <div class="card-body">
+                                                                    @foreach ($item['previousdeaths'] as $pmp_death)
+                                                                        <!-- Hidden Inputs for pmp_death's Details -->
 
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_record_id_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_record_id[]"
-                                                                                            value="{{ $pmp_death->id }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_record_id_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_record_id[]"
+                                                                            value="{{ $pmp_death->id }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_original_json_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_original_json[]"
-                                                                                            value="{{ $pmp_death->complete_original_record }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_original_json_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_original_json[]"
+                                                                            value="{{ $pmp_death->complete_original_record }}">
 
 
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_membership_id_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_membership_id[]"
-                                                                                            value="{{ $pmp_death->membership_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_first_name_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_first_name[]"
-                                                                                            value="{{ $pmp_death->first_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_initials_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_initials[]"
-                                                                                            value="{{ $pmp_death->initials }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_last_name_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_last_name[]"
-                                                                                            value="{{ $pmp_death->last_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_screen_name_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_screen_name[]"
-                                                                                            value="{{ $pmp_death->screen_name }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_id_number_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_id_number[]"
-                                                                                            value="{{ $pmp_death->id_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_birth_date_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_birth_date[]"
-                                                                                            value="{{ $pmp_death->birth_date }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_person_relationship_id_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_person_relationship_id[]"
-                                                                                            value="{{ $pmp_death->person_relationship_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_gender_id_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_gender_id[]"
-                                                                                            value="{{ $pmp_death->gender_id }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_join_date_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_join_date[]"
-                                                                                            value="{{ $pmp_death->join_date }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_membership_id_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_membership_id[]"
+                                                                            value="{{ $pmp_death->membership_id }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_first_name_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_first_name[]"
+                                                                            value="{{ $pmp_death->first_name }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_initials_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_initials[]"
+                                                                            value="{{ $pmp_death->initials }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_last_name_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_last_name[]"
+                                                                            value="{{ $pmp_death->last_name }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_screen_name_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_screen_name[]"
+                                                                            value="{{ $pmp_death->screen_name }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_id_number_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_id_number[]"
+                                                                            value="{{ $pmp_death->id_number }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_birth_date_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_birth_date[]"
+                                                                            value="{{ $pmp_death->birth_date }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_person_relationship_id_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_person_relationship_id[]"
+                                                                            value="{{ $pmp_death->person_relationship_id }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_gender_id_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_gender_id[]"
+                                                                            value="{{ $pmp_death->gender_id }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_join_date_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_join_date[]"
+                                                                            value="{{ $pmp_death->join_date }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_deceased_date_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_deceased_date[]"
-                                                                                            value="{{ $pmp_death->death_date }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_deceased_date_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_deceased_date[]"
+                                                                            value="{{ $pmp_death->death_date }}">
 
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_primary_contact_number_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_primary_contact_number[]"
-                                                                                            value="{{ $pmp_death->primary_contact_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_secondary_contact_number_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_secondary_contact_number[]"
-                                                                                            value="{{ $pmp_death->secondary_contact_number }}">
-                                                                                        <input type="hidden"
-                                                                                            id="pmp_death_primary_e_mail_address_{{ $pmp_death->id }}"
-                                                                                            name="pmp_death_primary_e_mail_address[]"
-                                                                                            value="{{ $pmp_death->primary_e_mail_address }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_primary_contact_number_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_primary_contact_number[]"
+                                                                            value="{{ $pmp_death->primary_contact_number }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_secondary_contact_number_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_secondary_contact_number[]"
+                                                                            value="{{ $pmp_death->secondary_contact_number }}">
+                                                                        <input type="hidden"
+                                                                            id="pmp_death_primary_e_mail_address_{{ $pmp_death->id }}"
+                                                                            name="pmp_death_primary_e_mail_address[]"
+                                                                            value="{{ $pmp_death->primary_e_mail_address }}">
 
-                                                                                        <!--END -- Hidden Inputs for pmp_death's Details -->
-                                                                                        @if(isset($pmb_death->id))
-                                                                                        <div class="row mb-4">
-                                                                                            <!--begin::Trigger button-->
-                                                                                            {{-- <button
+                                                                        <!--END -- Hidden Inputs for pmp_death's Details -->
+                                                                        @if (isset($pmb_death->id))
+                                                                            <div class="row mb-4">
+                                                                                <!--begin::Trigger button-->
+                                                                                {{-- <button
                                                                                                 id="kt_drawer_pmb_death_button_{{ $pmb_death->id }}"
                                                                                                 class="btn btn-light-primary">See Original
                                                                                                 Record</button> --}}
-                                                                                            <!--end::Trigger button-->
+                                                                                <!--end::Trigger button-->
+                                                                            </div>
+                                                                            <!--begin::Drawer-->
+                                                                            <div id="kt_drawer_pmb_death" class="bg-white"
+                                                                                data-kt-drawer="true"
+                                                                                data-kt-drawer-activate="true"
+                                                                                data-kt-drawer-toggle="#kt_drawer_pmb_death_button_{{ $pmb_death->id }}"
+                                                                                data-kt-drawer-close="#kt_drawer_pmb_death_close"
+                                                                                data-kt-drawer-width="{default:'300px', 'md': '400px'}">
+
+                                                                                <!--begin::Card-->
+                                                                                <div class="card w-100 rounded-0">
+                                                                                    <!--begin::Card header-->
+                                                                                    <div class="card-header pe-5">
+                                                                                        <!--begin::Title-->
+                                                                                        <div class="card-title">
+                                                                                            <!--begin::User-->
+                                                                                            <div
+                                                                                                class="d-flex justify-content-center flex-column me-3">
+                                                                                                <a href="#"
+                                                                                                    class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
+                                                                                                    Membership Original
+                                                                                                    Details</a>
+                                                                                            </div>
+                                                                                            <!--end::User-->
                                                                                         </div>
-                                                                                        <!--begin::Drawer-->
-                                                                                        <div id="kt_drawer_pmb_death" class="bg-white"
-                                                                                            data-kt-drawer="true" data-kt-drawer-activate="true"
-                                                                                            data-kt-drawer-toggle="#kt_drawer_pmb_death_button_{{ $pmb_death->id }}"
-                                                                                            data-kt-drawer-close="#kt_drawer_pmb_death_close"
-                                                                                            data-kt-drawer-width="{default:'300px', 'md': '400px'}">
+                                                                                        <!--end::Title-->
 
-                                                                                            <!--begin::Card-->
-                                                                                            <div class="card w-100 rounded-0">
-                                                                                                <!--begin::Card header-->
-                                                                                                <div class="card-header pe-5">
-                                                                                                    <!--begin::Title-->
-                                                                                                    <div class="card-title">
-                                                                                                        <!--begin::User-->
-                                                                                                        <div
-                                                                                                            class="d-flex justify-content-center flex-column me-3">
-                                                                                                            <a href="#"
-                                                                                                                class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
-                                                                                                                Membership Original Details</a>
-                                                                                                        </div>
-                                                                                                        <!--end::User-->
+                                                                                        <!--begin::Card toolbar-->
+                                                                                        <div class="card-toolbar">
+                                                                                            <!--begin::Close-->
+                                                                                            <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
+                                                                                                id="kt_drawer_pmb_death_close">
+                                                                                                <i
+                                                                                                    class="ki-duotone ki-cross fs-2"><span
+                                                                                                        class="path1"></span><span
+                                                                                                        class="path2"></span></i>
+                                                                                            </div>
+                                                                                            <!--end::Close-->
+                                                                                        </div>
+                                                                                        <!--end::Card toolbar-->
+                                                                                    </div>
+                                                                                    <!--end::Card header-->
+
+                                                                                    <!--begin::Card body-->
+                                                                                    <div
+                                                                                        class="card-body hover-scroll-overlay-y">
+                                                                                        @php
+                                                                                            $originalRecord = json_decode(
+                                                                                                $pmb_death->complete_original_record,
+                                                                                                true,
+                                                                                            );
+                                                                                        @endphp
+                                                                                        @if ($originalRecord)
+                                                                                            @foreach ($originalRecord as $key => $value)
+                                                                                                <div
+                                                                                                    class="d-flex align-items-center flex-wrap mb-2">
+                                                                                                    <div id="kt_clipboard_{{ $loop->index }}"
+                                                                                                        class="me-5">
+                                                                                                        <strong>{{ $key }}:</strong>
+                                                                                                        <span
+                                                                                                            class="copy-value">{{ $value }}</span>
                                                                                                     </div>
-                                                                                                    <!--end::Title-->
-
-                                                                                                    <!--begin::Card toolbar-->
-                                                                                                    <div class="card-toolbar">
-                                                                                                        <!--begin::Close-->
-                                                                                                        <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
-                                                                                                            id="kt_drawer_pmb_death_close">
-                                                                                                            <i class="ki-duotone ki-cross fs-2"><span
-                                                                                                                    class="path1"></span><span
-                                                                                                                    class="path2"></span></i>
-                                                                                                        </div>
-                                                                                                        <!--end::Close-->
-                                                                                                    </div>
-                                                                                                    <!--end::Card toolbar-->
-                                                                                                </div>
-                                                                                                <!--end::Card header-->
-
-                                                                                                <!--begin::Card body-->
-                                                                                                <div class="card-body hover-scroll-overlay-y">
-                                                                                                    @php
-                                                                                                        $originalRecord = json_decode(
-                                                                                                            $pmb_death->complete_original_record,
-                                                                                                            true,
-                                                                                                        );
-                                                                                                    @endphp
-                                                                                                    @if ($originalRecord)
-                                                                                                        @foreach ($originalRecord as $key => $value)
-                                                                                                            <div
-                                                                                                                class="d-flex align-items-center flex-wrap mb-2">
-                                                                                                                <div id="kt_clipboard_{{ $loop->index }}"
-                                                                                                                    class="me-5">
-                                                                                                                    <strong>{{ $key }}:</strong>
-                                                                                                                    <span
-                                                                                                                        class="copy-value">{{ $value }}</span>
-                                                                                                                </div>
-                                                                                                                @if (strlen($value) > 0)
-                                                                                                                    <button
-                                                                                                                        class="btn btn-icon btn-sm btn-light"
-                                                                                                                        data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                                                                        <i
-                                                                                                                            class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                                                                    </button>
-                                                                                                                @endif
-                                                                                                            </div>
-                                                                                                        @endforeach
-                                                                                                    @else
-                                                                                                        <p>No original record found.</p>
+                                                                                                    @if (strlen($value) > 0)
+                                                                                                        <button
+                                                                                                            class="btn btn-icon btn-sm btn-light"
+                                                                                                            data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                            <i
+                                                                                                                class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                        </button>
                                                                                                     @endif
                                                                                                 </div>
-                                                                                                <!--end::Card body-->
-                                                                                            </div>
-                                                                                            <!--end::Card-->
-                                                                                        </div>
-                                                                                        <!--end::Drawer-->
+                                                                                            @endforeach
+                                                                                        @else
+                                                                                            <p>No original record found.
+                                                                                            </p>
                                                                                         @endif
-                                                                                        
-                                                                                        <div class="record-container">
-                                                                                            <p>
-                                                                                                <span
-                                                                                                    id="record_status_{{ $pmp_death->id }}"></span>
-                                                                                                <b>Summary:</b>
-                                                                                            </p>
-                                                                                            <p>
-                                                                                                <b>Membership ID:</b> <span
-                                                                                                    id="summary_membership_id_{{ $pmp_death->id }}">{{ $pmp_death->membership_id ?? 'N/A' }}</span>,
-                                                                                                <b>First Name:</b> <span
-                                                                                                    id="summary_first_name_{{ $pmp_death->id }}">{{ $pmp_death->first_name ?? 'N/A' }}</span>,
-                                                                                                <b>Initials:</b> <span
-                                                                                                    id="summary_initials_{{ $pmp_death->id }}">{{ $pmp_death->initials ?? 'N/A' }}</span>,
-                                                                                                <b>Last Name:</b> <span
-                                                                                                    id="summary_last_name_{{ $pmp_death->id }}">{{ $pmp_death->last_name ?? 'N/A' }}</span>,
-                                                                                                <b>Screen Name:</b> <span
-                                                                                                    id="summary_screen_name_{{ $pmp_death->id }}">{{ $pmp_death->screen_name ?? 'N/A' }}</span>,
-                                                                                                <b>ID Number:</b> <span
-                                                                                                    id="summary_id_number_{{ $pmp_death->id }}">{{ $pmp_death->id_number ?? 'N/A' }}</span>,
-                                                                                                <b>Birth Date:</b> <span
-                                                                                                    id="summary_birth_date_{{ $pmp_death->id }}">{{ $pmp_death->birth_date ?? 'N/A' }}</span>,
-                                                                                                <b>Death Date:</b> <span
-                                                                                                    id="summary_birth_date_{{ $pmp_death->id }}">{{ $pmp_death->death_date ?? 'N/A' }}</span>,
-                                                                                                <b>Relationship ID:</b> <span
-                                                                                                    id="summary_person_relationship_id_{{ $pmp_death->id }}">
-                                                                                                    {{ $relationshipNames[
-                                                                                                        $relationshipMappings[$pmp_death->person_relationship_id] ?? $pmp_death->person_relationship_id
-                                                                                                    ] ?? 'N/A' }}
-                                                                                                </span>,
+                                                                                    </div>
+                                                                                    <!--end::Card body-->
+                                                                                </div>
+                                                                                <!--end::Card-->
+                                                                            </div>
+                                                                            <!--end::Drawer-->
+                                                                        @endif
 
-                                                                                                <b>Gender ID:</b> <span
-                                                                                                    id="summary_gender_id_{{ $pmp_death->id }}">{{ $pmp_death->gender_id ?? 'N/A' }}</span>,
-                                                                                                <b>Join Date:</b> <span
-                                                                                                    id="summary_join_date_{{ $pmp_death->id }}">{{ $pmp_death->join_date ?? 'N/A' }}</span>,
-                                                                                                <b>Primary Contact Number:</b> <span
-                                                                                                    id="summary_primary_contact_number_{{ $pmp_death->id }}">{{ $pmp_death->primary_contact_number ?? 'N/A' }}</span>,
-                                                                                                <b>Secondary Contact Number:</b> <span
-                                                                                                    id="summary_secondary_contact_number_{{ $pmp_death->id }}">{{ $pmp_death->secondary_contact_number ?? 'N/A' }}</span>,<br>
-                                                                                                <b>Primary Email Address:</b> <span
-                                                                                                    id="summary_primary_e_mail_address_{{ $pmp_death->id }}">{{ $pmp_death->primary_e_mail_address ?? 'N/A' }}</span>
-                                                                                            </p>
+                                                                        <div class="record-container">
+                                                                            <p>
+                                                                                <span
+                                                                                    id="record_status_{{ $pmp_death->id }}"></span>
+                                                                                <b>Summary:</b>
+                                                                            </p>
+                                                                            <p>
+                                                                                <b>Membership ID:</b> <span
+                                                                                    id="summary_membership_id_{{ $pmp_death->id }}">{{ $pmp_death->membership_id ?? 'N/A' }}</span>,
+                                                                                <b>First Name:</b> <span
+                                                                                    id="summary_first_name_{{ $pmp_death->id }}">{{ $pmp_death->first_name ?? 'N/A' }}</span>,
+                                                                                <b>Initials:</b> <span
+                                                                                    id="summary_initials_{{ $pmp_death->id }}">{{ $pmp_death->initials ?? 'N/A' }}</span>,
+                                                                                <b>Last Name:</b> <span
+                                                                                    id="summary_last_name_{{ $pmp_death->id }}">{{ $pmp_death->last_name ?? 'N/A' }}</span>,
+                                                                                <b>Screen Name:</b> <span
+                                                                                    id="summary_screen_name_{{ $pmp_death->id }}">{{ $pmp_death->screen_name ?? 'N/A' }}</span>,
+                                                                                <b>ID Number:</b> <span
+                                                                                    id="summary_id_number_{{ $pmp_death->id }}">{{ $pmp_death->id_number ?? 'N/A' }}</span>,
+                                                                                <b>Birth Date:</b> <span
+                                                                                    id="summary_birth_date_{{ $pmp_death->id }}">{{ $pmp_death->birth_date ?? 'N/A' }}</span>,
+                                                                                <b>Death Date:</b> <span
+                                                                                    id="summary_birth_date_{{ $pmp_death->id }}">{{ $pmp_death->death_date ?? 'N/A' }}</span>,
+                                                                                <b>Relationship ID:</b> <span
+                                                                                    id="summary_person_relationship_id_{{ $pmp_death->id }}">
+                                                                                    {{ $relationshipNames[
+                                                                                        $relationshipMappings[$pmp_death->person_relationship_id] ?? $pmp_death->person_relationship_id
+                                                                                    ] ?? 'N/A' }}
+                                                                                </span>,
+
+                                                                                <b>Gender ID:</b> <span
+                                                                                    id="summary_gender_id_{{ $pmp_death->id }}">{{ $pmp_death->gender_id ?? 'N/A' }}</span>,
+                                                                                <b>Join Date:</b> <span
+                                                                                    id="summary_join_date_{{ $pmp_death->id }}">{{ $pmp_death->join_date ?? 'N/A' }}</span>,
+                                                                                <b>Primary Contact Number:</b> <span
+                                                                                    id="summary_primary_contact_number_{{ $pmp_death->id }}">{{ $pmp_death->primary_contact_number ?? 'N/A' }}</span>,
+                                                                                <b>Secondary Contact Number:</b> <span
+                                                                                    id="summary_secondary_contact_number_{{ $pmp_death->id }}">{{ $pmp_death->secondary_contact_number ?? 'N/A' }}</span>,<br>
+                                                                                <b>Primary Email Address:</b> <span
+                                                                                    id="summary_primary_e_mail_address_{{ $pmp_death->id }}">{{ $pmp_death->primary_e_mail_address ?? 'N/A' }}</span>
+                                                                            </p>
 
 
 
 
-                                                                                            <!-- Edit pmp_death Details Modal -->
-                                                                                            {{-- <div class="modal fade" id="editpmp_deathModal" tabindex="-1" role="dialog"
+                                                                            <!-- Edit pmp_death Details Modal -->
+                                                                            {{-- <div class="modal fade" id="editpmp_deathModal" tabindex="-1" role="dialog"
                                                                                                     aria-labelledby="editpmp_deathModalLabel" aria-hidden="true">
                                                                                                     <div class="modal-dialog modal-lg" role="document">
                                                                                                         <div class="modal-content">
@@ -1711,8 +1762,8 @@
                                                                                                 </div> --}}
 
 
-                                                                                            <!-- Action Buttons -->
-                                                                                            {{-- <div class="action-buttons">
+                                                                            <!-- Action Buttons -->
+                                                                            {{-- <div class="action-buttons">
                                                                                                     <button type="button" class="btn btn-primary btn-sm"
                                                                                                         onclick="editpmp_death('{{ $pmp_death->id }}')">Edit</button>
 
@@ -1726,611 +1777,640 @@
                                                                                                     <button id="removeButton" type="button" class="btn btn-danger btn-sm"
                                                                                                         onclick="removepmp_death('{{ $pmp_death->id }}')">Remove</button>
                                                                                                 </div> --}}
-                                                                                        </div>
-                                                                                    @endforeach
-                                                                                </div>
-                                                                                {{-- END: possible previous main member death --}}
-
-                                                                            </div>
-                                                                        @else
-                                                                            <div class="card inner-card border border-secondary mt-4">
-                                                                                <div class="card-header"style="background-color: #448C74;">
-                                                                                    <h3 class="card-title" style="color: white">Deaths (Previous
-                                                                                        Main Person)</h3>
-                                                                                </div>
-                                                                                <div class="card-body bg-light">
-                                                                                    <p>No Previous Main Person Death records found.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-
+                                                                        </div>
+                                                                    @endforeach
                                                                 </div>
+                                                                {{-- END: possible previous main member death --}}
 
                                                             </div>
-                                                        </div>
+                                                        @else
+                                                            <div class="card inner-card border border-secondary mt-4">
+                                                                <div class="card-header"style="background-color: #448C74;">
+                                                                    <h3 class="card-title" style="color: white">Deaths
+                                                                        (Previous
+                                                                        Main Person)</h3>
+                                                                </div>
+                                                                <div class="card-body bg-light">
+                                                                    <p>No Previous Main Person Death records found.</p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
 
-
-                                                    <!-- Fifth accordion for Dependents -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_5">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_5" aria-expanded="false"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_5">
-                                                                Dependents
-                                                            </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_5" class="accordion-collapse collapse"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_5"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Dependents -->
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                                                                <div class=" mb-4 pb-4">
+                                    <!-- Fifth accordion for Dependents -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_5">
+                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_5"
+                                                aria-expanded="false"
+                                                aria-controls="kt_accordion_{{ $loop->index }}_body_5">
+                                                Dependents
+                                            </button>
+                                        </h2>
+                                        <div id="kt_accordion_{{ $loop->index }}_body_5"
+                                            class="accordion-collapse collapse p-0 m-0"
+                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_5"
+                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                            <div class="accordion-body">
+                                                <!-- Accordion content for Dependents -->
+
+
+                                                <div class="">
 
 
 
-                                                                    <!-- Dependents Card -->
-                                                                    @if (!$item['dependents']->isEmpty())
-                                                                        @foreach ($item['dependents'] as $dependent)
-                                                                            <div class="card inner-card  bg-light">
+                                                    <!-- Dependents Card -->
+                                                    @if (!$item['dependents']->isEmpty())
+                                                        @foreach ($item['dependents'] as $dependent)
+                                                            <div class="card inner-card  bg-light">
 
-                                                                                <div class="card-body">
+                                                                <div class="card-body">
 
-                                                                                    <input type="hidden"
-                                                                                        id="dependent_record_id_{{ $dependent->id }}"
-                                                                                        name="dependent_record_id[]"
-                                                                                        value="{{ $dependent->id }}">
+                                                                    <input type="hidden"
+                                                                        id="dependent_record_id_{{ $dependent->id }}"
+                                                                        name="dependent_record_id[]"
+                                                                        value="{{ $dependent->id }}">
 
-                                                                                    <input type="hidden"
-                                                                                        id="dependent_original_json_{{ $dependent->id }}"
-                                                                                        name="dependent_original_json[]"
-                                                                                        value="{{ $dependent->complete_original_record }}">
+                                                                    <input type="hidden"
+                                                                        id="dependent_original_json_{{ $dependent->id }}"
+                                                                        name="dependent_original_json[]"
+                                                                        value="{{ $dependent->complete_original_record }}">
 
-                                                                                    <div class="row mb-4">
-                                                                                        <!--begin::Trigger button-->
-                                                                                        {{-- <button
+                                                                    <div class="row mb-4">
+                                                                        <!--begin::Trigger button-->
+                                                                        {{-- <button
                                                                                             id="kt_drawer_dependent_button_{{ $dependent->id }}"
                                                                                             class="btn btn-light-primary">See Original
                                                                                             Record</button> --}}
-                                                                                        <!--end::Trigger button-->
+                                                                        <!--end::Trigger button-->
+                                                                    </div>
+                                                                    <!--begin::Drawer-->
+                                                                    <div id="kt_drawer_dependent" class="bg-white"
+                                                                        data-kt-drawer="true"
+                                                                        data-kt-drawer-activate="true"
+                                                                        data-kt-drawer-toggle="#kt_drawer_dependent_button_{{ $dependent->id }}"
+                                                                        data-kt-drawer-close="#kt_drawer_dependent_close"
+                                                                        data-kt-drawer-width="{default:'300px', 'md': '400px'}">
+
+                                                                        <!--begin::Card-->
+                                                                        <div class="card w-100 rounded-0">
+                                                                            <!--begin::Card header-->
+                                                                            <div class="card-header pe-5">
+                                                                                <!--begin::Title-->
+                                                                                <div class="card-title">
+                                                                                    <!--begin::User-->
+                                                                                    <div
+                                                                                        class="d-flex justify-content-center flex-column me-3">
+                                                                                        <a href="#"
+                                                                                            class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
+                                                                                            Membership Original
+                                                                                            Details</a>
                                                                                     </div>
-                                                                                    <!--begin::Drawer-->
-                                                                                    <div id="kt_drawer_dependent" class="bg-white"
-                                                                                        data-kt-drawer="true" data-kt-drawer-activate="true"
-                                                                                        data-kt-drawer-toggle="#kt_drawer_dependent_button_{{ $dependent->id }}"
-                                                                                        data-kt-drawer-close="#kt_drawer_dependent_close"
-                                                                                        data-kt-drawer-width="{default:'300px', 'md': '400px'}">
-
-                                                                                        <!--begin::Card-->
-                                                                                        <div class="card w-100 rounded-0">
-                                                                                            <!--begin::Card header-->
-                                                                                            <div class="card-header pe-5">
-                                                                                                <!--begin::Title-->
-                                                                                                <div class="card-title">
-                                                                                                    <!--begin::User-->
-                                                                                                    <div
-                                                                                                        class="d-flex justify-content-center flex-column me-3">
-                                                                                                        <a href="#"
-                                                                                                            class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
-                                                                                                            Membership Original Details</a>
-                                                                                                    </div>
-                                                                                                    <!--end::User-->
-                                                                                                </div>
-                                                                                                <!--end::Title-->
-
-                                                                                                <!--begin::Card toolbar-->
-                                                                                                <div class="card-toolbar">
-                                                                                                    <!--begin::Close-->
-                                                                                                    <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
-                                                                                                        id="kt_drawer_dependent_close">
-                                                                                                        <i class="ki-duotone ki-cross fs-2"><span
-                                                                                                                class="path1"></span><span
-                                                                                                                class="path2"></span></i>
-                                                                                                    </div>
-                                                                                                    <!--end::Close-->
-                                                                                                </div>
-                                                                                                <!--end::Card toolbar-->
-                                                                                            </div>
-                                                                                            <!--end::Card header-->
-
-                                                                                            <!--begin::Card body-->
-                                                                                            <div class="card-body hover-scroll-overlay-y">
-                                                                                                @php
-                                                                                                    $originalRecord = json_decode(
-                                                                                                        $dependent->complete_original_record,
-                                                                                                        true,
-                                                                                                    );
-                                                                                                @endphp
-                                                                                                @if ($originalRecord)
-                                                                                                    @foreach ($originalRecord as $key => $value)
-                                                                                                        <div
-                                                                                                            class="d-flex align-items-center flex-wrap mb-2">
-                                                                                                            <div id="kt_clipboard_{{ $loop->index }}"
-                                                                                                                class="me-5">
-                                                                                                                <strong>{{ $key }}:</strong>
-                                                                                                                <span
-                                                                                                                    class="copy-value">{{ $value }}</span>
-                                                                                                            </div>
-                                                                                                            @if (strlen($value) > 0)
-                                                                                                                <button
-                                                                                                                    class="btn btn-icon btn-sm btn-light"
-                                                                                                                    data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                                                                    <i
-                                                                                                                        class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                                                                </button>
-                                                                                                            @endif
-                                                                                                        </div>
-                                                                                                    @endforeach
-                                                                                                @else
-                                                                                                    <p>No original record found.</p>
-                                                                                                @endif
-                                                                                            </div>
-                                                                                            <!--end::Card body-->
-                                                                                        </div>
-                                                                                        <!--end::Card-->
-                                                                                    </div>
-                                                                                    <!--end::Drawer-->
-
-                                                                                    <div class="record-container">
-                                                                                        @if ($dependent->record_completed)
-                                                                                            <span style="color: green;">&#10004;</span>
-                                                                                        @endif
-                                                                                        <div class="form-row">
-                                                                                            <!-- Membership ID -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="membership_id_{{ $dependent->id }}">Membership
-                                                                                                        ID</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="membership_id_{{ $dependent->id }}"
-                                                                                                        name="dependent_membership_id[]"
-                                                                                                        value="{{ $dependent->membership_id }}"
-                                                                                                        readonly>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- First Name -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="first_name_{{ $dependent->id }}">First
-                                                                                                        Name</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="first_name_{{ $dependent->id }}"
-                                                                                                        name="dependent_first_name[]"
-                                                                                                        value="{{ $dependent->first_name }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Initials -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="initials_{{ $dependent->id }}">Initials</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="initials_{{ $dependent->id }}"
-                                                                                                        name="dependent_initials[]"
-                                                                                                        value="{{ $dependent->initials }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Last Name -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="last_name_{{ $dependent->id }}">Last
-                                                                                                        Name</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="last_name_{{ $dependent->id }}"
-                                                                                                        name="dependent_last_name[]"
-                                                                                                        value="{{ $dependent->last_name }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-row">
-                                                                                            <!-- Screen Name -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="screen_name_{{ $dependent->id }}">Screen
-                                                                                                        Name</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="screen_name_{{ $dependent->id }}"
-                                                                                                        name="dependent_screen_name[]"
-                                                                                                        value="{{ $dependent->screen_name }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- ID Number -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="id_number_{{ $dependent->id }}">ID
-                                                                                                        Number</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="id_number_{{ $dependent->id }}"
-                                                                                                        name="dependent_id_number[]"
-                                                                                                        value="{{ $dependent->id_number }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Birth Date -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="birth_date_{{ $dependent->id }}">Birth
-                                                                                                        Date</label>
-                                                                                                    <input type="date" class="form-control"
-                                                                                                        id="birth_date_{{ $dependent->id }}"
-                                                                                                        name="dependent_birth_date[]"
-                                                                                                        value="{{ $dependent->birth_date }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Relationship ID -->
-                                                                                            <div class="col-md-3">
-
-
-
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="person_relationship_id_{{ $dependent->id }}">Relationship
-                                                                                                        to Main Member</label>
-                                                                                                    <select class="form-control"
-                                                                                                        id="person_relationship_id_{{ $dependent->id }}"
-                                                                                                        name="dependent_person_relationship_id[]"
-                                                                                                        style="height: 50%" required>
-                                                                                                        <!-- Placeholder option indicates that selection is required -->
-                                                                                                        <option value="" disabled selected
-                                                                                                            {{ is_null($dependent->relationship_id) ||
-                                                                                                            !$relationships->contains('id', $dependent->relationship_id) ||
-                                                                                                            !in_array($dependent->relationship_id, $remappedIds)
-                                                                                                                ? 'selected'
-                                                                                                                : '' }}>
-                                                                                                            Select relationship
-                                                                                                        </option>
-
-                                                                                                        @foreach ($relationships as $relationship)
-                                                                                                            <option
-                                                                                                                value="{{ $relationship->id }}"
-                                                                                                                {{ (isset($relationshipMappings[$dependent->relationship_id]) &&
-                                                                                                                    $relationship->id == $relationshipMappings[$dependent->relationship_id]) ||
-                                                                                                                (!isset($relationshipMappings[$dependent->relationship_id]) && $relationship->id == $dependent->relationship_id)
-                                                                                                                    ? 'selected'
-                                                                                                                    : '' }}>
-                                                                                                                {{ $relationship->name }}
-                                                                                                            </option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                                </div>
-
-
-
-
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-row">
-                                                                                            <!-- Gender ID -->
-                                                                                            <div class="col-md-3">
-
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="gender_id_{{ $dependent->id }}">Gender</label>
-                                                                                                    <select class="form-control"
-                                                                                                        id="gender_id_{{ $dependent->id }}"
-                                                                                                        name="dependent_gender_id[]"
-                                                                                                        style="height: 1%">
-                                                                                                        <!-- Placeholder option -->
-                                                                                                        <option value="" disabled
-                                                                                                            {{ is_null($dependent->gender_id) ? 'selected' : '' }}>
-                                                                                                            Select gender</option>
-
-                                                                                                        @foreach ($genders as $gender)
-                                                                                                            <option value="{{ $gender->id }}"
-                                                                                                                {{ $dependent->gender_id == $gender->id ? 'selected' : '' }}>
-                                                                                                                {{ $gender->name }}
-                                                                                                            </option>
-                                                                                                        @endforeach
-
-                                                                                                    </select>
-                                                                                                </div>
-
-
-                                                                                            </div>
-                                                                                            <!-- Join Date -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="join_date_{{ $dependent->id }}">Join
-                                                                                                        Date</label>
-                                                                                                    <input type="date" class="form-control"
-                                                                                                        id="join_date_{{ $dependent->id }}"
-                                                                                                        name="dependent_join_date[]"
-                                                                                                        value="{{ $dependent->join_date }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Primary Contact Number -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="primary_contact_number_{{ $dependent->id }}">Primary
-                                                                                                        Contact Number</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="primary_contact_number_{{ $dependent->id }}"
-                                                                                                        name="dependent_primary_contact_number[]"
-                                                                                                        value="{{ $dependent->primary_contact_number }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- Secondary Contact Number -->
-                                                                                            <div class="col-md-3">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="secondary_contact_number_{{ $dependent->id }}">Secondary
-                                                                                                        Contact Number</label>
-                                                                                                    <input type="text" class="form-control"
-                                                                                                        id="secondary_contact_number_{{ $dependent->id }}"
-                                                                                                        name="dependent_secondary_contact_number[]"
-                                                                                                        value="{{ $dependent->secondary_contact_number }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-row">
-                                                                                            <!-- Primary Email Address -->
-                                                                                            <div class="col-md-4">
-                                                                                                <div class="form-group">
-                                                                                                    <label
-                                                                                                        for="primary_e_mail_address_{{ $dependent->id }}">Primary
-                                                                                                        Email Address</label>
-                                                                                                    <input type="email" class="form-control"
-                                                                                                        id="primary_e_mail_address_{{ $dependent->id }}"
-                                                                                                        name="dependent_primary_e_mail_address[]"
-                                                                                                        value="{{ $dependent->primary_e_mail_address }}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <!-- Action Buttons -->
-                                                                                        <div class="action-buttons">
-                                                                                            {{-- <button type="button" class="btn btn-primary btn-sm"
-                                                                                                                                onclick="updateDependent('{{ $dependent->id }}')">Save Changes</button> --}}
-                                                                                            <button type="button" class="btn btn-danger btn-sm"
-                                                                                                onclick="removeDependent('{{ $dependent->id }}')">Remove</button>
-                                                                                            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
-                                                                                                                                Launch remove reason modal
-                                                                                                                            </button> --}}
-                                                                                        </div>
-                                                                                    </div>
-
-
-
-                                                                                    <div class="modal fade" tabindex="-1" id="kt_modal_1">
-                                                                                        <div class="modal-dialog">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h3 class="modal-title">Modal title</h3>
-
-                                                                                                    <!--begin::Close-->
-                                                                                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                                        data-bs-dismiss="modal"
-                                                                                                        aria-label="Close">
-                                                                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                                                                class="path1"></span><span
-                                                                                                                class="path2"></span></i>
-                                                                                                    </div>
-                                                                                                    <!--end::Close-->
-                                                                                                </div>
-
-                                                                                                <div class="modal-body">
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-success form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexCheckboxLg" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexCheckboxLg">
-                                                                                                            Success
-                                                                                                        </label>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-danger form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexCheckboxSm" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexCheckboxSm">
-                                                                                                            Danger
-                                                                                                        </label>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-warning form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexRadioLg" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexRadioLg">
-                                                                                                            Warning
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="button" class="btn btn-light"
-                                                                                                        data-bs-dismiss="modal">Close</button>
-                                                                                                    <button type="button"
-                                                                                                        class="btn btn-primary">Save
-                                                                                                        changes</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
+                                                                                    <!--end::User-->
                                                                                 </div>
+                                                                                <!--end::Title-->
 
+                                                                                <!--begin::Card toolbar-->
+                                                                                <div class="card-toolbar">
+                                                                                    <!--begin::Close-->
+                                                                                    <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
+                                                                                        id="kt_drawer_dependent_close">
+                                                                                        <i
+                                                                                            class="ki-duotone ki-cross fs-2"><span
+                                                                                                class="path1"></span><span
+                                                                                                class="path2"></span></i>
+                                                                                    </div>
+                                                                                    <!--end::Close-->
+                                                                                </div>
+                                                                                <!--end::Card toolbar-->
                                                                             </div>
-                                                                        @endforeach
-                                                                    @else
-                                                                        <div class="card inner-card border border-secondary mt-4">
-                                                                            <div class="card-header"style="background-color: #448C74;">
-                                                                                <h3 class="card-title" style="color: white">Dependents</h3>
+                                                                            <!--end::Card header-->
+
+                                                                            <!--begin::Card body-->
+                                                                            <div class="card-body hover-scroll-overlay-y">
+                                                                                @php
+                                                                                    $originalRecord = json_decode(
+                                                                                        $dependent->complete_original_record,
+                                                                                        true,
+                                                                                    );
+                                                                                @endphp
+                                                                                @if ($originalRecord)
+                                                                                    @foreach ($originalRecord as $key => $value)
+                                                                                        <div
+                                                                                            class="d-flex align-items-center flex-wrap mb-2">
+                                                                                            <div id="kt_clipboard_{{ $loop->index }}"
+                                                                                                class="me-5">
+                                                                                                <strong>{{ $key }}:</strong>
+                                                                                                <span
+                                                                                                    class="copy-value">{{ $value }}</span>
+                                                                                            </div>
+                                                                                            @if (strlen($value) > 0)
+                                                                                                <button
+                                                                                                    class="btn btn-icon btn-sm btn-light"
+                                                                                                    data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                                                    <i
+                                                                                                        class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                                                                </button>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <p>No original record found.</p>
+                                                                                @endif
                                                                             </div>
-                                                                            <div class="card-body bg-light">
-                                                                                <p>No dependent records found.</p>
+                                                                            <!--end::Card body-->
+                                                                        </div>
+                                                                        <!--end::Card-->
+                                                                    </div>
+                                                                    <!--end::Drawer-->
+
+                                                                    <div class="record-container">
+                                                                        @if ($dependent->record_completed)
+                                                                            <span style="color: green;">&#10004;</span>
+                                                                        @endif
+                                                                        <div class="form-row">
+                                                                            <!-- Membership ID -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="membership_id_{{ $dependent->id }}">Membership
+                                                                                        ID</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="membership_id_{{ $dependent->id }}"
+                                                                                        name="dependent_membership_id[]"
+                                                                                        value="{{ $dependent->membership_id }}"
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- First Name -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="first_name_{{ $dependent->id }}">First
+                                                                                        Name</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="first_name_{{ $dependent->id }}"
+                                                                                        name="dependent_first_name[]"
+                                                                                        value="{{ $dependent->first_name }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Initials -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="initials_{{ $dependent->id }}">Initials</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="initials_{{ $dependent->id }}"
+                                                                                        name="dependent_initials[]"
+                                                                                        value="{{ $dependent->initials }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Last Name -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="last_name_{{ $dependent->id }}">Last
+                                                                                        Name</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="last_name_{{ $dependent->id }}"
+                                                                                        name="dependent_last_name[]"
+                                                                                        value="{{ $dependent->last_name }}">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    @endif
-
-
-                                                                </div>
-
-
-
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--END: Fifth accordion for Dependents -->
-                                                </div>
-                                                <!--end::Accordion-->
-
-
-
-
-
-
-                                            </div>
-                                            <!-- Add more accordion cards as needed following the structure above -->
-                                        </div>
-
-                                        <!-- Hidden Button for Submit Action 1 -->
-                                        <button type="submit" name="action" value="submitActionOne" style="display:none;">Save
-                                            Membership</button>
-                                        <!-- Hidden Button for Submit Action 2 -->
-                                        <button type="submit" name="action" value="submitActionTwo" style="display:none;">Test
-                                            Output</button>
-                                    </form>
-
-                                    <!--begin::Alert (initially hidden)-->
-                                    <div id="requiredAlert" class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
-                                        style="display: none !important;">
-                                        <!--begin::Icon-->
-                                        <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span
-                                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                        <!--end::Icon-->
-
-                                        <!--begin::Wrapper-->
-                                        <div class="d-flex flex-column pe-0 pe-sm-10">
-                                            <!--begin::Title-->
-                                            <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
-                                            <!--end::Title-->
-
-                                            <!--begin::Content-->
-                                            <span>All Tabs Need to be completed ('Green') before you can save.</span>
-                                            <!--end::Content-->
-                                        </div>
-                                        <!--end::Wrapper-->
-
-                                    </div>
-                                    <!--end::Alert-->
-
-                                    <!-- Duplicate Records Card -->
-                                    @if (!$item['duplicates']->isEmpty())
-                                        <div class="card inner-card bg-light mt-8">
-                                            <div class="card-header" style="background-color: #448C74;">
-                                                <h3 class="card-title" style="color: white">Duplicate Records</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                @foreach ($item['duplicates'] as $index => $duplicate)
-                                                    <div class="record-container">
-                                                        @php
-                                                            // Decode the JSON into an array
-                                                            $details = json_decode($duplicate->duplicate_details, true);
-                                                            $summary = [];
-
-                                                            foreach ($details as $key => $value) {
-                                                                // Make key bold and concatenate with value
-                                                                // Ensure HTML special characters are escaped appropriately
-                                                                $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
-                                                            }
-
-                                                            // Join all parts into one string
-                                                            $summaryString = implode(', ', $summary);
-
-                                                            // Optionally, limit the total length of the summary string
-                                                            // if (strlen($summaryString) > 100) { // Example limit
-                                                            //     $summaryString = substr($summaryString, 0, 100) . '...';
-                                                            // }
-
-                                                        @endphp
-
-
-                                                        <p>Duplicate Details: {!! $summaryString !!}</p>
-                                                        <div class="action-buttons pb-4">
-                                                            <!-- Trigger Modal Button -->
-                                                            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal"
-                                                                data-target="#duplicateModal{{ $index }}">
-                                                                View Details
-                                                            </button>
-                                                            <button type="button" class="btn btn-sm btn-danger"
-                                                                data-source-table="{{ $duplicate->target_table_name }}"
-                                                                data-record-id="{{ $duplicate->id }}"
-                                                                data-membership-id="{{ $duplicate->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'discardDuplicate')">Remove</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Modal Structure -->
-                                                    <div class="modal fade" id="duplicateModal{{ $index }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="duplicateModalLabel{{ $index }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header" style="background-color: #448C74;">
-                                                                    <h5 class="modal-title" style="color: white;">Duplicate Record Details
-                                                                    </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
-                                                                        <span aria-hidden="true" style="color: white;">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body" style="background-color: #E9F0EC;">
-                                                                    @php
-                                                                        $duplicateDetails = json_decode($duplicate->duplicate_details, true);
-                                                                    @endphp
-
-                                                                    @if ($duplicateDetails)
-                                                                        @foreach ($duplicateDetails as $key => $value)
-                                                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                                <span
-                                                                                    class="mr-2"><strong>{{ $key }}:</strong></span>
-                                                                                <input type="text" style="background-color: #ffffff;"
-                                                                                    id="copy_{{ $duplicate->id }}_{{ $loop->index }}"
-                                                                                    value="{{ $value }}" readonly
-                                                                                    class="form-control d-inline-block"
-                                                                                    style="width: auto; background-color: #adc2b4 !important; border-color: #849e8d; color: #495057;"
-                                                                                    onclick="this.select(); ">
-                                                                                <button class="btn btn-light btn-sm ml-2 copy-btn"
-                                                                                    onclick="copyToClipboard('copy_{{ $duplicate->id }}_{{ $loop->index }}')"><i
-                                                                                        class="fas fa-copy"></i></button>
+                                                                        <div class="form-row">
+                                                                            <!-- Screen Name -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="screen_name_{{ $dependent->id }}">Screen
+                                                                                        Name</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="screen_name_{{ $dependent->id }}"
+                                                                                        name="dependent_screen_name[]"
+                                                                                        value="{{ $dependent->screen_name }}">
+                                                                                </div>
                                                                             </div>
-                                                                        @endforeach
-                                                                    @else
-                                                                        <p>No details available.</p>
-                                                                    @endif
+                                                                            <!-- ID Number -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="id_number_{{ $dependent->id }}">ID
+                                                                                        Number</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="id_number_{{ $dependent->id }}"
+                                                                                        name="dependent_id_number[]"
+                                                                                        value="{{ $dependent->id_number }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Birth Date -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="birth_date_{{ $dependent->id }}">Birth
+                                                                                        Date</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        id="birth_date_{{ $dependent->id }}"
+                                                                                        name="dependent_birth_date[]"
+                                                                                        value="{{ $dependent->birth_date }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Relationship ID -->
+                                                                            <div class="col-md-3">
+
+
+
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="person_relationship_id_{{ $dependent->id }}">Relationship
+                                                                                        to Main Member</label>
+                                                                                    <select class="form-control"
+                                                                                        id="person_relationship_id_{{ $dependent->id }}"
+                                                                                        name="dependent_person_relationship_id[]"
+                                                                                        style="height: 50%" required>
+                                                                                        <!-- Placeholder option indicates that selection is required -->
+                                                                                        <option value="" disabled
+                                                                                            selected
+                                                                                            {{ is_null($dependent->relationship_id) ||
+                                                                                            !$relationships->contains('id', $dependent->relationship_id) ||
+                                                                                            !in_array($dependent->relationship_id, $remappedIds)
+                                                                                                ? 'selected'
+                                                                                                : '' }}>
+                                                                                            Select relationship
+                                                                                        </option>
+
+                                                                                        @foreach ($relationships as $relationship)
+                                                                                            <option
+                                                                                                value="{{ $relationship->id }}"
+                                                                                                {{ (isset($relationshipMappings[$dependent->relationship_id]) &&
+                                                                                                    $relationship->id == $relationshipMappings[$dependent->relationship_id]) ||
+                                                                                                (!isset($relationshipMappings[$dependent->relationship_id]) && $relationship->id == $dependent->relationship_id)
+                                                                                                    ? 'selected'
+                                                                                                    : '' }}>
+                                                                                                {{ $relationship->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                </div>
+
+
+
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-row">
+                                                                            <!-- Gender ID -->
+                                                                            <div class="col-md-3">
+
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="gender_id_{{ $dependent->id }}">Gender</label>
+                                                                                    <select class="form-control"
+                                                                                        id="gender_id_{{ $dependent->id }}"
+                                                                                        name="dependent_gender_id[]"
+                                                                                        style="height: 1%">
+                                                                                        <!-- Placeholder option -->
+                                                                                        <option value="" disabled
+                                                                                            {{ is_null($dependent->gender_id) ? 'selected' : '' }}>
+                                                                                            Select gender</option>
+
+                                                                                        @foreach ($genders as $gender)
+                                                                                            <option
+                                                                                                value="{{ $gender->id }}"
+                                                                                                {{ $dependent->gender_id == $gender->id ? 'selected' : '' }}>
+                                                                                                {{ $gender->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+
+                                                                                    </select>
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                            <!-- Join Date -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="join_date_{{ $dependent->id }}">Join
+                                                                                        Date</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        id="join_date_{{ $dependent->id }}"
+                                                                                        name="dependent_join_date[]"
+                                                                                        value="{{ $dependent->join_date }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Primary Contact Number -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="primary_contact_number_{{ $dependent->id }}">Primary
+                                                                                        Contact Number</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="primary_contact_number_{{ $dependent->id }}"
+                                                                                        name="dependent_primary_contact_number[]"
+                                                                                        value="{{ $dependent->primary_contact_number }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Secondary Contact Number -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="secondary_contact_number_{{ $dependent->id }}">Secondary
+                                                                                        Contact Number</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="secondary_contact_number_{{ $dependent->id }}"
+                                                                                        name="dependent_secondary_contact_number[]"
+                                                                                        value="{{ $dependent->secondary_contact_number }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-row">
+                                                                            <!-- Primary Email Address -->
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label
+                                                                                        for="primary_e_mail_address_{{ $dependent->id }}">Primary
+                                                                                        Email Address</label>
+                                                                                    <input type="email"
+                                                                                        class="form-control"
+                                                                                        id="primary_e_mail_address_{{ $dependent->id }}"
+                                                                                        name="dependent_primary_e_mail_address[]"
+                                                                                        value="{{ $dependent->primary_e_mail_address }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Action Buttons -->
+                                                                        <div class="action-buttons">
+                                                                            {{-- <button type="button" class="btn btn-primary btn-sm"
+                                                                                                                                onclick="updateDependent('{{ $dependent->id }}')">Save Changes</button> --}}
+                                                                            <button type="button"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                onclick="removeDependent('{{ $dependent->id }}')">Remove</button>
+                                                                            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+                                                                                                                                Launch remove reason modal
+                                                                                                                            </button> --}}
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    <div class="modal fade" tabindex="-1"
+                                                                        id="kt_modal_1">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h3 class="modal-title">Modal title
+                                                                                    </h3>
+
+                                                                                    <!--begin::Close-->
+                                                                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <i
+                                                                                            class="ki-duotone ki-cross fs-1"><span
+                                                                                                class="path1"></span><span
+                                                                                                class="path2"></span></i>
+                                                                                    </div>
+                                                                                    <!--end::Close-->
+                                                                                </div>
+
+                                                                                <div class="modal-body">
+                                                                                    <div
+                                                                                        class="form-check form-check-custom form-check-success form-check-solid">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio" value=""
+                                                                                            checked id="flexCheckboxLg" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="flexCheckboxLg">
+                                                                                            Success
+                                                                                        </label>
+                                                                                    </div>
+
+                                                                                    <div
+                                                                                        class="form-check form-check-custom form-check-danger form-check-solid">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio" value=""
+                                                                                            checked id="flexCheckboxSm" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="flexCheckboxSm">
+                                                                                            Danger
+                                                                                        </label>
+                                                                                    </div>
+
+                                                                                    <div
+                                                                                        class="form-check form-check-custom form-check-warning form-check-solid">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio" value=""
+                                                                                            checked id="flexRadioLg" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="flexRadioLg">
+                                                                                            Warning
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-light"
+                                                                                        data-bs-dismiss="modal">Close</button>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-primary">Save
+                                                                                        changes</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-                                                                </div>
+
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <div class="card inner-card border border-secondary mt-4">
+                                                            <div class="card-header"style="background-color: #448C74;">
+                                                                <h3 class="card-title" style="color: white">Dependents
+                                                                </h3>
+                                                            </div>
+                                                            <div class="card-body bg-light">
+                                                                <p>No dependent records found.</p>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @endforeach
+                                                    @endif
+
+
+                                                </div>
+
+
+
+
                                             </div>
                                         </div>
-                                    @else
-                                        {{-- <div class="card inner-card border border-secondary" >
+                                    </div>
+                                    <!--END: Fifth accordion for Dependents -->
+                                </div>
+                                <!--end::Accordion-->
+
+
+
+
+
+
+                            </div>
+                            <!-- Add more accordion cards as needed following the structure above -->
+                        </div>
+
+                        <!-- Hidden Button for Submit Action 1 -->
+                        <button type="submit" name="action" value="submitActionOne" style="display:none;">Save
+                            Membership</button>
+                        <!-- Hidden Button for Submit Action 2 -->
+                        <button type="submit" name="action" value="submitActionTwo" style="display:none;">Test
+                            Output</button>
+                    </form>
+
+                    <!--begin::Alert (initially hidden)-->
+                    <div id="requiredAlert"
+                        class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
+                        style="display: none !important;">
+                        <!--begin::Icon-->
+                        <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span
+                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
+                            <!--end::Title-->
+
+                            <!--begin::Content-->
+                            <span>All Tabs Need to be completed ('Green') before you can save.</span>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Wrapper-->
+
+                    </div>
+                    <!--end::Alert-->
+
+                    <!-- Duplicate Records Card -->
+                    @if (!$item['duplicates']->isEmpty())
+                        <div class="card inner-card bg-light mt-8">
+                            <div class="card-header" style="background-color: #448C74;">
+                                <h3 class="card-title" style="color: white">Duplicate Records</h3>
+                            </div>
+                            <div class="card-body">
+                                @foreach ($item['duplicates'] as $index => $duplicate)
+                                    <div class="record-container">
+                                        @php
+                                            // Decode the JSON into an array
+                                            $details = json_decode($duplicate->duplicate_details, true);
+                                            $summary = [];
+
+                                            foreach ($details as $key => $value) {
+                                                // Make key bold and concatenate with value
+                                                // Ensure HTML special characters are escaped appropriately
+                                                $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
+                                            }
+
+                                            // Join all parts into one string
+                                            $summaryString = implode(', ', $summary);
+
+                                            // Optionally, limit the total length of the summary string
+                                            // if (strlen($summaryString) > 100) { // Example limit
+                                            //     $summaryString = substr($summaryString, 0, 100) . '...';
+                                            // }
+
+                                        @endphp
+
+
+                                        <p>Duplicate Details: {!! $summaryString !!}</p>
+                                        <div class="action-buttons pb-4">
+                                            <!-- Trigger Modal Button -->
+                                            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal"
+                                                data-target="#duplicateModal{{ $index }}">
+                                                View Details
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                data-source-table="{{ $duplicate->target_table_name }}"
+                                                data-record-id="{{ $duplicate->id }}"
+                                                data-membership-id="{{ $duplicate->membership_id }}"
+                                                onclick="handleRecordAction(this, 'discardDuplicate')">Remove</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal Structure -->
+                                    <div class="modal fade" id="duplicateModal{{ $index }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="duplicateModalLabel{{ $index }}"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color: #448C74;">
+                                                    <h5 class="modal-title" style="color: white;">Duplicate Record
+                                                        Details
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true" style="color: white;">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body" style="background-color: #E9F0EC;">
+                                                    @php
+                                                        $duplicateDetails = json_decode(
+                                                            $duplicate->duplicate_details,
+                                                            true,
+                                                        );
+                                                    @endphp
+
+                                                    @if ($duplicateDetails)
+                                                        @foreach ($duplicateDetails as $key => $value)
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center mb-2">
+                                                                <span
+                                                                    class="mr-2"><strong>{{ $key }}:</strong></span>
+                                                                <input type="text" style="background-color: #ffffff;"
+                                                                    id="copy_{{ $duplicate->id }}_{{ $loop->index }}"
+                                                                    value="{{ $value }}" readonly
+                                                                    class="form-control d-inline-block"
+                                                                    style="width: auto; background-color: #adc2b4 !important; border-color: #849e8d; color: #495057;"
+                                                                    onclick="this.select(); ">
+                                                                <button class="btn btn-light btn-sm ml-2 copy-btn"
+                                                                    onclick="copyToClipboard('copy_{{ $duplicate->id }}_{{ $loop->index }}')"><i
+                                                                        class="fas fa-copy"></i></button>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No details available.</p>
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        {{-- <div class="card inner-card border border-secondary" >
                                                             <div class="card-header" style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Duplicate Records</h3>
                                                             </div>
@@ -2338,80 +2418,83 @@
                                                                 <p>No duplicate records found.</p>
                                                             </div>
                                                         </div> --}}
-                                    @endif
+                    @endif
 
-                                    <!-- Error Records Card -->
-                                    @if (!$item['errors']->isEmpty())
-                                        <div class="card inner-card bg-light">
-                                            <div class="card-header" style="background-color: #448C74;">
-                                                <h3 class="card-title" style="color: white">Potential Dependents</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                {{-- Default by Mnguni --}}
-                                                @foreach ($item['errors'] as $error)
-                                                    <div class="record-container">
-                                                        @php
-                                                            $details = json_decode($error->source_details, true);
-                                                            $summary = [];
+                    <!-- Error Records Card -->
+                    @if (!$item['errors']->isEmpty())
+                        <div class="card inner-card bg-light">
+                            <div class="card-header" style="background-color: #448C74;">
+                                <h3 class="card-title" style="color: white">Potential Dependents</h3>
+                            </div>
+                            <div class="card-body">
+                                {{-- Default by Mnguni --}}
+                                @foreach ($item['errors'] as $error)
+                                    <div class="record-container">
+                                        @php
+                                            $details = json_decode($error->source_details, true);
+                                            $summary = [];
 
-                                                            if ($details) {
-                                                                foreach ($details as $key => $value) {
-                                                                    // Make key bold and concatenate with value, ensuring HTML special characters are escaped
-                                                                    $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
-                                                                }
+                                            if ($details) {
+                                                foreach ($details as $key => $value) {
+                                                    // Make key bold and concatenate with value, ensuring HTML special characters are escaped
+                                                    $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
+                                                }
 
-                                                                // Join all parts into one string
-                                                                $summaryString = implode(', ', $summary);
-                                                            } else {
-                                                                $summaryString = 'N/A';
-                                                            }
-                                                        @endphp
-                                                        <p>Source Details: {!! $summaryString !!}</p>
-                                                        <!-- Hidden inputs generated from source_details -->
-                                                        @if ($error->source_details)
-                                                            @php
-                                                                $details = json_decode($error->source_details, true);
-                                                            @endphp
-                                                            @foreach ($details as $key => $value)
-                                                                <input type="hidden" id="{{ 'error_' . $error->id . '_' . $key }}"
-                                                                    name="{{ 'error_' . $error->id . '_' . $key }}"
-                                                                    value="{{ $value }}">
-                                                            @endforeach
-                                                        @endif
+                                                // Join all parts into one string
+                                                $summaryString = implode(', ', $summary);
+                                            } else {
+                                                $summaryString = 'N/A';
+                                            }
+                                        @endphp
+                                        <p>Source Details: {!! $summaryString !!}</p>
+                                        <!-- Hidden inputs generated from source_details -->
+                                        @if ($error->source_details)
+                                            @php
+                                                $details = json_decode($error->source_details, true);
+                                            @endphp
+                                            @foreach ($details as $key => $value)
+                                                <input type="hidden" id="{{ 'error_' . $error->id . '_' . $key }}"
+                                                    name="{{ 'error_' . $error->id . '_' . $key }}"
+                                                    value="{{ $value }}">
+                                            @endforeach
+                                        @endif
 
-                                                        <div class="action-buttons">
-                                                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-success"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'makeDependentError')">
-                                                                Make Dependant
-                                                            </button>
+                                        <div class="action-buttons">
+                                            <button id="makeDependantBtn" type="button"
+                                                class="btn btn-sm btn-success"
+                                                data-source-table="{{ $error->target_table_name }}"
+                                                data-record-id="{{ $error->id }}"
+                                                data-membership-id="{{ $error->membership_id }}"
+                                                onclick="handleRecordAction(this, 'makeDependentError')">
+                                                Make Dependant
+                                            </button>
 
-                                                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-warning"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'makeDeceasedError')">
+                                            <button id="makeDependantBtn" type="button"
+                                                class="btn btn-sm btn-warning"
+                                                data-source-table="{{ $error->target_table_name }}"
+                                                data-record-id="{{ $error->id }}"
+                                                data-membership-id="{{ $error->membership_id }}"
+                                                onclick="handleRecordAction(this, 'makeDeceasedError')">
 
-                                                                Mark As Deceased
-                                                            </button>
+                                                Mark As Deceased
+                                            </button>
 
-                                                            <button id="removeDependantBtn" type="button" class="btn btn-sm btn-danger"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'discardError')">
+                                            <button id="removeDependantBtn" type="button"
+                                                class="btn btn-sm btn-danger"
+                                                data-source-table="{{ $error->target_table_name }}"
+                                                data-record-id="{{ $error->id }}"
+                                                data-membership-id="{{ $error->membership_id }}"
+                                                onclick="handleRecordAction(this, 'discardError')">
 
-                                                                Remove
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                                {{-- Default by Mnguni --}}
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                {{-- Default by Mnguni --}}
 
-                                                {{-- 29/02/2024 Interface --}}
-                                                {{-- @foreach ($item['errors'] as $error)
+                                {{-- 29/02/2024 Interface --}}
+                                {{-- @foreach ($item['errors'] as $error)
                                                                     <div class="record-container">
                                                                         @if ($error->source_details)
                                                                             @php
@@ -2458,10 +2541,10 @@
                                                                     </div>
                                                                 @endforeach --}}
 
-                                            </div>
-                                        </div>
-                                    @else
-                                        {{-- <div class="card inner-card border border-secondary">
+                            </div>
+                        </div>
+                    @else
+                        {{-- <div class="card inner-card border border-secondary">
                                                             <div class="card-header" style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Potential Dependents Records</h3>
                                                             </div>
@@ -2469,471 +2552,443 @@
                                                                 <p>No error records found.</p>
                                                             </div>
                                                         </div> --}}
-                                    @endif
+                    @endif
 
-                                    {{-- Action Buttons for Main Record --}}
-                                    <div class="form-group text-center d-flex justify-content-around mt-8 mb-8 shadow">
-                                        <!-- External Button for Submit Action 1 -->
-                                        <button id="externalSubmitActionOne" class="btn btn-success">Save Membership</button>
-                                        <!-- External Button for Submit Action 2 -->
-                                        <button id="externalSubmitActionTwo" class="btn btn-dark">Test Output</button>
+                    <div class="card-footer p-0">
+                        {{-- Action Buttons for Main Record --}}
+                        <div class="text-center mt-4">
+                            <!-- External Button for Submit Action 1 -->
+                            <button id="externalSubmitActionOne" class="btn btn-success mx-2">Save Membership</button>
+                            <!-- External Button for Submit Action 2 -->
+                            <button id="externalSubmitActionTwo" class="btn btn-secondary mx-2">Test Output</button>
 
 
-
-                                        {{-- <!-- JavaScript actions -->
+                            {{-- <!-- JavaScript actions -->
                                                                                 <button type="button" class="btn btn-info" onclick="otherActionOne()">Other Action 1 (JS)</button>
                                                                                 <button type="button" class="btn btn-warning" onclick="otherActionTwo()">Other Action 2 (JS)</button>
                                                         --}}
-                                    </div>
+                        </div>
 
-                                    <!-- Custom Bootstrap Pagination Links -->
-                                    <nav aria-label="Page navigation example" class="my-6 bg-secondary-subtle rounded p-2">
-                                        <ul class="pagination justify-content-center">
-                                            @if ($paginatedItems->onFirstPage())
-                                                <li class="page-item disabled"><span class="page-link">Previous</span></li>
-                                            @else
-                                                <li class="page-item"><a class="page-link"
-                                                        href="{{ $paginatedItems->previousPageUrl() }}">Previous</a></li>
-                                            @endif
 
-                                            <!-- Display current page of total pages (e.g., "1 of 52025") -->
-                                            <li class="page-item disabled"><span class="page-link">{{ $paginatedItems->currentPage() }} of
-                                                    {{ $paginatedItems->lastPage() }}</span></li>
 
-                                            @if ($paginatedItems->hasMorePages())
-                                                <li class="page-item"><a class="page-link"
-                                                        href="{{ $paginatedItems->nextPageUrl() }}">Next</a>
-                                                </li>
-                                            @else
-                                                <li class="page-item disabled"><span class="page-link">Next</span></li>
-                                            @endif
-                                        </ul>
-                                    </nav>
+                        <!-- Custom Bootstrap Pagination Links -->
+                        <nav aria-label="Page navigation example" class="my-3">
+                            <ul class="pagination justify-content-center">
+                                @if ($paginatedItems->onFirstPage())
+                                    <li class="page-item disabled"><span
+                                            class="page-link border border-secondary">Previous</span></li>
+                                @else
+                                    <li class="page-item"><a class="page-link border border-secondary"
+                                            href="{{ $paginatedItems->previousPageUrl() }}">Previous</a></li>
+                                @endif
 
-                        
+                                <!-- Display current page of total pages (e.g., "1 of 52025") -->
+                                <li class="page-item disabled"><span
+                                        class="page-link bg-light border border-secondary">{{ $paginatedItems->currentPage() }}
+                                        of
+                                        {{ $paginatedItems->lastPage() }}</span></li>
 
-                                    </form>
-                                @endforeach
-                            @else
-                                <p>No records found.</p>
-                            @endif
+                                @if ($paginatedItems->hasMorePages())
+                                    <li class="page-item"><a class="page-link border border-secondary"
+                                            href="{{ $paginatedItems->nextPageUrl() }}">Next</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled"><span
+                                            class="page-link border border-secondary">Next</span></li>
+                                @endif
+                            </ul>
+                        </nav>
                     </div>
+
+
+
+
+                    </form>
+                @endforeach
+            @else
+                <p>No records found.</p>
+            @endif
+            </div>
+
+        </div>
+        {{-- </div> --}}
+    </div>
+
+    <div class="accordion col-3 card-coloumn rounded bg-body drawer-column position-relative mb-10 shadow overflow-y-auto"
+        id="kt_drawer_death" style="height: 750px;">
+
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+            <!--begin::Close-->
+            {{-- <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger position-absolute top-0 end-0" id="hide-button">
+                <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
+            </div> --}}
+            <!--end::Close-->
+            {{-- <div class="accordion mx-0 px-0" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Main Membership Original Details
+                </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Dependants Details
+                </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
                 </div>
             </div>
 
-            <div class="col-3 card-coloumn rounded bg-body drawer-column position-relative mb-10 shadow overflow-y-auto" id="kt_drawer_death" style="height: 1450px;">
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-      <div class="accordion-body">
-        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-      <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
+            </div> --}}
+            <div class="btn-sm bg-danger m-4 text-center rounded p-3 text-white fs-4" id="hide-button">
+                Exit
+            </div>
 
-</div>
-                            @if ($paginatedItems->count() > 0)
-                                @foreach ($paginatedItems as $item)
-                                                <!--begin::Accordion-->
-                                                <div id="kt_accordion_{{ $loop->index }}">
-                                                    <!-- First Accordion Item for Membership Details -->
-                                                    {{-- <h3 class="card-title">Main Record ID: {{ $item['membershipId'] }}</h3> --}}
 
-                                                    <div class="accordion-item">
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_1"
-                                                            class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_1"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Membership Details -->
-                                                                <!-- Main Record Card as Form -->
-                                                                @if ($item['main'])
-                                                                    <input type="hidden" id="main_original_json_{{ $item['main']->id }}"
-                                                                        name="main_original_json_{{ $item['main']->id }}"
-                                                                        value="{{ $item['main']->complete_original_record }}">
 
-                                                                    
-                                                                        <!--begin::Card-->
-                                                                        <div class="card w-100 rounded-0" class="display: none;">
-                                                                            <!--begin::Card header-->
-                                                                            <div class="card-header pe-5">
-                                                                                <!--begin::Title-->
-                                                                                <div class="card-title">
-                                                                                    <!--begin::User-->
-                                                                                    <div class="d-flex justify-content-center flex-column me-3">
-                                                                                        <a href="#"
-                                                                                            class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 lh-1">Main
-                                                                                            Membership Original Details</a>
-                                                                                    </div>
-                                                                                    <!--end::User-->
-                                                                                </div>
-                                                                                <!--end::Title-->
 
-                                                                                <!--begin::Card toolbar-->
-                                                                                <div class="card-toolbar">
-                                                                                    <!--begin::Close-->
-                                                                                    <div class="btn btn-light-danger btn-sm btn-icon btn-active-danger"
-                                                                                        id="hide-button">
-                                                                                        
-                                                                                        <i class="ki-duotone ki-cross fs-2"><span
-                                                                                                class="path1"></span><span
-                                                                                                class="path2"></span></i>
-                                                                                    </div>
-                                                                                      <!--end::Close-->
-                                                                                </div>
-                                                                                <!--end::Card toolbar-->
-                                                                            </div>
-                                                                            <!--end::Card header-->
+            <div class="accordion-item">
 
-                                                                            <!--begin::Card body-->
-                                                                            <div class="card-body hover-scroll-overlay-y">
-                                                                                @php
-                                                                                    $originalRecord = json_decode(
-                                                                                        $item['main']->complete_original_record,
-                                                                                        true,
-                                                                                    );
-                                                                                @endphp
-                                                                                @if ($originalRecord)
-                                                                                    @foreach ($originalRecord as $key => $value)
-                                                                                        <div class="d-flex align-items-center flex-wrap mb-2">
-                                                                                            <div id="kt_clipboard_{{ $loop->index }}"
-                                                                                                class="me-5">
-                                                                                                <strong>{{ $key }}:</strong> <span
-                                                                                                    class="copy-value">{{ $value }}</span>
-                                                                                            </div>
-                                                                                            @if (strlen($value) > 0)
-                                                                                                <button class="btn btn-icon btn-sm btn-light"
-                                                                                                    data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                                                    <i
-                                                                                                        class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                                                </button>
-                                                                                            @endif
-                                                                                        </div>
-                                                                                    @endforeach
-                                                                                @else
-                                                                                    <p>No original record found.</p>
-                                                                                @endif
-                                                                            </div>
-                                                                            <!--end::Card body-->
-                                                                        </div>
-                                                                        <!--end::Card-->
- 
-                                                                @else
-                                                                    <div class="card-header">Duplicate Records</div>
-                                                                    <div class="card-body">
-                                                                        <p>No main records found for this Membership ID.</p>
-                                                                    </div>
-                                                                @endif
-                                                            </div>
+                {{-- <div class="accordion mx-0 px-0" id="accordionPanelsStayOpen"> --}}
+                @if ($paginatedItems->count() > 0)
+                    @foreach ($paginatedItems as $item)
+                        <!--begin::Accordion-->
+
+                        <div id="kt_accordion_{{ $loop->index }}">
+                            <!-- First Accordion Item for Membership Details -->
+                            {{-- <h3 class="card-title">Main Record ID: {{ $item['membershipId'] }}</h3> --}}
+
+                            <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_1">
+                                <button class="accordion-button fs-4 fw-semibold{{ $loop->first ? '' : ' collapsed' }}"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#kt_accordion_{{ $loop->index }}_body_1"
+                                    aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                    aria-controls="kt_accordion_{{ $loop->index }}_body_1">
+                                    Membership Details
+                                </button>
+
+                            </h2>
+                            <div id="kt_accordion_{{ $loop->index }}_body_1"
+                                class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
+                                aria-labelledby="kt_accordion_{{ $loop->index }}_header_1"
+                                data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                                <div class="accordion-body">
+                                    <!-- Accordion content for Membership Details -->
+                                    <!-- Main Record Card as Form -->
+                                    @if ($item['main'])
+                                        <input type="hidden" id="main_original_json_{{ $item['main']->id }}"
+                                            name="main_original_json_{{ $item['main']->id }}"
+                                            value="{{ $item['main']->complete_original_record }}">
+
+
+                                        <!--begin::Card body-->
+                                        <div class="card-body hover-scroll-overlay-y">
+                                            @php
+                                                $originalRecord = json_decode(
+                                                    $item['main']->complete_original_record,
+                                                    true,
+                                                );
+                                            @endphp
+                                            @if ($originalRecord)
+                                                @foreach ($originalRecord as $key => $value)
+                                                    <div class="d-flex align-items-center flex-wrap mb-2">
+                                                        <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                            <strong>{{ $key }}:</strong> <span
+                                                                class="copy-value">{{ $value }}</span>
                                                         </div>
-                                                    </div>
-
-
-                                                    <!-- Fifth accordion for Dependents -->
-                                                        <h2 class="accordion-header p-4" id="kt_accordion_{{ $loop->index }}_header_5">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#kt_accordion_{{ $loop->index }}_body_5" aria-expanded="false"
-                                                                aria-controls="kt_accordion_{{ $loop->index }}_body_5">
-                                                                Dependentss Details
+                                                        @if (strlen($value) > 0)
+                                                            <button class="btn btn-icon btn-sm btn-light"
+                                                                data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                                <i class="ki-duotone ki-copy fs-2 text-muted"></i>
                                                             </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_{{ $loop->index }}_body_5" class="accordion-collapse collapse"
-                                                            aria-labelledby="kt_accordion_{{ $loop->index }}_header_5"
-                                                            data-bs-parent="#kt_accordion_{{ $loop->index }}">
-                                                            <div class="accordion-body">
-                                                                <!-- Accordion content for Dependents -->
-
-
-                                                                    <!-- Dependents Card -->
-                                                                    @if (!$item['dependents']->isEmpty())
-                                                                        @foreach ($item['dependents'] as $dependent)
-
-                                                                                <div class="card-body">
-
-                                                                                    <input type="hidden"
-                                                                                        id="dependent_record_id_{{ $dependent->id }}"
-                                                                                        name="dependent_record_id[]"
-                                                                                        value="{{ $dependent->id }}">
-
-                                                                                    <input type="hidden"
-                                                                                        id="dependent_original_json_{{ $dependent->id }}"
-                                                                                        name="dependent_original_json[]"
-                                                                                        value="{{ $dependent->complete_original_record }}">
-
-                                                                                        <!--begin::Card-->
-                                                                                        <div class="card w-100 rounded-0">
-
-                                                                                            <!--begin::Card body-->
-                                                                                            <div class="card-body hover-scroll-overlay-y">
-                                                                                                @php
-                                                                                                    $originalRecord = json_decode(
-                                                                                                        $dependent->complete_original_record,
-                                                                                                        true,
-                                                                                                    );
-                                                                                                @endphp
-                                                                                                @if ($originalRecord)
-                                                                                                    @foreach ($originalRecord as $key => $value)
-                                                                                                        <div
-                                                                                                            class="d-flex align-items-center flex-wrap mb-2">
-                                                                                                            <div id="kt_clipboard_{{ $loop->index }}"
-                                                                                                                class="me-5">
-                                                                                                                <strong>{{ $key }}:</strong>
-                                                                                                                <span
-                                                                                                                    class="copy-value">{{ $value }}</span>
-                                                                                                            </div>
-                                                                                                            @if (strlen($value) > 0)
-                                                                                                                <button
-                                                                                                                    class="btn btn-icon btn-sm btn-light"
-                                                                                                                    data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
-                                                                                                                    <i
-                                                                                                                        class="ki-duotone ki-copy fs-2 text-muted"></i>
-                                                                                                                </button>
-                                                                                                            @endif
-                                                                                                        </div>
-                                                                                                    @endforeach
-                                                                                                @else
-                                                                                                    <p>No original record found.</p>
-                                                                                                @endif
-                                                                                            </div>
-                                                                                            <!--end::Card body-->
-                                                                                        </div>
-                                                                                    <!--end::Drawer-->
-
-                                                                                    <div class="record-container">
-                                                                                        @if ($dependent->record_completed)
-                                                                                            <span style="color: green;">&#10004;</span>
-                                                                                        @endif
-
-                                                                                    </div>
-
-
-
-                                                                                    <div class="modal fade" tabindex="-1" id="kt_modal_1">
-                                                                                        <div class="modal-dialog">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h3 class="modal-title">Modal title</h3>
-
-                                                                                                    <!--begin::Close-->
-                                                                                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                                        data-bs-dismiss="modal"
-                                                                                                        aria-label="Close">
-                                                                                                        <i class="ki-duotone ki-cross fs-1"><span
-                                                                                                                class="path1"></span><span
-                                                                                                                class="path2"></span></i>
-                                                                                                    </div>
-                                                                                                    <!--end::Close-->
-                                                                                                </div>
-
-                                                                                                <div class="modal-body">
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-success form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexCheckboxLg" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexCheckboxLg">
-                                                                                                            Success
-                                                                                                        </label>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-danger form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexCheckboxSm" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexCheckboxSm">
-                                                                                                            Danger
-                                                                                                        </label>
-                                                                                                    </div>
-
-                                                                                                    <div
-                                                                                                        class="form-check form-check-custom form-check-warning form-check-solid">
-                                                                                                        <input class="form-check-input"
-                                                                                                            type="radio" value="" checked
-                                                                                                            id="flexRadioLg" />
-                                                                                                        <label class="form-check-label"
-                                                                                                            for="flexRadioLg">
-                                                                                                            Warning
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="button" class="btn btn-light"
-                                                                                                        data-bs-dismiss="modal">Close</button>
-                                                                                                    <button type="button"
-                                                                                                        class="btn btn-primary">Save
-                                                                                                        changes</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
-                                                                                </div>
-
-                                                                        @endforeach
-                                                                    @else
-                                                                            <div class="bg-light mx-auto my-auto m-8 p-4">
-                                                                                <p>No dependentss records found.</p>
-                                                                            </div>
-                                                                    @endif
-
-                                                            </div>
-                                                        </div>
-                                                    <!--END: Fifth accordion for Dependents -->
-                                                </div>
-                                                <!--end::Accordion-->
-
-
-                                        <!-- Hidden Button for Submit Action 1 -->
-                                        <button type="submit" name="action" value="submitActionOne" style="display:none;">Save
-                                            Membership</button>
-                                        <!-- Hidden Button for Submit Action 2 -->
-                                        <button type="submit" name="action" value="submitActionTwo" style="display:none;">Test
-                                            Output</button>
-                                    
-
-                                    <!--begin::Alert (initially hidden)-->
-                                    <div id="requiredAlert" class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
-                                        style="display: none !important;">
-                                        <!--begin::Icon-->
-                                        <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span
-                                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                        <!--end::Icon-->
-
-                                        <!--begin::Wrapper-->
-                                        <div class="d-flex flex-column pe-0 pe-sm-10">
-                                            <!--begin::Title-->
-                                            <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
-                                            <!--end::Title-->
-
-                                            <!--begin::Content-->
-                                            <span>All Tabs Need to be completed ('Green') before you can save.</span>
-                                            <!--end::Content-->
-                                        </div>
-                                        <!--end::Wrapper-->
-
-                                    </div>
-                                    <!--end::Alert-->
-
-                                    <!-- Duplicate Records Card -->
-                                    @if (!$item['duplicates']->isEmpty())
-                                        <div class="card inner-card bg-light mt-8">
-                                            <div class="card-header" style="background-color: #448C74;">
-                                                <h3 class="card-title" style="color: white">Duplicate Records</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                @foreach ($item['duplicates'] as $index => $duplicate)
-                                                    <div class="record-container">
-                                                        @php
-                                                            // Decode the JSON into an array
-                                                            $details = json_decode($duplicate->duplicate_details, true);
-                                                            $summary = [];
-
-                                                            foreach ($details as $key => $value) {
-                                                                // Make key bold and concatenate with value
-                                                                // Ensure HTML special characters are escaped appropriately
-                                                                $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
-                                                            }
-
-                                                            // Join all parts into one string
-                                                            $summaryString = implode(', ', $summary);
-
-                                                            // Optionally, limit the total length of the summary string
-                                                            // if (strlen($summaryString) > 100) { // Example limit
-                                                            //     $summaryString = substr($summaryString, 0, 100) . '...';
-                                                            // }
-
-                                                        @endphp
-
-
-                                                        <p>Duplicate Details: {!! $summaryString !!}</p>
-                                                        <div class="action-buttons pb-4">
-                                                            <!-- Trigger Modal Button -->
-                                                            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal"
-                                                                data-target="#duplicateModal{{ $index }}">
-                                                                View Details
-                                                            </button>
-                                                            <button type="button" class="btn btn-sm btn-danger"
-                                                                data-source-table="{{ $duplicate->target_table_name }}"
-                                                                data-record-id="{{ $duplicate->id }}"
-                                                                data-membership-id="{{ $duplicate->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'discardDuplicate')">Remove</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Modal Structure -->
-                                                    <div class="modal fade" id="duplicateModal{{ $index }}" tabindex="-1"
-                                                        role="dialog" aria-labelledby="duplicateModalLabel{{ $index }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header" style="background-color: #448C74;">
-                                                                    <h5 class="modal-title" style="color: white;">Duplicate Record Details
-                                                                    </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
-                                                                        <span aria-hidden="true" style="color: white;">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body" style="background-color: #E9F0EC;">
-                                                                    @php
-                                                                        $duplicateDetails = json_decode($duplicate->duplicate_details, true);
-                                                                    @endphp
-
-                                                                    @if ($duplicateDetails)
-                                                                        @foreach ($duplicateDetails as $key => $value)
-                                                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                                <span
-                                                                                    class="mr-2"><strong>{{ $key }}:</strong></span>
-                                                                                <input type="text" style="background-color: #ffffff;"
-                                                                                    id="copy_{{ $duplicate->id }}_{{ $loop->index }}"
-                                                                                    value="{{ $value }}" readonly
-                                                                                    class="form-control d-inline-block"
-                                                                                    style="width: auto; background-color: #adc2b4 !important; border-color: #849e8d; color: #495057;"
-                                                                                    onclick="this.select(); ">
-                                                                                <button class="btn btn-light btn-sm ml-2 copy-btn"
-                                                                                    onclick="copyToClipboard('copy_{{ $duplicate->id }}_{{ $loop->index }}')"><i
-                                                                                        class="fas fa-copy"></i></button>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @else
-                                                                        <p>No details available.</p>
-                                                                    @endif
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @endif
                                                     </div>
                                                 @endforeach
+                                            @else
+                                                <p>No original record found.</p>
+                                            @endif
+                                        </div>
+                                        <!--end::Card body-->
+                                </div>
+                                <!--end::Card-->
+                            @else
+                                <div class="card-header">Duplicate Records</div>
+                                <div class="card-body">
+                                    <p>No main records found for this Membership ID.</p>
+                                </div>
+                    @endif
+            </div>
+
+
+            <!-- Fifth accordion for Dependents -->
+            {{-- <h2 class="accordion-header p-4" id="kt_accordion_{{ $loop->index }}_header_5"> --}}
+                <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#kt_accordion_{{ $loop->index }}_body_5" aria-expanded="false"
+                    aria-controls="kt_accordion_{{ $loop->index }}_body_5" id="kt_accordion_{{ $loop->index }}_header_5">
+                    {{-- Dependentss Details --}}
+                    Dependants Details
+                </button>
+            {{-- </h2> --}}
+            <div id="kt_accordion_{{ $loop->index }}_body_5" class="accordion-collapse collapse"
+                aria-labelledby="kt_accordion_{{ $loop->index }}_header_5"
+                data-bs-parent="#kt_accordion_{{ $loop->index }}">
+                <div class="accordion-body">
+                    <!-- Accordion content for Dependents -->
+
+
+                    <!-- Dependents Card -->
+                    @if (!$item['dependents']->isEmpty())
+                        @foreach ($item['dependents'] as $dependent)
+                            <input type="hidden" id="dependent_record_id_{{ $dependent->id }}"
+                                name="dependent_record_id[]" value="{{ $dependent->id }}">
+
+                            <input type="hidden" id="dependent_original_json_{{ $dependent->id }}"
+                                name="dependent_original_json[]" value="{{ $dependent->complete_original_record }}">
+
+                            <!--begin::Card-->
+                            <div class="w-100 rounded-0">
+
+                                <!--begin::Card body-->
+                                <div class="hover-scroll-overlay-y">
+                                    @php
+                                        $originalRecord = json_decode($dependent->complete_original_record, true);
+                                    @endphp
+                                    @if ($originalRecord)
+                                        @foreach ($originalRecord as $key => $value)
+                                            <div class="d-flex align-items-center flex-wrap mb-2">
+                                                <div id="kt_clipboard_{{ $loop->index }}" class="me-5">
+                                                    <strong>{{ $key }}:</strong>
+                                                    <span class="copy-value">{{ $value }}</span>
+                                                </div>
+                                                @if (strlen($value) > 0)
+                                                    <button class="btn btn-icon btn-sm btn-light"
+                                                        data-clipboard-target="#kt_clipboard_{{ $loop->index }}">
+                                                        <i class="ki-duotone ki-copy fs-2 text-muted"></i>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>No original record found.</p>
+                                    @endif
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Drawer-->
+
+                            <div class="record-container">
+                                @if ($dependent->record_completed)
+                                    <span style="color: green;">&#10004;</span>
+                                @endif
+
+                            </div>
+
+
+
+                            <div class="modal fade" tabindex="-1" id="kt_modal_1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Modal title</h3>
+
+                                            <!--begin::Close-->
+                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                data-bs-dismiss="modal" aria-label="Close">
+                                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                                        class="path2"></span></i>
+                                            </div>
+                                            <!--end::Close-->
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="form-check form-check-custom form-check-success form-check-solid">
+                                                <input class="form-check-input" type="radio" value="" checked
+                                                    id="flexCheckboxLg" />
+                                                <label class="form-check-label" for="flexCheckboxLg">
+                                                    Success
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check form-check-custom form-check-danger form-check-solid">
+                                                <input class="form-check-input" type="radio" value="" checked
+                                                    id="flexCheckboxSm" />
+                                                <label class="form-check-label" for="flexCheckboxSm">
+                                                    Danger
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check form-check-custom form-check-warning form-check-solid">
+                                                <input class="form-check-input" type="radio" value="" checked
+                                                    id="flexRadioLg" />
+                                                <label class="form-check-label" for="flexRadioLg">
+                                                    Warning
+                                                </label>
                                             </div>
                                         </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="bg-warning rounded mx-auto my-auto m-0 p-0">
+                            <p class="text-center m-0 p-4">No dependents records found.</p>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+            <!--END: Fifth accordion for Dependents -->
+
+
+        </div>
+    </div>
+    <!--end::Accordion-->
+
+
+    <!-- Hidden Button for Submit Action 1 -->
+    <button type="submit" name="action" value="submitActionOne" style="display:none;">Save
+        Membership</button>
+    <!-- Hidden Button for Submit Action 2 -->
+    <button type="submit" name="action" value="submitActionTwo" style="display:none;">Test
+        Output</button>
+
+
+    <!--begin::Alert (initially hidden)-->
+    <div id="requiredAlert" class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
+        style="display: none !important;">
+        <!--begin::Icon-->
+        <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span class="path1"></span><span
+                class="path2"></span><span class="path3"></span></i>
+        <!--end::Icon-->
+
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column pe-0 pe-sm-10">
+            <!--begin::Title-->
+            <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
+            <!--end::Title-->
+
+            <!--begin::Content-->
+            <span>All Tabs Need to be completed ('Green') before you can save.</span>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+
+    </div>
+    <!--end::Alert-->
+
+    <!-- Duplicate Records Card -->
+    @if (!$item['duplicates']->isEmpty())
+        <div class="card inner-card bg-light mt-8">
+            <div class="card-header" style="background-color: #448C74;">
+                <h3 class="card-title" style="color: white">Duplicate Records</h3>
+            </div>
+            <div class="card-body">
+                @foreach ($item['duplicates'] as $index => $duplicate)
+                    <div class="record-container">
+                        @php
+                            // Decode the JSON into an array
+                            $details = json_decode($duplicate->duplicate_details, true);
+                            $summary = [];
+
+                            foreach ($details as $key => $value) {
+                                // Make key bold and concatenate with value
+                                // Ensure HTML special characters are escaped appropriately
+                                $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
+                            }
+
+                            // Join all parts into one string
+                            $summaryString = implode(', ', $summary);
+
+                            // Optionally, limit the total length of the summary string
+                            // if (strlen($summaryString) > 100) { // Example limit
+                            //     $summaryString = substr($summaryString, 0, 100) . '...';
+                            // }
+
+                        @endphp
+
+
+                        <p>Duplicate Details: {!! $summaryString !!}</p>
+                        <div class="action-buttons pb-4">
+                            <!-- Trigger Modal Button -->
+                            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal"
+                                data-target="#duplicateModal{{ $index }}">
+                                View Details
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger"
+                                data-source-table="{{ $duplicate->target_table_name }}"
+                                data-record-id="{{ $duplicate->id }}"
+                                data-membership-id="{{ $duplicate->membership_id }}"
+                                onclick="handleRecordAction(this, 'discardDuplicate')">Remove</button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Structure -->
+                    <div class="modal fade" id="duplicateModal{{ $index }}" tabindex="-1" role="dialog"
+                        aria-labelledby="duplicateModalLabel{{ $index }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #448C74;">
+                                    <h5 class="modal-title" style="color: white;">Duplicate Record
+                                        Details
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="color: white;">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="background-color: #E9F0EC;">
+                                    @php
+                                        $duplicateDetails = json_decode($duplicate->duplicate_details, true);
+                                    @endphp
+
+                                    @if ($duplicateDetails)
+                                        @foreach ($duplicateDetails as $key => $value)
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="mr-2"><strong>{{ $key }}:</strong></span>
+                                                <input type="text" style="background-color: #ffffff;"
+                                                    id="copy_{{ $duplicate->id }}_{{ $loop->index }}"
+                                                    value="{{ $value }}" readonly
+                                                    class="form-control d-inline-block"
+                                                    style="width: auto; background-color: #adc2b4 !important; border-color: #849e8d; color: #495057;"
+                                                    onclick="this.select(); ">
+                                                <button class="btn btn-light btn-sm ml-2 copy-btn"
+                                                    onclick="copyToClipboard('copy_{{ $duplicate->id }}_{{ $loop->index }}')"><i
+                                                        class="fas fa-copy"></i></button>
+                                            </div>
+                                        @endforeach
                                     @else
-                                        {{-- <div class="card inner-card border border-secondary" >
+                                        <p>No details available.</p>
+                                    @endif
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @else
+        {{-- <div class="card inner-card border border-secondary" >
                                                             <div class="card-header" style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Duplicate Records</h3>
                                                             </div>
@@ -2941,82 +2996,81 @@
                                                                 <p>No duplicate records found.</p>
                                                             </div>
                                                         </div> --}}
-                                    @endif
+    @endif
 
-                                    <!-- Error Records Card -->
-                                    @if (!$item['errors']->isEmpty())
-                                        <div class="card inner-card bg-light">
-                                            <div class="card-header" style="background-color: #448C74;">
-                                                <h3 class="card-title" style="color: white">Potential Dependents</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                {{-- Default by Mnguni --}}
-                                                @foreach ($item['errors'] as $error)
-                                                    <div class="record-container">
-                                                        @php
-                                                            $details = json_decode($error->source_details, true);
-                                                            $summary = [];
+    <!-- Error Records Card -->
+    @if (!$item['errors']->isEmpty())
+        <div class="card inner-card bg-light">
+            <div class="card-header" style="background-color: #448C74;">
+                <h3 class="card-title" style="color: white">Potential Dependents</h3>
+            </div>
+            <div class="card-body">
+                {{-- Default by Mnguni --}}
+                @foreach ($item['errors'] as $error)
+                    <div class="record-container">
+                        @php
+                            $details = json_decode($error->source_details, true);
+                            $summary = [];
 
-                                                            if ($details) {
-                                                                foreach ($details as $key => $value) {
-                                                                    // Make key bold and concatenate with value, ensuring HTML special characters are escaped
-                                                                    $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
-                                                                }
+                            if ($details) {
+                                foreach ($details as $key => $value) {
+                                    // Make key bold and concatenate with value, ensuring HTML special characters are escaped
+                                    $summary[] = '<strong>' . e($key) . '</strong>: ' . e($value);
+                                }
 
-                                                                // Join all parts into one string
-                                                                $summaryString = implode(', ', $summary);
-                                                            } else {
-                                                                $summaryString = 'N/A';
-                                                            }
-                                                        @endphp
-                                                        <p>Source Details: {!! $summaryString !!}</p>
-                                                        <!-- Hidden inputs generated from source_details -->
-                                                        @if ($error->source_details)
-                                                            @php
-                                                                $details = json_decode($error->source_details, true);
-                                                            @endphp
-                                                            @foreach ($details as $key => $value)
-                                                                <input type="hidden" id="{{ 'error_' . $error->id . '_' . $key }}"
-                                                                    name="{{ 'error_' . $error->id . '_' . $key }}"
-                                                                    value="{{ $value }}">
-                                                            @endforeach
-                                                        @endif
+                                // Join all parts into one string
+                                $summaryString = implode(', ', $summary);
+                            } else {
+                                $summaryString = 'N/A';
+                            }
+                        @endphp
+                        <p>Source Details: {!! $summaryString !!}</p>
+                        <!-- Hidden inputs generated from source_details -->
+                        @if ($error->source_details)
+                            @php
+                                $details = json_decode($error->source_details, true);
+                            @endphp
+                            @foreach ($details as $key => $value)
+                                <input type="hidden" id="{{ 'error_' . $error->id . '_' . $key }}"
+                                    name="{{ 'error_' . $error->id . '_' . $key }}" value="{{ $value }}">
+                            @endforeach
+                        @endif
 
-                                                        <div class="action-buttons">
-                                                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-success"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'makeDependentError')">
-                                                                Make Dependant
-                                                            </button>
+                        <div class="action-buttons">
+                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-success"
+                                data-source-table="{{ $error->target_table_name }}"
+                                data-record-id="{{ $error->id }}"
+                                data-membership-id="{{ $error->membership_id }}"
+                                onclick="handleRecordAction(this, 'makeDependentError')">
+                                Make Dependant
+                            </button>
 
-                                                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-warning"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'makeDeceasedError')">
+                            <button id="makeDependantBtn" type="button" class="btn btn-sm btn-warning"
+                                data-source-table="{{ $error->target_table_name }}"
+                                data-record-id="{{ $error->id }}"
+                                data-membership-id="{{ $error->membership_id }}"
+                                onclick="handleRecordAction(this, 'makeDeceasedError')">
 
-                                                                Mark As Deceased
-                                                            </button>
+                                Mark As Deceased
+                            </button>
 
-                                                            <button id="removeDependantBtn" type="button" class="btn btn-sm btn-danger"
-                                                                data-source-table="{{ $error->target_table_name }}"
-                                                                data-record-id="{{ $error->id }}"
-                                                                data-membership-id="{{ $error->membership_id }}"
-                                                                onclick="handleRecordAction(this, 'discardError')">
+                            <button id="removeDependantBtn" type="button" class="btn btn-sm btn-danger"
+                                data-source-table="{{ $error->target_table_name }}"
+                                data-record-id="{{ $error->id }}"
+                                data-membership-id="{{ $error->membership_id }}"
+                                onclick="handleRecordAction(this, 'discardError')">
 
-                                                                Remove
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                                
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
 
-                                            </div>
-                                        </div>
-                                    @else
-                                        {{-- <div class="card inner-card border border-secondary">
+
+            </div>
+        </div>
+    @else
+        {{-- <div class="card inner-card border border-secondary">
                                                             <div class="card-header" style="background-color: #448C74;">
                                                                 <h3 class="card-title" style="color: white">Potential Dependents Records</h3>
                                                             </div>
@@ -3024,15 +3078,17 @@
                                                                 <p>No error records found.</p>
                                                             </div>
                                                         </div> --}}
-                                    @endif
-                      
+    @endif
 
-                                    </form>
-                                @endforeach
-                            @else
-                                <p>No records found.</p>
-                            @endif
-            </div>
+
+    </form>
+    @endforeach
+@else
+    <p>No records found.</p>
+    @endif
+    {{-- </div> --}}
+    </div>
+    </div>
 
 @endsection
 

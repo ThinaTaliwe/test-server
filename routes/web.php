@@ -470,10 +470,17 @@ Route::get('/person-details/{id}', [DeathController::class, 'getPersonDetails'])
 //Funerals Routes
 Route::resource('funerals', FuneralController::class);
 Route::get('funerals/create/{id}', [FuneralController::class, 'create'])->name('funerals.create');
+Route::get('funerals/edit/{id}', [FuneralController::class, 'edit'])->name('funerals.edit');
 
 Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
+Route::post('/store-funeral-costs', [FuneralController::class, 'FuneralCosts'])->name('StoreFuneralCosts');
+Route::post('/add-funeral-cost', [FuneralController::class, 'AddFuneralCost'])->name('AddFuneralCost');
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
+Route::post('/edit-funeral-beneficiary', [FuneralController::class, 'EditFuneralBeneficiary'])->name('EditFuneralBeneficiary');
+Route::post('/remove-funeral-beneficiary', [FuneralController::class, 'removeFuneralBeneficiary'])->name('RemoveFuneralBeneficiary');
+Route::post('/store-funeral-shortfall', [FuneralController::class, 'StoreFuneralShortfall'])->name('StoreFuneralShortfall');
+
 
 Route::post('/funeral/checklist/{id}', [FuneralController::class, 'updateChecklistItem']);
 
@@ -511,7 +518,8 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comments.st
 Route::get('comments/{id}/edit', [CommentController::class, 'edit']);
 Route::put('comments/{id}', [CommentController::class, 'update']);
 
-
+Route::get('/chart-data', [HomeController::class, 'getChartData']);
+Route::get('/chart-data2', [HomeController::class, 'getChartData2']);
 
 
 

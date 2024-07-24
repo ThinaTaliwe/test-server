@@ -30,6 +30,8 @@ use App\Models\Gender;
 use App\Models\MarriageStatus;
 use App\Models\PersonHasAddress;
 
+use Illuminate\Support\Facades\Auth;
+
 // use App\Actions\StorePerson;
 use App\Actions\StoreAddress;
 

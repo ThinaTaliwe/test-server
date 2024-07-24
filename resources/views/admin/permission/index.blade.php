@@ -171,7 +171,7 @@
             </div>
             <!--end::Wrapper-->
 
-            <table id="dependants-table" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
+            <table id="dependants-table" class="table table-rounded fs-6 g-5 gs-5">
                 <thead>
 
                     <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-gray-300">

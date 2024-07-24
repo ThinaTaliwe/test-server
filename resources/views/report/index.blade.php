@@ -54,10 +54,214 @@
 @endpush
 
 @section('content')
+
+    {{-- Start Filtering Form Submit --}}
+    <div id="feature_one" class="card mt-8 mb-4 rounded-2 shadow mx-auto p-4">
+        <div style="margin-left: auto; margin-right: auto; width: fit-content;">
+            <h2 class="m-5">Data Filtering</h2>
+        </div>
+
+        <form action="{{ route('report.index') }}" method="GET"
+            style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted"
+            class="bg-gba-light p-2 mx-auto">
+            <!-- Date Range filters -->
+
+            <label for="">From: </label>
+            <input type="date" name="date_from" value="{{ $filters['date_from'] }}">
+            <label for="">To: </label>
+            <input type="date" name="date_to" value="{{ $filters['date_to'] }}">
+
+            <!-- Gender filter -->
+            <label for="gender_id">Gender: </label>
+            <select name="gender_id" id="gender_id">
+                <option value="" {{ empty($filters['gender_id']) ? 'selected' : '' }}>All</option>
+                <option value="M"
+                    {{ isset($filters['gender_id']) && $filters['gender_id'] === 'M' ? 'selected' : '' }}>Male</option>
+                <option value="F"
+                    {{ isset($filters['gender_id']) && $filters['gender_id'] === 'F' ? 'selected' : '' }}>Female
+                </option>
+            </select>
+
+            <!-- Language filter -->
+            <label for="language_id">Language: </label>
+            <select name="language_id" id="language_id">
+                <option value="" {{ empty($filters['language_id']) ? 'selected' : '' }}>All</option>
+                <option value="1"
+                    {{ isset($filters['language_id']) && $filters['language_id'] === '1' ? 'selected' : '' }}>English
+                </option>
+                <option value="2"
+                    {{ isset($filters['language_id']) && $filters['language_id'] === '2' ? 'selected' : '' }}>Afrikaans
+                </option>
+            </select>
+
+            {{-- <!-- Language filter -->
+            <label for="language_id">Language: </label>
+            <select name="language_id" id="language_id" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true">
+                <option value="" {{ empty($filters['language_id']) ? 'selected' : '' }}>All</option>
+                <option value="1" {{ isset($filters['language_id']) && $filters['language_id'] === '1' ? 'selected' : '' }}>English</option>
+                <option value="2" {{ isset($filters['language_id']) && $filters['language_id'] === '2' ? 'selected' : '' }}>Afrikaans</option>
+            </select> --}}
+
+            <button type="submit" class="btn btn-sm btn-success ms-4 pulse"><span class="pulse-ring"></span>Filter</button>
+        </form>
+        <br>
+
+        {{-- Start Cards Display --}}
+        {{-- Start Cards Display --}}
+        @if(isset($filters['date_from']) || isset($filters['date_to']) || isset($filters['gender_id']) || isset($filters['language_id']))
+        <div class="row g-5 g-xl-10 mb-20 mb-xl-10" style="margin-left: auto; margin-right: auto; width: fit-content;">
+            <!--begin::Col-->
+            <div class="col-xl-3">
+                <!--begin::Card widget 3-->
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
+                    style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <!--begin::Card body-->
+                    <div class="card-body d-flex align-items-end mb-3">
+                        <!--begin::Info-->
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4hx text-white fw-bold me-6">{{ $afMembers }}</span>
+                            <div class="fw-bold fs-6 text-white">
+                                <span class="d-block">Afrikaans Speaking</span>
+                                <span class="">Members</span>
+                            </div>
+                        </div>
+                        <!--end::Info-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card widget 3-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-xl-3">
+                <!--begin::Card widget 3-->
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
+                    style="background-color: #7239EA;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
+                    <!--begin::Card body-->
+                    <div class="card-body d-flex align-items-end mb-3">
+                        <!--begin::Info-->
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4hx text-white fw-bold me-6">{{ $enMembers }}</span>
+                            <div class="fw-bold fs-6 text-white">
+                                <span class="d-block">English Speaking</span>
+                                <span class="">Members</span>
+                            </div>
+                        </div>
+                        <!--end::Info-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card widget 3-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-xl-3">
+                <!--begin::Card widget 3-->
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
+                    style="background-color: #a419a0;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <!--begin::Card body-->
+                    <div class="card-body d-flex align-items-end mb-3">
+                        <!--begin::Info-->
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4hx text-white fw-bold me-6">{{ $maleMembers }}</span>
+                            <div class="fw-bold fs-6 text-white">
+                                <span class="d-block">Total Male</span>
+                                <span class="">Members</span>
+                            </div>
+                        </div>
+                        <!--end::Info-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card widget 3-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-xl-3">
+                <!--begin::Card widget 3-->
+                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
+                    style="background-color: #5df2ff;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
+                    <!--begin::Card body-->
+                    <div class="card-body d-flex align-items-end mb-3">
+                        <!--begin::Info-->
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4hx text-white fw-bold me-6">{{ $femaleMembers }}</span>
+                            <div class="fw-bold fs-6 text-white">
+                                <span class="d-block">Total Female</span>
+                                <span class="">Members</span>
+                            </div>
+                        </div>
+                        <!--end::Info-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card widget 3-->
+            </div>
+            <!--end::Col-->
+        </div>
+        @endif
+        {{-- End Cards Display --}}
+
+        {{-- End Cards Display --}}
+
+        {{-- {{ $data }} --}}
+        <div class="table-responsive" style="margin-left: auto; margin-right: auto; width: fit-content;" hidden>
+            <table class="table table-rounded border gy-7 gs-7">
+                <thead>
+                    <tr class="fw-semibold fs-6 text-dark border-bottom-2 bg-info-subtle">
+                        <th>Code</th>
+                        <th>Initails</th>
+                        <th>Surname</th>
+                        <th>Gender</th>
+                        <th>Join Data</th>
+                        <th>Language</th>
+                        <th>Member Fee</th>
+                        <th>Last Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data as $record)
+                        <tr class="bg-light">
+                            <td>{{ $record->membership_code }}</td>
+                            <td>{{ $record->initials }}</td>
+                            <td>{{ $record->surname }}</td>
+                            <td>
+                                @if ($record->gender_id == 'M')
+                                    Male
+                                @elseif ($record->gender_id == 'F')
+                                    Female
+                                @else
+                                    Other
+                                @endif
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($record->join_date)->format('Y-m-d') }}</td>
+                            <td>
+                                @if ($record->language_id == '1')
+                                    English
+                                @elseif ($record->language_id == '2')
+                                    Afrikaans
+                                @else
+                                    Other
+                                @endif
+                            </td>
+
+                            <td>R{{ number_format($record->membership_fee, 2) }}</td>
+                            <td>{{ \Carbon\Carbon::parse($record->last_payment_date)->format('Y-m-d') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        {{-- {{ $data }} --}}
+
+    </div>
+    {{-- End Filtering Form Submit --}}
+
+
     <div class="m-7 p-2 bg-transparent">
 
         {{-- Start Data Statistics Overview --}}
-        <div id="feature_two" class="border border-solid border-gba-light bg-gba-light rounded-2 mb-2 shadow-lg">
+        <div id="feature_two" class="card rounded-2 mb-2 shadow">
             <div>
                 <h2 class="text-center m-5">Data Statistics Overview</h2>
             </div>
@@ -246,10 +450,7 @@
                                     </div>
                                     <!--end::Number-->
                                 </div>
-                                <!--end::Statistics-->
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Separator-->
+                                <!--begin::Separator-->
                             <div class="separator separator-dashed my-3 bg-dark"></div>
                             <!--end::Separator-->
                             <!--begin::Item-->
@@ -287,6 +488,10 @@
                                 <!--end::Statistics-->
                             </div>
                             <!--end::Item-->
+                                <!--end::Statistics-->
+                            </div>
+                            <!--end::Item-->
+                            
                         </div>
                         <!--end::Body-->
                     </div>
@@ -300,202 +505,7 @@
     </div>
     {{-- End Data Statistics Overview --}}
 
-    {{-- Start Filtering Form Submit --}}
-    <div id="feature_one" class="border border-solid mt-8 mb-4 bg-gba-light rounded-2 shadow-lg mx-auto">
-        <div style="margin-left: auto; margin-right: auto; width: fit-content;">
-            <h2 class="m-5">Data Filtering</h2>
-        </div>
 
-        <form action="{{ route('report.index') }}" method="GET"
-            style="margin-left: auto; margin-right: auto; width: fit-content; border: 2px gray dotted"
-            class="bg-gba-light p-2">
-            <!-- Date Range filters -->
-
-            <label for="">From: </label>
-            <input type="date" name="date_from" value="{{ $filters['date_from'] }}">
-            <label for="">To: </label>
-            <input type="date" name="date_to" value="{{ $filters['date_to'] }}">
-
-            <!-- Gender filter -->
-            <label for="gender_id">Gender: </label>
-            <select name="gender_id" id="gender_id">
-                <option value="" {{ empty($filters['gender_id']) ? 'selected' : '' }}>All</option>
-                <option value="M"
-                    {{ isset($filters['gender_id']) && $filters['gender_id'] === 'M' ? 'selected' : '' }}>Male</option>
-                <option value="F"
-                    {{ isset($filters['gender_id']) && $filters['gender_id'] === 'F' ? 'selected' : '' }}>Female
-                </option>
-            </select>
-
-            <!-- Language filter -->
-            <label for="language_id">Language: </label>
-            <select name="language_id" id="language_id">
-                <option value="" {{ empty($filters['language_id']) ? 'selected' : '' }}>All</option>
-                <option value="1"
-                    {{ isset($filters['language_id']) && $filters['language_id'] === '1' ? 'selected' : '' }}>English
-                </option>
-                <option value="2"
-                    {{ isset($filters['language_id']) && $filters['language_id'] === '2' ? 'selected' : '' }}>Afrikaans
-                </option>
-            </select>
-
-            {{-- <!-- Language filter -->
-            <label for="language_id">Language: </label>
-            <select name="language_id" id="language_id" class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true">
-                <option value="" {{ empty($filters['language_id']) ? 'selected' : '' }}>All</option>
-                <option value="1" {{ isset($filters['language_id']) && $filters['language_id'] === '1' ? 'selected' : '' }}>English</option>
-                <option value="2" {{ isset($filters['language_id']) && $filters['language_id'] === '2' ? 'selected' : '' }}>Afrikaans</option>
-            </select> --}}
-
-            <button type="submit" class="btn btn-sm btn-info">Filter</button>
-        </form>
-        <br>
-
-        {{-- Start Cards Display --}}
-        <div class="row g-5 g-xl-10 mb-20 mb-xl-10" style="margin-left: auto; margin-right: auto; width: fit-content;">
-            <!--begin::Col-->
-            <div class="col-xl-3">
-                <!--begin::Card widget 3-->
-                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
-                    style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
-                    <!--begin::Card body-->
-                    <div class="card-body d-flex align-items-end mb-3">
-                        <!--begin::Info-->
-                        <div class="d-flex align-items-center">
-                            <span class="fs-4hx text-white fw-bold me-6">{{ $afMembers }}</span>
-                            <div class="fw-bold fs-6 text-white">
-                                <span class="d-block">Afrikaans Speaking</span>
-                                <span class="">Members</span>
-                            </div>
-                        </div>
-                        <!--end::Info-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
-                <!--end::Card widget 3-->
-            </div>
-            <!--end::Col-->
-            <!--begin::Col-->
-            <div class="col-xl-3">
-                <!--begin::Card widget 3-->
-                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
-                    style="background-color: #7239EA;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
-                    <!--begin::Card body-->
-                    <div class="card-body d-flex align-items-end mb-3">
-                        <!--begin::Info-->
-                        <div class="d-flex align-items-center">
-                            <span class="fs-4hx text-white fw-bold me-6">{{ $enMembers }}</span>
-                            <div class="fw-bold fs-6 text-white">
-                                <span class="d-block">English Speaking</span>
-                                <span class="">Members</span>
-                            </div>
-                        </div>
-                        <!--end::Info-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
-                <!--end::Card widget 3-->
-            </div>
-            <!--end::Col-->
-            <!--begin::Col-->
-            <div class="col-xl-3">
-                <!--begin::Card widget 3-->
-                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
-                    style="background-color: #a419a0;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
-                    <!--begin::Card body-->
-                    <div class="card-body d-flex align-items-end mb-3">
-                        <!--begin::Info-->
-                        <div class="d-flex align-items-center">
-                            <span class="fs-4hx text-white fw-bold me-6">{{ $maleMembers }}</span>
-                            <div class="fw-bold fs-6 text-white">
-                                <span class="d-block">Total Male</span>
-                                <span class="">Members</span>
-                            </div>
-                        </div>
-                        <!--end::Info-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
-                <!--end::Card widget 3-->
-            </div>
-            <!--end::Col-->
-            <!--begin::Col-->
-            <div class="col-xl-3">
-                <!--begin::Card widget 3-->
-                <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-30"
-                    style="background-color: #5df2ff;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
-                    <!--begin::Card body-->
-                    <div class="card-body d-flex align-items-end mb-3">
-                        <!--begin::Info-->
-                        <div class="d-flex align-items-center">
-                            <span class="fs-4hx text-white fw-bold me-6">{{ $femaleMembers }}</span>
-                            <div class="fw-bold fs-6 text-white">
-                                <span class="d-block">Total Female</span>
-                                <span class="">Members</span>
-                            </div>
-                        </div>
-                        <!--end::Info-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
-                <!--end::Card widget 3-->
-            </div>
-            <!--end::Col-->
-        </div>
-        {{-- End Cards Display --}}
-
-        {{-- {{ $data }} --}}
-        <div class="table-responsive" style="margin-left: auto; margin-right: auto; width: fit-content;" hidden>
-            <table class="table table-rounded border gy-7 gs-7">
-                <thead>
-                    <tr class="fw-semibold fs-6 text-dark border-bottom-2 bg-info-subtle">
-                        <th>Code</th>
-                        <th>Initails</th>
-                        <th>Surname</th>
-                        <th>Gender</th>
-                        <th>Join Data</th>
-                        <th>Language</th>
-                        <th>Member Fee</th>
-                        <th>Last Payment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $record)
-                        <tr class="bg-light">
-                            <td>{{ $record->membership_code }}</td>
-                            <td>{{ $record->initials }}</td>
-                            <td>{{ $record->surname }}</td>
-                            <td>
-                                @if ($record->gender_id == 'M')
-                                    Male
-                                @elseif ($record->gender_id == 'F')
-                                    Female
-                                @else
-                                    Other
-                                @endif
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($record->join_date)->format('Y-m-d') }}</td>
-                            <td>
-                                @if ($record->language_id == '1')
-                                    English
-                                @elseif ($record->language_id == '2')
-                                    Afrikaans
-                                @else
-                                    Other
-                                @endif
-                            </td>
-
-                            <td>R{{ number_format($record->membership_fee, 2) }}</td>
-                            <td>{{ \Carbon\Carbon::parse($record->last_payment_date)->format('Y-m-d') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        {{-- {{ $data }} --}}
-
-    </div>
-    {{-- End Filtering Form Submit --}}
 
 
     {{-- Start Membership by Age --}}

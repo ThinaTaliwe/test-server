@@ -20,7 +20,7 @@
             <div class="d-flex align-items-center position-relative my-1">
                 <!-- Custom Length Control with Dropdown Arrow -->
                 <div class="position-relative">
-                    <select class="form-control form-control-solid w-70px me-2" id="customLength">
+                    <select class="form-control form-control-solid w-70px me-2 bg-secondary" id="customLength">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -36,12 +36,12 @@
 
                 <!-- Search Input with Magnifier Icon -->
                 <div class="position-relative d-flex align-items-center my-1 mb-2 mb-md-0">
-                    <div class="ki-duotone ki-magnifier position-absolute ms-6">
+                    <div class="ki-duotone ki-magnifier position-absolute ms-6 ">
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </div>
                     <input type="text" data-kt-docs-table-filter="search"
-                        class="form-control form-control-solid w-250px ps-15" placeholder="Search for Membership" />
+                        class="form-control form-control-solid w-250px ps-15 bg-secondary" placeholder="Search for Membership" />
                 </div>
             </div>
             <!--end::Search-->
@@ -138,7 +138,7 @@
         <!--end::Wrapper-->
 
 
-        <table id="table_users" class="card-body rounded-4 fs-6 g-5 gs-5 my-8">
+        <table id="table_users" class="table table-rounded fs-6 g-5 gs-5 my-8">
             <thead>
                 <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-gray-300">
                                     @canany(['user edit', 'user delete'])

@@ -2,7 +2,7 @@
 
 @push('styles')
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"> --}}
-    
+
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.css" rel="stylesheet">
  --}}
@@ -98,8 +98,6 @@
             box-shadow: 0 0 0 .2rem rgba(229, 115, 115, .25);
             /* Optional: add a subtle shadow to further highlight the field */
         }
-
-
     </style>
 
     <style>
@@ -108,7 +106,7 @@
         }
 
         .select2-container--bootstrap5 .select2-dropdown {
-            background-color: white !important; 
+            background-color: white !important;
         }
 
         .select2-container--bootstrap5 .select2-dropdown .select2-search .select2-search__field {
@@ -116,56 +114,50 @@
         }
 
         .pac-container {
-            z-index: 9999 !important; /* This is for my Google Maps in modal Bootstrap modals usually have a z-index of 1050 */
+            z-index: 9999 !important;
+            /* This is for my Google Maps in modal Bootstrap modals usually have a z-index of 1050 */
         }
-
-
     </style>
 
+    <style>
+        .menu-sub-dropdown {
+            background-color: #ffffff !important;
+        }
 
+        .page-link.active,
+        .active>.page-link {
+            background-color: #131628 !important;
+        }
+    </style>
 
+    {{-- Styling for the grouping table --}}
+    <style>
+        #kt_datatable_row_grouping th,
+        #kt_datatable_row_grouping td {
+            text-align: left;
+        }
 
+        #kt_datatable_row_grouping th:last-child,
+        #kt_datatable_row_grouping td:last-child {
+            text-align: center;
+        }
 
-
-<style>
-    .menu-sub-dropdown {
-    background-color: #ffffff !important;
-}
-
-.page-link.active, .active > .page-link {
-    background-color: #131628 !important;
-}
-</style>
-
-
-
-{{-- Styling for the grouping table --}}
-<style>
-    #kt_datatable_row_grouping th,
-    #kt_datatable_row_grouping td {
-        text-align: left;
-    }
-
-    #kt_datatable_row_grouping th:last-child,
-    #kt_datatable_row_grouping td:last-child {
-        text-align: center;
-    }
-
-    .group {
-        background-color: #fafafa !important; /* Slight gray background */
-        font-weight: normal !important; /* Make it not bold */
-    }
-</style>
-
-
+        .group {
+            /* background-color: #fafafa !important; */
+            /* Slight gray background */
+            font-weight: normal !important;
+            vertical-align: middle;
+            /* Make it not bold */
+        }
+        .group td {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    </style>
 @endpush
 
 @section('row_content')
-
-
-
-    <div class="card rounded mb-16" style="background-color: #E9F0EC"> 
-
+    <div class="card rounded mb-16 shadow">
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -185,370 +177,357 @@
             </div>
         @endif
 
-
-                    <div class="card inner-card my-8 bg-white">
-                        <div class="card-header " style="background-color: #448C74">
-                            <h3 class="card-title text-white" >Funerals</h3>
-                        </div>
-                        <div class="card-body">
-
-
-
-           
-                    
-            
-{{-- <table id="kt_datatable_row_grouping" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
-    <thead>
-        <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-            <th>Membership ID</th>
-            <th>Main/Dep</th>
-            <th>Person Details</th>
-            <th>Membership Status</th>
-            <th>Last Payment Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>12345</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-primary">
-                    Main Member
-                </div>
-            </td>
-            <td>use Person ID but show name and other details here</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-success">
-                    Fully-Paid
-                </div>
-            </td>
-            <td>2011/04/25</td>
-            <td>
-                <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
-                    <i class="bi bi-plus-lg fs-4 me-0"></i>
-                </a>
-                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
-                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
-                </a>
-                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
-                        <i class="bi bi-trash3 fs-4 me-0"></i>
-                    </button>
-                </form>
-                <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
-                    <i class="bi bi-repeat fs-4 me-0"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>67891</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-info">
-                    Dependent
-                </div>
-            </td>
-            <td>use Person ID but show name and other details here</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-danger">
-                    In-Arrears
-                </div>
-            </td>
-            <td>2011/04/25</td>
-            <td>
-                <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
-                    <i class="bi bi-plus-lg fs-4 me-0"></i>
-                </a>
-                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
-                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
-                </a>
-                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
-                        <i class="bi bi-trash3 fs-4 me-0"></i>
-                    </button>
-                </form>
-                <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
-                    <i class="bi bi-repeat fs-4 me-0"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>G67891</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-info">
-                    Dependent
-                </div>
-            </td>
-            <td>Joe Doe - 9802185020254 - 18-02-1998 - 06-07-2068 </td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-warning">
-                    Outstanding-Balance
-                </div>
-            </td>
-            <td>2011/04/25</td>
-            <td>
-                <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
-                    <i class="bi bi-plus-lg fs-4 me-0"></i>
-                </a>
-                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
-                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
-                </a>
-                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
-                        <i class="bi bi-trash3 fs-4 me-0"></i>
-                    </button>
-                </form>
-                <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
-                    <i class="bi bi-repeat fs-4 me-0"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>67891</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-info">
-                    Dependent
-                </div>
-            </td>
-            <td>Joe Doe - 9802185020254 - 18-02-1998 - 06-07-2068 </td>
-            <td>
-                <div class="badge py-3 px-4 fs-7 badge-light-success">
-                    Fully-Paid
-                </div>
-            </td>
-            <td>2011/04/25</td>
-            <td>
-                <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
-                    <i class="bi bi-plus-lg fs-4 me-0"></i>
-                </a>
-                <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
-                    <i class="bi bi-pencil-fill fs-4 me-0"></i>
-                </a>
-                <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
-                        <i class="bi bi-trash3 fs-4 me-0"></i>
-                    </button>
-                </form>
-                <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
-                    <i class="bi bi-repeat fs-4 me-0"></i>
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table> --}}
-
-
-
-
-<!--begin::Wrapper for second table-->
-<div class="d-flex flex-stack flex-wrap mb-5">
-    <!--begin::Search-->
-    <div class="d-flex align-items-center position-relative my-1">
-        <!-- Custom Length Control with Dropdown Arrow -->
-        <div class="position-relative">
-            <select class="form-control form-control-solid w-70px me-2" id="customLength2">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <!-- Custom Dropdown Arrow with Span Elements -->
-            <div class="ki-duotone ki-arrow-down position-absolute end-0 me-6" style="top: 50%; transform: translateY(-50%); pointer-events: none;">
-                <span class="path1"></span>
-                <span class="path2"></span>
+        <div class="card my-8">
+            <div class="card-header mx-auto">
+                <h3 class="card-title text-center">Funerals</h3>
             </div>
-        </div>
-    
-        <!-- Search Input with Magnifier Icon -->
-        <div class="position-relative d-flex align-items-center my-1 mb-2 mb-md-0">
-            <div class="ki-duotone ki-magnifier position-absolute ms-6">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </div>           
-            <input type="text" data-kt-docs-table-filter="search2" class="form-control form-control-solid w-250px ps-15" placeholder="Search Person/DOB/ID"/>
-        </div>
-    </div>
-    <!--end::Search-->
+            <div class="card-body">
 
-    <!--begin::Toolbar-->
-    <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base2">
-        <!--begin::Filter-->
-        <button type="button" class="btn btn-light me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-            <i class="ki-duotone ki-filter fs-2"><span class="path1"></span><span class="path2"></span></i> Filter
-        </button>
-        <!--begin::Menu 1-->
-        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true" id="kt-toolbar-filter2">
-            <!--begin::Header-->
-            <div class="px-7 py-5">
-                <div class="fs-4 text-gray-900 fw-bold">Filter Options</div>
-            </div>
-            <!--end::Header-->
-
-            <!--begin::Separator-->
-            <div class="separator border-gray-200"></div>
-            <!--end::Separator-->
-
-            <!--begin::Content-->
-            <div class="px-7 py-5">
-                <!--begin::Input group-->
-                <div class="mb-10">
-                    <!--begin::Label-->
-                    <label class="form-label fs-5 fw-semibold mb-3">Membership Status:</label>
-                    <!--end::Label-->
-
-                    <!--begin::Options-->
-                    <div class="d-flex flex-column flex-wrap fw-semibold" data-kt-docs-table-filter="membership_status2">
-                        <!--begin::Option-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
-                            <input class="form-check-input" type="radio" name="membership_status2" value="all" checked="checked" />
-                            <span class="form-check-label text-gray-600">
-                                All
-                            </span>
-                        </label>
-                        <!--end::Option-->
-
-                        <!--begin::Option-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
-                            <input class="form-check-input" type="radio" name="membership_status2" value="Fully-Paid" />
-                            <span class="form-check-label text-gray-600">
-                                Fully-Paid
-                            </span>
-                        </label>
-                        <!--end::Option-->
-
-                        <!--begin::Option-->
-                        <label class="form-check form-check-sm form-check-custom form-check-solid mb-3">
-                            <input class="form-check-input" type="radio" name="membership_status2" value="In-Arrears" />
-                            <span class="form-check-label text-gray-600">
-                                In-Arrears
-                            </span>
-                        </label>
-                    </div>
-                    <!--end::Options-->            
-                </div>
-                <!--end::Input group-->
-
-                <!--begin::Actions-->
-                <div class="d-flex justify-content-end">
-                    <button type="reset" class="btn btn-light btn-active-light-dark me-2" data-kt-menu-dismiss="true" data-kt-docs-table-filter="reset2">Reset</button>
-
-                    <button type="submit" class="btn btn-dark" data-kt-menu-dismiss="true" data-kt-docs-table-filter="filter2">Apply</button>
-                </div>
-                <!--end::Actions-->
-            </div>
-            <!--end::Content-->
-        </div>
-        <!--end::Menu 1-->
-        <!--end::Filter-->
-
-        <!--begin::Add customer-->
-        <button type="button" class="btn btn-light-success" >
-            <i class="ki-duotone ki-plus fs-2"></i> Create Funeral/Payout
-        </button>
-        <!--end::Add customer-->
-    </div>
-    <!--end::Toolbar-->
-</div>
-<!--end::Wrapper-->
-
-
-<table id="kt_datatable_row_grouping2" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
-    <thead>
-        <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-            <th>Membership ID</th>
-            <th>Main/Dep</th>
-            <th>Person Details</th>
-            <th>Membership Status</th>
-            <th>Last Payment Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($deceased_people as $person)
-        @foreach($person->allMemberships() as $membership)
-        <tr data-person-id="{{ $person->id }}" data-person-details="{{ $person->first_name ?? 'N/A' }} - {{ $person->initials ?? 'N/A' }} - {{ $person->last_name ?? 'N/A' }}">
-            <td>{{ $membership->id }}</td>
-            <td>
-                @php
-                    $relationshipType = 'Main Member';
-                    if ($membership->pivot->secondary_person_id == $person->id) {
-                        $relationshipType = 'Dependent';
-                    }
-                    if ($membership->pivot->person_relationship_id == 1) {
-                        $relationshipType = 'Spouse';
-                    }
-                @endphp
-                <div class="badge py-3 px-4 fs-7 badge-light-{{ $relationshipType == 'Main Member' ? 'primary' : 'info' }}">
-                    {{ $relationshipType }}
-                </div>
-            </td>
-            <td>{{ $person->first_name ?? 'N/A' }} - {{ $person->initials ?? 'N/A' }} - {{ $person->last_name ?? 'N/A' }}</td>
-            <td>
-                <div class="badge py-3 px-4 fs-7  badge-light-{{ $membership->status->name == 'Fully-Paid' ? 'success' : ($membership->status->name == 'Outstanding-Balance' ? 'warning' : 'danger') }}" data-bs-toggle="tooltip" title="Show details here">
-                    {{ $membership->status->name }}
-                </div>
-            </td>
-            <td>{{ $membership->last_payment_date }}</td>
-            <td></td>
-        </tr>
-        @endforeach
-        @endforeach
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
+                {{-- <table id="kt_datatable_row_grouping" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
+                            <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
+                                    <th>Membership ID</th>
+                                    <th>Main/Dep</th>
+                                    <th>Person Details</th>
+                                    <th>Membership Status</th>
+                                    <th>Last Payment Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>12345</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-primary">
+                                            Main Member
+                                        </div>
+                                    </td>
+                                    <td>use Person ID but show name and other details here</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-success">
+                                            Fully-Paid
+                                        </div>
+                                    </td>
+                                    <td>2011/04/25</td>
+                                    <td>
+                                        <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                                            <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                        </a>
+                                        <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                        </a>
+                                        <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                                                <i class="bi bi-trash3 fs-4 me-0"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
+                                            <i class="bi bi-repeat fs-4 me-0"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>67891</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-info">
+                                            Dependent
+                                        </div>
+                                    </td>
+                                    <td>use Person ID but show name and other details here</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-danger">
+                                            In-Arrears
+                                        </div>
+                                    </td>
+                                    <td>2011/04/25</td>
+                                    <td>
+                                        <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                                            <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                        </a>
+                                        <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                        </a>
+                                        <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                                                <i class="bi bi-trash3 fs-4 me-0"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
+                                            <i class="bi bi-repeat fs-4 me-0"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>G67891</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-info">
+                                            Dependent
+                                        </div>
+                                    </td>
+                                    <td>Joe Doe - 9802185020254 - 18-02-1998 - 06-07-2068 </td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-warning">
+                                            Outstanding-Balance
+                                        </div>
+                                    </td>
+                                    <td>2011/04/25</td>
+                                    <td>
+                                        <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                                            <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                        </a>
+                                        <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                        </a>
+                                        <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                                                <i class="bi bi-trash3 fs-4 me-0"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
+                                            <i class="bi bi-repeat fs-4 me-0"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>67891</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-info">
+                                            Dependent
+                                        </div>
+                                    </td>
+                                    <td>Joe Doe - 9802185020254 - 18-02-1998 - 06-07-2068 </td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-success">
+                                            Fully-Paid
+                                        </div>
+                                    </td>
+                                    <td>2011/04/25</td>
+                                    <td>
+                                        <a href="{{ url('funerals/create', $person->id) }}" class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">
+                                            <i class="bi bi-plus-lg fs-4 me-0"></i>
+                                        </a>
+                                        <a href="{{ route('funerals.edit', $person->id) }}" class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <i class="bi bi-pencil-fill fs-4 me-0"></i>
+                                        </a>
+                                        <form action="{{ route('funerals.destroy', $person->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove">
+                                                <i class="bi bi-trash3 fs-4 me-0"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('funerals.index', $person->id) }}" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">
+                                            <i class="bi bi-repeat fs-4 me-0"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> --}}
 
 
 
+
+
+
+                <!--begin::Wrapper for second table-->
+                <div class="d-flex flex-stack flex-wrap mb-5">
+                    <!--begin::Search-->
+                    <div class="d-flex align-items-center position-relative my-1 ">
+                        <!-- Custom Length Control with Dropdown Arrow -->
+                        <div class="position-relative">
+                            <select class="form-control form-control-solid w-70px me-2 " id="customLength2">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <!-- Custom Dropdown Arrow with Span Elements -->
+                            <div class="ki-duotone ki-arrow-down position-absolute end-0 me-6"
+                                style="top: 50%; transform: translateY(-50%); pointer-events: none;">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </div>
                         </div>
 
-
-
-
-
-
-
-
- 
+                        <!-- Search Input with Magnifier Icon -->
+                        <div class="position-relative d-flex align-items-center my-1 mb-2 mb-md-0">
+                            <div class="ki-duotone ki-magnifier position-absolute ms-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </div>
+                            <input type="text" data-kt-docs-table-filter="search2"
+                                class="form-control form-control-solid w-250px ps-15 "
+                                placeholder="Search Person/DOB/ID" />
+                        </div>
                     </div>
+                    <!--end::Search-->
 
-</div>
+                    <!--begin::Toolbar-->
+                    <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base2">
+                        <!--begin::Filter-->
+                        <button type="button" class="btn me-3 btn-dark" data-kt-menu-trigger="click"
+                            data-kt-menu-placement="bottom-end">
+                            <i class="ki-duotone ki-filter fs-2"><span class="path1"></span><span
+                                    class="path2"></span></i> Filter
+                        </button>
+                        <!--begin::Menu 1-->
+                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true"
+                            id="kt-toolbar-filter2">
+                            <!--begin::Header-->
+                            <div class="px-7 py-5">
+                                <div class="fs-4 text-dark fw-bold">Filter Options</div>
+                            </div>
+                            <!--end::Header-->
+
+                            <!--begin::Separator-->
+                            <div class="separator border-gray-200"></div>
+                            <!--end::Separator-->
+
+                            <!--begin::Content-->
+                            <div class="px-7 py-5">
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Label-->
+                                    <label class="form-label fs-5 fw-semibold mb-3">Membership Status:</label>
+                                    <!--end::Label-->
+
+                                    <!--begin::Options-->
+                                    <div class="d-flex flex-column flex-wrap fw-semibold"
+                                        data-kt-docs-table-filter="membership_status2">
+                                        <!--begin::Option-->
+                                        <label
+                                            class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
+                                            <input class="form-check-input" type="radio" name="membership_status2"
+                                                value="all" checked="checked" />
+                                            <span class="form-check-label text-gray-600">
+                                                All
+                                            </span>
+                                        </label>
+                                        <!--end::Option-->
+
+                                        <!--begin::Option-->
+                                        <label
+                                            class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
+                                            <input class="form-check-input" type="radio" name="membership_status2"
+                                                value="Fully-Paid" />
+                                            <span class="form-check-label text-gray-600">
+                                                Fully-Paid
+                                            </span>
+                                        </label>
+                                        <!--end::Option-->
+
+                                        <!--begin::Option-->
+                                        <label class="form-check form-check-sm form-check-custom form-check-solid mb-3">
+                                            <input class="form-check-input" type="radio" name="membership_status2"
+                                                value="In-Arrears" />
+                                            <span class="form-check-label text-gray-600">
+                                                In-Arrears
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <!--end::Options-->
+                                </div>
+                                <!--end::Input group-->
+
+                                <!--begin::Actions-->
+                                <div class="d-flex justify-content-end">
+                                    <button type="reset" class="btn btn-dark me-2" data-kt-menu-dismiss="true"
+                                        data-kt-docs-table-filter="reset2">Reset</button>
+
+                                    <button type="submit" class="btn btn-success" data-kt-menu-dismiss="true"
+                                        data-kt-docs-table-filter="filter2">Apply</button>
+                                </div>
+                                <!--end::Actions-->
+                            </div>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Menu 1-->
+                        <!--end::Filter-->
+
+                        <!--begin::Add customer-->
+                        <button type="button" class="btn btn-dark">
+                            <i class="ki-duotone ki-plus fs-2"></i> Create Funeral/Payout
+                        </button>
+                        <!--end::Add customer-->
+                    </div>
+                    <!--end::Toolbar-->
+                </div>
+                <!--end::Wrapper-->
+
+                <table id="kt_datatable_row_grouping2" class="table border table-rounded table-row-dashed fs-6 g-5 gs-5">
+                    <thead>
+                        <tr class="text-start text-dark  fw-bold fs-7 text-uppercase">
+                            <th>Membership ID</th>
+                            <th>Main/Dep</th>
+                            <th>Person Details</th>
+                            <th>Membership Status</th>
+                            <th>Last Payment Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($funerals as $funeral)
+                            @foreach ($funeral->person->allMemberships() as $membership)
+                                <tr data-person-id="{{ $funeral->person->id }}"
+                                    data-funeral-id="{{ $funeral->id }}"
+                                    data-person-details="{{ $funeral->person->first_name ?? 'N/A' }} - {{ $funeral->person->initials ?? 'N/A' }} - {{ $funeral->person->last_name ?? 'N/A' }}">
+                                    <td>{{ $membership->id }}</td>
+                                    <td>
+                                        @php
+                                            $relationshipType = 'Main Member';
+                                            if ($membership->pivot->secondary_person_id == $funeral->person->id) {
+                                                $relationshipType = 'Dependent';
+                                            }
+                                            if ($membership->pivot->person_relationship_id == 1) {
+                                                $relationshipType = 'Spouse';
+                                            }
+                                        @endphp
+                                        <div class="badge py-3 px-4 fs-7 badge-light-{{ $relationshipType == 'Main Member' ? 'primary' : 'info' }}">
+                                            {{ $relationshipType }}
+                                        </div>
+                                    </td>
+                                    <td>{{ $funeral->person->first_name ?? 'N/A' }} - {{ $funeral->person->initials ?? 'N/A' }} - {{ $funeral->person->last_name ?? 'N/A' }}</td>
+                                    <td>
+                                        <div class="badge py-3 px-4 fs-7 badge-light-{{ $membership->status->name == 'Fully-Paid' ? 'success' : ($membership->status->name == 'Outstanding-Balance' ? 'warning' : 'danger') }}"
+                                            data-bs-toggle="tooltip" title="Show details here">
+                                            {{ $membership->status->name }}
+                                        </div>
+                                    </td>
+                                    <td>{{ $membership->last_payment_date }}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
+    {{-- These are for bootstrap 5 datatables --}}
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- Include DataTables -->
+    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.js"></script>
+    <!-- Include Bootstrap Bundle JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Include DataTables Bootstrap 5 integration -->
+    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.bootstrap5.js"></script>
 
 
- {{-- These are for bootstrap 5 datatables --}}
-
-     <!-- Include jQuery -->
-     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-          <!-- Include DataTables -->
-          <script src="https://cdn.datatables.net/2.0.4/js/dataTables.js"></script>
-     <!-- Include Bootstrap Bundle JS -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-     <!-- Include DataTables Bootstrap 5 integration -->
-     <script src="https://cdn.datatables.net/2.0.4/js/dataTables.bootstrap5.js"></script>
- 
-
-     {{-- <script>
+    {{-- <script>
         $(document).ready(function() {
             // Initialize the DataTable with custom configuration
             var table = $("#funerals").DataTable({
@@ -574,10 +553,10 @@
             });
         });
         </script> --}}
-        
-  
 
-{{-- <script>
+
+
+    {{-- <script>
     "use strict";
 
 // Class definition
@@ -674,9 +653,6 @@ KTUtil.onDOMContentLoaded(function () {
     KTDatatablesExample.init();
 });
 </script> --}}
-        
-            
-          
 
 
 
@@ -686,7 +662,10 @@ KTUtil.onDOMContentLoaded(function () {
 
 
 
-{{-- <script>
+
+
+
+    {{-- <script>
 "use strict";
 
 var KTFuneralsDatatables = function () {
@@ -767,138 +746,164 @@ $(document).ready(function () {
 
 
 
-    
-{{-- START: This is for the table that groups by person --}}
 
-<script>
-"use strict";
+    {{-- START: This is for the table that groups by person --}}
 
-var KTMembershipsDatatables2 = function () {
-    var dt;
+    <script>
+        "use strict";
 
-    var initDatatable = function () {
-        dt = $("#kt_datatable_row_grouping2").DataTable({
-            searchDelay: 500,
-            order: [],
-            dom: "<'row'<'col-sm-12'tr>>" + // Only the table and rows
-                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Info and pagination
-            columnDefs: [
-                { targets: 5, orderable: false } // Ensuring the Actions column is not orderable
-            ],
-            drawCallback: function(settings) {
-                var api = this.api();
-                var rows = api.rows({ page: 'current' }).nodes();
-                var last = null;
+        var KTMembershipsDatatables2 = function() {
+            var dt;
 
-                api.column(2, { page: 'current' }).data().each(function(group, i) {
-                    var row = $(rows).eq(i);
-                    var personId = row.data('person-id');
-                    var personDetails = row.data('person-details');
-                    
-                    if (last !== group) {
-                        $(rows).eq(i).before(
-                            '<tr class="group fs-6 fw-bold">' +
-                            '<td colspan="5">' + personDetails + '</td>' +
-                            '<td>' +
-                            '<a href="/funerals/create/' + personId + '" class="btn btn-sm btn-icon btn-success me-2" data-bs-toggle="tooltip" title="Begin Funeral Arrangement">' +
-                            '<i class="bi bi-plus-lg fs-4 me-0"></i>' +
-                            '</a>' +
-                            '<a href="/funerals/edit/' + personId + '" class="btn btn-sm btn-icon btn-warning me-2" data-bs-toggle="tooltip" title="Edit">' +
-                            '<i class="bi bi-pencil-fill fs-4 me-0"></i>' +
-                            '</a>' +
-                            '<form action="/funerals/destroy/' + personId + '" method="POST" style="display:inline;">' +
-                            '@csrf @method("DELETE")' +
-                            '<button type="submit" class="btn btn-sm btn-icon btn-danger me-2" data-bs-toggle="tooltip" title="Remove">' +
-                            '<i class="bi bi-trash3 fs-4 me-0"></i>' +
-                            '</button>' +
-                            '</form>' +
-                            '<a href="/funerals/index/' + personId + '" class="btn btn-sm btn-icon btn-dark" data-bs-toggle="tooltip" title="Reburial">' +
-                            '<i class="bi bi-repeat fs-4 me-0"></i>' +
-                            '</a>' +
-                            '</td>' +
-                            '</tr>'
-                        );
+            var initDatatable = function() {
+    dt = $("#kt_datatable_row_grouping2").DataTable({
+        searchDelay: 500,
+        order: [],
+        dom: "<'row'<'col-sm-12'tr>>" + // Only the table and rows
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Info and pagination
+        columnDefs: [{
+                targets: 5,
+                orderable: false
+            } // Ensuring the Actions column is not orderable
+        ],
+        drawCallback: function(settings) {
+            var api = this.api();
+            var rows = api.rows({
+                page: 'current'
+            }).nodes();
+            var last = null;
 
-                        last = group;
-                    }
-                });
+            api.column(2, {
+                page: 'current'
+            }).data().each(function(group, i) {
+                var row = $(rows).eq(i);
+                var personId = row.data('person-id');
+                var funeralId = row.data('funeral-id');
+                var personDetails = row.data('person-details');
 
-                // Initialize tooltips
-                $('[data-bs-toggle="tooltip"]').tooltip();
-            }
-        });
+                if (last !== group) {
+                    $(rows).eq(i).before(
+                        '<tr class="group bg-light fs-6 fw-bold">' +
+                        '<td colspan="5">' + personDetails + '</td>' +
+                        '<td>' +
+                        '<!--begin::Toolbar-->' +
+                        '<div class="d-flex my-3 ms-9">' +
+                        '<!--begin::Edit-->' +
+                        '<a href="/funerals/edit/' + funeralId + '" class="btn btn-icon btn-light-primary btn-active-primary w-30px h-30px me-3" data-bs-toggle="tooltip" title="Edit">' +
+                        '<i class="ki-duotone ki-pencil fs-3"><span class="path1"></span><span class="path2"></span></i>' +
+                        '</a>' +
+                        '<!--end::Edit-->' +
+                        '<!--begin::Delete-->' +
+                        '<form action="/funerals/destroy/' + funeralId + '" method="POST" style="display:inline;">' +
+                        '@csrf @method('DELETE')' +
+                        '<button type="submit" class="btn btn-icon btn-light-danger btn-active-danger w-30px h-30px me-3" data-bs-toggle="tooltip" title="Delete">' +
+                        '<i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>' +
+                        '</button>' +
+                        '</form>' +
+                        '<!--end::Delete-->' +
+                        '<!--begin::More-->' +
+                        '<button type="button" class="btn btn-icon btn-dark btn-active-light-dark w-30px h-30px" data-kt-menu-trigger="click" data-bs-toggle="tooltip" title="More Options" data-kt-menu-placement="bottom-start">' +
+                        '<i class="ki-duotone ki-setting-3 fs-3 "><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>' +
+                        '</button>' +
+                        '<!--begin::Menu-->' +
+                        '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-auto min-w-200 mw-300px" data-kt-menu="true">' +
+                        '<!--begin::Menu item-->' +
+                        '<div class="menu-item px-3">' +
+                        '<a href="/funerals/index/' + funeralId + '" class="menu-link px-3" data-kt-payment-method-action="reburial">' +
+                        'Reburial' +
+                        '</a>' +
+                        '</div>' +
+                        '<!--end::Menu item-->' +
+                        '</div>' +
+                        '<!--end::Menu-->' +
+                        '<!--end::More-->' +
+                        '</div>' +
+                        '<!--end::Toolbar-->' +
+                        '</td>' +
+                        '</tr>'
+                    );
 
-        console.log('DataTables detected columns:', dt.columns().header().length);
-    };
-
-    var handleSearch = function () {
-        var searchInput = document.querySelector('[data-kt-docs-table-filter="search2"]');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function (e) {
-                dt.search(e.target.value).draw();
+                    last = group;
+                }
             });
+
+            // Initialize tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Initialize KTMenu
+            KTMenu.createInstances();
         }
-    };
+    });
 
-    var handleLengthChange = function () {
-        var lengthSelect = document.getElementById('customLength2');
-        if (lengthSelect) {
-            lengthSelect.addEventListener('change', function (e) {
-                dt.page.len(e.target.value).draw();
-            });
-        }
-    };
+    console.log('DataTables detected columns:', dt.columns().header().length);
+};
 
-    var handleFilter = function () {
-        var filterButton = document.querySelector('[data-kt-docs-table-filter="filter2"]');
-        var resetButton = document.querySelector('[data-kt-docs-table-filter="reset2"]');
-        var statusRadios = document.querySelectorAll('[name="membership_status2"]');
+            var handleSearch = function() {
+                var searchInput = document.querySelector('[data-kt-docs-table-filter="search2"]');
+                if (searchInput) {
+                    searchInput.addEventListener('keyup', function(e) {
+                        dt.search(e.target.value).draw();
+                    });
+                }
+            };
 
-        if (filterButton) {
-            filterButton.addEventListener('click', function () {
-                var filterValue = "";
-                statusRadios.forEach(function(radio) {
-                    if (radio.checked) {
-                        filterValue = radio.value;
-                    }
-                });
-                if (filterValue === "all") {
-                    filterValue = ""; // Reset the filter if 'All' is selected
+            var handleLengthChange = function() {
+                var lengthSelect = document.getElementById('customLength2');
+                if (lengthSelect) {
+                    lengthSelect.addEventListener('change', function(e) {
+                        dt.page.len(e.target.value).draw();
+                    });
+                }
+            };
+
+            var handleFilter = function() {
+                var filterButton = document.querySelector('[data-kt-docs-table-filter="filter2"]');
+                var resetButton = document.querySelector('[data-kt-docs-table-filter="reset2"]');
+                var statusRadios = document.querySelectorAll('[name="membership_status2"]');
+
+                if (filterButton) {
+                    filterButton.addEventListener('click', function() {
+                        var filterValue = "";
+                        statusRadios.forEach(function(radio) {
+                            if (radio.checked) {
+                                filterValue = radio.value;
+                            }
+                        });
+                        if (filterValue === "all") {
+                            filterValue = ""; // Reset the filter if 'All' is selected
+                        }
+
+                        dt.columns(3).search(filterValue)
+                            .draw(); // Assumes 'Membership Status' is in the 4th column
+                    });
                 }
 
-                dt.columns(3).search(filterValue).draw(); // Assumes 'Membership Status' is in the 4th column
-            });
-        }
+                if (resetButton) {
+                    resetButton.addEventListener('click', function() {
+                        statusRadios.forEach(function(radio) {
+                            radio.checked = radio.value === "all";
+                        });
+                        dt.search('').columns().search('').draw();
+                    });
+                }
+            };
 
-        if (resetButton) {
-            resetButton.addEventListener('click', function () {
-                statusRadios.forEach(function(radio) {
-                    radio.checked = radio.value === "all";
-                });
-                dt.search('').columns().search('').draw();
-            });
-        }
-    };
+            return {
+                init: function() {
+                    initDatatable();
+                    handleSearch();
+                    handleLengthChange();
+                    handleFilter();
+                }
+            };
+        }();
 
-    return {
-        init: function () {
-            initDatatable();
-            handleSearch();
-            handleLengthChange();
-            handleFilter();
-        }
-    };
-}();
+        $(document).ready(function() {
+            KTMembershipsDatatables2.init();
+        });
+    </script>
 
-$(document).ready(function () {
-    KTMembershipsDatatables2.init();
-});
-
-
-
-</script>
-
-{{-- END: This is for the table that groups by person --}}
+    {{-- END: This is for the table that groups by person --}}
 
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
     <script>
@@ -906,6 +911,4 @@ $(document).ready(function () {
             $(selector).slideToggle('slow');
         }
     </script>
-
-
 @endpush

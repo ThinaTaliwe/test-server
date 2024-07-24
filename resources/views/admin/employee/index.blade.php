@@ -254,7 +254,8 @@
                             <span class="path2"></span>
                         </div>
                         <input type="text" data-kt-docs-table-filter="search"
-                            class="form-control form-control-solid w-250px ps-15 bg-secondary" placeholder="Search Employees" />
+                            class="form-control form-control-solid w-250px ps-15 bg-secondary"
+                            placeholder="Search Employees" />
                     </div>
                 </div>
 
@@ -341,9 +342,6 @@
                     </div>
                     <!--end::Menu 1--> <!--end::Filter-->
 
-
-
-
                     <!--begin::Add customer-->
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                         data-bs-target="#record_employee_modal">
@@ -355,7 +353,7 @@
 
             </div>
             <!--end::Wrapper-->
-            <table id="employees" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
+            <table id="employees" class="table table-rounded fs-6 g-5 gs-5">
                 <thead>
                     <tr class="text-start text-dark fw-normal fs-8 text-uppercase bg-gray-200">
                         <th>Actions</th>
@@ -453,7 +451,7 @@
                                 <div class="col">
                                     <label for="person_id" class="form-label">Person</label>
                                     <select class="form-select bg-light text-dark" id="person_id" name="person_id"
-                                        style="width: 100%;">
+                                        required style="width: 100%;">
                                         <option></option> <!-- Empty option for the placeholder -->
                                         @foreach ($persons as $person)
                                             <option value="{{ $person->id }}"
@@ -468,25 +466,24 @@
                                 </div>
                             </div>
 
-
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="employee_first_name" class="form-label ">First Name</label>
+                                    <label for="employee_first_name" class="form-label">First Name</label>
                                     <input type="text" class="form-control bg-light text-dark"
-                                        id="employee_first_name" name="first_name">
+                                        id="employee_first_name" name="first_name" required>
                                 </div>
                                 <div class="col">
-                                    <label for="employee_last_name" class="form-label ">Last Name</label>
+                                    <label for="employee_last_name" class="form-label">Last Name</label>
                                     <input type="text" class="form-control bg-light text-dark" id="employee_last_name"
-                                        name="last_name">
+                                        name="last_name" required>
                                 </div>
                                 <div class="col">
-                                    <label for="call_name" class="form-label ">Call Name</label>
+                                    <label for="call_name" class="form-label">Call Name</label>
                                     <input type="text" class="form-control bg-light text-dark" id="call_name"
                                         name="call_name">
                                 </div>
                                 <div class="col">
-                                    <label for="emp_number" class="form-label ">Employee Number</label>
+                                    <label for="emp_number" class="form-label">Employee Number</label>
                                     <input type="text" class="form-control bg-light text-dark" id="emp_number"
                                         name="emp_number">
                                 </div>
@@ -494,12 +491,10 @@
 
                             <div class="separator border-light my-8"></div>
 
-
-
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="bu_id" class="form-label ">Business Unit</label>
-                                    <select class="form-select bg-light text-dark" id="bu_id" name="bu_id"
+                                    <label for="bu_id" class="form-label">Business Unit</label>
+                                    <select class="form-select bg-light text-dark" id="bu_id" name="bu_id" required
                                         style="width: 100%;">
                                         @foreach ($businessUnits as $unit)
                                             <option value="{{ $unit->id }}">{{ $unit->bu_name }}</option>
@@ -507,30 +502,32 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="employment_type_id" class="form-label ">Employment Type</label>
+                                    <label for="employment_type_id" class="form-label">Employment Type</label>
                                     <select class="form-select bg-light text-dark" id="employment_type_id"
-                                        name="employment_type_id" style="width: 100%;">
+                                        name="employment_type_id" required style="width: 100%;">
                                         @foreach ($employmentTypes as $type)
                                             <option value="{{ $type->id }}">{{ $type->type }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="start_date" class="form-label ">Start Date</label>
+                                    <label for="start_date" class="form-label">Start Date</label>
                                     <input type="datetime-local" class="form-control bg-light text-dark" id="start_date"
-                                        name="start_date">
+                                        name="start_date" required placeholder="Date & Time">
                                 </div>
                                 <div class="col">
-                                    <label for="end_date" class="form-label ">End Date</label>
+                                    <label for="end_date" class="form-label">End Date</label>
                                     <input type="datetime-local" class="form-control bg-light text-dark" id="end_date"
-                                        name="end_date">
+                                        name="end_date" placeholder="Date & Time">
                                 </div>
+
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="job_description_id" class="form-label ">Job Description</label>
+                                    <label for="job_description_id" class="form-label">Job Description</label>
                                     <select class="form-select bg-light text-dark" id="job_description_id"
-                                        name="job_description_id" style="width: 100%;">
+                                        name="job_description_id" required style="width: 100%;">
                                         @foreach ($jobDescriptions as $job)
                                             <option value="{{ $job->id }}">{{ $job->name }} -
                                                 {{ $job->description }}</option>
@@ -540,8 +537,8 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="role_id" class="form-label ">Role</label>
-                                    <select class="form-select bg-light text-dark" id="role_id" name="role_id"
+                                    <label for="role_id" class="form-label">Role</label>
+                                    <select class="form-select bg-light text-dark" id="role_id" name="role_id" required
                                         style="width: 100%;">
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -551,29 +548,44 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="company_id" class="form-label ">Company</label>
+                                    <label for="company_id" class="form-label">Company</label>
                                     <select class="form-select bg-light text-dark" id="company_id" name="company_id"
-                                        style="width: 100%;">
+                                        required style="width: 100%;">
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <div class="col d-flex flex-column align-items-center">
+                                <label for="shiftwork" class="form-label">Shiftwork?</label>
+                                <input type="checkbox" class="styled-checkbox" id="shiftwork" name="shiftwork">
+                                <label for="shiftwork" class="styled-checkbox-label" id="shiftworkLabel">No</label>
+                            </div> --}}
                                 <div class="col d-flex flex-column align-items-center">
-                                    <label for="shiftwork" class="form-label ">Shiftwork?</label>
-                                    <input type="checkbox" class="styled-checkbox" id="shiftwork" name="shiftwork">
-                                    <label for="shiftwork" class="styled-checkbox-label" id="shiftworkLabel">No</label>
+                                    <label class="form-label">Shiftwork?</label>
+                                    <div class="d-flex fs-3 mx-auto my-auto">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="shiftwork"
+                                                id="shiftworkYes" value="yes">
+                                            <label class="form-check-label" for="shiftworkYes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="shiftwork"
+                                                id="shiftworkNo" value="no" checked>
+                                            <label class="form-check-label" for="shiftworkNo">No</label>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="col">
-                                    <label for="standard_starttime" class="form-label ">Standard Start
-                                        Time</label>
+                                    <label for="standard_starttime" class="form-label">Standard Start Time</label>
                                     <input type="time" class="form-control bg-light text-dark" id="standard_starttime"
-                                        name="standard_starttime">
+                                        name="standard_starttime" placeholder="Start Time">
                                 </div>
                                 <div class="col">
-                                    <label for="standard_endtime" class="form-label ">Standard End Time</label>
-                                    <input type="time" class="form-control bg-light text-dark" id="standard_endtime"
-                                        name="standard_endtime">
+                                    <label for="standard_endtime" class="form-label">Standard End Time</label>
+                                    <input type="time" class="form-control bg-light text-dark"
+                                        id="standard_endtime" name="standard_endtime" placeholder="End Time">
                                 </div>
                             </div>
 
@@ -588,6 +600,7 @@
         </div>
     </div>
     <!-- END Employee Modal -->
+
 
 
     <!-- Add New Person Modal -->
@@ -605,32 +618,32 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="first_name_add" >First Name</label>
+                            <label for="first_name_add">First Name</label>
                             <input type="text" class="form-control bg-light text-dark" id="first_name_add"
                                 name="first_name" required>
                         </div>
                         <div class="form-group">
-                            <label for="initials" >Initials</label>
+                            <label for="initials">Initials</label>
                             <input type="text" class="form-control bg-light text-dark" id="initials"
                                 name="initials">
                         </div>
                         <div class="form-group">
-                            <label for="last_name_add" >Last Name</label>
+                            <label for="last_name_add">Last Name</label>
                             <input type="text" class="form-control bg-light text-dark" id="last_name_add"
                                 name="last_name" required>
                         </div>
                         <div class="form-group">
-                            <label for="screen_name" >Screen Name</label>
+                            <label for="screen_name">Screen Name</label>
                             <input type="text" class="form-control bg-light text-dark" id="screen_name"
                                 name="screen_name">
                         </div>
                         <div class="form-group">
-                            <label for="id_number" >ID Number</label>
+                            <label for="id_number">ID Number</label>
                             <input type="text" class="form-control bg-light text-dark" id="id_number"
                                 name="id_number">
                         </div>
                         <div class="form-group">
-                            <label for="birth_date" >Birth Date</label>
+                            <label for="birth_date">Birth Date</label>
                             <input type="date" class="form-control bg-light text-dark" id="birth_date"
                                 name="birth_date">
                         </div>
@@ -652,7 +665,7 @@
                         </select>
                     </div> --}}
                         <div class="form-group">
-                            <label for="residence_country_id" >Residence Country</label>
+                            <label for="residence_country_id">Residence Country</label>
                             <select class="form-select bg-light text-dark" id="residence_country_id"
                                 name="residence_country_id">
                                 <option value="197">South Africa</option>
@@ -1063,5 +1076,38 @@
         function toggleDetails(selector) {
             $(selector).slideToggle('slow');
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#start_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                }
+            });
+
+            flatpickr("#end_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                }
+            });
+
+            flatpickr("#standard_endtime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+
+            flatpickr("#standard_starttime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+
+        });
     </script>
 @endpush

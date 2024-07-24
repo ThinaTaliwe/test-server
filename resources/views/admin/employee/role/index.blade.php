@@ -291,7 +291,7 @@
 
             </div>
             <!--end::Wrapper-->
-            <table id="roles" class="table border rounded fs-6 g-2 gs-2">
+            <table id="roles" class="table table-rounded fs-6 g-2 gs-2">
                 <thead>
                     <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-secondary">
                         <th>Actions</th>

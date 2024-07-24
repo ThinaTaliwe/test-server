@@ -235,10 +235,10 @@
 
     <!--begin::Card-->
 
-        <form method="POST" action="{{ route('add-member.store') }}" autocomplete="off" id="memberForm" class="card boarder border-secondary mb-10">
+        <form method="POST" action="{{ route('add-member.store') }}" autocomplete="off" id="memberForm" class="card boarder border-secondary m-10 shadow">
             @csrf
-            <div class="card-title pt-4 -0 mt-4 bg-body rounded-2">
-                <h1 class="text-center">Add New Member</h1>
+            <div class="card-title  mt-4 bg-body rounded-2">
+                <h1 class="text-center heading-color">Add New Member</h1>
             <!--begin::Form-->
             <div class="mx-0">
                 @if (session('error'))

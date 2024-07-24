@@ -33,7 +33,7 @@
       <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/landingassets/img/logo.png" alt=""> -->
-        <h1>Group Burial Association</h1>
+        <h1 class="text-center ms-8 fs-1">GBA<span class="fs-1 text-danger">.</span></h1>
       </a>
 
       <!-- Nav Menu -->
@@ -57,7 +57,7 @@
         <div class="row">
           <div class="col-lg-10">
           <h2>Welcome to</h2>
-			<h2 data-aos="fade-up" data-aos-delay="100" style="color: #00923f;font-size: 5em;">Group Burial Association<span style="color: red;">.</span></h2><br>
+			<h2 data-aos="fade-up" data-aos-delay="300" style="color: #00923f;font-size: 5em;">Group Burial Association<span style="color: red;">.</span></h2><br>
 			
           </div>
           <div class="col-lg-5">

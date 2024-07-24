@@ -108,6 +108,8 @@
             background-color: #131628 !important;
         }
     </style>
+
+
 @endpush
 
 @section('row_content')
@@ -262,7 +264,7 @@
             </div>
             <!--end::Wrapper-->
 
-            <table id="memberships-table" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
+            <table id="memberships-table" class="table table-rounded table-row-dashed fs-6 g-5 gs-5">
                 <thead>
                     <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-gray-300">
                         <th class="text-center">Manage</th>
@@ -471,7 +473,7 @@
                     const membershipId = button.getAttribute('data-bs-id');
 
                     // Perform an AJAX request to your Laravel backend
-                    $.get(`/edit-member/${membershipId}`, function(data) {
+                    $.get(`/view-member/${membershipId}`, function(data) {
                         // Assuming 'data' is the HTML content to display in the modal
                         $(exampleModal2).find('.modal-body').html(data);
                     });

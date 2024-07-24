@@ -16,7 +16,7 @@
     @endif
 </div> --}}
 
-<div {{ $attributes->merge(['class' => 'my-auto']) }} data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
+<div {{ $attributes->merge(['class' => 'breadcrumb']) }} data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
     @if(Breadcrumbs::exists())
         <h2 class="fw-bold my-0 fs-2">
             @php

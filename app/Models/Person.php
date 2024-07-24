@@ -171,4 +171,25 @@ class Person extends Model
         return $this->membership->merge($this->membershipsAsDependent);
     }
 
+
+    // get employee for person
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'person_id');
+    }
+
+    // Define the relationship to FuneralHasPayout
+    public function funeralHasPayouts()
+    {
+        return $this->hasMany(FuneralHasPayout::class, 'person_id');
+    }
+
+    // Define the relationship to PersonBankDetails
+    public function bankDetails()
+    {
+        return $this->hasOne(PersonBankDetails::class, 'person_id');
+    }
+
+
 }

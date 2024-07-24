@@ -48,30 +48,47 @@
             <div class="stepper stepper-links d-flex flex-column col-9">
                 <div class="mt-2 text-center">
 
-                    <ul class="nav nav-tabs d-inline-flex" id="myTabs">
-                        <li class="nav-item">
-                            <a class="nav-link p-5" id="membership-tab" data-bs-toggle="tab" href="#membership"
-                                style="font-size: 2rem"
-                                onload="this.classList.add(localStorage.getItem('activeTab') === '#membership' ? 'active' : '')">
-                                <i class="bi bi-people-fill" style="font-size: 3rem"></i>
-                                <span>Membership</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active p-5" id="dependants-tab" data-bs-toggle="tab" href="#dependants"
-                                style="font-size: 2rem"><i class="bi bi-person-fill" style="font-size: 3rem"></i>
-                                Dependants</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-5" id="addresses-tab" data-bs-toggle="tab" href="#addresses"
-                                style="font-size: 2rem"><i class="bi bi-house-fill" style="font-size: 3rem"></i>
-                                Addresses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-5" id="payments-tab" data-bs-toggle="tab" href="#payments"
-                                style="font-size: 2rem"><i class="bi bi-currency-exchange" style="font-size: 3rem"></i>
-                                Payment History</a>
-                        </li>
-                    </ul>
+<div class="card-header p-0 position-relative mt-n4 z-index-1">
+    <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
+        <div class="nav-wrapper position-relative end-0 mx-2 mx-auto">
+            <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="membership-tab" data-bs-toggle="tab" href="#membership" role="tab" aria-controls="membership" aria-selected="false">
+                        <span class="material-icons align-middle mb-1">
+                            assignment
+                        </span>
+                        Membership
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="dependants-tab" data-bs-toggle="tab" href="#dependants" role="tab" aria-controls="dependants" aria-selected="true">
+                        <span class="material-icons align-middle mb-1">
+                            people
+                        </span>
+                        Dependants
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="addresses-tab" data-bs-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false">
+                        <span class="material-icons align-middle mb-1">
+                            business
+                        </span>
+                        Addresses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false">
+                        <span class="material-icons align-middle mb-1">
+                            paid
+                        </span>
+                        Payment History
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 
 
                     <div class="tab-content mt-2" id="myTabContent">
@@ -934,13 +951,23 @@
             <div class="col-3">
                 <div class="mt-2 text-center">
 
-                    <ul class="nav nav-tabs d-inline-flex" id="myTabs">
-                        <li class="nav-item">
-                            <a class="nav-link p-5" id="comments-tab" data-bs-toggle="tab" href="#comments"
-                                style="font-size: 2rem"><i class="bi bi-chat-left-text-fill" style="font-size: 1em"></i>
-                                Comments</a>
-                        </li>
-                    </ul>
+<div class="card-header p-0 position-relative mt-n4 mx-auto z-index-1">
+    <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
+        <div class="nav-wrapper position-relative end-0 mx-2">
+            <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="comments-tab" data-bs-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
+                        <span class="material-icons align-middle mb-1">
+                            chat
+                        </span>
+                        Comments
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 
                     <div class="tab-content mt-2" id="myTabContent">
                         <div class="tab-pane active fade show" id="comments">
@@ -1184,7 +1211,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Google places setup
+            initAutocomplete('Line1', {
+                Line1: 'Line1',
+                Line2: 'Line2',
+                PostalCode: 'PostalCode',
+                City: 'City',
+                TownSuburb: 'TownSuburb',
+                Province: 'Province',
+                Country: 'Country',
+                PlaceName: 'PlaceName'
+            });
+        });
+    </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Listener for when a new tab is shown

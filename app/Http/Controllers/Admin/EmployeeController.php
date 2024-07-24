@@ -61,20 +61,20 @@ class EmployeeController extends Controller
     {
         $employee = new Employee();
         $employee->person_id = $request->person_id;
-        $employee->first_name = $request->first_name;
-        $employee->last_name = $request->last_name;
-        $employee->call_name = $request->call_name;
-        $employee->emp_number = $request->emp_number;
+        $employee->first_name = $request->first_name ?? null;
+        $employee->last_name = $request->last_name ?? null;
+        $employee->call_name = $request->call_name ?? null;
+        $employee->emp_number = $request->emp_number ?? null;
         $employee->bu_id = $request->bu_id;
         $employee->employment_type_id = $request->employment_type_id;
-        $employee->start_date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->start_date)->format('Y-m-d H:i:s');
-        $employee->end_date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->end_date)->format('Y-m-d H:i:s');
+        $employee->start_date = $request->start_date ? \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->start_date)->format('Y-m-d H:i:s') : null;
+        $employee->end_date = $request->end_date ? \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->end_date)->format('Y-m-d H:i:s') : null;
         $employee->job_description_id = $request->job_description_id;
         $employee->employee_role_id = $request->role_id;
         $employee->company_id = $request->company_id;
         $employee->shiftwork = $request->shiftwork ? 1 : 0;
-        $employee->standard_starttime = $request->standard_starttime;
-        $employee->standard_endtime = $request->standard_endtime;
+        $employee->standard_starttime = $request->standard_starttime ?? null;
+        $employee->standard_endtime = $request->standard_endtime ?? null;
     
         $employee->save();
     
@@ -110,7 +110,7 @@ class EmployeeController extends Controller
             'start_date' => $employee->start_date,
             'end_date' => $employee->end_date,
             'job_description_id' => $employee->job_description_id,
-            'role_id' => $employee->role_id,
+            'role_id' => $employee->employee_role_id,
             'company_id' => $employee->company_id,
             'shiftwork' => $employee->shiftwork,
             'standard_starttime' => $employee->standard_starttime,
@@ -133,7 +133,7 @@ class EmployeeController extends Controller
         $employee->start_date = $request->start_date;
         $employee->end_date = $request->end_date;
         $employee->job_description_id = $request->job_description_id;
-        $employee->role_id = $request->role_id;
+        $employee->employee_role_id = $request->role_id;
         $employee->company_id = $request->company_id;
         $employee->shiftwork = $request->shiftwork ? 1 : 0;
         $employee->standard_starttime = $request->standard_starttime;

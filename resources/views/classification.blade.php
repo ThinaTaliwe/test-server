@@ -24,7 +24,7 @@
                         <label for="businessUnits">Select Current Business Unit:</label>
                         <select id="businessUnits" class="form-control" name="current_bu_id">
                             {{-- @foreach ($businessUnits as $bu)
-                                <option value="{{ $bu->id }}" {{ Auth::user()->current_bu_id == $bu->id ? 'selected' : '' }}>{{ $bu->bu_name }}</option>
+                                <option value="{{ $bu->id }}" {{ Auth::user()->currentBu()->id == $bu->id ? 'selected' : '' }}>{{ $bu->bu_name }}</option>
                             @endforeach --}}
                         </select>
                         <div class="form-group col-12">

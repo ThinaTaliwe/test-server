@@ -282,10 +282,10 @@
                     <!--end::Add customer-->
                 </div>
                 <!--end::Toolbar-->
-
+                
             </div>
             <!--end::Wrapper-->
-            <table id="jobdescriptions" class="table rounded fs-6 g-3 gs-3">
+            <table id="jobdescriptions" class="table table-rounded fs-6 g-3 gs-3">
                 <thead>
                     <tr class="text-start text-dark bg-secondary fw-bold fs-7 text-uppercase">
                         <th>Actions</th>
