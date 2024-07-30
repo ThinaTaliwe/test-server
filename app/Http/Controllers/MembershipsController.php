@@ -72,10 +72,22 @@ class MembershipsController extends Controller
         //$memberships = $query->orderBy('name')->paginate();
         $memberships = Membership::all();
 
+
+        $memtypes = BuMembershipType::all();
+        $countries = Country::all();
+
+        $genders = Gender::all();
+        $maritalStatuses = MarriageStatus::all();
+        $languages = Language::all();
+
+        //dd($maritalStatuses);
+
+
         //dd($memberships);
         return view('memberships', [
             'memberships' => $memberships,
             'statuses' => $statuses,
+            'memtypes' => $memtypes, 'countries' => $countries, 'genders' => $genders, 'maritalStatuses' => $maritalStatuses, 'languages' => $languages
         ]);
     }
 
@@ -164,6 +176,7 @@ class MembershipsController extends Controller
 
             // Decode JSON data from the request
             $tasksData = json_decode($request->input('tasksData'), true);
+            //localStorage.removeItem('tasks');
             
 
             // Check if data is an array and not empty
@@ -203,7 +216,8 @@ class MembershipsController extends Controller
 
             DB::commit(); // Commit the transaction
 
-            return redirect("/edit-member/$membership->id")->with('success', 'Membership Added Successfully!');
+            //return redirect("/edit-member/$membership->id")->with('success', 'Membership Added Successfully!');
+            return redirect("/memberships")->with('success', 'Membership Added Successfully!');
         } catch (\Exception $exception) {
             DB::rollBack(); // Rollback the transaction on any error
             Log::error('Error processing membership: ' . $exception->getMessage());
@@ -314,6 +328,7 @@ class MembershipsController extends Controller
         ];
 
         // dd($billings);
+        // return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
         return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
     }
 

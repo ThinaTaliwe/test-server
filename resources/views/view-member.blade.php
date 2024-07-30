@@ -5,7 +5,7 @@
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> --}}
     <style>
         #kt_header,
-        #kt_footer {
+        #kt_footer{
             display: none !important;
         }
     </style>
@@ -392,8 +392,7 @@
             </div>
           </div>
         </form>
-      </div> --}}
-
+        </div> --}}
                 </div>
                 <div class="tab-pane fade" id="pills-Addresses" role="tabpanel" aria-labelledby="pills-Addresses-tab">
                             <div class="card">
@@ -621,8 +620,6 @@
 
             var Y = (Year > cutoff ? '19' : '20') + Year;
 
-
-
             var fullDate = id_date + "-" + (id_month + 1) + "-" + id_year;
 
             if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (
@@ -630,8 +627,6 @@
                 error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
                 correct = false;
             }
-
-
 
             // if no error found, hide the error message
             if (correct) {

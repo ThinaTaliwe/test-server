@@ -15,4 +15,9 @@ class Funeral extends Model
     {
         return $this->belongsTo(Person::class, 'person_id');
     }
+
+    public function costs()
+    {
+        return $this->hasMany(FuneralCost::class, 'funeral_id', 'id');
+    }
 }

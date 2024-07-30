@@ -23,6 +23,18 @@
   <link href="assets/landingassets/vendor/aos/aos.css" rel="stylesheet">
   <!-- Template Main CSS File -->
   <link href="assets/landingassets/css/main.css" rel="stylesheet">
+
+   <style>
+        .logo img {
+            width: 90px; /* Increase width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        @media (max-width: 768px) {
+            .logo img {
+                width: 60px; /* Smaller size for mobile view */
+            }
+        }
+    </style>
 </head>
 
 <body class="index-page">
@@ -33,7 +45,7 @@
       <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/landingassets/img/logo.png" alt=""> -->
-        <h1 class="text-center ms-8 fs-1">GBA<span class="fs-1 text-danger">.</span></h1>
+        <h1 class="text-center ms-8 fs-1"><img src="/img/GBA-LOGO-white.png" class="card-img-top" alt="Logo"></h1>
       </a>
 
       <!-- Nav Menu -->

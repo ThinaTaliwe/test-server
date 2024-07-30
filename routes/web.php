@@ -11,6 +11,7 @@
  * @link      https://github.com/alexmnguni57/1Office-GBA
  *
  */
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -144,6 +145,8 @@ Route::get('/person', [ChartController::class, 'personIndex'])->name('report.per
 
 // Route::get('/home', 'LayoutController@show')->name('home');
 Route::get('/home', [LayoutController::class, 'show'])->name('home');
+Route::post('/home', [LayoutController::class, 'store'])->name('home.store');
+
 Route::get('/admin', [LayoutController::class, 'show'])->name('home');
 // Route::post('/selectLayout', 'LayoutController@selectLayout')->middleware('role')->name('selectLayout');
 Route::post('/selectLayout', [LayoutController::class, 'selectLayout'])
@@ -375,6 +378,7 @@ Route::controller(MembershipsController::class)->group(function () {
         ->middleware(['auth'])
         ->name('add-member');
     Route::post('/add-member', 'store')->name('add-member.store');
+    Route::get('/members/{id}', 'show')->name('members.show');
 });
 
 //**----------------------------- Logs Routes ----------------------------*\
@@ -465,6 +469,7 @@ Route::post('/save-EFTdetails', [MembershipBankDetailController::class, 'saveEFT
 //Deaths Routes
 Route::resource('deaths', DeathController::class);
 Route::get('/person-details/{id}', [DeathController::class, 'getPersonDetails'])->name('person.details.ajax');
+Route::get('/search/persons', [DeathController::class, 'searchPersons'])->name('search.persons');
 
 
 //Funerals Routes
@@ -473,13 +478,16 @@ Route::get('funerals/create/{id}', [FuneralController::class, 'create'])->name('
 Route::get('funerals/edit/{id}', [FuneralController::class, 'edit'])->name('funerals.edit');
 
 Route::post('/handle-funeral-action', [FuneralController::class, 'handleFuneralAction'])->name('handleFuneralAction');
-Route::post('/store-funeral-costs', [FuneralController::class, 'FuneralCosts'])->name('StoreFuneralCosts');
+Route::post('/store-funeral-costs', [FuneralController::class, 'StoreFuneralCosts'])->name('StoreFuneralCosts');
 Route::post('/add-funeral-cost', [FuneralController::class, 'AddFuneralCost'])->name('AddFuneralCost');
 Route::post('/store-funeral-address', [FuneralController::class, 'StoreFuneralAddress'])->name('StoreFuneralAddress');
 Route::post('/store-funeral-beneficiary', [FuneralController::class, 'StoreFuneralBeneficiary'])->name('StoreFuneralBeneficiary');
 Route::post('/edit-funeral-beneficiary', [FuneralController::class, 'EditFuneralBeneficiary'])->name('EditFuneralBeneficiary');
 Route::post('/remove-funeral-beneficiary', [FuneralController::class, 'removeFuneralBeneficiary'])->name('RemoveFuneralBeneficiary');
 Route::post('/store-funeral-shortfall', [FuneralController::class, 'StoreFuneralShortfall'])->name('StoreFuneralShortfall');
+Route::post('/remove-shortfall-payment', [FuneralController::class, 'removeShortfallPayment'])->name('RemoveShortfallPayment');
+
+Route::post('/update-funeral-required', [FuneralController::class, 'updateFuneralRequired'])->name('updateFuneralRequired');
 
 
 Route::post('/funeral/checklist/{id}', [FuneralController::class, 'updateChecklistItem']);
@@ -520,7 +528,6 @@ Route::put('comments/{id}', [CommentController::class, 'update']);
 
 Route::get('/chart-data', [HomeController::class, 'getChartData']);
 Route::get('/chart-data2', [HomeController::class, 'getChartData2']);
-
 
 
 

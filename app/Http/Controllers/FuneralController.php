@@ -26,6 +26,16 @@ use App\Models\PersonBankDetails;
 use App\Models\BankAccountType;
 use App\Models\FuneralHasPayout;
 
+
+
+// Copied from Death
+use App\Models\Gender;
+use App\Models\MarriageStatus;
+use App\Models\Language;
+use App\Models\PersonDetail;
+use App\Models\DeathReporter;
+
+
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
@@ -40,9 +50,22 @@ class FuneralController extends Controller
     {
         // Fetch all funerals with related person (deceased)
         $funerals = Funeral::with('person')->get();
-                
+
+
+        //death recording
+        $memberships = Membership::with([
+            'person.dependants.personDep', 
+            'person.dependants.relationshipType', 
+            'person'
+        ])->whereHas('person', function ($query) {
+            $query->where('deceased', 0);
+        })->get();
+        //dd($memberships);
+        $genders = Gender::all();
+        $maritalStatuses = MarriageStatus::all();
+        $languages = Language::all(); 
       
-        return view('funerals.index', compact('funerals'));
+        return view('funerals.index', compact('funerals','memberships', 'genders', 'maritalStatuses', 'languages'));
     }
 
     /**
@@ -83,66 +106,71 @@ class FuneralController extends Controller
      */
     public function edit(string $id)
     {
-
         //this is how you get the employee id of currently logged in person
         // dd(Auth::user()->person->employee->id);
-
-
+    
         // Fetch the funeral using the funeral ID
         $funeral = Funeral::findOrFail($id);
-
+    
         // Get the related person (deceased) from the funeral
         $deceased_person = $funeral->person;
-
-
+    
         //The addresses the person has/had of type (Residential)
         $addresses = $deceased_person->addressesWithType(1);
-
+    
         $bank_account_types = BankAccountType::all();
-
+    
         // Fetch the 'Church' address type ID
         $churchTypeId = AddressType::where('name', 'Church')->first()->id ?? null;
-
+    
         // Fetch the 'Graveyard' address type ID
         $graveyardTypeId = AddressType::where('name', 'Graveyard')->first()->id ?? null;
-
+    
         // Fetch the 'Viewing' address type ID
         $viewingTypeId = AddressType::where('name', 'Viewing')->first()->id ?? null;
-
+    
         // Fetch all addresses with the 'Church' type ID
         $churches = Address::where('adress_type_id', $churchTypeId)->get();
         
-        // Fetch all addresses with the 'Church' type ID
+        // Fetch all addresses with the 'Graveyard' type ID
         $graveyards = Address::where('adress_type_id', $graveyardTypeId)->get();
-
+    
         // Fetch all addresses with the 'Viewing' type ID
         $viewinglocations = Address::where('adress_type_id', $viewingTypeId)->get();
-
+    
         $banks = DB::connection('mysql')->table('bank')->get();
-
+    
         $checklist_items = FuneralChecklistItems::where('bu_id', Auth::user()->currentBu()->id)->get();
-
+    
+        // Fetch shortfall transactions with specific transaction type
+        $shortfall_transactions = FuneralHasTransactions::where('funeral_id', $id)
+            ->where('transaction_type_id', 4) // Assuming 4 is the ID for "Funeral Contribution"
+            ->with(['transaction']) // Assuming relationships are defined
+            ->get();
+    
         // Fetch the funeral payouts with relationships
         $funeral_payouts = FuneralHasPayout::with(['person.bankDetails', 'address.country', 'address.addressType', 'funeralHasTransactions'])
-        ->where('funeral_id', $id)
-        ->get();
-
+            ->where('funeral_id', $id)
+            ->get();
+    
         $memberships = Membership::with([
             'person.dependants.personDep', 
             'person.dependants.relationshipType', 
             'person'
-            ])->get();
-
-            
-        // Fetch the funeral costs
+        ])->get();
+    
+        // Fetch the funeral costs with their related transactions
         $funeral_costs = FuneralCosts::where('bu_id', Auth::user()->currentBu()->id)
-        ->where('transaction_type_id', 3)
-        ->get();
-  
+            ->where('transaction_type_id', 3)
+            ->with(['transactions' => function ($query) use ($id) {
+                $query->where('funeral_id', $id)->with('transaction');
+            }])
+            ->get();    
+    
         return view('funerals.create', compact('churches','graveyards','memberships', 'banks', 'deceased_person', 'funeral','checklist_items', 'viewinglocations','churchTypeId','graveyardTypeId', 'viewingTypeId', 'addresses',
-        'funeral_costs', 'bank_account_types', 'funeral_payouts'));
-     
+        'funeral_costs', 'bank_account_types', 'funeral_payouts', 'shortfall_transactions'));
     }
+    
 
     public function removeFuneralBeneficiary(Request $request)
     {
@@ -203,83 +231,89 @@ class FuneralController extends Controller
         // Handle other actions or default case
     }
 
+
+    
     protected function submitActionOne(Request $request)
     {
-        dd('Handling Submit Action one', $request->all());
-
-
+        Log::info('Starting submitActionOne transaction.');
+        Log::info('Received data for submitActionOne:', $request->all());
+    
         DB::beginTransaction(); // Start the transaction
-
+    
         try {
-            // Validate required fields
-            $validated = $request->validate([
-                'person_id' => 'required|integer',
-                'bu_id' => 'required|integer',
-            ]);
-
-            // Create a new instance of Funeral
-            $funeral = new Funeral();
-
+            // Create a new instance of Funeral or update an existing one
+            $funeral = $request->has('funeral_id') ? Funeral::findOrFail($request->funeral_id) : new Funeral();
+    
             // Assign fields from the request to the model
             $funeral->person_id = $request->person_id;
             $funeral->bu_id = Auth::user()->currentBu()->id;
-            $funeral->funeral_required = $request->MISSING;//Todo
             $funeral->person_name = $request->person_name;
+    
             $burialDateTime = $request->burial_date . ' ' . $request->burial_time;
-            // Convert the combined string to a DateTime object and format it for storage
-            $funeral->burial_date = Carbon::createFromFormat('Y-m-d H:i:s', $burialDateTime)->format('Y-m-d H:i:s');
+            $funeral->burial_date = \Carbon\Carbon::parse($burialDateTime)->format('Y-m-d H:i:s');
+    
             $funeral->church_name = Address::where('id', $request->churchSelect)->first()->name ?? null;
             $funeral->church_address_id = $request->churchSelect;
             $funeral->graveyard_name = Address::where('id', $request->graveyardSelect)->first()->name ?? null;
             $funeral->grave_address_id = $request->graveyardSelect;
             $funeral->grave_number = $request->grave_number;
-            $funeral->funeral_notices = $request->notices;
-            $funeral->viewing_time = $request->viewing_time;
+            $funeral->funeral_notices = $request->funeral_notices;
+            $funeral->viewing_time = \Carbon\Carbon::parse($request->viewing_time)->format('Y-m-d H:i:s');
             $funeral->viewing_address_id = $request->viewing_location;
-
-            $funeral->arranging_employee_id = $request->arranging_employee_id; //TODO - Get this from the a dropdown to select and promt user to enter password for the selected user
-            $funeral->executing_employee_id = $request->executing_employee_id; //TODO - Get this from the signed in user
-            
+    
+            $funeral->arranging_employee_id = $request->arranging_employee_id; // TODO - create a dropdown with all employees in the bu and Get this from the a dropdown to select and prompt user to enter password for the selected user
+            $funeral->executing_employee_id = Auth::user()->person->employee->id;
+    
             $funeral->checklist_notes = $request->checklist_notes;
             $funeral->preacher = $request->burial_person;
             $funeral->caretaker = $request->church_caretaker;
             $funeral->organist = $request->organist;
             $funeral->graveyard_section = $request->graveyard_section;
             $funeral->coffin = $request->coffin;
-
+    
             // Save the funeral record
             $funeral->save();
-
-            // //ToDO - move this to its own function to store an update the checklist
-            // $funeral_check = new FuneralCheck();
-            // //Use a loop to get all the items
-            // $funeral_check->funeral_id = $funeral->id;
-            // $funeral_check->funeral_id = $funeral->id;
-            
-            // $funeral_check->save();
-
-
-
-
-
+    
             DB::commit(); // If everything went well, commit the transaction
-
-
+    
             Log::info('All data processed.');
-            return redirect()->route('funerals.index')->with('success', 'Funeral details have been added successfully.');
+            return redirect()->route('funerals.edit', ['id' => $funeral->id])->with('success', 'Funeral details have been added successfully.');
         } catch (\Exception $e) {
             DB::rollBack(); // Roll back on any error
             Log::error('Error in submitActionOne: ' . $e->getMessage());
             return redirect()->back()->withInput()->withErrors('Error while saving funeral: ' . $e->getMessage());
         }
-
     }
+    
+    
+    
+    
     
 
     protected function submitActionTwo(Request $request)
     {
         dd('Handling Submit Action Two', $request->all());
     }
+
+
+    public function updateFuneralRequired(Request $request)
+    {
+        $request->validate([
+            'funeral_id' => 'required|exists:funeral,id',
+            'funeral_required' => 'required|boolean',
+        ]);
+
+        try {
+            $funeral = Funeral::findOrFail($request->funeral_id);
+            $funeral->funeral_required = $request->funeral_required;
+            $funeral->save();
+
+            return response()->json(['success' => true, 'message' => 'Funeral required status updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to update funeral required status.']);
+        }
+    }
+
 
     public function updateChecklistItem(Request $request, $id)
     {
@@ -352,40 +386,119 @@ class FuneralController extends Controller
         }
     }
 
-    protected function StoreFuneralShortfall(Request $request)
+    public function storeFuneralShortfall(Request $request)
     {
-        Log::info('Starting StoreFuneralShortfall transaction.');
+        Log::info('Starting storeFuneralShortfall transaction.', ['request' => $request->all()]);
         
-    
-        DB::beginTransaction(); // Start the transaction
-    
         try {
-            // Log the incoming request data
-            Log::info('Received data for StoreFuneralShortfall:', $request->all());
+            DB::beginTransaction();
     
-            
-
-
-            //Now we store the shortfall transaction and funeral has transaction
-
-
-
-            DB::commit(); // Commit the transaction if everything is okay
+            // Check if we are updating an existing transaction or creating a new one
+            if ($request->has('shortfall_id') && $request->shortfall_id) {
+                $transaction = Transactions::findOrFail($request->shortfall_id);
+                Log::info('Updating existing transaction.', ['transaction_id' => $transaction->id]);
+            } else {
+                // Fetch the transaction_id using the relationship if not provided
+                $funeral_has_transaction = FuneralHasTransactions::where('funeral_id', $request->funeral_id)
+                    ->where('transactions_id', $request->transaction_id)
+                    ->first();
+                Log::info('Checked for existing funeral_has_transaction.', ['funeral_has_transaction' => $funeral_has_transaction]);
+    
+                if ($funeral_has_transaction) {
+                    $transaction = $funeral_has_transaction->transaction;
+                    Log::info('Found existing transaction via relationship.', ['transaction_id' => $transaction->id]);
+                } else {
+                    // Create a new transaction if not found
+                    $transactionType = TransactionType::where('name', 'Funeral Contribution')->first();
+                    if (!$transactionType) {
+                        Log::error('Transaction type "Funeral Contribution" not found.');
+                        throw new \Exception('Transaction type "Funeral Contribution" not found.');
+                    }
+    
+                    $transaction = new Transactions();
+                    $transaction->bu_id = Auth::user()->currentBu()->id;
+                    $transaction->transaction_type_id = $transactionType->id;
+                    $transaction->transaction_date =  $request->shortfall_time_of_payment;
+                    $transaction->transaction_qty = 1;
+                    $transaction->created_employee_id = Auth::user()->person->employee->id;
+                    Log::info('Creating new transaction.', ['transaction' => $transaction]);
+                }
+            }
+    
+            // Update transaction fields
+            $transaction->transaction_description = $request->shortfall_payment_name;
+            $transaction->transaction_document_reference = $request->shortfall_payment_reference;
+            $transaction->transaction_local_value = $request->shortfall_amount;
+            //TODO: Asked KVK to add this to table: 
+            //$transaction->payment_method_id = $request->ShortfallPaymentMethodSelect;
+            $transaction->transaction_date = $request->shortfall_time_of_payment;
+            //TODO: Asked KVK to add
+            // $transaction->bank_id = $request->ShortfallbankSelect; 
+            $transaction->membership_id = $request->membership_id;
+            // $transaction->funeral_id = $request->funeral_id;
+            $transaction->last_updated_employee_id = Auth::user()->person->employee->id;
+            $transaction->save();
+            Log::info('Transaction saved.', ['transaction_id' => $transaction->id]);
+    
+            // Update or create Funeral Has Transaction
+            $funeral_has_transaction = FuneralHasTransactions::where('transactions_id', $transaction->id)->first();
+            if (!$funeral_has_transaction) {
+                $funeral_has_transaction = new FuneralHasTransactions();
+                $funeral_has_transaction->bu_id = Auth::user()->currentBu()->id;
+                $funeral_has_transaction->funeral_id = $request->funeral_id;
+                $funeral_has_transaction->transactions_id = $transaction->id; // Use the saved transaction's ID
+                Log::info('Creating new FuneralHasTransactions.', ['funeral_has_transaction' => $funeral_has_transaction]);
+            }
+            $funeral_has_transaction->transaction_local_value = $request->shortfall_amount;
+            $funeral_has_transaction->transaction_name = $request->shortfall_payment_name;
+            $funeral_has_transaction->transaction_date = $transaction->transaction_date;
+            $funeral_has_transaction->funeral_costs_id = FuneralCosts::where('name', 'Funeral Contribution')->first()->id;
+            $funeral_has_transaction->transaction_type_id = $transaction->transaction_type_id;
+            $funeral_has_transaction->transaction_qty = 1;
+            $funeral_has_transaction->save();
+            Log::info('FuneralHasTransactions saved.', ['funeral_has_transaction_id' => $funeral_has_transaction->id]);
+    
+            DB::commit();
             Log::info('Transaction committed successfully.');
-    
-            // Return a detailed response for the frontend
-            return response();
-
+            return redirect()->route('funerals.edit', ['id' => $request->funeral_id])->with('success', 'Payment has been saved successfully.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Roll back the transaction on error
+            DB::rollBack();
             Log::error('Transaction rolled back due to an error.', [
                 'error' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ]);
-            return response()->json(['error' => 'Failed to store shortfall', 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Failed to save payment.', 'message' => $e->getMessage()], 500);
         }
     }
+    
+    
+    
+    
+    
+    
+    public function removeShortfallPayment(Request $request)
+    {
+        try {
+            $transaction = Transactions::findOrFail($request->transaction_id);
+            $funeralHasTransaction = FuneralHasTransactions::where('transactions_id', $transaction->id)->first();
+    
+            if ($funeralHasTransaction) {
+                $funeralHasTransaction->delete();
+            }
+    
+            $transaction->delete();
+    
+            return response()->json(['success' => 'Payment removed successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to remove payment.', 'message' => $e->getMessage()], 500);
+        }
+    }
+    
+    
+    
+    
+    
     
     // protected function StoreFuneralBeneficiary(Request $request, StoreAddress $storeAddress)
     // {
@@ -646,59 +759,81 @@ class FuneralController extends Controller
     
 
     
-    protected function FuneralCosts(Request $request)
+    protected function StoreFuneralCosts(Request $request)
     {
-        dd('Store funeral costs', $request->all());
-
-
+        Log::info('Starting StoreFuneralCosts transaction.');
+        Log::info('Received data for StoreFuneralCosts:', $request->all());
+    
         DB::beginTransaction(); // Start the transaction
-
+    
         try {
-
-            // TODO create a loop foreach transaction
-           
-            // Get the transaction type ID for 'Funeral Costs'
             $transactionType = TransactionType::where('name', 'Funeral Costs')->first();
             if (!$transactionType) {
                 throw new \Exception('Transaction type "Funeral Costs" not found.');
             }
-
-            // Create a transaction for each cost
-            $funeral_costs = new Transactions();
-            $funeral_costs->bu_id  = Auth::user()->currentBu()->id;
-            $funeral_costs->transaction_type_id = $transactionType->id;
-            $funeral_costs->transaction_date = $request->transaction_date;
-            $funeral_costs->transaction_qty = 1;
-            $funeral_costs->created_employee_id  = $request->created_employee_id;
-            $funeral_costs->last_updated_employee_id  = $request->last_updated_employee_id;
-            $funeral_costs->save();
-
-            // Link each transaction to funeral
-            $funeral_has_transactions = new FuneralHasTransactions();
-            $funeral_has_transactions->bu_id  = Auth::user()->currentBu()->id;
-            $funeral_has_transactions->transactions_id  = $funeral_costs->id; // Use the saved transaction's ID
-            $funeral_has_transactions->transaction_type_id = $transactionType->id;
-            $funeral_has_transactions->transaction_date = $request->transaction_date;
-            $funeral_has_transactions->transaction_qty = 1; // Assuming 1 as in the previous transaction
-            $funeral_has_transactions->membership_id  = $request->membership_id ?? null; // Assuming membership_id is optional
-            $funeral_has_transactions->created_employee_id  = $request->created_employee_id;
-            $funeral_has_transactions->last_updated_employee_id  = $request->last_updated_employee_id;
-            $funeral_has_transactions->save();
-
-
-
+    
+            foreach ($request->costs as $costId => $amount) {
+                $costName = $request->cost_names[$costId];
+    
+                // Check if a transaction already exists for this cost
+                $funeral_has_transaction = FuneralHasTransactions::where('funeral_id', $request->funeral_id)
+                    ->where('funeral_costs_id', $costId)
+                    ->first();
+    
+                if ($funeral_has_transaction) {
+                    // Update the existing transaction
+                    $transaction = Transactions::find($funeral_has_transaction->transactions_id);
+                    $transaction->transaction_local_value = $amount;
+                    $transaction->transaction_description = $costName;
+                    $transaction->last_updated_employee_id = Auth::user()->person->employee->id;
+                    $transaction->save();
+    
+                    // Update the funeral_has_transactions record
+                    $funeral_has_transaction->transaction_local_value = $amount;
+                    $funeral_has_transaction->transaction_name = $costName;
+                    $funeral_has_transaction->save();
+                } else {
+                    // Create a new transaction
+                    $transaction = new Transactions();
+                    $transaction->bu_id = Auth::user()->currentBu()->id;
+                    $transaction->transaction_type_id = $transactionType->id;
+                    $transaction->transaction_date = Carbon::now();
+                    $transaction->transaction_qty = 1;
+                    $transaction->transaction_local_value = $amount;
+                    $transaction->transaction_description = $costName; // Save cost name as transaction description
+                    $transaction->created_employee_id = Auth::user()->person->employee->id;
+                    $transaction->last_updated_employee_id = Auth::user()->person->employee->id;
+                    $transaction->save();
+    
+                    // Link each transaction to the funeral
+                    $funeral_has_transaction = new FuneralHasTransactions();
+                    $funeral_has_transaction->bu_id = Auth::user()->currentBu()->id;
+                    $funeral_has_transaction->transactions_id = $transaction->id; // Use the saved transaction's ID
+                    $funeral_has_transaction->funeral_id = $request->funeral_id;
+                    $funeral_has_transaction->funeral_costs_id = $costId; // Use the cost ID directly
+                    $funeral_has_transaction->transaction_type_id = $transactionType->id;
+                    $funeral_has_transaction->transaction_date = $transaction->transaction_date;
+                    $funeral_has_transaction->transaction_qty = 1;
+                    $funeral_has_transaction->transaction_local_value = $amount;
+                    $funeral_has_transaction->transaction_name = $costName; // Store the name of the item
+                    $funeral_has_transaction->save();
+                }
+            }
+    
             DB::commit(); // If everything went well, commit the transaction
-
-
+    
             Log::info('All data processed.');
-            return redirect()->route('funerals.edit')->with('success', 'Funeral Costs have been added successfully.');
+            return redirect()->route('funerals.edit', ['id' => $request->funeral_id])->with('success', 'Funeral Costs have been added successfully.');
         } catch (\Exception $e) {
             DB::rollBack(); // Roll back on any error
-            Log::error('Error in submitActionOne: ' . $e->getMessage());
+            Log::error('Error in StoreFuneralCosts: ' . $e->getMessage());
             return redirect()->back()->withInput()->withErrors('Error while saving funeral costs: ' . $e->getMessage());
         }
-
     }
+    
+    
+    
+
 
 
     public function AddFuneralCost(Request $request)

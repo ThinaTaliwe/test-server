@@ -211,14 +211,14 @@
                                     {{ $dependant->personMain->screen_name ?? 'N/A' }}</a> --}}
                             </td>
 
-                            <!-- <td class="text-center w-5 font-weight-normal">
+                            {{--}} <td class="text-center w-5 font-weight-normal">
                                     <a class="btn btn-link text-black text-gradient mx-3 mb-0"
                                         href="/view-member/{{ $dependant->personMain->membership->first()->id }}#pills-dependants"><i
                                             class="bi bi-eye-fill"></i>View</a>
                                     <a class="btn btn-link text-black text-gradient mx-3 mb-0"
                                         href="/edit-member/{{ $dependant->personMain->membership->first()->id }}"><i
                                             class="bi bi-pencil-fill"></i>Edit</a>
-                                </td> -->
+                                </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

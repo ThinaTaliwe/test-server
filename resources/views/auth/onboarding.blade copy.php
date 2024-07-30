@@ -228,7 +228,7 @@
                             action="{{ route('save-user-info', Auth::user()) }}" method="POST" novalidate="novalidate"
                             id="kt_create_account_form"> --}}
                         <form class="mx-auto mw-600px w-100 pt-15 pb-10"
-                            action="{{ route('home.store') }}" method="POST" novalidate="novalidate"
+                            action="/home" method="POST" novalidate="novalidate"
                             id="kt_create_account_form">
                             @csrf
                             @if ($errors->any())
@@ -492,11 +492,11 @@
                             </div>
                             <div class="d-flex flex-stack pt-15">
                                 <div class="mr-2">
-                                    {{-- <button type="button" class="btn btn-lg btn-light-primary me-3"
+                                    <button type="button" class="btn btn-lg btn-light-primary me-3"
                                         data-kt-stepper-action="previous">
                                         <i class="ki-duotone ki-arrow-left fs-4 me-1"><span class="path1"></span><span
                                                 class="path2"></span></i> Back
-                                    </button> --}}
+                                    </button>
                                 </div>
                                 <div>
                                     <button type="submit" class="btn btn-lg btn-primary me-3"

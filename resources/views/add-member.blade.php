@@ -514,7 +514,7 @@
                         <div>
                             <!--begin::Title-->
                             <h1 class="fw-bold d-flex align-items-center text-gba">Location
-                                <span class="ms-1" data-bs-toggle="tooltip" title="">
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Were is your physical address?">
                                     <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
@@ -646,7 +646,7 @@
                         <div>
                             <!--begin::Title-->
                             <h1 class="fw-bold d-flex align-items-center text-gba">Contact Details
-                                <!-- <span class="ms-1" data-bs-toggle="tooltip" title="Billing is issued based on your selected account typ"> -->
+                                <span class="ms-1" data-bs-toggle="tooltip" title="How do we keep in contact with this member?">
                                 <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -722,7 +722,7 @@
                     <div class="card-body imputsection shadow">
                         <!--begin::Title-->
                         <h1 class="fw-bold d-flex align-items-center text-gba">Membership Type
-                            <span class="ms-1" data-bs-toggle="tooltip" title="">
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Choose your membership type">
                                 <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -838,6 +838,8 @@
 @endsection
 
 @push('scripts')
+
+
     <script>
         let inputEle = document.querySelector(".input");
         let submitEle = document.querySelector(".add");
@@ -1078,7 +1080,7 @@
     </script>
 
     <script>
-var tasksData, tasks;
+    var tasksData, tasks;
 
     function displayData() {
         // Get data from Local Storage
@@ -1091,13 +1093,22 @@ var tasksData, tasks;
 
         // Update hidden form field
         document.getElementById('tasksDataField').value = JSON.stringify(tasks);
-    
+
     }
 
     // Attach event listener to the form submit
     document.addEventListener('DOMContentLoaded', function() {
         var form = document.getElementById('memberForm');
         form.addEventListener('submit', displayData);
+    });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById('memberForm');
+        form.addEventListener('submit', function(event) {
+            localStorage.removeItem('tasks');  // Clear the local storage variable upon form submission
+        });
     });
     </script>
 @endpush

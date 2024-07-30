@@ -133,23 +133,23 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-                                    @endif --}}
+                                            @endif --}}
 
-                                        {{-- <hr class="light horizontal mt-2 mb-0"> --}}
-                                        {{-- <div class="col-6">
-                                    <div
-                                        class="form-floating @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
-                                        <input type="text" class="form-control" name="Line1" id="Line1"
-                                            value="{{ old('Line1') }}" placeholder="">
-                                        <label for="Line1" class="fs-4 text-gray-600">Address Line 1<span
-                                                class="text-danger">*</span></label>
-                                    </div>
-                                    @error('Line1')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong style="color: red;">{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> --}}
+                                                {{-- <hr class="light horizontal mt-2 mb-0"> --}}
+                                                {{-- <div class="col-6">
+                                            <div
+                                                class="form-floating @error('Line1') is-invalid focused is-focused  @enderror  mb-0">
+                                                <input type="text" class="form-control" name="Line1" id="Line1"
+                                                    value="{{ old('Line1') }}" placeholder="">
+                                                <label for="Line1" class="fs-4 text-gray-600">Address Line 1<span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                            @error('Line1')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong style="color: red;">{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div> --}}
 
                                         <div class="card-header bg-secondary">
                                             <h1 class="text-center mx-auto my-auto text-dark">Edit Membership</h1>
@@ -255,12 +255,12 @@
                                         <div class="col-3 d-flex align-items-center">
                                             <!-- <div style="white-space:nowrap;" class="px-4">                                                                                                                                                <label for="inputAddress" class="form-label">Date Of Birth</label>
                                                                                                                                                                                                                                             </div> -->
-                                            <div class="form-floating ">
+                                            <div class="form-floating">
 
                                                 <input type="text" onkeypress="return isNumberKey(event)"
                                                     class="form-control bg-light text-dark" name="inputDay"
                                                     id="inputDay"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->day ?? 'N/A' }}"
+                                                    value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->day ?? 'N/A' }}"
                                                     {{-- value="{{ $membership->person->birth_date ? dobBreakdown($membership->person->birth_date)->day : 'N/A' }}" --}} placeholder="DD" maxlength="2"
                                                     size="2">
                                                 <label for="inputDay" class="fs-4 text-gray-600">Day<span
@@ -277,7 +277,7 @@
                                                 <input type="text" onkeypress="return isNumberKey(event)"
                                                     class="form-control bg-light text-dark" name="inputMonth"
                                                     id="inputMonth"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->month }}"
+                                                    value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->month ?? 'N/A' }}"
                                                     placeholder="MM" maxlength="2" size="2">
                                                 <label for="inputMonth" class="fs-4 text-gray-600">MM<span
                                                         class="text-danger">*</span></label>
@@ -292,7 +292,7 @@
                                                 <input type="text" onkeypress="return isNumberKey(event)"
                                                     class="form-control bg-light text-dark" name="inputYear"
                                                     id="inputYear"
-                                                    value="{{ dobBreakdown($membership->person->birth_date)->year }}"
+                                                    value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->year ?? 'N/A' }}"
                                                     placeholder="YYYY" maxlength="4" size="4">
                                                 <label for="inputYear" class="fs-4 text-gray-600">Year<span
                                                         class="text-danger">*</span></label>
@@ -372,7 +372,7 @@
                                                     Divorced</option>
                                             </select> --}}
 
-                                                <select class="form-select pb-3 bg-light text-dark" name="marital_status"
+                                                {{-- <select class="form-select pb-3 bg-light text-dark" name="marital_status"
                                                     id="maritalStatusSelect">
                                                     <option value="">Select Marital Status</option>
                                                     @foreach ($marriages as $status)
@@ -381,7 +381,17 @@
                                                             {{ $status->name }}
                                                         </option>
                                                     @endforeach
-                                                </select>
+                                                </select> --}}
+                                                <select class="form-select pb-3 bg-light text-dark" name="marital_status" id="maritalStatusSelect">
+    <option value="">Select Marital Status</option>
+    @foreach ($marriages as $status)
+        <option value="{{ $status->id }}"
+            {{ optional($membership->person)->married_status == $status->id ? 'selected' : '' }}>
+            {{ $status->name }}
+        </option>
+    @endforeach
+</select>
+
 
                                             </div>
                                         </div>
@@ -437,12 +447,12 @@
                                                 <tr>
                                                     <td>
                                                         <p class="text-dark ">
-                                                            {{ $dependant->personDep->screen_name }}
+                                                            {{ $dependant->personDep->screen_name ?? 'N/A' }}
                                                         </p>
                                                     </td>
                                                     <td>
                                                         <p class="text-dark ">
-                                                            {{ $dependant->personDep->id_number }}
+                                                            {{ $dependant->personDep->id_number ?? 'N/A' }}
                                                         </p>
                                                     </td>
                                                     <td>
@@ -452,13 +462,14 @@
                                                     </td>
                                                     <td>
                                                         <p class="text-dark">
-                                                            {{ $dependant->person_relationship_id ?? 'Unknown Relationship' }}
+                                                            {{-- {{ $dependant->person_relationship_id ?? 'Unknown Relationship' }} --}}
+                                                            {{ optional($dependant->relationship)->name ?? 'Unknown Relationship' }}
                                                         </p>
                                                     </td>
 
                                                     <td>
                                                         <p class="text-dark">
-                                                            {{ substr($dependant->personDep->birth_date, 0, 10) }}
+                                                            {{ substr($dependant->personDep->birth_date, 0, 10) ?? 'N/A' }}
                                                         </p>
                                                     </td>
                                                     <td

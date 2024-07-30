@@ -31,6 +31,7 @@
     <!-- begin::Col-->
     <div class="col-12 col-xxl-12 col-md-12 mb-1 rounded">
         <div class="card shadow-lg">
+        
             <div class="card-body">
                 <!-- Dropdown for selecting chart type -->
 
@@ -61,13 +62,24 @@
             </div>
         </div>
     </div>
-
     <!--end::Col-->
+
+
 
     <!--begin::Col-->
     <div class="col-xxl-8 col-md-8 mb-4">
         <!--begin::Mixed Widget 5-->
-        <div class="card   shadow-lg" data-intro="The Services Breakdown." data-step="3">
+        <div class="card shadow-lg" data-intro="The Services Breakdown." data-step="3">
+        <div class="card-header align-items-center border-0 mt-4 mx-auto">
+                <h2 class="card-title align-items-start flex-column">
+                    <span class="fw-bold mb-2 text-gray-900">Memberships grouped by Type</span>
+                    {{-- <span class="text-primary fw-semibold fs-7"></span> --}}
+                    {{-- <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span> --}}
+                </h2>
+                <div class="card-toolbar">
+                    <!-- Button and menu structure can remain as is for functionality purposes -->
+                </div>
+            </div>
             <div class="card-body">
                 <div id="kt_amcharts_3" style="height: 500px;"></div>
             </div>
@@ -75,15 +87,15 @@
         <!--end::Mixed Widget 5-->
     </div>
     <!--end::Col-->
-    <!--begin::Col-->
+
     <div class="col-xxl-4 col-md-4 mb-4">
         <!--begin::List Widget 5-->
-        <div class="card h-md-100   shadow-lg" data-intro="The Services Schedule." data-step="4">
+        <div class="card h-md-100 shadow-lg" data-intro="The Services Schedule." data-step="4">
             <!--begin::Header-->
             <div class="card-header align-items-center border-0 mt-4">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="fw-bold mb-2 text-gray-900">Association Activities</span>
-                    <span class="text-primary fw-semibold fs-7">120 Memorial Services</span>
+                    <span class="fw-bold mb-2 text-gray-900">Activitiy Logs</span>
+                    <span class="text-primary fw-semibold fs-7">Latest Daily Notifications</span>
                     {{-- <span class="badge badge-danger fs-3"><span id="unreadCountLogs">{{ auth()->user()->unreadNotifications->count() }}</span> :  Unread Notifications.</span> --}}
                 </h3>
                 <div class="card-toolbar">
@@ -95,99 +107,35 @@
             <div class="card-body pt-5">
 
                 <!--begin::Timeline-->
-                <div class="timeline-label">
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">09:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-warning fs-1"></i>
-                        </div>
-                        <div class="fw-mormal timeline-content ps-3">Planning meeting for annual memorial service</div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">08:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-info fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Monthly meeting with the board of directors</div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">10:30</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-success fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Workshop on grief counseling for members</div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">13:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-warning fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Outreach program planning for the local community</div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">16:30</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-danger fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Volunteer training session for upcoming charity event
-                        </div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">19:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-primary fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Evening vigil to honor members who have passed away
-                        </div>
-                    </div>
-                    <!--end::Item-->
+                {{-- @dump(auth()->user()->notifications) --}}
+                {{-- <div class="timeline-label">
+                    @php
+                        
+                        $colors = ['text-primary', 'text-success', 'text-danger', 'text-warning', 'text-info'];
+                    @endphp
 
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">12:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-success fs-1"></i>
+                    @foreach ($latestNotifications as $notification)
+                        @php
+                            $randomColor = $colors[array_rand($colors)];
+                        @endphp
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-label fw-bold text-gray-800 fs-6">
+                                {{ $notification->created_at->format('H:i') }}</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless {{ $randomColor }} fs-1"></i>
+                            </div>
+                            <div class="timeline-content fw-normal ps-3 text-dark">
+                                {{ ucfirst($notification->data['action']) }} - {{ $notification->data['message'] }}
+                            </div>
                         </div>
-                        <div class="timeline-content d-flex">
-                            <span class="fw-bold text-gray-800 ps-3">Burial service for member John Doe</span>
-                        </div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">15:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-danger fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-bold text-gray-800 ps-3">Financial assistance disbursed to the Doe
-                            family</div>
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <div class="timeline-item">
-                        <div class="timeline-label fw-bold text-gray-800 fs-6">18:00</div>
-                        <div class="timeline-badge">
-                            <i class="fa fa-genderless text-primary fs-1"></i>
-                        </div>
-                        <div class="timeline-content fw-mormal ps-3">Review meeting for upcoming association events</div>
-                    </div>
-                    <!--end::Item-->
-                    <!-- More items can be added as needed -->
-                </div>
+                        
+                    @endforeach
+                </div> --}}
                 <!--begin::Footer-->
                 {{-- <div class="card-footer d-flex justify-content-around">
         <span class="badge bg-success m-1">Create <i class="fa fa-genderless text-success"></i></span>
+          xvn,.
             <span class="badge bg-success m-1">Create <i class="fa fa-genderless text-success"></i></span>
             <span class="badge bg-danger m-1">Delete <i class="fa fa-genderless text-danger"></i></span>
             <span class="badge bg-info m-1">Meeting <i class="fa fa-genderless text-info"></i></span>
@@ -203,6 +151,7 @@
         <!--end: List Widget 5-->
     </div>
     <!--end::Col-->
+
 
 
 
@@ -411,19 +360,18 @@
         });
     </Script> --}}
 
-    <script>
+<script>
     am5.ready(function() {
         var root = am5.Root.new("kt_amcharts_3");
-
         root.setThemes([am5themes_Animated.new(root)]);
-
+        
         var chart = root.container.children.push(am5percent.PieChart.new(root, {
             layout: root.verticalLayout
         }));
 
         var series = chart.series.push(am5percent.PieSeries.new(root, {
             valueField: "count",
-            categoryField: "description"  // Assuming your data includes 'description'
+            categoryField: "typeName"  // Use 'typeDescription' directly from Laravel data
         }));
 
         series.slices.template.setAll({
@@ -431,7 +379,7 @@
             stroke: am5.color(0xffffff)
         });
 
-        series.labelsContainer.set("paddingTop", 30);
+        series.labelsContainer.set("paddingTop", 10);
 
         // Load data dynamically from Laravel backend
         fetch('/chart-data2')
@@ -446,16 +394,12 @@
                 if (data.length === 0) {
                     console.log('No data available to display.');
                 } else {
-                    // Ensure data has descriptions instead of numeric IDs
-                    data.forEach(item => {
-                        item.description = convertIdToDescription(item.bu_membership_type_id); // Convert ID to description
-                    });
+                    series.data.setAll(data);
                 }
-                series.data.setAll(data);
 
                 // Adjust legend settings here
                 var legend = chart.children.push(am5.Legend.new(root, {
-                    width: am5.percent(20), // Set width of the legend to 20% of chart container
+                    width: am5.percent(10), // Set width of the legend to 20% of chart container
                     y: am5.p50, // Center vertically
                     centerY: am5.p50,
                     layout: root.verticalLayout, // Vertical layout for legend items
@@ -472,20 +416,7 @@
                 console.error('Error fetching data:', error);
             });
     });
-
-    function convertIdToDescription(id) {
-        // Map numeric IDs to descriptions
-        const descriptions = {
-            1: "Type One",
-            6: "Type Six",
-            3: "Type Three"
-        };
-        
-        return descriptions[id] || "Unknown Type"; // Default to 'Unknown Type' if no match
-    }
-
 </script>
-
 
     {{-- <script>
         // Function to generate random data points
@@ -545,7 +476,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Joined Members Per Month' // Add your chart title here
+                        text: '<h2 class="text-light">Joined Members Per Month</h2>' // Add your chart title here
                     }
                 },
                 responsive: true,
@@ -757,12 +688,12 @@
             document.getElementById('summaryTotals').innerHTML = `
              <div class="d-flex flex-column align-items-center">
              <div class="btn-group">
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Main Members: ${summaryTotals.main_member}">Main: ${summaryTotals.main_member}</span></button>
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Dependants: ${summaryTotals.dependant}">Dependants: ${summaryTotals.dependant}</span></button>
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Spouses: ${summaryTotals.spouse}">Spouses: ${summaryTotals.spouse}</span></button>
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Children: ${summaryTotals.child}">Children: ${summaryTotals.child}</span></button>
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Male(s): ${summaryTotals.male}">Male: ${summaryTotals.male}</span></button>
-                 <button class="btn"><span data-bs-toggle="tooltip" title="Female(s): ${summaryTotals.female}">Female: ${summaryTotals.female}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Main Members: ${summaryTotals.main_member}">Main: ${summaryTotals.main_member}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Dependants: ${summaryTotals.dependant}">Dependants: ${summaryTotals.dependant}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Spouses: ${summaryTotals.spouse}">Spouses: ${summaryTotals.spouse}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Children: ${summaryTotals.child}">Children: ${summaryTotals.child}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Male(s): ${summaryTotals.male}">Male: ${summaryTotals.male}</span></button>
+                 <button class="btn"><span data-bs-toggle="tooltip" title="Total Female(s): ${summaryTotals.female}">Female: ${summaryTotals.female}</span></button>
                  </div>
              </div>
          `;
@@ -848,7 +779,7 @@
     }
 </script> --}}
 
-{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    {{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({
   duration: 1200,

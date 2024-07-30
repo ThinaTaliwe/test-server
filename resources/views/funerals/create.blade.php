@@ -153,18 +153,23 @@
         }
     </style>
 
-    <script>
-        function calculateTotal() {
-            const costs = document.querySelectorAll('.cost-input');
-            let total = 0;
-            costs.forEach((cost) => {
-                if (cost.value) total += parseFloat(cost.value);
-            });
-            document.getElementById('totalCost').innerText = total.toFixed(2);
-            document.getElementById('totalCost2').innerText = total.toFixed(2);
-            document.getElementById('totalCostHeader').innerText = total.toFixed(2);
-        }
-    </script>
+<script>
+    function calculateTotal() {
+        const costs = document.querySelectorAll('.cost-input');
+        let total = 0;
+        costs.forEach((cost) => {
+            if (cost.value) total += parseFloat(cost.value);
+        });
+        document.getElementById('totalCost').innerText = total.toFixed(2);
+        document.getElementById('totalCost2').innerText = total.toFixed(2);
+        document.getElementById('totalCostHeader').innerText = total.toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        calculateTotal();
+    });
+</script>
+
 
     <style>
         /* Center table header (thead) and footer (tfoot) text */
@@ -236,8 +241,11 @@
 @endpush
 
 @section('row_content')
+
+
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        
         <!--begin::Container-->
         <div class=" container-fluid " id="kt_content_container">
             <!--begin::Layout-->
@@ -322,15 +330,11 @@
 
                                                     <div class="d-flex justify-content-end">
                                                         <!--begin::Switch-->
-                                                        <label
-                                                            class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                                        <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                                                             <!--begin::Input-->
-                                                            <input class="form-check-input" name="funeral_required"
-                                                                type="checkbox" value="1" id="funeral_required"
-                                                                checked="checked" />
+                                                            <input class="form-check-input" name="funeral_required" type="checkbox" value="1" id="funeral_required" 
+                                                                   data-funeral-id="{{ $funeral->id }}" {{ $funeral->funeral_required ? 'checked' : '' }} />
                                                             <!--end::Input-->
-
-
                                                         </label>
                                                         <!--end::Switch-->
                                                     </div>
@@ -449,7 +453,7 @@
                             <div class="card-toolbar">
                                 <!--begin::Filter-->
                                 <button type="button" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal"
-                                    data-bs-target="#kt_modal_add_payment">
+                                    data-bs-target="#add_checklist_item_modal">
                                     <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
                                             class="path2"></span><span class="path3"></span></i>
                                     Add Item
@@ -734,7 +738,7 @@
                                     <div class="card-toolbar">
                                         <!--begin::Filter-->
                                         <button type="button" class="btn btn-sm btn-flex btn-light-primary"
-                                            data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">
+                                            data-bs-toggle="modal" data-bs-target="#add_checklist_item_modal">
                                             <i class="ki-duotone ki-plus-square fs-3"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span></i>
                                             Add payment
@@ -1182,15 +1186,18 @@
                                 <div id="kt_customer_view_payment_method" class="card-body pt-0">
 
                                     @foreach ($deceased_person->allMemberships() as $membership)
-                                        @php
-                                            $relationshipType = 'Main Member';
-                                            if ($membership->pivot->secondary_person_id == $deceased_person->id) {
-                                                $relationshipType = 'Dependent';
-                                            }
-                                            if ($membership->pivot->person_relationship_id == 1) {
-                                                $relationshipType = 'Spouse';
-                                            }
-                                        @endphp
+                                    @php
+                                    $relationshipType = 'Main Member';
+                                    if ($membership->pivot) {
+                                        if ($membership->pivot->secondary_person_id == $deceased_person->id) {
+                                            $relationshipType = 'Dependent';
+                                        }
+                                        if ($membership->pivot->person_relationship_id == 1) {
+                                            $relationshipType = 'Spouse';
+                                        }
+                                    }
+                                @endphp
+                                
                                         <!--begin::Option-->
                                         <div class="py-0" data-kt-customer-payment-method="row">
                                             <!--begin::Header-->
@@ -1390,643 +1397,253 @@
                             </div>
                             <!--end::Card-->
 
-                            <!--begin::Card-->
-                            <div id="funeral_card" class="card pt-4 mb-6 mb-xl-9">
-                                <!--begin::Card header-->
-                                <div class="card-header border-0">
-                                    <!--begin::Card title-->
-                                    <div class="card-title">
-                                        <h2 class="fw-bold">Funeral Arrangement</h2>
-                                    </div>
-                                    <!--end::Card title-->
-
-                                    <!--begin::Card toolbar-->
-                                    <div class="card-toolbar">
-                                    
-                                        <button id="externalSubmitActionOne" class="btn btn-sm btn-flex btn-light-primary">
-                                            Save Changes
-                                        </button>
-                                    </div>
-                                    <!--end::Card toolbar-->
-
-                                </div>
-                                <!--end::Card header-->
-
-                                <!--begin::Card body-->
-                                <div class="card-body pt-0">
-
-
-
-
-                                    <form id="funeralForm" method="POST" action="{{ route('handleFuneralAction') }}">
-                                        @csrf {{-- CSRF token for form submission --}}
-
-                                        {{-- <div class="card-header bg-light" >
-                                            <h3 class="card-title" >Main Record ID: </h3>
-                                        </div> --}}
-
-
-                                        <input type="text" id="person_id" name="person_id"
-                                            value="{{ $deceased_person->id }}" hidden>
-                                        <input type="text" id="person_name" name="person_name"
-                                            value="{{ $deceased_person->first_name }}" hidden>
-                                        <input type="text" id="funeral_id" name="funeral_id"
-                                            value="{{ $funeral->id }}" hidden>
-
-
-
-
-
-                                        <!--begin::Accordion-->
-                                        <div class="accordion mb-3" id="kt_accordion_funeral">
-                                            <!-- Accordion Item for Membership Details -->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="kt_accordion_header_1">
-                                                    <button class="accordion-button fs-4 fw-semibold " type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#kt_accordion_body_1"
-                                                        aria-expanded="true" aria-controls="kt_accordion_body_1">
-                                                        Church & Cemetery Details
-                                                    </button>
-                                                </h2>
-                                                <div id="kt_accordion_body_1" class="accordion-collapse collapse show"
-                                                    aria-labelledby="kt_accordion_header_1"
-                                                    data-bs-parent="#kt_accordion_funeral">
-                                                    <div class="accordion-body">
-                                                        <!-- Accordion content for Membership Details -->
-                                                        <h5>Church Information</h5>
-                                                        <div class="pt-0" style="display: flex; align-items: center;">
-                                                            <select id="churchSelect" name="churchSelect"
-                                                                class="form-select" data-control="select2"
-                                                                data-placeholder="Select Church" data-allow-clear="true"
-                                                                style="margin-right: 10px;">
-                                                                <option></option>
-                                                                @foreach ($churches as $church)
-                                                                    <option value="{{ $church->id }}">
-                                                                        {{ $church->name }} ({{ $church->line1 }} -
-                                                                        {{ $church->suburb }}, {{ $church->city }},
-                                                                        {{ $church->ZIP }})</option>
-                                                                @endforeach
-                                                                @if ($churches->isEmpty())
-                                                                    <option disabled>No churches available</option>
-                                                                @endif
-                                                            </select>
-
-                                                        </div>
-
-                                                        {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
-
-                                                        {{-- <div id="church_location" class="pt-4 p-3" hidden>
-
-
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchLine1') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="ChurchLine1"
-                                                                    id="ChurchLine1" value="{{ old('ChurchLine1') }}" readonly  placeholder="Church Line 1">
-                                                            </div>
-                                                            @error('ChurchLine1')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchLine2') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="ChurchLine2"
-                                                                    id="ChurchLine2" value="{{ old('ChurchLine2') }}"
-                                                                    placeholder="Address Line 2" readonly>
-                                                            </div>
-                                                            @error('ChurchLine2')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchTownSuburb') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="ChurchTownSuburb" id="ChurchTownSuburb"
-                                                                    value="{{ old('ChurchTownSuburb') }}"
-                                                                    placeholder="Town/Suburb" readonly>
-                                                            </div>
-                                                            @error('ChurchTownSuburb')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-12 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchCity') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="ChurchCity"
-                                                                    id="ChurchCity" value="{{ old('ChurchCity') }}"
-                                                                    placeholder="City" readonly>
-                                                            </div>
-                                                            @error('ChurchCity')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchProvince') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="ChurchProvince" id="ChurchProvince"
-                                                                    value="{{ old('ChurchProvince') }}" placeholder="Province" readonly>
-                                                            </div>
-                                                            @error('ChurchProvince')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchPostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="ChurchPostalCode" id="ChurchPostalCode"
-                                                                    value="{{ old('ChurchPostalCode') }}"
-                                                                    placeholder="Postal Code" readonly>
-                                                            </div>
-                                                            @error('ChurchPostalCode')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row ">
-
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('ChurchCountry') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="ChurchCountry"
-                                                                    id="ChurchCountry" value="{{ old('ChurchProvince') }}"
-                                                                    placeholder="Country" readonly>
-                                                            </div>
-                                                            @error('ChurchCountry')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-
-
-                                                    </div>
-
-
-
-                                                </div> --}}
-
-                                                        {{-- End Church Section --}}
-
-
-                                                        <div class="separator border-light my-8"></div>
-
-
-                                                        {{-- Start Graveyard Section --}}
-
-                                                        <h5>Graveyard Information</h5>
-                                                        <div style="display: flex; align-items: center;">
-                                                            <select id="graveyardSelect" name="graveyardSelect"
-                                                                class="form-select" data-control="select2"
-                                                                data-placeholder="Select Cemetery" data-allow-clear="true"
-                                                                style="margin-right: 10px;">
-                                                                <option></option>
-                                                                @foreach ($graveyards as $graveyard)
-                                                                    <option value="{{ $graveyard->id }}">
-                                                                        {{ $graveyard->name }} ({{ $graveyard->line1 }} -
-                                                                        {{ $graveyard->suburb }}, {{ $graveyard->city }},
-                                                                        {{ $graveyard->ZIP }})</option>
-                                                                @endforeach
-                                                                @if ($graveyards->isEmpty())
-                                                                    <option disabled>No graveyards available</option>
-                                                                @endif
-                                                            </select>
-
-                                                        </div>
-
-                                                        {{-- Display this (remove hidden from div) only when viewing funeral details, not when creating new funeral --}}
-
-                                                        {{-- <div id="Cemetery_location" class="pt-4 p-3" hidden>
-
-
-                                                    <div class="row mt-3">
-                                                        <div class="col">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryLine1') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="CemeteryLine1"
-                                                                    id="CemeteryLine1" value="{{ old('CemeteryLine1') }}" readonly placeholder="Cemetery Line 1">
-                                                            </div>
-                                                            @error('CemeteryLine1')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryLine2') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control" name="CemeteryLine2"
-                                                                    id="CemeteryLine2" value="{{ old('CemeteryLine2') }}"
-                                                                    placeholder="Address Line 2" readonly>
-                                                            </div>
-                                                            @error('CemeteryLine2')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryTownSuburb') is-invalid focused is-focused  @enderror  mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="CemeteryTownSuburb" id="CemeteryTownSuburb"
-                                                                    value="{{ old('CemeteryTownSuburb') }}"
-                                                                    placeholder="Town/Suburb" readonly>
-                                                            </div>
-                                                            @error('CemeteryTownSuburb')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        <div class="col-12 col-sm-6">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryCity') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="CemeteryCity"
-                                                                    id="CemeteryCity" value="{{ old('CemeteryCity') }}"
-                                                                    placeholder="City" readonly>
-                                                            </div>
-                                                            @error('CemeteryCity')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryProvince') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="CemeteryProvince" id="CemeteryProvince"
-                                                                    value="{{ old('CemeteryProvince') }}" placeholder="Province" readonly>
-                                                            </div>
-                                                            @error('CemeteryProvince')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="col-6 col-sm-2 mt-3 mt-sm-0">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryPostalCode') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control"
-                                                                    name="CemeteryPostalCode" id="CemeteryPostalCode"
-                                                                    value="{{ old('CemeteryPostalCode') }}"
-                                                                    placeholder="Postal Code" readonly>
-                                                            </div>
-                                                            @error('CemeteryPostalCode')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-
-                                                        <div class="col-6 col-sm-4 mt-3 mt-sm-0 mx-auto">
-                                                            <div
-                                                                class="input-group input-group-outline  @error('CemeteryCountry') is-invalid focused is-focused  @enderror mt-3 mb-0">
-
-                                                                <input type="text" class="form-control" name="CemeteryCountry"
-                                                                    id="CemeteryCountry" value="{{ old('CemeteryProvince') }}"
-                                                                    placeholder="Country" readonly>
-                                                            </div>
-                                                            @error('CemeteryCountry')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    
-
-                                                </div> --}}
-
-                                                        {{-- End Graveyard Section --}}
-
-
-
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-                                            <!-- Second Accordion Item for Funeral Details -->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="kt_accordion_header_2">
-                                                    <button class="accordion-button fs-4 fw-semibold collapsed"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#kt_accordion_body_2" aria-expanded="false"
-                                                        aria-controls="kt_accordion_body_2">
-                                                        Funeral Details
-                                                    </button>
-                                                </h2>
-                                                <div id="kt_accordion_body_2" class="accordion-collapse collapse"
-                                                    aria-labelledby="kt_accordion_header_2"
-                                                    data-bs-parent="#kt_accordion_funeral">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <!-- Accordion content for Funeral Details -->
-
-
-                                                            <div class="card-body pt-4 p-3">
-
-                                                                <div class="container mt-5">
-                                                                    <h4>Graveyard Information Form</h4>
-
-                                                                    <!-- Row 1 -->
-                                                                    <div class="row mb-3">
-                                                                        <div class="col">
-                                                                            <label for="graveyard_section"
-                                                                                class="form-label">Graveyard
-                                                                                section:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="graveyard_section"
-                                                                                name="graveyard_section">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="grave_number"
-                                                                                class="form-label">Grave number:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="grave_number" name="grave_number"
-                                                                                required>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Row 2 -->
-                                                                    <div class="row mb-3">
-                                                                        <div class="col">
-                                                                            <label for="burial_date"
-                                                                                class="form-label">Burial Date:</label>
-                                                                            <input type="date" class="form-control"
-                                                                                id="burial_date" name="burial_date">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="burial_time"
-                                                                                class="form-label">Burial Time:</label>
-                                                                            <input type="time" class="form-control"
-                                                                                id="burial_time" name="burial_time">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="coffin"
-                                                                                class="form-label">Coffin:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="coffin" name="coffin">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="viewing_time"
-                                                                                class="form-label">Viewing Time:</label>
-                                                                            <input type="datetime-local"
-                                                                                class="form-control" id="viewing_time"
-                                                                                name="viewing_time">
-                                                                        </div>s
-                                                                    </div>
-
-                                                                    <!-- Row 2.5 -->
-                                                                    <div class="row mb-3">
-
-
-                                                                        <div class="col">
-                                                                            <label for="viewing_location"
-                                                                                class="form-label">Viewing
-                                                                                Location:</label>
-
-                                                                            <div
-                                                                                style="display: flex; align-items: center;">
-                                                                                <select id="viewing_location"
-                                                                                    name="viewing_location"
-                                                                                    class="form-select"
-                                                                                    data-control="select2"
-                                                                                    data-placeholder="Select Viewing Location"
-                                                                                    data-allow-clear="true"
-                                                                                    style="margin-right: 10px;">
-                                                                                    <option></option>
-                                                                                    <!-- Keep this for the placeholder functionality -->
-                                                                                    @foreach ($viewinglocations as $viewinglocation)
-                                                                                        <option
-                                                                                            value="{{ $viewinglocation->id }}">
-                                                                                            {{ $viewinglocation->name }}
-                                                                                            ({{ $viewinglocation->line1 }}
-                                                                                            -
-                                                                                            {{ $viewinglocation->suburb }},
-                                                                                            {{ $viewinglocation->city }},
-                                                                                            {{ $viewinglocation->ZIP }})
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                    @if ($viewinglocations->isEmpty())
-                                                                                        <option disabled>No viewing
-                                                                                            locations available</option>
-                                                                                    @endif
-
-                                                                                </select>
-
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Row 3 -->
-                                                                    <div class="row mb-3">
-                                                                        <div class="col">
-                                                                            <label for="church_office"
-                                                                                class="form-label">Church office:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="church_office" name="church_office">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="church_caretaker"
-                                                                                class="form-label">Church
-                                                                                caretaker:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="church_caretaker"
-                                                                                name="church_caretaker">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Row 4 -->
-                                                                    <div class="row mb-3">
-                                                                        <div class="col">
-                                                                            <label for="burial_person"
-                                                                                class="form-label">Burial person
-                                                                                (preacher):</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="burial_person" name="burial_person">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="contact_number"
-                                                                                class="form-label">Contact Number:</label>
-                                                                            <input type="tel" class="form-control"
-                                                                                id="contact_number" name="contact_number">
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <label for="organist"
-                                                                                class="form-label">Organist:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="organist" name="organist">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Row 5 -->
-                                                                    <div class="row mb-3">
-                                                                        <div class="col">
-                                                                            <label for="funeral_notices"
-                                                                                class="form-label">Notices:</label>
-                                                                            <textarea class="form-control" id="funeral_notices" name="funeral_notices" rows="3"></textarea>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                        <!--end::Accordion-->
-
-
-
-
-
-                                        <!--begin::Alert (initially hidden)-->
-                                        <div id="requiredAlert"
-                                            class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
-                                            style="display: none !important;">
-                                            <!--begin::Icon-->
-                                            <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"><span
-                                                    class="path1"></span><span class="path2"></span><span
-                                                    class="path3"></span></i>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Wrapper-->
-                                            <div class="d-flex flex-column pe-0 pe-sm-10">
-                                                <!--begin::Title-->
-                                                <h4 class="fw-semibold  text-danger">Incomplete Form</h4>
-                                                <!--end::Title-->
-
-                                                <!--begin::Content-->
-                                                <span>All Tabs Need to be completed ('Green') before you can save.</span>
-                                                <!--end::Content-->
-                                            </div>
-                                            <!--end::Wrapper-->
-
-                                        </div>
-                                        <!--end::Alert-->
-
-
-
-                                        <!-- Add more accordion cards as needed following the structure above -->
-
-
-
-
-                                        <!-- Hidden Button for Submit Action 1 -->
-                                        <button type="submit" name="action" value="submitActionOne"
-                                            style="display:none;">Save
-                                            Funeral</button>
-                                        <!-- Hidden Button for Submit Action 2 -->
-                                        <button type="submit" name="action" value="submitActionTwo"
-                                            style="display:none;">Test
-                                            Output</button>
-                                    </form>
-
-
-
-
-
-
-
-                                    <!-- Something Card -->
-
-
-
-
-
-
-                                    {{-- Action Buttons for Main Record --}}
-                                    <div class="form-group text-center d-flex justify-content-around  mt-8 mb-8">
-                                        <!-- External Button for Submit Action 1 -->
-                                        <button id="externalSubmitActionOne" class="btn btn-flex btn-light-primary"><i
-                                                class="ki-duotone ki-send fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                            Save Funeral
-                                        </button>
-                                        <!-- External Button for Submit Action 2 -->
-                                        <button id="externalSubmitActionTwo" class="btn btn-light-secondary"><i
-                                                class="ki-duotone ki-square-brackets fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                                <span class="path3"></span>
-                                                <span class="path4"></span>
-                                            </i>
-                                            Test Output
-                                        </button>
-
-
-
-
-
-                                    </div>
-
-
-
-
-
-
-
-                                </div>
-                                <!--end::Card body-->
+<!-- Begin Funeral Arrangement Card -->
+<div id="funeral_card" class="card pt-4 mb-6 mb-xl-9">
+    <!-- Begin Card Header -->
+    <div class="card-header border-0">
+        <!-- Begin Card Title -->
+        <div class="card-title">
+            <h2 class="fw-bold">Funeral Arrangement</h2>
+        </div>
+        <!-- End Card Title -->
+
+        <!-- Begin Card Toolbar -->
+        <div class="card-toolbar">
+            <button id="externalSubmitActionOne" class="btn btn-sm btn-flex btn-light-primary">
+                Save Changes
+            </button>
+        </div>
+        <!-- End Card Toolbar -->
+    </div>
+    <!-- End Card Header -->
+
+    <!-- Begin Card Body -->
+    <div class="card-body pt-0">
+        <form id="funeralForm" method="POST" action="{{ route('handleFuneralAction') }}">
+            @csrf {{-- CSRF token for form submission --}}
+            <input type="hidden" id="funeral_id" name="funeral_id" value="{{ $funeral->id ?? '' }}">
+            <input type="hidden" id="person_id" name="person_id" value="{{ $deceased_person->id }}">
+            <input type="hidden" id="person_name" name="person_name" value="{{ $deceased_person->first_name }}">
+
+            <!-- Begin Accordion -->
+            <div class="accordion mb-3" id="kt_accordion_funeral">
+                <!-- Accordion Item for Church & Cemetery Details -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="kt_accordion_header_1">
+                        <button class="accordion-button fs-4 fw-semibold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#kt_accordion_body_1" aria-expanded="true" aria-controls="kt_accordion_body_1">
+                            Church & Cemetery Details
+                        </button>
+                    </h2>
+                    <div id="kt_accordion_body_1" class="accordion-collapse collapse show" aria-labelledby="kt_accordion_header_1" data-bs-parent="#kt_accordion_funeral">
+                        <div class="accordion-body">
+                            <!-- Church Information -->
+                            <h5>Church Information</h5>
+                            <div class="pt-0" style="display: flex; align-items: center;">
+                                <select id="churchSelect" name="churchSelect" class="form-select" data-control="select2"
+                                    data-placeholder="Select Church" data-allow-clear="true" style="margin-right: 10px;">
+                                    <option></option>
+                                    @foreach ($churches as $church)
+                                        <option value="{{ $church->id }}" {{ $funeral->church_address_id == $church->id ? 'selected' : '' }}>
+                                            {{ $church->name }} ({{ $church->line1 }} - {{ $church->suburb }}, {{ $church->city }}, {{ $church->ZIP }})
+                                        </option>
+                                    @endforeach
+                                    @if ($churches->isEmpty())
+                                        <option disabled>No churches available</option>
+                                    @endif
+                                </select>
                             </div>
-                            <!--end::Card-->
+
+                            <div class="separator border-light my-8"></div>
+
+                            <!-- Graveyard Information -->
+                            <h5>Graveyard Information</h5>
+                            <div style="display: flex; align-items: center;">
+                                <select id="graveyardSelect" name="graveyardSelect" class="form-select" data-control="select2"
+                                    data-placeholder="Select Cemetery" data-allow-clear="true" style="margin-right: 10px;">
+                                    <option></option>
+                                    @foreach ($graveyards as $graveyard)
+                                        <option value="{{ $graveyard->id }}" {{ $funeral->grave_address_id == $graveyard->id ? 'selected' : '' }}>
+                                            {{ $graveyard->name }} ({{ $graveyard->line1 }} - {{ $graveyard->suburb }}, {{ $graveyard->city }}, {{ $graveyard->ZIP }})
+                                        </option>
+                                    @endforeach
+                                    @if ($graveyards->isEmpty())
+                                        <option disabled>No graveyards available</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item for Funeral Details -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="kt_accordion_header_2">
+                        <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#kt_accordion_body_2" aria-expanded="false" aria-controls="kt_accordion_body_2">
+                            Funeral Details
+                        </button>
+                    </h2>
+                    <div id="kt_accordion_body_2" class="accordion-collapse collapse" aria-labelledby="kt_accordion_header_2"
+                        data-bs-parent="#kt_accordion_funeral">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <!-- Graveyard Information Form -->
+                                <div class="card-body pt-4 p-3">
+                                    <div class="container mt-5">
+                                        <h4>Graveyard Information Form</h4>
+                                        <!-- Row 1 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="graveyard_section" class="form-label">Graveyard section:</label>
+                                                <input type="text" class="form-control" id="graveyard_section" name="graveyard_section"
+                                                    value="{{ $funeral->graveyard_section ?? '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="grave_number" class="form-label">Grave number:</label>
+                                                <input type="text" class="form-control" id="grave_number" name="grave_number"
+                                                    value="{{ $funeral->grave_number ?? '' }}" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="burial_date" class="form-label">Burial Date:</label>
+                                                <input type="date" class="form-control" id="burial_date" name="burial_date"
+                                                    value="{{ $funeral->burial_date ? \Carbon\Carbon::parse($funeral->burial_date)->format('Y-m-d') : '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="burial_time" class="form-label">Burial Time:</label>
+                                                <input type="time" class="form-control" id="burial_time" name="burial_time"
+                                                    value="{{ $funeral->burial_date ? \Carbon\Carbon::parse($funeral->burial_date)->format('H:i') : '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="coffin" class="form-label">Coffin:</label>
+                                                <input type="text" class="form-control" id="coffin" name="coffin"
+                                                    value="{{ $funeral->coffin ?? '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="viewing_time" class="form-label">Viewing Time:</label>
+                                                <input type="datetime-local" class="form-control" id="viewing_time" name="viewing_time"
+                                                    value="{{ $funeral->viewing_time ? \Carbon\Carbon::parse($funeral->viewing_time)->format('Y-m-d\TH:i') : '' }}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2.5 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="viewing_location" class="form-label">Viewing Location:</label>
+                                                <div style="display: flex; align-items: center;">
+                                                    <select id="viewing_location" name="viewing_location" class="form-select"
+                                                        data-control="select2" data-placeholder="Select Viewing Location"
+                                                        data-allow-clear="true" style="margin-right: 10px;">
+                                                        <option></option>
+                                                        @foreach ($viewinglocations as $viewinglocation)
+                                                            <option value="{{ $viewinglocation->id }}"
+                                                                {{ $funeral->viewing_address_id == $viewinglocation->id ? 'selected' : '' }}>
+                                                                {{ $viewinglocation->name }} ({{ $viewinglocation->line1 }} -
+                                                                {{ $viewinglocation->suburb }}, {{ $viewinglocation->city }},
+                                                                {{ $viewinglocation->ZIP }})
+                                                            </option>
+                                                        @endforeach
+                                                        @if ($viewinglocations->isEmpty())
+                                                            <option disabled>No viewing locations available</option>
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 3 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="church_office" class="form-label">Church office:</label>
+                                                <input type="text" class="form-control" id="church_office" name="church_office"
+                                                    value="{{ $funeral->church_office ?? '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="church_caretaker" class="form-label">Church caretaker:</label>
+                                                <input type="text" class="form-control" id="church_caretaker" name="church_caretaker"
+                                                    value="{{ $funeral->caretaker ?? '' }}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 4 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="burial_person" class="form-label">Burial person (preacher):</label>
+                                                <input type="text" class="form-control" id="burial_person" name="burial_person"
+                                                    value="{{ $funeral->preacher ?? '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="contact_number" class="form-label">Contact Number:</label>
+                                                <input type="tel" class="form-control" id="contact_number" name="contact_number"
+                                                    value="{{ $funeral->contact_number ?? '' }}">
+                                            </div>
+                                            <div class="col">
+                                                <label for="organist" class="form-label">Organist:</label>
+                                                <input type="text" class="form-control" id="organist" name="organist"
+                                                    value="{{ $funeral->organist ?? '' }}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 5 -->
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="funeral_notices" class="form-label">Notices:</label>
+                                                <textarea class="form-control" id="funeral_notices" name="funeral_notices" rows="3">{{ $funeral->funeral_notices ?? '' }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Accordion -->
+
+            <!-- Required Alert (initially hidden) -->
+            <div id="requiredAlert" class="alert alert-danger bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
+                style="display: none !important;">
+                <!-- Icon -->
+                <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                </i>
+                <!-- Wrapper -->
+                <div class="d-flex flex-column pe-0 pe-sm-10">
+                    <!-- Title -->
+                    <h4 class="fw-semibold text-danger">Incomplete Form</h4>
+                    <!-- Content -->
+                    <span>All Tabs Need to be completed ('Green') before you can save.</span>
+                </div>
+            </div>
+            <!-- End Required Alert -->
+
+            <!-- Hidden Button for Submit Action 1 -->
+            <button type="submit" name="action" value="submitActionOne" style="display:none;">Save Funeral</button>
+        </form>
+
+        <!-- Action Buttons for Main Record -->
+        <div class="form-group text-center d-flex justify-content-around mt-8 mb-8">
+            <!-- External Button for Submit Action 1 -->
+            <button id="externalSubmitActionOneCopy" class="btn btn-flex btn-light-primary">
+                <i class="ki-duotone ki-send fs-2">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+                Save Funeral Details
+            </button>
+        </div>
+    </div>
+    <!-- End Card Body -->
+</div>
+<!-- End Card -->
+
+
 
 
 
@@ -2103,18 +1720,20 @@
                                                 </thead>
                                                 <tbody id="funeral-costs-table-body">
                                                     @foreach ($funeral_costs as $cost)
-                                                        <tr>
-                                                            <td>{{ $cost->name }}</td>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-text">R</span>
-                                                                    <input type="number" class="form-control cost-input"
-                                                                        id="fc_{{ Str::slug($cost->name, '_') }}"
-                                                                        name="fc_{{ Str::slug($cost->name, '_') }}"
-                                                                        oninput="calculateTotal()">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td>{{ $cost->name }}</td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">R</span>
+                                                                <input type="number" class="form-control cost-input"
+                                                                    id="fc_{{ Str::slug($cost->name, '_') }}"
+                                                                    name="costs[{{ $cost->id }}]"
+                                                                    value="{{ $cost->transactions->sum('transaction.transaction_local_value') ?? 0 }}"
+                                                                    oninput="calculateTotal()">
+                                                                <input type="hidden" name="cost_names[{{ $cost->id }}]" value="{{ $cost->name }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     @endforeach
                                                     <tr>
                                                         <td colspan="2">
@@ -2205,7 +1824,7 @@
                                 <div class="card-header border-0">
                                     <!--begin::Card title-->
                                     <div class="card-title">
-                                        <h2 class="fw-bold">Credit Balance</h2>
+                                        <h2 class="fw-bold">Available Balance</h2>
                                     </div>
                                     <!--end::Card title-->
 
@@ -2279,8 +1898,7 @@
 
                                     <div class="fw-bold fs-2">
                                         R3,487.50 <span class="text-muted fs-4 fw-semibold">ZAR</span>
-                                        <div class="fs-7 fw-normal text-muted">Balance will increase the amount due on the
-                                            customer's next invoice.</div>
+                                        <div class="fs-7 fw-normal text-muted">The amount of money from all active memberships, allocated to the funeral.</div>
                                     </div>
 
 
@@ -2295,117 +1913,80 @@
                             <!--end::Card-->
 
 
-                            <!--begin::Card-->
-                            <div id="shortfall_card" class="card pt-4 mb-6 mb-xl-9">
-                                <!--begin::Card header-->
-                                <div class="card-header border-0">
-                                    <!--begin::Card title-->
-                                    <div class="card-title">
-                                        <h2 class="fw-bold">Shortfall Transactions</h2>
-                                    </div>
-                                    <!--end::Card title-->
-                                    <!--begin::Card toolbar-->
-                                    <div class="card-toolbar">
-                                        <a href="#" class="btn btn-sm btn-flex btn-light-primary"
-                                            data-bs-toggle="modal" data-bs-target="#kt_modal_payment">
-                                            <i class="ki-duotone ki-plus fs-3"><span class="path1"></span><span
-                                                    class="path2"></span></i> New Payment
-                                        </a>
-                                    </div>
-                                    <!--end::Card toolbar-->
+<!--begin::Card-->
+<div id="shortfall_card" class="card pt-4 mb-6 mb-xl-9">
+    <!--begin::Card header-->
+    <div class="card-header border-0">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2 class="fw-bold">Shortfall Transactions</h2>
+        </div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+            <a href="#" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_payment">
+                <i class="ki-duotone ki-plus fs-3"><span class="path1"></span><span class="path2"></span></i> New Payment
+            </a>
+        </div>
+        <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
 
-                                </div>
-                                <!--end::Card header-->
+<!--begin::Card body-->
+<div class="card-body pt-0">
+    <table id="" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+        <thead>
+            <tr class="fw-bold fs-6">
+                <th>Details</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Time of Payment</th>
+                <th>Membership</th>
+                <th>Ref. #</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($shortfall_transactions as $transaction)
+            <tr>
+                <td>{{ $transaction->transaction->transaction_description }}</td>
+                <td>R{{ $transaction->transaction->transaction_local_value }}</td>
+                <td>{{ $transaction->transaction->paymentMethod->name ?? 'N/A' }}</td>
+                <td>{{ $transaction->transaction->transaction_date ?? 'N/A' }}</td>
+                <td>{{ $transaction->transaction->membership->membership_code ?? 'N/A' }}</td>
+                <td>{{ $transaction->transaction->transaction_document_reference ?? 'N/A' }}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-icon btn-dark "
+                        data-bs-toggle="modal" data-bs-target="#kt_modal_payment"
+                        data-transaction-id="{{ $transaction->transaction->id }}"
+                        data-name="{{ $transaction->transaction->transaction_description }}"
+                        data-reference="{{ $transaction->transaction->transaction_document_reference }}"
+                        data-amount="{{ $transaction->transaction->transaction_local_value }}"
+                        data-payment-method-id="{{ $transaction->transaction->payment_method_id }}"
+                        data-time-of-payment="{{ $transaction->transaction->transaction_date }}"
+                        data-membership-id="{{ $transaction->transaction->membership_id }}">
+                        <i class="bi bi-pencil-fill me-0"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-icon btn-danger "
+                        data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                        data-transaction-id="{{ $transaction->transaction->id }}"
+                        data-type="shortfall">
+                        <i class="bi bi-trash3 fs-4 me-0"></i>
+                    </button>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+<!--end::Card body-->
 
-                                <!--begin::Card body-->
-                                <div class="card-body pt-0">
-
-
-                                    {{-- @if (!$item['']->isEmpty()) --}}
-
-
-                                    {{-- Start Shortfalls --}}
-
-                                    <table id=""
-                                        class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                        <thead>
-                                            <tr class="fw-bold fs-6">
-                                                <th>Details</th>
-                                                <th>Amount</th>
-                                                <th>Payment Method</th>
-                                                <th>Account Number</th>
-                                                <th>Bank</th>
-                                                <th>Ref. #</th>
-                                                <th>Actions</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    John Doe
-                                                </td>
-                                                <td>
-                                                    R950
-                                                </td>
-                                                <td>
-                                                    Cash
-                                                </td>
-                                                <td>
-                                                    N/A
-                                                </td>
-                                                <td>
-                                                    N/A
-                                                </td>
-                                                <td>
-                                                    N/A
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2"
-                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_1"
-                                                        data-location-type="Postal">
-                                                        Remove
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-
-
-                                    </table>
-
-                                    {{-- End Shortfalls --}}
+</div>
+<!--end::Card-->
 
 
 
 
-
-                                    {{-- @else
-                                    <div class="card inner-card border border-secondary mt-4">
-                                        <div class="card-header"style="background-color: #448C74;">
-                                            <h3 class="card-title" style="color: white">Title</h3>
-                                        </div>
-                                        <div class="card-body bg-light">
-                                            <p>No records found.</p>
-                                        </div>
-                                    </div>
-                                @endif --}}
-
-
-
-
-
-
-
-
-
-
-
-
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::Card-->
 
                             <!--begin::Card-->
                             <div id="payouts_card" class="card pt-4 mb-6 mb-xl-9">
@@ -2442,91 +2023,80 @@
 
 
 
-                                    {{-- Start Payouts --}}
+<!-- Start Payouts -->
+<table id="" class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
+    <thead>
+        <tr class="fw-bold fs-6">
+            <th>Beneficiary</th>
+            <th>Amount</th>
+            <th>Beneficiary - Postal Address</th>
+            <th>Cash</th>
+            <th>Account Number</th>
+            <th>Bank</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($funeral_payouts as $payout)
+        <tr>
+            <td>
+                {{ $payout->person->first_name }} {{ $payout->person->last_name }}
+            </td>
+            <td>
+                {{ $payout->transaction_local_value }}
+            </td>
+            <td>
+                {{ $payout->address->line1 }}</br>
+                {{ $payout->address->suburb }} </br>
+                {{ $payout->address->city }} </br>
+                {{ $payout->address->ZIP }}
+            </td>
+            <td>
+                {{ $payout->cash_payout === 1 ? 'Yes' : 'No' }}
+            </td>
+            <td>
+                {{ $payout->person->bankDetails->account_number ?? '' }}
+            </td>
+            <td>
+                {{ $payout->person->bankDetails->bank->name ?? '' }}
+            </td>
+            <td class="align-middle">
+                <button type="button" class="btn btn-sm btn-icon btn-dark "
+                    data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary"
+                    data-beneficiary-id="{{ $payout->person->id }}"
+                    data-beneficiary-name="{{ $payout->person->first_name }}"
+                    data-beneficiary-surname="{{ $payout->person->last_name }}"
+                    data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}"
+                    data-payout-amount="{{ $payout->transaction_local_value }}"
+                    data-address-type-id="{{ $payout->address->addressType->id }}"
+                    data-line1="{{ $payout->address->line1 }}"
+                    data-line2="{{ $payout->address->district }}"
+                    data-townsuburb="{{ $payout->address->suburb }}"
+                    data-city="{{ $payout->address->city }}"
+                    data-province="{{ $payout->address->province }}"
+                    data-postalcode="{{ $payout->address->ZIP }}"
+                    data-country-name="{{ $payout->address->country->name }}"
+                    data-payout-acc-number="{{ $payout->person->bankDetails->account_number ?? '' }}"
+                    data-bank-id="{{ $payout->person->bankDetails->bank_id ?? '' }}"
+                    data-universal-branch-code="{{ $payout->person->bankDetails->universal_branch_code ?? '' }}"
+                    data-bank-account-type-id="{{ $payout->person->bankDetails->bank_account_type_id ?? '' }}">
+                    <i class="bi bi-pencil-fill me-0"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-icon btn-danger "
+                    data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                    data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}"
+                    data-beneficiary-id="{{ $payout->person->id }}"
+                    data-funeral-id="{{ $payout->funeral_id }}"
+                    data-type="beneficiary">
+                    <i class="bi bi-trash3 fs-4 me-0"></i>
+                </button>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+<!-- End Payouts -->
 
-
-
-                                    <table id=""
-                                        class="table table-striped table-row-bordered gy-5 gs-7 border rounded mx-auto">
-                                        <thead>
-                                            <tr class="fw-bold fs-6">
-                                                <th>Beneficiary</th>
-                                                <th>Amount</th>
-                                                <th>Beneficiary - Postal Address</th>
-                                                <th>Cash</th>
-                                                <th>Account Number</th>                                               
-                                                <th>Bank</th>
-                                                <th>Actions</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($funeral_payouts as $payout)
-                                            <tr>
-                                                <td>
-                                                    {{ $payout->person->first_name }} {{ $payout->person->last_name }}
-                                                </td>
-                                                <td>
-                                                    {{ $payout->transaction_local_value }}
-                                                </td>
-                                                <td>
-                                                    {{ $payout->address->line1 }}</br>
-                                                    {{ $payout->address->suburb }} </br>
-                                                    {{ $payout->address->city }} </br>
-                                                    {{ $payout->address->ZIP }} 
-                                                </td>
-                                                <td>
-                                                    {{ $payout->cash_payout === 1 ? 'Yes' : 'No' }} 
-                                                </td>
-                                                <td>
-                                                    {{ $payout->person->bankDetails->account_number ?? '' }} 
-                                                </td>
-                                                <td>
-                                                    {{ $payout->person->bankDetails->bank->name ?? '' }} 
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-dark btn-sm my-2 ml-2"
-                                                        data-bs-toggle="modal" data-bs-target="#kt_modal_beneficiary"
-                                                        data-beneficiary-id="{{ $payout->person->id }}"
-                                                        data-beneficiary-name="{{ $payout->person->first_name }}"
-                                                        data-beneficiary-surname="{{ $payout->person->last_name }}"
-                                                        data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}"
-                                                        data-payout-amount="{{ $payout->transaction_local_value }}"
-                                                        data-address-type-id="{{ $payout->address->addressType->id }}"
-                                                        data-line1="{{ $payout->address->line1 }}"
-                                                        data-line2="{{ $payout->address->district }}"
-                                                        data-townsuburb="{{ $payout->address->suburb }}"
-                                                        data-city="{{ $payout->address->city }}"
-                                                        data-province="{{ $payout->address->province }}"
-                                                        data-postalcode="{{ $payout->address->ZIP }}"
-                                                        data-country-name="{{ $payout->address->country->name }}"
-                                                        data-payout-acc-number="{{ $payout->person->bankDetails->account_number ?? '' }}"
-                                                        data-bank-id="{{ $payout->person->bankDetails->bank_id ?? '' }}"
-                                                        data-universal-branch-code="{{ $payout->person->bankDetails->universal_branch_code ?? '' }}"
-                                                        data-bank-account-type-id="{{ $payout->person->bankDetails->bank_account_type_id ?? '' }}">
-                                                        Edit
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm my-2 ml-2"
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#confirmDeleteModal"
-                                                        data-beneficiary-id="{{ $payout->person->id }}"
-                                                        data-funeral-id="{{ $payout->funeral_id }}"
-                                                        data-transaction-id="{{ $payout->funeralHasTransactions->transactions_id }}">
-                                                        Remove
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            
-                                            
-                                            
-                                            
-                                        </tbody>
-
-
-                                    </table>
-
-                                    {{-- End Payouts --}}
 
                                     {{-- @else
                                                         <div class="card inner-card border border-secondary mt-4">
@@ -3767,8 +3337,8 @@
             <!--end::Layout-->
 
             <!--begin::Modals-->
-            <!--begin::Modal - Add Payment-->
-            <div class="modal fade" id="kt_modal_add_payment" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal - Add Checklist-->
+            <div class="modal fade" id="add_checklist_item_modal" tabindex="-1" aria-hidden="true">
                 <!--begin::Modal dialog-->
                 <div class="modal-dialog mw-650px">
                     <!--begin::Modal content-->
@@ -3776,11 +3346,11 @@
                         <!--begin::Modal header-->
                         <div class="modal-header">
                             <!--begin::Modal title-->
-                            <h2 class="fw-bold">Add a Payment Record</h2>
+                            <h2 class="fw-bold">Add Checklist Item</h2>
                             <!--end::Modal title-->
 
                             <!--begin::Close-->
-                            <div id="kt_modal_add_payment_close" class="btn btn-icon btn-sm btn-active-icon-primary">
+                            <div id="add_checklist_item_modal_close" class="btn btn-icon btn-sm btn-active-icon-primary">
                                 <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
                                         class="path2"></span></i>
                             </div>
@@ -3791,22 +3361,23 @@
                         <!--begin::Modal body-->
                         <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                             <!--begin::Form-->
-                            <form id="kt_modal_add_payment_form" class="form" action="#">
+                            <form id="add_checklist_item_modal_form" class="form" action="#">
+                                @csrf
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <!--begin::Label-->
                                     <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Invoice Number</span>
+                                        <span class="required">Item Name</span>
 
                                         <span class="ms-2" data-bs-toggle="tooltip"
-                                            title="The invoice number must be unique.">
+                                            title="The name must be unique">
                                             <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span></i> </span>
                                     </label>
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <input type="text" class="form-control form-control-solid" name="invoice"
+                                    <input type="text" class="form-control form-control-solid" id="name" name="name"
                                         value="" />
                                     <!--end::Input-->
                                 </div>
@@ -3815,36 +3386,23 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
                                     <!--begin::Label-->
-                                    <label class="required fs-6 fw-semibold form-label mb-2">Status</label>
+                                    <label class="required fs-6 fw-semibold form-label mb-2">Required/Optional</label>
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <select class="form-select form-select-solid fw-bold" name="status"
+                                    <select class="form-select form-select-solid fw-bold" id="required" name="required"
                                         data-control="select2" data-placeholder="Select an option"
                                         data-hide-search="true">
                                         <option></option>
-                                        <option value="0">Approved</option>
-                                        <option value="1">Pending</option>
-                                        <option value="2">Rejected</option>
-                                        <option value="3">In progress</option>
-                                        <option value="4">Completed</option>
+                                        <option value="0">Optional</option>
+                                        <option value="1">Required</option>
+                                 
                                     </select>
                                     <!--end::Input-->
                                 </div>
                                 <!--end::Input group-->
 
-                                <!--begin::Input group-->
-                                <div class="fv-row mb-7">
-                                    <!--begin::Label-->
-                                    <label class="required fs-6 fw-semibold form-label mb-2">Invoice Amount</label>
-                                    <!--end::Label-->
-
-                                    <!--begin::Input-->
-                                    <input type="text" class="form-control form-control-solid" name="amount"
-                                        value="" />
-                                    <!--end::Input-->
-                                </div>
-                                <!--end::Input group-->
+                     
 
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-15">
@@ -3853,26 +3411,26 @@
                                         <span class="required">Additional Information</span>
 
                                         <span class="ms-2" data-bs-toggle="tooltip"
-                                            title="Information such as description of invoice or product purchased.">
+                                            title="Information such as description.">
                                             <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span></i> </span>
                                     </label>
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <textarea class="form-control form-control-solid rounded-3" name="additional_info"></textarea>
+                                    <textarea class="form-control form-control-solid rounded-3" id="description" name="description"></textarea>
                                     <!--end::Input-->
                                 </div>
                                 <!--end::Input group-->
 
                                 <!--begin::Actions-->
                                 <div class="text-center">
-                                    <button type="reset" id="kt_modal_add_payment_cancel"
+                                    <button type="reset" id="add_checklist_item_modal_cancel"
                                         class="btn btn-light me-3">
                                         Discard
                                     </button>
 
-                                    <button type="submit" id="kt_modal_add_payment_submit" class="btn btn-primary">
+                                    <button type="submit" id="add_checklist_item_modal_submit" class="btn btn-primary">
                                         <span class="indicator-label">
                                             Submit
                                         </span>
@@ -3892,7 +3450,10 @@
                 </div>
                 <!--end::Modal dialog-->
             </div>
-            <!--end::Modal - New Card--><!--begin::Modal - Adjust Balance-->
+            <!--end::Modal - New Card-->
+            
+            
+            <!--begin::Modal - Adjust Balance-->
             <div class="modal fade" id="kt_modal_adjust_balance" tabindex="-1" aria-hidden="true">
                 <!--begin::Modal dialog-->
                 <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -4823,25 +4384,28 @@
             </div>
             <!--end::Modal - New Card--><!--end::Modals-->
 
-             <!-- Start Delete beneficiary Confirmation  Modal -->
-            <div class="modal fade" tabindex="-1" id="confirmDeleteModal">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Confirm Deletion</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to remove this beneficiary?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Remove</button>
-                        </div>
-                    </div>
+<!-- start::Modal - Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <div class="btn btn-icon btn-sm btn-danger btn-active-light-danger ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
             </div>
-            <!--end::Modal - Delete beneficiary Confirmation-->
+            <div class="modal-body" id="confirmDeleteMessage">
+                Are you sure you want to delete this item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal - Confirm Delete Modal-->
 
     <!-- Start Beneficiary Modal -->
     <div class="modal fade" tabindex="-1" id="kt_modal_beneficiary">
@@ -4965,137 +4529,95 @@
     <!-- End Beneficiary Modal -->
 
 
-            <!-- Start Shortfall Payment Modal -->
-            <div class="modal fade" tabindex="-1" id="kt_modal_payment">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content" >
-                        <div class="modal-header">
-                            <h3 class="modal-title ">Add Payment</h3>
-
-                            <!--begin::Close-->
-                            <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
-                                        class="path2"></span></i>
-                            </div>
-                            <!--end::Close-->
-                        </div>
-                        <form id="shortfallPaymentForm" method="POST"
-                            action="{{ route('StoreFuneralShortfall') }}">
-                            @csrf
-                            <div class="modal-body">
-
-                                <input type="text" id="funeral_id" name="funeral_id"
-                                value="{{ $funeral->id }}" hidden>
-
-
-
-                                <div class="pt-4 p-3">
-
-
-
-                                    <!-- Row 1 -->
-                                    <div class="row my-3">
-                                        <div class="col">
-                                            <label for="shortfall_payment_name"
-                                                class="form-label ">Name:</label>
-                                            <input type="text" class="form-control" id="shortfall_payment_name"
-                                                name="shortfall_payment_name">
-                                        </div>
-                                        <div class="col">
-                                            <label for="shortfall_payment_surname"
-                                                class="form-label  ">Surname:</label>
-                                            <input type="tel" class="form-control" id="shortfall_payment_surname"
-                                                name="shortfall_payment_surname">
-                                        </div>
-                                        <div class="col">
-                                            <label for="payout_amount" class="form-label  ">Amount:</label>
-                                            <div class="input-group mx-auto">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"
-                                                        style="padding-top: 10% !important; padding-bottom: 10% !important;">R</span>
-                                                </div>
-                                                <input type="number" class="form-control cost-input"
-                                                    id="payout_amount" name="payout_amount">
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="separator border-light my-8"></div>
-
-
-                                    <div class="pt-4" style="display: flex; align-items: center;">
-                                        <label for="ShortfallPaymentMethodSelect" class="form-label  ">Payment
-                                            Method:</label>
-                                        <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect"
-                                            class="form-select bg-white form-select-solid" data-control="select2"
-                                            data-placeholder="Select Payment Method" data-allow-clear="true"
-                                            style="margin-right: 10px;">
-
-                                            <option value="2">Cash</option>
-                                            <option value="5">EFT/Bank Payment</option>
-
-                                        </select>
-
-
-
-                                    </div>
-
-                                    <div class="separator border-light my-8"></div>
-
-                                    <!-- Payout Payment Details -->
-                                    <div class="row my-3">
-                                        <div class="col">
-                                            <label for="payout_acc_number" class="form-label  ">Account
-                                                number:</label>
-                                            <input type="number" class="form-control" id="payout_acc_number"
-                                                name="payout_acc_number">
-                                        </div>
-                                        <div class="col">
-                                            <label for="ShortfallbankSelect" class="form-label  ">Bank:</label>
-                                            <select id="ShortfallbankSelect" name="ShortfallbankSelect"
-                                                class="form-select bg-white form-select-solid" data-control="select2"
-                                                data-placeholder="Select Bank" data-allow-clear="true"
-                                                style="margin-right: 10px;">
-                                                <option></option>
-                                                <!-- Placeholder option for user prompt -->
-                                                @foreach ($banks as $bank)
-                                                    <option value="{{ $bank->id }}">
-                                                        {{ $bank->name }}
-                                                    </option>
-                                                @endforeach
-
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="separator border-light my-8"></div> --}}
-
-
-
-
-
-
-                                </div>
-
-
-
-
-
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-dark" id="savePaymentBtn">Save Payment</button>
-                            </div>
-                        </form>
-                    </div>
+<!-- Start Shortfall Payment Modal -->
+<div class="modal fade" tabindex="-1" id="kt_modal_payment">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Payment</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-dark ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
             </div>
-            <!-- END Shortfall Payment Modal -->
+            <form id="shortfallPaymentForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" id="shortfall_id" name="shortfall_id">
+                    <input type="hidden" id="funeral_id" name="funeral_id" value="{{ $funeral->id }}">
+
+                    <div class="pt-4 p-3">
+                        <!-- Row 1 -->
+                        <div class="row my-3">
+                            <div class="col">
+                                <label for="shortfall_payment_name" class="form-label">Full Name:</label>
+                                <input type="text" class="form-control" id="shortfall_payment_name" name="shortfall_payment_name">
+                            </div>
+                            <div class="col">
+                                <label for="shortfall_payment_reference" class="form-label">Reference:</label>
+                                <input type="tel" class="form-control" id="shortfall_payment_reference" name="shortfall_payment_reference">
+                            </div>
+                            <div class="col">
+                                <label for="shortfall_amount" class="form-label">Amount:</label>
+                                <div class="input-group mx-auto">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">R</span>
+                                    </div>
+                                    <input type="number" class="form-control cost-input" id="shortfall_amount" name="shortfall_amount">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator border-light my-8"></div>
+
+                        <div class="row my-3">
+                            <div class="col">
+                                <label for="shortfall_time_of_payment" class="form-label">Time of Payment:</label>
+                                <input type="datetime-local" class="form-control" id="shortfall_time_of_payment" name="shortfall_time_of_payment">
+                            </div>
+                        </div>
+
+                        <div class="separator border-light my-8"></div>
+
+                        <div class="row my-3">
+                            <div class="col">
+                                <label for="ShortfallPaymentMethodSelect" class="form-label">Payment Method:</label>
+                                <select id="ShortfallPaymentMethodSelect" name="ShortfallPaymentMethodSelect" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Payment Method" data-allow-clear="true">
+                                    <option value="2">Cash</option>
+                                    <option value="5">EFT/Bank Payment</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="separator border-light my-8"></div>
+
+                        <div class="row my-3">
+                            <div class="col">
+                                <label for="membershipSelect" class="form-label">Membership:</label>
+                                <select id="membershipSelect" name="membership_id" class="form-select bg-white form-select-solid" data-control="select2" data-placeholder="Select Membership" data-allow-clear="true">
+                                    <option></option>
+                                    @foreach ($deceased_person->allMemberships() as $membership)
+                                        <option value="{{ $membership->id }}">{{ $membership->membership_code }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark" id="savePaymentBtn">Save Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END Shortfall Payment Modal -->
+
+
+
+
+
 
 
 
@@ -5349,45 +4871,83 @@
         </script>
     {{-- end:: This is for getting the universal branch code from the selected bank --}}
 
+    <style>
+        #toast-container .toast-success {
+            background-color: rgb(0, 0, 0);
+        }
+    </style>
+    
 
-    {{-- This is for blocking funeral section if not required --}}
+    <div class="d-flex justify-content-end">
+        <!--begin::Switch-->
+        <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+            <!--begin::Input-->
+            <input class="form-check-input" name="funeral_required" type="checkbox" value="1" id="funeral_required" 
+                   data-funeral-id="{{ $funeral->id }}" {{ $funeral->funeral_required ? 'checked' : '' }} />
+            <!--end::Input-->
+        </label>
+        <!--end::Switch-->
+    </div>
+    
+    <!-- This is for blocking funeral section if not required -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded and parsed');
-
             var button = document.querySelector("#funeral_required");
             var target = document.querySelector("#funeral_card");
-
-            console.log('button:', button);
-            console.log('target:', target);
-
+            var funeralId = button.getAttribute('data-funeral-id');
+    
             var blockUI = new KTBlockUI(target, {
                 overlayClass: "bg-danger bg-opacity-25",
-                message: '<div class="blockui-message"><span class="fs-2 text-danger"> Funeral not required</span></div>',
+                message: '<div class="blockui-message"><span class="fs-2 text-danger">Funeral not required</span></div>',
             });
-
-            console.log('blockUI initialized:', blockUI);
-
+    
             function updateBlockUI() {
                 if (button.checked) {
-                    console.log('Checkbox is checked, releasing blockUI');
                     blockUI.release();
                 } else {
-                    console.log('Checkbox is not checked, blocking blockUI');
                     blockUI.block();
                 }
             }
-
+    
             // Initialize the block UI based on the initial state of the checkbox
             updateBlockUI();
-
-            button.addEventListener("click", function() {
-                console.log('Checkbox clicked');
+    
+            button.addEventListener("change", function() {
                 updateBlockUI();
+                
+                // Send AJAX request to update funeral required status
+                $.ajax({
+                    url: '{{ route("updateFuneralRequired") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        funeral_id: funeralId,
+                        funeral_required: button.checked ? 1 : 0
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            showToast('success', response.message);
+                        } else {
+                            showToast('error', response.message);
+                        }
+                    },
+                    error: function(response) {
+                        showToast('error', 'Error updating funeral required status.');
+                        console.error('Error:', response);
+                    }
+                });
             });
+    
+            function showToast(type, message) {
+                if (type === 'success') {
+                    toastr.success(message);
+                } else {
+                    toastr.error(message);
+                }
+            }
         });
     </script>
-
+    
 
 
     {{-- This is used for the checklist --}}
@@ -5551,6 +5111,7 @@
         });
     </script> --}}
 
+      {{-- Edit/Create modal for Beneficiary --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             $('#kt_modal_beneficiary').on('show.bs.modal', function (event) {
@@ -5612,44 +5173,107 @@
     
     
     
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var deleteBeneficiaryId;
-            var deleteFuneralId;
-            var deleteTransactionId;
-    
-            // Show confirmation modal on remove button click
-            $('#confirmDeleteModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
+<!-- Begin Combined Script for Deleting Beneficiaries and Shortfalls, and Handling Shortfall Payment Modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteTransactionId;
+        var deleteBeneficiaryId;
+        var deleteFuneralId;
+        var deleteType;
+
+        // Show confirmation modal on remove button click
+        $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            deleteType = button.data('type');
+
+            if (deleteType === 'beneficiary') {
                 deleteBeneficiaryId = button.data('beneficiary-id');
                 deleteFuneralId = button.data('funeral-id');
                 deleteTransactionId = button.data('transaction-id');
-            });
-    
-            // Handle confirmation button click
-            $('#confirmDeleteBtn').on('click', function () {
-                $.ajax({
-                    url: '{{ route("RemoveFuneralBeneficiary") }}',
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        beneficiary_id: deleteBeneficiaryId,
-                        funeral_id: deleteFuneralId,
-                        transaction_id: deleteTransactionId
-                    },
-                    success: function (response) {
-                        // Handle success response (e.g., remove the row from the table)
-                        location.reload(); // Reload the page to reflect changes
-                    },
-                    error: function (response) {
-                        // Handle error response
-                        console.error('Error:', response);
-                    }
-                });
+                $('#confirmDeleteMessage').text('Are you sure you want to remove this beneficiary?');
+            } else if (deleteType === 'shortfall') {
+                deleteTransactionId = button.data('transaction-id');
+                $('#confirmDeleteMessage').text('Are you sure you want to remove this shortfall payment?');
+            }
+        });
+
+        // Handle confirmation button click
+        $('#confirmDeleteBtn').on('click', function () {
+            var url = '';
+            var data = {
+                _token: '{{ csrf_token() }}'
+            };
+
+            if (deleteType === 'beneficiary') {
+                url = '{{ route("RemoveFuneralBeneficiary") }}';
+                data.beneficiary_id = deleteBeneficiaryId;
+                data.funeral_id = deleteFuneralId;
+                data.transaction_id = deleteTransactionId;
+            } else if (deleteType === 'shortfall') {
+                url = '{{ route("RemoveShortfallPayment") }}';
+                data.transaction_id = deleteTransactionId;
+            }
+
+            console.log("Sending data: ", data); // Log data being sent for debugging
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    console.log("Success: ", response); // Log success response
+                    location.reload(); // Reload the page to reflect changes
+                },
+                error: function (response) {
+                    console.error('Error:', response);
+                }
             });
         });
-    </script>
+
+        // Handle modal show for creating and editing shortfall payments
+        $('#kt_modal_payment').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+            var form = modal.find('#shortfallPaymentForm');
+            var title = modal.find('.modal-title');
+
+            var transactionId = button.data('transaction-id');
+            var name = button.data('name');
+            var reference = button.data('reference');
+            var amount = button.data('amount');
+            var paymentMethodId = button.data('payment-method-id');
+            var timeOfPayment = button.data('time-of-payment');
+            var membershipId = button.data('membership-id');
+
+            if (transactionId) {
+                // Editing existing payment
+                title.text('Edit Payment');
+                form.find('#shortfall_id').val(transactionId);
+                form.find('#shortfall_payment_name').val(name);
+                form.find('#shortfall_payment_reference').val(reference);
+                form.find('#shortfall_amount').val(amount);
+                form.find('#ShortfallPaymentMethodSelect').val(paymentMethodId).trigger('change');
+                form.find('#shortfall_time_of_payment').val(timeOfPayment);
+                form.find('#membershipSelect').val(membershipId).trigger('change');
+            } else {
+                // Adding new payment
+                title.text('Add Payment');
+                form.trigger('reset');
+                form.find('#shortfall_id').val(''); // Ensure shortfall_id is empty
+            }
+
+            form.attr('action', '{{ route('StoreFuneralShortfall') }}');
+        });
+    });
+</script>
+<!-- End Combined Script for Deleting Beneficiaries and Shortfalls, and Handling Shortfall Payment Modal -->
+
+
+    
+    
+    
+    
+    
     
     
     
@@ -5791,6 +5415,10 @@
             }
 
             document.getElementById('externalSubmitActionOne').addEventListener('click', function() {
+                handleClick('submitActionOne');
+            });
+
+            document.getElementById('externalSubmitActionOneCopy').addEventListener('click', function() {
                 handleClick('submitActionOne');
             });
 

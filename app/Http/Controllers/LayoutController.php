@@ -31,4 +31,20 @@ class LayoutController extends Controller
         // dd($layouts);
         return view('home', compact('layouts'));
     }
+
+     public function store(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            // Add other validation rules as necessary
+        ]);
+
+        // Process the data
+        // ...
+
+        // Redirect or return a response
+        return redirect()->route('home')->with('success', 'Successfully Onboarded!');
+    }
 }

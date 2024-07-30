@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Person;
 use App\Models\UserCustomStyles;
+use App\Models\BuMembershipType ;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use App\Models\LayoutPreference;
@@ -23,10 +24,17 @@ class HomeController extends Controller
         $styles = UserCustomStyles::where('users_id', Auth::id())->first();
         //dd($styles);
         // If there's no styles for the user, you could provide some defaults or redirect
-        
 
+        // Fetch the latest 10 notifications for the logged-in user
+        $latestNotifications = auth()->user()->notifications()->latest()->take(10)->get();
+        Debugbar::info($latestNotifications);
         
-        return view('home', compact('layout', 'styles'));
+        // Fetch all records from bu_membership_type table
+        $membershipTypes = BuMembershipType::all();
+        //dd($membershipTypes);
+
+
+        return view('home', compact('layout', 'styles', 'latestNotifications', 'membershipTypes'));
         // return view('landing', compact('layout'));
     }
 
@@ -42,45 +50,56 @@ class HomeController extends Controller
 
     public function getChartData()
     {
-
         $currentYear = Carbon::now()->year;
 
-        $monthlyData = Person::selectRaw("
-                MONTH(created_at) as month, 
+        $monthlyData = Person::selectRaw(
+            "
+                MONTH(created_at) as month,
                 COUNT(CASE WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) < 18 THEN 1 END) as '<18',
                 COUNT(CASE WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 18 AND 34 THEN 1 END) as '18-34',
                 COUNT(CASE WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 35 AND 49 THEN 1 END) as '35-49',
                 COUNT(CASE WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 50 AND 64 THEN 1 END) as '50-64',
                 COUNT(CASE WHEN TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) >= 65 THEN 1 END) as '65+'
-            ")
+            ",
+        )
             ->whereYear('created_at', $currentYear)
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
-        $summaryTotals = Person::selectRaw("
+        $summaryTotals = Person::selectRaw(
+            "
                 COUNT(CASE WHEN gender_id = '1' THEN 1 END) as 'main_member',
                 COUNT(CASE WHEN gender_id = '2' THEN 1 END) as 'dependant',
                 COUNT(CASE WHEN gender_id = 'M' THEN 1 END) as 'spouse',
                 COUNT(CASE WHEN gender_id = 'F' THEN 1 END) as 'child',
                 COUNT(CASE WHEN gender_id = 1 THEN 1 END) as 'male',
                 COUNT(CASE WHEN gender_id = 2 THEN 1 END) as 'female'
-            ")
+            ",
+        )
             ->get()
             ->first();
 
         return response()->json([
             'monthlyData' => $monthlyData,
-            'summaryTotals' => $summaryTotals
+            'summaryTotals' => $summaryTotals,
         ]);
     }
 
-    public function getChartData2() {
+    public function getChartData2()
+    {
         $data = DB::table('membership')
-                    ->select(DB::raw('count(*) as count, bu_membership_type_id'))
-                    ->groupBy('bu_membership_type_id')
-                    ->get();
+              ->join('bu_membership_type', 'membership.bu_membership_type_id', '=', 'bu_membership_type.id')
+              ->select(
+                  'bu_membership_type.name as typeName',
+                  'bu_membership_type.description as typeDescription',
+                  'bu_membership_type.membership_fee as typeFee',
+                  DB::raw('count(*) as count')
+              )
+              ->groupBy('bu_membership_type_id')
+              ->get();
 
         return response()->json($data);
     }
+
 }

@@ -177,10 +177,12 @@
             </div>
         @endif
 
-        <div class="card my-8">
-            <div class="card-header mx-auto">
-                <h3 class="card-title text-center">Funerals</h3>
-            </div>
+        <div class="card my-2">
+            {{-- <div class="card-header">
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Funerals</h3>
+                </div>
+            </div> --}}
             <div class="card-body">
 
                 {{-- <table id="kt_datatable_row_grouping" class="table border rounded table-row-dashed fs-6 g-5 gs-5">
@@ -415,6 +417,17 @@
                                         <label
                                             class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
                                             <input class="form-check-input" type="radio" name="membership_status2"
+                                                value="Active" />
+                                            <span class="form-check-label text-gray-600">
+                                                Active
+                                            </span>
+                                        </label>
+                                        <!--end::Option-->
+
+                                        <!--begin::Option-->
+                                        <label
+                                            class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
+                                            <input class="form-check-input" type="radio" name="membership_status2"
                                                 value="Fully-Paid" />
                                             <span class="form-check-label text-gray-600">
                                                 Fully-Paid
@@ -450,11 +463,11 @@
                         <!--end::Menu 1-->
                         <!--end::Filter-->
 
-                        <!--begin::Add customer-->
-                        <button type="button" class="btn btn-dark">
-                            <i class="ki-duotone ki-plus fs-2"></i> Create Funeral/Payout
+                        <!--begin::Record Death-->
+                        <button type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#report_death_modal">
+                            <i class="ki-duotone ki-plus fs-2"></i> Record New Death
                         </button>
-                        <!--end::Add customer-->
+                        <!--end::Record Death-->
                     </div>
                     <!--end::Toolbar-->
                 </div>
@@ -463,7 +476,7 @@
                 <table id="kt_datatable_row_grouping2" class="table border table-rounded table-row-dashed fs-6 g-5 gs-5">
                     <thead>
                         <tr class="text-start text-dark  fw-bold fs-7 text-uppercase">
-                            <th>Membership ID</th>
+                            <th>Membership Code</th>
                             <th>Main/Dep</th>
                             <th>Person Details</th>
                             <th>Membership Status</th>
@@ -477,24 +490,27 @@
                                 <tr data-person-id="{{ $funeral->person->id }}"
                                     data-funeral-id="{{ $funeral->id }}"
                                     data-person-details="{{ $funeral->person->first_name ?? 'N/A' }} - {{ $funeral->person->initials ?? 'N/A' }} - {{ $funeral->person->last_name ?? 'N/A' }}">
-                                    <td>{{ $membership->id }}</td>
+                                    <td>{{ $membership->membership_code }}</td>
                                     <td>
                                         @php
-                                            $relationshipType = 'Main Member';
+                                        $relationshipType = 'Main Member';
+                                        if ($membership->pivot) {
                                             if ($membership->pivot->secondary_person_id == $funeral->person->id) {
                                                 $relationshipType = 'Dependent';
                                             }
                                             if ($membership->pivot->person_relationship_id == 1) {
                                                 $relationshipType = 'Spouse';
                                             }
-                                        @endphp
+                                        }
+                                    @endphp
+                                    
                                         <div class="badge py-3 px-4 fs-7 badge-light-{{ $relationshipType == 'Main Member' ? 'primary' : 'info' }}">
                                             {{ $relationshipType }}
                                         </div>
                                     </td>
                                     <td>{{ $funeral->person->first_name ?? 'N/A' }} - {{ $funeral->person->initials ?? 'N/A' }} - {{ $funeral->person->last_name ?? 'N/A' }}</td>
                                     <td>
-                                        <div class="badge py-3 px-4 fs-7 badge-light-{{ $membership->status->name == 'Fully-Paid' ? 'success' : ($membership->status->name == 'Outstanding-Balance' ? 'warning' : 'danger') }}"
+                                        <div class="badge py-3 px-4 fs-7 badge-light-{{ $membership->status->name == 'Active' ? 'success' : ($membership->status->name == 'Outstanding-Balance' ? 'warning' : 'danger') }}"
                                             data-bs-toggle="tooltip" title="Show details here">
                                             {{ $membership->status->name }}
                                         </div>
@@ -511,13 +527,281 @@
         </div>
     </div>
 
+
+
+
+
+
+
+
+
+<div class="modal fade" tabindex="-1" id="report_death_modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content stepper stepper-pills" id="kt_stepper_example_modal">
+            <div class="modal-header px-10">
+                <h3 class="modal-title">Modal title</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+            <div class="modal-body px-10">
+                <div>
+                    <div class="stepper-nav flex-center flex-wrap mb-10">
+                        <div class="stepper-item mx-4 my-4 current" data-kt-stepper-element="nav">
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">1</span>
+                                </div>
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">Step 1</h3>
+                                    <div class="stepper-desc">Search for a Person</div>
+                                </div>
+                            </div>
+                            <div class="stepper-line h-40px"></div>
+                        </div>
+                        <div class="stepper-item mx-4 my-4" data-kt-stepper-element="nav">
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">2</span>
+                                </div>
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">Step 2</h3>
+                                    <div class="stepper-desc">Record Death</div>
+                                </div>
+                            </div>
+                            <div class="stepper-line h-40px"></div>
+                        </div>
+                    </div>
+                    <!-- Step 1: Search for a Person -->
+                    <div class="flex-column current" data-kt-stepper-element="content">
+                        <!--begin::Search-->
+                        <div id="kt_modal_users_search_handler" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="inline">
+                            <div class="w-100 position-relative mb-5">
+                                <input type="hidden"/>
+                                <i class="ki-duotone ki-magnifier fs-2 fs-lg-1 text-gray-500 position-absolute top-50 ms-5 translate-middle-y"><span class="path1"></span><span class="path2"></span></i>
+                                <input type="text" class="form-control form-control-lg form-control-solid ps-14" name="search" value="" placeholder="Search by name or ID number..." data-kt-search-element="input" id="person-search-input"/>
+                                <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
+                                    <span class="spinner-border h-15px w-15px align-middle text-muted"></span>
+                                </span>
+                                <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-5 d-none" data-kt-search-element="clear">
+                                    <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0"><span class="path1"></span><span class="path2"></span></i>
+                                </span>
+                            </div>
+                            <div class="py-5" id="search-results">
+                                <!-- Suggestions or results will be dynamically injected here -->
+                            </div>
+                        </div>
+                        <!--end::Search-->
+                    </div>
+                    <!-- Step 2: Record Death -->
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <form id="recordDeath" method="POST" action="{{ route('deaths.store') }}">
+                            @csrf
+                            <input type="hidden" id="deceased_id" name="deceased_id">
+                            <!-- Contact Details of Person Reporting Death -->
+                            <div class="pt-4 p-3">
+                                <h4 class="mb-3">Contact Details of Person Reporting Death:</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="reporter_name" class="form-label">Name:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="reporter_name" name="reporter_name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="reporter_surname" class="form-label">Surname:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="reporter_surname" name="reporter_surname">
+                                    </div>
+                                    <div class="col">
+                                        <label for="reporter_tel" class="form-label">Tel:</label>
+                                        <input type="tel" class="form-control bg-light text-dark" id="reporter_tel" name="reporter_tel">
+                                    </div>
+                                    <div class="col">
+                                        <label for="reporter_whatsapp" class="form-label">WhatsApp yes/no:</label>
+                                        <select class="form-control bg-light text-dark" id="reporter_whatsapp" name="reporter_whatsapp">
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="reporter_email" class="form-label">E-mail:</label>
+                                        <input type="email" class="form-control bg-light text-dark" id="reporter_email" name="reporter_email">
+                                    </div>
+                                </div>
+                                <div class="separator border-light my-8"></div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="tracking_number" class="form-label">Tracking Number:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="tracking_number" name="tracking_number" placeholder="20240321/1453" readonly>
+                                    </div>
+                                </div>
+                                <div class="separator border-light my-8"></div>
+                                <h4 class="mb-3">Deceased Person's Details:</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="deceased_name" class="form-label">Name:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_name" name="deceased_name">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_initials" class="form-label">Initials:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_initials" name="deceased_initials">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_surname" class="form-label">Surname:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_surname" name="deceased_surname">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_maiden_name" class="form-label">Maiden Name:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_maiden_name" name="deceased_maiden_name">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="deceased_address" class="form-label">Address:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_address" name="deceased_address">
+                                        <input type="hidden" id="deceased_address_line1" name="deceased_address_line1">
+                                        <input type="hidden" id="deceased_address_line2" name="deceased_address_line2">
+                                        <input type="hidden" id="deceased_address_postalCode" name="deceased_address_postalCode">
+                                        <input type="hidden" id="deceased_address_city" name="deceased_address_city">
+                                        <input type="hidden" id="deceased_address_townSuburb" name="deceased_address_townSuburb">
+                                        <input type="hidden" id="deceased_address_province" name="deceased_address_province">
+                                        <input type="hidden" id="deceased_address_country" name="deceased_address_country">
+                                        <input type="hidden" id="deceased_address_placeName" name="deceased_place_of_death_placeName">
+                                    </div>
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col">
+                                        <label for="deceased_id_number" class="form-label">ID Number:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_id_number" name="deceased_id_number">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_birth_date" class="form-label">Birth Date:</label>
+                                        <input type="date" class="form-control bg-light text-dark" id="deceased_birth_date" name="deceased_birth_date">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_age" class="form-label">Age:</label>
+                                        <input type="number" class="form-control bg-light text-dark" id="deceased_age" name="deceased_age">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_birth_town" class="form-label">Birth Town:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_birth_town" name="deceased_birth_town">
+                                    </div>
+                                    <input type="hidden" id="deceased_birth_town_line1" name="deceased_birth_town_line1">
+                                    <input type="hidden" id="deceased_birth_town_line2" name="deceased_birth_town_line2">
+                                    <input type="hidden" id="deceased_birth_town_postalCode" name="deceased_birth_town_postalCode">
+                                    <input type="hidden" id="deceased_birth_town_city" name="deceased_birth_town_city">
+                                    <input type="hidden" id="deceased_birth_town_townSuburb" name="deceased_birth_town_townSuburb">
+                                    <input type="hidden" id="deceased_birth_town_province" name="deceased_birth_town_province">
+                                    <input type="hidden" id="deceased_birth_town_country" name="deceased_birth_town_country">
+                                    <input type="hidden" id="deceased_birth_town_placeName" name="deceased_place_of_death_placeName">
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col">
+                                        <label for="deceased_sex" class="form-label">Sex:</label>
+                                        <select class="form-control" id="deceased_sex" name="deceased_sex">
+                                            <option value="" disabled selected>Select Sex</option>
+                                            @foreach ($genders as $gender)
+                                                <option value="{{ $gender->id }}">{{ $gender->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_marital_status" class="form-label">Marital Status:</label>
+                                        <select class="form-control" id="deceased_marital_status" name="deceased_marital_status">
+                                            <option value="" disabled selected>Select Marital Status</option>
+                                            @foreach ($maritalStatuses as $status)
+                                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_language" class="form-label">Language:</label>
+                                        <select class="form-control" id="deceased_language" name="deceased_language">
+                                            <option value="" disabled selected>Select Language</option>
+                                            @foreach ($languages as $language)
+                                                <option value="{{ $language->id }}">{{ $language->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_occupation" class="form-label">Occupation:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_occupation" name="deceased_occupation">
+                                    </div>
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col">
+                                        <label for="deceased_dr_number" class="form-label">DR (BI 1663 NR):</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_dr_number" name="deceased_dr_number">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_date_of_death" class="form-label">Date of Death:</label>
+                                        <input type="date" class="form-control bg-light text-dark" id="deceased_date_of_death" name="deceased_date_of_death">
+                                    </div>
+                                    <div class="col">
+                                        <label for="deceased_place_of_death" class="form-label">Place of Death:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_place_of_death" name="deceased_place_of_death">
+                                    </div>
+                                    <input type="hidden" id="deceased_place_of_death_line1" name="deceased_place_of_death_line1">
+                                    <input type="hidden" id="deceased_place_of_death_line2" name="deceased_place_of_death_line2">
+                                    <input type="hidden" id="deceased_place_of_death_postalCode" name="deceased_place_of_death_postalCode">
+                                    <input type="hidden" id="deceased_place_of_death_city" name="deceased_place_of_death_city">
+                                    <input type="hidden" id="deceased_place_of_death_townSuburb" name="deceased_place_of_death_townSuburb">
+                                    <input type="hidden" id="deceased_place_of_death_province" name="deceased_place_of_death_province">
+                                    <input type="hidden" id="deceased_place_of_death_country" name="deceased_place_of_death_country">
+                                    <input type="hidden" id="deceased_place_of_death_placeName" name="deceased_place_of_death_placeName">
+                                    <div class="col">
+                                        <label for="deceased_doctor" class="form-label">Doctor:</label>
+                                        <input type="text" class="form-control bg-light text-dark" id="deceased_doctor" name="deceased_doctor">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer px-10 d-flex flex-stack">
+                <div class="me-2">
+                    <button type="button" class="btn btn-light btn-active-light-primary" data-kt-stepper-action="previous">
+                        Back
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btn-next">
+                        Continue
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-submit" style="display:none;">
+                        Record & Begin Funeral
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @endsection
 
 @push('scripts')
     {{-- These are for bootstrap 5 datatables --}}
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include DataTables -->
     <script src="https://cdn.datatables.net/2.0.4/js/dataTables.js"></script>
     <!-- Include Bootstrap Bundle JS -->
@@ -525,6 +809,342 @@
 
     <!-- Include DataTables Bootstrap 5 integration -->
     <script src="https://cdn.datatables.net/2.0.4/js/dataTables.bootstrap5.js"></script>
+
+
+
+    <style>
+        .search-result-item:hover {
+            background-color: #f0f4ff !important; /* Adjust this color to your desired light primary hover color */
+        }
+    </style>
+    
+  
+    <script>
+ $(document).ready(function() {
+    var stepper = document.querySelector('#kt_stepper_example_modal');
+    var stepperObj = KTStepper.getInstance(stepper);
+    if (!stepperObj) {
+        stepperObj = new KTStepper(stepper);
+    }
+
+    // Set the CSRF token for all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Search input event listener
+    $('#person-search-input').on('input', function() {
+        var query = $(this).val();
+        if (query.length >= 2) {
+            $('#search-results').html('<span class="spinner-border"></span>');
+            $.ajax({
+                url: '{{ route("search.persons") }}',
+                method: 'GET',
+                data: { search: query },
+                success: function(data) {
+                    var results = data.results;
+                    var html = '';
+
+                    if (results.length > 0) {
+                        results.forEach(function(person) {
+                            var firstLetter = person.first_name.charAt(0);
+                            html += `
+                                <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1 search-result-item" data-id="${person.id}" data-name="${person.first_name} ${person.last_name}">
+                                    <div class="symbol symbol-35px symbol-circle me-5">
+                                        <span class="symbol-label bg-light-primary text-primary fw-semibold">${firstLetter}</span>
+                                    </div>
+                                    <div class="fw-semibold">
+                                        <span class="fs-6 text-gray-800 me-2">${person.first_name} ${person.last_name}</span>
+                                        <span class="badge badge-light">${person.id_number}</span>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                    } else {
+                        html = '<div class="text-center">No results found.</div>';
+                    }
+
+                    $('#search-results').html(html);
+
+                    // Attach click event to results
+                    $('#search-results a').click(function() {
+                        var personId = $(this).data('id');
+                        console.log('Person clicked:', { id: personId, name: $(this).data('name') }); // Log person details
+                        $('#deceased_id').val(personId);
+                        fetchPersonDetails(personId);
+                    });
+                },
+                error: function() {
+                    $('#search-results').html('<div class="text-center">An error occurred. Please try again.</div>');
+                }
+            });
+        } else {
+            $('#search-results').empty();
+        }
+    });
+
+    function fetchPersonDetails(personId) {
+        var url = '{{ route("person.details.ajax", ":id") }}';
+        url = url.replace(':id', personId);
+        console.log('Fetching details for URL:', url); // Log the URL
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(data) {
+                console.log('Person details received:', data); // Log the received data
+                $('#deceased_id').val(data.id);
+                $('#deceased_name').val(data.name);
+                $('#deceased_initials').val(data.initials);
+                $('#deceased_surname').val(data.surname);
+                $('#deceased_id_number').val(data.id_number);
+                $('#deceased_birth_date').val(data.birth_date);
+                $('#deceased_age').val(data.age);
+                $('#deceased_sex').val(data.sex);
+                $('#deceased_marital_status').val(data.marital_status_id);
+
+                // Move to the next step and update the stepper state
+                stepperObj.goNext();
+                var currentStep = $('.current[data-kt-stepper-element="content"]');
+                currentStep.removeClass('current');
+                currentStep.next().addClass('current');
+                console.log('Automatically moved to the next step');
+                
+                var stepIndex = stepperObj.getCurrentStepIndex();
+                var totalSteps = stepper.querySelectorAll('[data-kt-stepper-element="content"]').length;
+                console.log('Step Index:', stepIndex);
+                console.log('Total Steps:', totalSteps);
+
+                if (stepIndex === totalSteps) { // Adjusted for 1-based index
+                    $('#btn-next').hide();
+                    $('#btn-submit').show();
+                    console.log('Submit button shown');
+                } else {
+                    $('#btn-next').show();
+                    $('#btn-submit').hide();
+                    console.log('Continue button shown');
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was an error fetching the person details. Please try again.',
+                });
+            }
+        });
+    }
+
+    $('#btn-next').click(function() {
+        console.log('Next button clicked');
+        var currentStep = $('.current[data-kt-stepper-element="content"]');
+        var valid = true;
+
+        currentStep.find('input[required], select[required]').each(function() {
+            if ($(this).val() === '') {
+                valid = false;
+                return false;
+            }
+        });
+
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please fill in all required fields before continuing!',
+            });
+        } else {
+            console.log('Current step before moving next:', stepperObj.getCurrentStepIndex());
+            stepperObj.goNext();
+            currentStep.removeClass('current');
+            currentStep.next().addClass('current');
+            console.log('Current step after moving next:', stepperObj.getCurrentStepIndex());
+
+            var stepIndex = stepperObj.getCurrentStepIndex();
+            var totalSteps = stepper.querySelectorAll('[data-kt-stepper-element="content"]').length;
+            console.log('Step Index:', stepIndex);
+            console.log('Total Steps:', totalSteps);
+
+            if (stepIndex === totalSteps) { // Adjusted for 1-based index
+                $('#btn-next').hide();
+                $('#btn-submit').show();
+                console.log('Submit button shown');
+            } else {
+                $('#btn-next').show();
+                $('#btn-submit').hide();
+                console.log('Continue button shown');
+            }
+        }
+    });
+
+    $('[data-kt-stepper-action="previous"]').click(function() {
+        console.log('Previous button clicked');
+        var currentStep = $('.current[data-kt-stepper-element="content"]');
+        stepperObj.goPrevious();
+        currentStep.removeClass('current');
+        currentStep.prev().addClass('current');
+        console.log('Current step after moving previous:', stepperObj.getCurrentStepIndex());
+
+        var stepIndex = stepperObj.getCurrentStepIndex();
+        console.log('Step Index:', stepIndex);
+        $('#btn-submit').hide();
+        $('#btn-next').show();
+        console.log('Continue button shown');
+    });
+
+    // Prevent the modal from closing on button click
+    $('#btn-next, #btn-submit').on('click', function(event) {
+        event.preventDefault();
+    });
+
+    // Handle form submission
+    $('#btn-submit').click(function() {
+        var formData = {
+            deceased_id: $('#deceased_id').val(),
+            reporter_name: $('#reporter_name').val(),
+            reporter_surname: $('#reporter_surname').val(),
+            reporter_tel: $('#reporter_tel').val(),
+            reporter_whatsapp: $('#reporter_whatsapp').val(),
+            reporter_email: $('#reporter_email').val(),
+            tracking_number: $('#tracking_number').val(),
+            deceased_name: $('#deceased_name').val(),
+            deceased_initials: $('#deceased_initials').val(),
+            deceased_surname: $('#deceased_surname').val(),
+            deceased_maiden_name: $('#deceased_maiden_name').val(),
+            deceased_address: $('#deceased_address').val(),
+            deceased_address_line1: $('#deceased_address_line1').val(),
+            deceased_address_line2: $('#deceased_address_line2').val(),
+            deceased_address_postalCode: $('#deceased_address_postalCode').val(),
+            deceased_address_city: $('#deceased_address_city').val(),
+            deceased_address_townSuburb: $('#deceased_address_townSuburb').val(),
+            deceased_address_province: $('#deceased_address_province').val(),
+            deceased_address_country: $('#deceased_address_country').val(),
+            deceased_place_of_death_placeName: $('#deceased_place_of_death_placeName').val(),
+            deceased_id_number: $('#deceased_id_number').val(),
+            deceased_birth_date: $('#deceased_birth_date').val(),
+            deceased_age: $('#deceased_age').val(),
+            deceased_birth_town: $('#deceased_birth_town').val(),
+            deceased_birth_town_line1: $('#deceased_birth_town_line1').val(),
+            deceased_birth_town_line2: $('#deceased_birth_town_line2').val(),
+            deceased_birth_town_postalCode: $('#deceased_birth_town_postalCode').val(),
+            deceased_birth_town_city: $('#deceased_birth_town_city').val(),
+            deceased_birth_town_townSuburb: $('#deceased_birth_town_townSuburb').val(),
+            deceased_birth_town_province: $('#deceased_birth_town_province').val(),
+            deceased_birth_town_country: $('#deceased_birth_town_country').val(),
+            deceased_birth_town_placeName: $('#deceased_birth_town_placeName').val(),
+            deceased_sex: $('#deceased_sex').val(),
+            deceased_marital_status: $('#deceased_marital_status').val(),
+            deceased_language: $('#deceased_language').val(),
+            deceased_occupation: $('#deceased_occupation').val(),
+            deceased_dr_number: $('#deceased_dr_number').val(),
+            deceased_date_of_death: $('#deceased_date_of_death').val(),
+            deceased_place_of_death: $('#deceased_place_of_death').val(),
+            deceased_place_of_death_line1: $('#deceased_place_of_death_line1').val(),
+            deceased_place_of_death_line2: $('#deceased_place_of_death_line2').val(),
+            deceased_place_of_death_postalCode: $('#deceased_place_of_death_postalCode').val(),
+            deceased_place_of_death_city: $('#deceased_place_of_death_city').val(),
+            deceased_place_of_death_townSuburb: $('#deceased_place_of_death_townSuburb').val(),
+            deceased_place_of_death_province: $('#deceased_place_of_death_province').val(),
+            deceased_place_of_death_country: $('#deceased_place_of_death_country').val(),
+            deceased_doctor: $('#deceased_doctor').val()
+        };
+        console.log('Form data:', formData); // Log the form data
+
+        $.ajax({
+            url: '{{ route("deaths.store") }}',
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                console.log('Form submitted successfully');
+                // Handle success, e.g., close the modal, show a success message, etc.
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'The death record has been successfully submitted.',
+                }).then(function() {
+                    location.reload(); // Reload the page after success
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log('Error submitting form');
+                console.log('XHR:', xhr);
+                console.log('Status:', status);
+                console.log('Error:', error);
+                // Handle error, e.g., show an error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was an error submitting the form. Please try again.',
+                });
+            }
+        });
+    });
+});
+
+    </script>
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // initAutocomplete('deceased_place_of_death', { Line1: 'deceased_place_of_death' }); // Minimal setup with only one field
+            
+            // Google setup for deceased_address
+             initAutocomplete('deceased_address', {
+                 Line1: 'deceased_address_line1',
+                 Line2: 'deceased_address_line2',
+                 PostalCode: 'deceased_address_postalCode',
+                 City: 'deceased_address_city',
+                 TownSuburb: 'deceased_address_townSuburb',
+                 Province: 'deceased_address_province',
+                 Country: 'deceased_address_country',
+                 PlaceName: 'deceased_address_placeName'
+             });
+
+             // Google setup for deceased_birth_town
+             initAutocomplete('deceased_birth_town', {
+                 Line1: 'deceased_birth_town_line1',
+                 Line2: 'deceased_birth_town_line2',
+                 PostalCode: 'deceased_birth_town_postalCode',
+                 City: 'deceased_birth_town_city',
+                 TownSuburb: 'deceased_birth_town_townSuburb',
+                 Province: 'deceased_birth_town_province',
+                 Country: 'deceased_birth_town_country',
+                 PlaceName: 'deceased_birth_town_placeName'
+             });
+
+            // Google setup for deceased_place_of_death
+             initAutocomplete('deceased_place_of_death', {
+                 Line1: 'deceased_place_of_death_line1',
+                 Line2: 'deceased_place_of_death_line2',
+                 PostalCode: 'deceased_place_of_death_postalCode',
+                 City: 'deceased_place_of_death_city',
+                 TownSuburb: 'deceased_place_of_death_townSuburb',
+                 Province: 'deceased_place_of_death_province',
+                 Country: 'deceased_place_of_death_country',
+                 PlaceName: 'deceased_place_of_death_placeName'
+             });
+        });
+        </script> 
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
 
 
     {{-- <script>

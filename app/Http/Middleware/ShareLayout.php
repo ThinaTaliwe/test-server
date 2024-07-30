@@ -66,8 +66,9 @@ class ShareLayout
         // dd($request->session()->get('selectedLayoutIndex', 0));  7$user = Auth::user();
         $user = Auth::user();
         // Customize the query
-        //$notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
-
+        // $notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
+        // $latestNotifications = auth()->user()->notifications()->latest()->take(10)->get();
+        
         //dd($notifications);
         // Get the chosen layout index from the session
         $selectedLayoutIndex = $request->session()->get('selectedLayoutIndex', 0);

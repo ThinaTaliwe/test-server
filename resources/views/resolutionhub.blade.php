@@ -2615,7 +2615,7 @@
     </div>
 
     <div class="accordion col-3 card-coloumn rounded bg-body drawer-column position-relative mb-10 shadow overflow-y-auto"
-        id="kt_drawer_death" style="height: 750px;">
+        id="kt_drawer_death" style="height: auto !important; max-height: 1150px;">
 
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
@@ -2652,7 +2652,7 @@
 
             </div> --}}
             <div class="btn-sm bg-danger m-4 text-center rounded p-3 text-white fs-4" id="hide-button">
-                Exit
+                Close Details
             </div>
 
 

@@ -4,7 +4,7 @@
  @push('styles')
 
  
-{{--<script>
+{{--<style>
         // Function to stringify an element's attributes
         function stringifyAttributes(element) {
             const attributes = element.attributes;
@@ -51,7 +51,7 @@
             document.removeEventListener('click', logClickEvent, true);
         });
 
-</script> --}}
+</style> --}}
 
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
@@ -396,16 +396,16 @@
             <script>window.location.href = "{{ route('login') }}";</script>
         @endauth
 
-
+    <div id="google_translate_element" class="mx-auto text-center"></div>
             <!--end::User-->
         </div>
+        
         <!--end::Aside user-->
 
         <!--begin::Aside menu-->
         <div class="aside-menu flex-column-fluid ps-3 ps-lg-5 pe-1 mb-9" id="kt_aside_menu">
             <!--begin::Aside Menu-->
-            <div class="w-100 hover-scroll-y pe-2 me-2" id="kt_aside_menu_wrapper" 
-                
+            <div class="w-100 hover-scroll-y pe-2 me-2" id="kt_aside_menu_wrapper"
                  data-kt-scroll="true"
                  data-kt-scroll-activate="{default: false, lg: true}" 
                  data-kt-scroll-height="auto"
@@ -416,18 +416,22 @@
                 <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold" id="#kt_aside_menu"
                      data-kt-menu="true">
                     <!--begin:Menu item-->
-                    <x-aside.aside-menu menu-title="{{ __('messages.Memberships') }}"
+                    {{-- <x-aside.aside-menu menu-title="{{ __('messages.Memberships') }}"
                                         menu-icon="bi bi-person-rolodex"
                                         :menu-items="[
                             ['url' => '/add-member', 'title' => __('messages.New Membership')],
                             ['url' => '/memberships', 'title' => __('messages.All Memberships')],
-                        ]"/>
+                        ]"/> --}}
                     <!--end:Menu item-->
 
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/memberships" target="_blank"><span class="menu-icon"><i class="bi bi-person-rolodex fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Memberships</span></a><!--end:Menu link--></div>
+                    
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/dependants" target="_blank"><span class="menu-icon"><i class="bi bi-people-fill fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Dependants</span></a><!--end:Menu link--></div>
+                    
                     <!--begin:Menu item-->
-                    <x-aside.aside-menu :menu-title="__('messages.Dependants')"
+                    {{-- <x-aside.aside-menu :menu-title="__('messages.Dependants')"
                                         :menu-icon="'bi bi-people-fill'"
-                                        :menu-items="[['url' => '/dependants', 'title' => __('messages.AllDependants')]]"/>
+                                        :menu-items="[['url' => '/dependants', 'title' => __('messages.AllDependants')]]"/> --}}
                     <!--end:Menu item-->
                     @canany(['user edit', 'role edit', 'permission edit'])
                         <!--begin:Menu item-->
@@ -461,53 +465,47 @@
                         <!--end:Menu item-->
 
 
-        <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover"><!--begin:Menu link--><span
-            class="menu-link"><span class="menu-icon"><i class="bi bi-briefcase fs-2"><span
-                        class="path1"></span><span class="path2"></span></i></span><span
-                class="menu-title">Admin Space</span><span
-                class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
-            <div class="menu-sub menu-sub-accordion" kt-hidden-height="97" style=""><!--begin:Menu item-->
-            <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                                href="/admin/user"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title">Users</span></a><!--end:Menu link--></div>
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion hover"><!--begin:Menu link--><span
+                            class="menu-link"><span class="menu-icon"><i class="bi bi-briefcase fs-2"><span
+                                        class="path1"></span><span class="path2"></span></i></span><span
+                                class="menu-title">Admin Space</span><span
+                                class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion" kt-hidden-height="97" style=""><!--begin:Menu item-->
+                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                                href="/admin/user"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title">Users</span></a><!--end:Menu link--></div>
+                                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                            href="/admin/role"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title">Roles</span></a><!--end:Menu link--></div>
+                                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                            href="/admin/permission"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title">Permissions</span></a><!--end:Menu link--></div>
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion"><!--begin:Menu link--><span
+                                    class="menu-link"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+                                        class="menu-title">Employee Management</span><span
+                                        class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
+                                <div class="menu-sub menu-sub-accordion menu-active-bg"><!--begin:Menu item-->
                                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/role"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title">Roles</span></a><!--end:Menu link--></div>
-                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/permission"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title">Permissions</span></a><!--end:Menu link--></div>
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion"><!--begin:Menu link--><span
-                    class="menu-link"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
-                        class="menu-title">Employee Management</span><span
-                        class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-accordion menu-active-bg"><!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/employee"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title">Employees</span></a><!--end:Menu link--></div>
-                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/employeerole"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title"> Employee Roles</span></a><!--end:Menu link--></div>
-                    <!--end:Menu item--><!--begin:Menu item-->
-                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
-                            href="/admin/jobdescriptions"><span class="menu-bullet"><span
-                                    class="bullet bullet-dot"></span></span><span
-                                class="menu-title">Job Descriptions</span></a><!--end:Menu link--></div>
-                    <!--end:Menu item--><!--end:Menu item-->
-                </div><!--end:Menu sub-->
-            </div><!--end:Menu item-->
-        </div><!--end:Menu sub-->
-        </div>
-
-
-
-
-
-
+                                            href="/admin/employee"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title">Employees</span></a><!--end:Menu link--></div>
+                                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                            href="/admin/employeerole"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title"> Employee Roles</span></a><!--end:Menu link--></div>
+                                    <!--end:Menu item--><!--begin:Menu item-->
+                                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link"
+                                            href="/admin/jobdescriptions"><span class="menu-bullet"><span
+                                                    class="bullet bullet-dot"></span></span><span
+                                                class="menu-title">Job Descriptions</span></a><!--end:Menu link--></div>
+                                    <!--end:Menu item--><!--end:Menu item-->
+                                </div><!--end:Menu sub-->
+                            </div><!--end:Menu item-->
+                        </div><!--end:Menu sub-->
+                        </div>
                         <!--begin:Menu item-->
                         {{-- <x-aside.aside-menu :menu-title="__('messages.sales_commission')" :menu-icon="'ki-duotone ki-tag'" :menu-items="[
                             ['url' => '/sales', 'title' => __('messages.sales')],
@@ -515,39 +513,46 @@
                         ]" /> --}}
                         <!--end:Menu item-->
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('messages.interfaces')"
-                                            :menu-icon="'bi bi-gear-wide-connected'" :menu-items="[
-                            ['url' => '/resolutionhub', 'title' => __('Resolution Hub')],
+                        {{-- <x-aside.aside-menu :menu-title="__('messages.interfaces')"
+                                            :menu-icon="'bi bi-gear-wide-connected'" :menu-items="[ --}}
+                            {{-- ['url' => '/resolutionhub', 'title' => __('Resolution Hub')], --}}
                             {{-- ['url' => '/fixer', 'title' => __('messages.sanitizer')], --}}
                             {{-- ['url' => '/mapper', 'title' => __('messages.mapping')], --}}
                             {{-- ['url' => '/class', 'title' => __('Classifications')], --}}
                             {{-- ['url' => '/logs', 'title' => __('messages.logs')], --}}
                             {{-- ['url' => '/logs', 'title' => __('Drag and Drop 1')],
                             ['url' => '/logs2', 'title' => __('Drag and Drop 2')], --}}
-                        ]"/>
+                        {{-- ]"/> --}}
                         <!--end:Menu item-->
+                        <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/resolutionhub" target="_blank"><span class="menu-icon"><i class="bi bi-gear-wide-connected fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Resolution Hub</span></a><!--end:Menu link--></div>
                         <!--begin:Menu item-->
-                        <x-aside.aside-menu menu-title="{{ __('Payments') }}" menu-icon="bi bi-wallet2"
-                                            :menu-items="[
+                        {{-- <x-aside.aside-menu menu-title="{{ __('Payments') }}" menu-icon="bi bi-wallet2"
+                                            :menu-items="[ --}}
                             {{-- ['url' => '/add-member', 'title' => __('messages.New Membership')], --}}
-                            ['url' => '/payments', 'title' => __('Make Payments')],
-                {{--                            ['url' => '/cash', 'title' => __('Cash')],--}}
-                {{--                            ['url' => '/dataVia', 'title' => __('Data Via')],--}}
-                {{--                            ['url' => '/DebitOrder', 'title' => __('Debit Order')],--}}
-                        ]"/>
+                            {{-- ['url' => '/payments', 'title' => __('Make Payments')], --}}
+                        {{--                            ['url' => '/cash', 'title' => __('Cash')],--}}
+                        {{--                            ['url' => '/dataVia', 'title' => __('Data Via')],--}}
+                        {{--                            ['url' => '/DebitOrder', 'title' => __('Debit Order')],--}}
+                        {{-- ]"/> --}}
                         <!--end:Menu item-->
-                        <!--begin:Menu item-->
-                        <x-aside.aside-menu :menu-title="__('Funeral')" :menu-icon="'bi bi-device-ssd'"
-                                            :menu-items="[
+                         <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/payments" target="_blank"><span class="menu-icon"><i class="bi bi-wallet2 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Payments</span></a><!--end:Menu link--></div>
+                        
+                         <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/funerals" ><span class="menu-icon"><i class="fa-solid fa-cross fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Deaths/Funerals</span></a><!--end:Menu link--></div>
+                        
+                         <!--begin:Menu item-->
+                       {{-- <x-aside.aside-menu :menu-title="__('Funeral')" :menu-icon="'bi bi-device-ssd'"--}}
+                                           {{-- :menu-items="[--}}
                             {{-- ['url' => '/chart', 'title' => __('messages.dashboard')], --}}
                             {{-- ['url' => '/report', 'title' => __('messages.membership')], --}}
                             {{-- ['url' => '/person', 'title' => __('messages.persons')], --}}
                             {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
-                            ['url' => '/deaths', 'title' => __('Deaths')],
-                            ['url' => '/funerals', 'title' => __('Funerals')],
+                            {{--['url' => '/deaths', 'title' => __('Deaths')],--}}
+                            {{--['url' => '/funerals', 'title' => __('Funerals')],--}}
                             {{-- ['url' => '/reporting', 'title' => __('messages.real_time_updates')], --}}
-                        ]"/>
+                       {{-- ]"/>--}}
                         <!--end:Menu item-->
+
+                        
                         <!--begin:Menu item-->
                         <x-aside.aside-menu :menu-title="__('messages.Reporting')"
                                             :menu-icon="'bi bi-clipboard-data'" :menu-items="[
@@ -573,35 +578,7 @@
                     {{-- ]" /> --}}
                     <!--end:Menu item-->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    {{-- <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="" target="_blank"><span class="menu-icon"><i class="ki-duotone ki-abstract-26 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Documentation</span></a><!--end:Menu link--></div> --}}
 
                 </div>
                 <!--end::Menu-->
@@ -611,27 +588,28 @@
         <!--end::Aside menu-->
 
         <!--begin::Footer-->
-        <div class="aside-footer flex-column-auto px-6 px-lg-9 pb-16" id="kt_aside_footer">
+        {{-- <div class="aside-footer flex-column-auto px-6 px-lg-9 pb-16" id="kt_aside_footer"> --}}
             <!--begin::User panel-->
-            <div class="d-flex flex-stack ms-7">
+            {{-- <div class="d-flex flex-stack ms-7"> --}}
                 <!--begin::Link-->
-                <x-aside.click-icon link="/logout" class="additional-classes" text="{{ __('messages.LogOut') }}"
-                                    icon="ki-duotone ki-entrance-left"/>
+                {{-- <x-aside.click-icon link="/logout" class="additional-classes" text="{{ __('messages.LogOut') }}"
+                                    icon="ki-duotone ki-entrance-left"/> --}}
                 <!--end::Link-->
                 <!--begin::User menu-->
-                <x-aside.footer-menu :items="[
+                {{-- <x-aside.footer-menu :items="[
                     ['url' => '/admin/edit-account-info', 'title' => __('messages.profile')],
                     ['url' => '/', 'title' => __('messages.Dependants'), 'badge' => '3'],
                     ['url' => '/', 'title' => __('messages.Memberships')],
                     
-                ]" classes="additional-classes"/>
+                ]" classes="additional-classes"/> --}}
                 
                 <!--end::User menu-->
-            </div>
+            {{-- </div> --}}
             <!--end::User panel-->
-        </div>
+        {{-- </div> --}}
         <!--end::Footer-->
     </div>
+    
     {{-- <div id="google_translate_element"></div> --}}
 
       {{-- <div>
@@ -702,7 +680,7 @@
             
             <div class="d-flex justify-content-center my-auto" hidden>
                 <!--begin::Solid input group style-->
-                <div class="dropdown">
+                {{-- <div class="dropdown">
                         <form action="{{ route('direction.switch') }}" method="POST">
                             @csrf
                             <select name="direction" class="btn bg-secondary shadow-dark dropdown-toggle border border-secondary" data-control="select2"
@@ -711,11 +689,11 @@
                                 <option value="rtl" {{ session('appdirection') == 'rtl' ? 'selected' : '' }}>RTL</option>
                             </select>
                         </form>
-                </div>
+                </div> --}}
                 <!-- end::Solid input group style-->
  
                 <!--begin::Solid input group style-->
-                <div class="dropdown mx-2">
+                {{-- <div class="dropdown mx-2">
                         <form action="{{ route('language.switch') }}" method="POST" class="w-100">
                             @csrf
                             <select name="language" class="btn bg-secondary shadow-dark dropdown-toggle border border-secondary" data-control="select2"
@@ -724,8 +702,17 @@
                                 <option value="af" {{ session('applocale') == 'af' ? 'selected' : '' }}>Afrikaans</option>
                             </select>
                         </form>
-                </div>
+                </div> --}}
                 <!--end::Solid input group style-->
+
+                {{-- <div id="google_translate_element"></div> --}}
+
+                {{-- <div class="search-container bg-secondary ps-4">
+                    <form action="/action_page.php">
+                    <input type="text" placeholder="Search.." name="search">
+                    <a type="submit" class="btn btn-icon"><i class="fa fa-search"></i></a>
+                    </form>
+                </div> --}}
             </div>
 
             {{-- @canany(['user edit', 'role edit', 'permission edit']) --}}
@@ -1923,8 +1910,6 @@
         }
     </script>
     {{-- End Redirect Back Function --}}
-
-
 
     <!--begin::Javascript-->
 
