@@ -1078,7 +1078,7 @@
         }
     </script>
 
-    <script>
+        {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             flatpickr("#start_date", {
                 enableTime: true,
@@ -1109,5 +1109,5 @@
             });
 
         });
-    </script>
+    </script> --}}
 @endpush

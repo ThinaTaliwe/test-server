@@ -424,9 +424,9 @@
                         ]"/> --}}
                     <!--end:Menu item-->
 
-                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/memberships" target="_blank"><span class="menu-icon"><i class="bi bi-person-rolodex fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Memberships</span></a><!--end:Menu link--></div>
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/memberships"><span class="menu-icon"><i class="bi bi-person-rolodex fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Memberships</span></a><!--end:Menu link--></div>
                     
-                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/dependants" target="_blank"><span class="menu-icon"><i class="bi bi-people-fill fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Dependants</span></a><!--end:Menu link--></div>
+                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/dependants"><span class="menu-icon"><i class="bi bi-people-fill fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Dependants</span></a><!--end:Menu link--></div>
                     
                     <!--begin:Menu item-->
                     {{-- <x-aside.aside-menu :menu-title="__('messages.Dependants')"
@@ -524,7 +524,7 @@
                             ['url' => '/logs2', 'title' => __('Drag and Drop 2')], --}}
                         {{-- ]"/> --}}
                         <!--end:Menu item-->
-                        <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/resolutionhub" target="_blank"><span class="menu-icon"><i class="bi bi-gear-wide-connected fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Resolution Hub</span></a><!--end:Menu link--></div>
+                        <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/resolutionhub"><span class="menu-icon"><i class="bi bi-gear-wide-connected fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Resolution Hub</span></a><!--end:Menu link--></div>
                         <!--begin:Menu item-->
                         {{-- <x-aside.aside-menu menu-title="{{ __('Payments') }}" menu-icon="bi bi-wallet2"
                                             :menu-items="[ --}}
@@ -535,7 +535,7 @@
                         {{--                            ['url' => '/DebitOrder', 'title' => __('Debit Order')],--}}
                         {{-- ]"/> --}}
                         <!--end:Menu item-->
-                         <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/payments" target="_blank"><span class="menu-icon"><i class="bi bi-wallet2 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Payments</span></a><!--end:Menu link--></div>
+                         <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/payments"><span class="menu-icon"><i class="bi bi-wallet2 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Payments</span></a><!--end:Menu link--></div>
                         
                          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/funerals" ><span class="menu-icon"><i class="fa-solid fa-cross fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Deaths/Funerals</span></a><!--end:Menu link--></div>
                         
@@ -578,7 +578,7 @@
                     {{-- ]" /> --}}
                     <!--end:Menu item-->
 
-                    {{-- <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="" target="_blank"><span class="menu-icon"><i class="ki-duotone ki-abstract-26 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Documentation</span></a><!--end:Menu link--></div> --}}
+                    {{-- <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href=""><span class="menu-icon"><i class="ki-duotone ki-abstract-26 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Documentation</span></a><!--end:Menu link--></div> --}}
 
                 </div>
                 <!--end::Menu-->
@@ -1209,13 +1209,13 @@
         <div class="footer container-fluid d-flex flex-column flex-md-row flex-stack bg-body mx-auto mt-auto shadow-lg" id="kt_footer">
             <!--begin::Copyright-->
             <div class="text-dark order-2 order-md-1">
-                <a href="/contact" target="_blank" class="text-dark text-hover-primary fw-semibold me-1 fs-4">GBA</a>
+                <a href="/contact" class="text-dark text-hover-primary fw-semibold me-1 fs-4">GBA</a>
             </div>
             <!--end::Copyright-->
 
             <!--begin::Menu-->
             <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                <a href="/contact" target="_blank" class="pt-2 text-dark text-hover-primary fw-semibold me-1 fs-4">Contacts</a>
+                <a href="/contact" class="pt-2 text-dark text-hover-primary fw-semibold me-1 fs-4">Contacts</a>
             </ul>
             <!--end::Menu-->
         </div>
@@ -2059,5 +2059,38 @@ $(document).ready(function() {
   duration: 1200,
 })
 </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#start_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                }
+            });
+
+            flatpickr("#end_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                }
+            });
+
+            flatpickr("#standard_endtime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+
+            flatpickr("#standard_starttime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            });
+
+        });
+    </script>
 
 @endpush

@@ -539,7 +539,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content stepper stepper-pills" id="kt_stepper_example_modal">
             <div class="modal-header px-10">
-                <h3 class="modal-title">Modal title</h3>
+                <h3 class="modal-title">Report Death</h3>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
@@ -581,13 +581,16 @@
                             <div class="w-100 position-relative mb-5">
                                 <input type="hidden"/>
                                 <i class="ki-duotone ki-magnifier fs-2 fs-lg-1 text-gray-500 position-absolute top-50 ms-5 translate-middle-y"><span class="path1"></span><span class="path2"></span></i>
-                                <input type="text" class="form-control form-control-lg form-control-solid ps-14" name="search" value="" placeholder="Search by name or ID number..." data-kt-search-element="input" id="person-search-input"/>
+                                <input type="text" class="form-control form-control-lg form-control-solid  ps-14" name="search" value="" placeholder="Search by name or ID number..." data-kt-search-element="input" id="person-search-input"/>
                                 <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
                                     <span class="spinner-border h-15px w-15px align-middle text-muted"></span>
                                 </span>
                                 <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-5 d-none" data-kt-search-element="clear">
                                     <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                                 </span>
+                            </div>
+                            <div id="search-image" class="text-center px-4">
+                                <img class="mw-100 mh-200px" alt="image" src="{{ asset('img/icons8-search.svg') }}">
                             </div>
                             <div class="py-5" id="search-results">
                                 <!-- Suggestions or results will be dynamically injected here -->
@@ -838,6 +841,7 @@
     $('#person-search-input').on('input', function() {
         var query = $(this).val();
         if (query.length >= 2) {
+            $('#search-image').hide(); // Hide search image when user starts typing
             $('#search-results').html('<span class="spinner-border"></span>');
             $.ajax({
                 url: '{{ route("search.persons") }}',
@@ -881,6 +885,7 @@
                 }
             });
         } else {
+            $('#search-image').show();
             $('#search-results').empty();
         }
     });

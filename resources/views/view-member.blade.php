@@ -166,18 +166,19 @@
                                                 <div class="input-group">
                                                     <input type="text" onkeypress="return isNumberKey(event)"
                                                         class="form-control" name="inputDay" id="inputDay"
-                                                        value="{{ dobBreakdown($membership->person->birth_date)->day }}"
+                                                        value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->day }}"
                                                         placeholder="DD" maxlength="2" size="2">
                                                     <span class="input-group-text px-2">/</span>
                                                     <input type="text" onkeypress="return isNumberKey(event)"
-                                                        class="form-control" name="inputMonth" id="inputMonth"
-                                                        value="{{ dobBreakdown($membership->person->birth_date)->month }}"
-                                                        placeholder="MM" maxlength="2" size="2">
-                                                    <span class="input-group-text px-2">/</span>
-                                                    <input type="text" onkeypress="return isNumberKey(event)"
-                                                        class="form-control" name="inputYear" id="inputYear"
-                                                        value="{{ dobBreakdown($membership->person->birth_date)->year }}"
-                                                        placeholder="YYYY" maxlength="4" size="4">
+                                                            class="form-control" name="inputMonth" id="inputMonth"
+                                                            value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->month }}"
+                                                            placeholder="MM" maxlength="2" size="2">
+                                                        <span class="input-group-text px-2">/</span>
+                                                        <input type="text" onkeypress="return isNumberKey(event)"
+                                                            class="form-control" name="inputYear" id="inputYear"
+                                                            value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->year }}"
+                                                            placeholder="YYYY" maxlength="4" size="4">
+
                                                 </div>
                                             </div>
                                             <div class="col-md-12 py-2">
@@ -185,25 +186,25 @@
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" id="Married"
                                                             name="marital_status" value="1"
-                                                            {{ $membership->person->married_status == '1' ? 'checked' : '' }}>
+                                                            {{ optional($membership->person)->married_status == '1' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Married">Married</label>
                                                     </div>
                                                     <div class="form-check form-check-inline ms-3">
                                                         <input class="form-check-input" type="radio" id="Single"
                                                             name="marital_status" value="2"
-                                                            {{ $membership->person->married_status == '2' ? 'checked' : '' }}>
+                                                            {{ optional($membership->person)->married_status == '2' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Single">Single</label>
                                                     </div>
                                                     <div class="form-check form-check-inline ms-3">
                                                         <input class="form-check-input" type="radio" id="Widowed"
                                                             name="marital_status" value="3"
-                                                            {{ $membership->person->married_status == '3' ? 'checked' : '' }}>
+                                                            {{ optional($membership->person)->married_status == '3' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Widowed">Widowed</label>
                                                     </div>
                                                     <div class="form-check form-check-inline ms-3">
                                                         <input class="form-check-input" type="radio" id="Divorced"
                                                             name="marital_status" value="4"
-                                                            {{ $membership->person->married_status == '4' ? 'checked' : '' }}>
+                                                            {{ optional($membership->person)->married_status == '4' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Divorced">Divorced</label>
                                                     </div>
                                                 </div>
@@ -439,6 +440,8 @@
 @endsection
 
 @push('scripts')
+
+
     <!-- Materialize JS and Initialization -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
     {{-- <script>

@@ -332,6 +332,7 @@ class MembershipsController extends Controller
         return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
     }
 
+
     public function edit($id)
     {
         $membership = Membership::where('id', $id)->first();

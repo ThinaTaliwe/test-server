@@ -262,7 +262,15 @@
             padding: 1em;
             margin: 1em;
         }
+        
     </style>
+
+    {{-- <style>
+        #kt_header,
+        #kt_footer{
+            display: none !important;
+        }
+    </style> --}}
 @endpush
 
 @section('row_content')
@@ -441,16 +449,12 @@
                     @foreach ($memberships as $membership)
                         <tr>
                             <td class="text-m font-weight-normal pt-3 text-center">
-
+                            
                                 {{-- <span class="badge bg-warning fs-6 fw-bold m-1 p-2 text-dark" data-bs-toggle="modal"
                                     data-bs-target="#editMembershipModal" data-bs-id="{{ $membership->id }}">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </span> --}}
 
-                                {{-- <span class="badge bg-success fs-7 fw-bold m-1 p-2">
-                                        <a class="text-dark" href="/view-member/{{ $membership->id }}"
-                                            style="text-decoration: none;"><i class="bi bi-eye-fill"></i> View</a>
-                                    </span> --}}
 
                                 {{-- <span class="badge bg-primary fs-7 fw-bold m-1 p-2">
                                         <a class="text-dark" data-membership-id="{{ $membership->id }}"
@@ -464,19 +468,25 @@
                                 <a class="btn btn-sm btn-icon btn-success" data-bs-toggle="modal" title="View"
                                     data-bs-target="#exampleModal2" data-bs-id="{{ $membership->id }}"><i
                                         class="bi bi-eye-fill fs-4 me-0"></i> </a>
-                                <a class="btn btn-sm btn-icon btn-warning" href="/edit-member/{{ $membership->id }}"
+                                {{-- <a class="btn btn-sm btn-icon btn-warning" href="/edit-member/{{ $membership->id }}"
                                     style="text-decoration: none;" data-bs-toggle="tooltip" title="Edit"><i
-                                        class="bi bi-pencil-fill fs-4 me-0"></i>
+                                        class="bi bi-pencil-fill fs-4 me-0"></i> </a> --}}
+                                         <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="modal" title="Edit"
+                                    data-bs-target="#exampleModal3" data-bs-id="{{ $membership->id }}"><i
+                                        class="bi bi-pencil-fill fs-4 me-0"></i> </a>
                                 </a>
                                 <a class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove"
                                     href="#" onclick="deleteConfirm('/cancel-member/{{ $membership->id }}')"
                                     style="text-decoration: none;"><i class="bi bi-trash3 fs-4 me-0"></i>
                                 </a>
 
+                                <!-- Button trigger modal -->
+                                {{-- <button type="button" class="btn btn-icon btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Edit
+                                </button> --}}
+
                                 {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal" data-bs-id="@mdo">Modal View</button> --}}
-
-
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-dark fw-bold text-hover-primary text-center">
                                 {{ $name = $membership->name ?? 'N/A' }}
@@ -566,7 +576,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Membership Details</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="membershipModalBody">
                     <!-- Dynamic content will be loaded here -->
                 </div>
                 <div class="modal-footer">
@@ -576,8 +586,44 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editMembershipModal" tabindex="-1" aria-labelledby="editMembershipLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog custom-modal-size fixed">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Membership Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="editMembershipModalBody">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="editMembershipModal" tabindex="-1" aria-labelledby="editMembershipLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -585,6 +631,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                 @if ($errors->any())
+            <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+
+                @if ($errors->has('custom_error'))
+                    @foreach ($errors->get('custom_error') as $customErrors)
+                        @foreach ($customErrors as $customError)
+                            <li>{{ $customError }}</li>
+                        @endforeach
+                    @endforeach
+                @endif
+            </ul>
+                    </div>
+                @endif
                     <!-- Form for editing will be loaded here -->
                 </div>
                 <div class="modal-footer">
@@ -597,10 +660,9 @@
     <!-- Modal at mdo script-->
 
 
-
-    <!-- Modal Structure -->
+    <!-- Add New Member Modal -->
     <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog custom-modal-size fixed"> <!-- Apply custom size class -->
             <div class="modal-content">
                 <div class="modal-header">
@@ -1235,12 +1297,46 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
+
     @endsection
 
-
-
     @push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewButtons = document.querySelectorAll('.view-membership-btn');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const membershipId = this.getAttribute('data-id');
+                // Clear the modal content before fetching new data
+                modalBody.innerHTML = '<div class="text-center">Loading...</div>';
+                fetch(`/view-member/${membershipId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('membershipModalBody').innerHTML = data;
+                    });
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewButtons = document.querySelectorAll('.edit-membership-btn');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const membershipId = this.getAttribute('data-id');
+                // Clear the modal content before fetching new data
+                modalBody.innerHTML = '<div class="text-center">Loading...</div>';
+                fetch(`/edit-member/${membershipId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('editMembershipModalBody').innerHTML = data;
+                    });
+            });
+        });
+    });
+</script>
+
         <script>
             const exampleModal = document.getElementById('exampleModal')
             if (exampleModal) {
@@ -1275,12 +1371,35 @@
                         // Perform an AJAX request to your Laravel backend
                         $.get(`/view-member/${membershipId}`, function(data) {
                             // Assuming 'data' is the HTML content to display in the modal
-                            $(exampleModal2).find('.modal-body').html(data);
+                            //$(exampleModal2).find('.modal-body').html(data);
+                            document.getElementById('membershipModalBody').innerHTML = data;
                         });
                     });
                 }
             });
         </script>
+         <script>
+            $(document).ready(function() {
+                const exampleModal3 = document.getElementById('exampleModal3');
+                if (exampleModal3) {
+                    exampleModal3.addEventListener('show.bs.modal', function(event) {
+                        // Button that triggered the modal
+                        const button = event.relatedTarget;
+                        // Extract membership ID from data-bs-id attribute
+                        const membershipId = button.getAttribute('data-bs-id');
+
+                        // Perform an AJAX request to your Laravel backend
+                        $.get(`/edit-member/${membershipId}`, function(data) {
+                            // Assuming 'data' is the HTML content to display in the modal
+                            //$(exampleModal2).find('.modal-body').html(data);
+                            document.getElementById('editMembershipModalBody').innerHTML = data;
+                        });
+                    });
+                }
+            });
+        </script>
+
+        
 
         <script>
             $(document).ready(function() {
@@ -1425,8 +1544,9 @@
                             title: "Select Reason for Cancellation",
                             input: "select",
                             inputOptions: {
-                                reason1: "Reason 1",
-                                reason2: "Reason 2",
+                                reason1: "Main Member Deceased",
+                                reason2: "Dependant Deceased",
+                                reason3: "Other",
                             },
                             inputPlaceholder: "Select a reason",
                             showCancelButton: true,
@@ -1815,7 +1935,83 @@
 
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const viewButtons = document.querySelectorAll('.view-membership-btn');
+    const header = document.getElementById('kt_header');
+    const footer = document.getElementById('kt_footer');
 
+    // Function to hide header and footer
+    function hideHeaderFooter() {
+        if (header) header.style.display = 'none';
+        if (footer) footer.style.display = 'none';
+    }
+
+    // Function to show header and footer
+    function showHeaderFooter() {
+        if (header) header.style.display = '';
+        if (footer) footer.style.display = '';
+    }
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const membershipId = this.getAttribute('data-id');
+            // Clear the modal content before fetching new data
+            modalBody.innerHTML = '<div class="text-center">Loading...</div>';
+            fetch(`/view-member/${membershipId}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('membershipModalBody').innerHTML = data;
+                    hideHeaderFooter();
+                });
+        });
+    });
+
+    // Ensure header and footer are shown when the modal is closed
+    document.getElementById('membershipModal').addEventListener('hidden.bs.modal', function () {
+        showHeaderFooter();
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const viewButtons = document.querySelectorAll('.edit-membership-btn');
+    const header = document.getElementById('kt_header');
+    const footer = document.getElementById('kt_footer');
+
+    // Function to hide header and footer
+    function hideHeaderFooter() {
+        if (header) header.style.display = 'none';
+        if (footer) footer.style.display = 'none';
+    }
+
+    // Function to show header and footer
+    function showHeaderFooter() {
+        if (header) header.style.display = '';
+        if (footer) footer.style.display = '';
+    }
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const membershipId = this.getAttribute('data-id');
+            // Clear the modal content before fetching new data
+            modalBody.innerHTML = '<div class="text-center">Loading...</div>';
+            fetch(`/edit-member/${membershipId}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('editMembershipModalBody').innerHTML = data;
+                    hideHeaderFooter();
+                });
+        });
+    });
+
+    // Ensure header and footer are shown when the modal is closed
+    document.getElementById('editMembershipModal').addEventListener('hidden.bs.modal', function () {
+        showHeaderFooter();
+    });
+});
+</script>
 
 
 
@@ -2047,4 +2243,6 @@
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
     </script>
+
+
     @endpush

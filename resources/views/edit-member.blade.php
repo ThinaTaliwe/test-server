@@ -37,62 +37,65 @@
             opacity: 1;
         }
     </style>
+
+     <style>
+        #kt_header,
+        #kt_footer{
+            display: none !important;
+        }
+    </style>
 @endpush
 
 @section('row_content')
-    <!--begin::Card-->
-    <div class="card mb-4 shadow">
-        <!--begin::Card body-->
+    <!--begin::Card body-->
         <div class="card-body row">
             <!--begin::Stepper-->
             <div class="stepper stepper-links d-flex flex-column col-9">
                 <div class="mt-2 text-center">
 
-<div class="card-header p-0 position-relative mt-n4 z-index-1">
-    <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
-        <div class="nav-wrapper position-relative end-0 mx-2 mx-auto">
-            <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" id="membership-tab" data-bs-toggle="tab" href="#membership" role="tab" aria-controls="membership" aria-selected="false">
-                        <span class="material-icons align-middle mb-1">
-                            assignment
-                        </span>
-                        Membership
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="dependants-tab" data-bs-toggle="tab" href="#dependants" role="tab" aria-controls="dependants" aria-selected="true">
-                        <span class="material-icons align-middle mb-1">
-                            people
-                        </span>
-                        Dependants
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="addresses-tab" data-bs-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false">
-                        <span class="material-icons align-middle mb-1">
-                            business
-                        </span>
-                        Addresses
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false">
-                        <span class="material-icons align-middle mb-1">
-                            paid
-                        </span>
-                        Payment History
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
+                <div class="card-header p-0 position-relative mt-n4 z-index-1">
+                    <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
+                        <div class="nav-wrapper position-relative end-0 mx-2 mx-auto">
+                            <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="membership-tab" data-bs-toggle="tab" href="#membership" role="tab" aria-controls="membership" aria-selected="false">
+                                        <span class="material-icons align-middle mb-1">
+                                            assignment
+                                        </span>
+                                        Membership
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="dependants-tab" data-bs-toggle="tab" href="#dependants" role="tab" aria-controls="dependants" aria-selected="true">
+                                        <span class="material-icons align-middle mb-1">
+                                            people
+                                        </span>
+                                        Dependants
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="addresses-tab" data-bs-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false">
+                                        <span class="material-icons align-middle mb-1">
+                                            business
+                                        </span>
+                                        Addresses
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false">
+                                        <span class="material-icons align-middle mb-1">
+                                            paid
+                                        </span>
+                                        Payment History
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
                     <div class="tab-content mt-2" id="myTabContent">
-                        <div class="tab-pane fade" id="membership">
+                        <div class="tab-pane fade show active" id="membership">
                             <h2>Membership Content</h2>
                             <div class="pb-10 pb-lg-15">
                                 <!--begin::Notice-->
@@ -102,7 +105,7 @@
 
                             <div class='row'>
 
-                                <div class="card-body g-3 rounded bg-secondary col-12 border border-gray-400">
+                                <div class="card-body g-3 rounded bg-secondary col-12 border border-gray-400 p-3">
 
                                     <form action="{{ route('update-member', $membership->id) }}" method="POST"
                                         {{ $dis }} role="form" id="membershipForm" name="membershipForm"
@@ -383,15 +386,14 @@
                                                     @endforeach
                                                 </select> --}}
                                                 <select class="form-select pb-3 bg-light text-dark" name="marital_status" id="maritalStatusSelect">
-    <option value="">Select Marital Status</option>
-    @foreach ($marriages as $status)
-        <option value="{{ $status->id }}"
-            {{ optional($membership->person)->married_status == $status->id ? 'selected' : '' }}>
-            {{ $status->name }}
-        </option>
-    @endforeach
-</select>
-
+                                                <option value="">Select Marital Status</option>
+                                                @foreach ($marriages as $status)
+                                                    <option value="{{ $status->id }}"
+                                                        {{ optional($membership->person)->married_status == $status->id ? 'selected' : '' }}>
+                                                        {{ $status->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
 
                                             </div>
                                         </div>
@@ -414,7 +416,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade show active" id="dependants">
+                        <div class="tab-pane fade" id="dependants">
                             <h2>Dependants Content</h2>
                             {{-- <p>This is the content for the Dependants tab.</p> --}}
 
@@ -962,22 +964,22 @@
             <div class="col-3">
                 <div class="mt-2 text-center">
 
-<div class="card-header p-0 position-relative mt-n4 mx-auto z-index-1">
-    <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
-        <div class="nav-wrapper position-relative end-0 mx-2">
-            <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="comments-tab" data-bs-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
-                        <span class="material-icons align-middle mb-1">
-                            chat
-                        </span>
-                        Comments
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+                            <div class="card-header p-0 position-relative mt-n4 mx-auto z-index-1">
+                                <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
+                                    <div class="nav-wrapper position-relative end-0 mx-2">
+                                        <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="comments-tab" data-bs-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">
+                                                    <span class="material-icons align-middle mb-1">
+                                                        chat
+                                                    </span>
+                                                    Comments
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
 
 
                     <div class="tab-content mt-2" id="myTabContent">
@@ -1087,9 +1089,7 @@
                 <!--end::Nav-->
             </div>
 
-
-
-            <!-- Modal -->
+            <!-- Add Comment Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -1209,15 +1209,15 @@
 
         </div>
         <!--end::Card body-->
-    </div>
 
-    <!--end::Card-->
+       
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 @endsection
 
 @push('scripts')
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -1459,4 +1459,5 @@
                 .catch(error => console.error('Error fetching comment:', error));
         }
     </script>
+
 @endpush
