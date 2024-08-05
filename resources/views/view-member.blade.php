@@ -5,7 +5,7 @@
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> --}}
     <style>
         #kt_header,
-        #kt_footer{
+        #kt_footer {
             display: none !important;
         }
     </style>
@@ -66,11 +66,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card my-4">
-                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-1 mx-auto">
+                                {{-- <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-1 mx-auto">
                                     <div class="shadow-dark border-radius-lg pt-3 pb-2">
                                         <h6 class="text-capitalize ps-3 text-center">Membership Details</h6>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="card-body g-3 px-4 pb-2 pt-3">
                                     <form {{ $dis }} method="POST" action="{{ route('add-member.store') }}"
                                         role="form" id="membershipForm" name="membershipForm" class="row g-3">
@@ -96,7 +96,24 @@
                                                     {{ $membership->gender_id == 'F' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="Female">Female</label>
                                             </div>
+                                            <div class="form-check form-check-inline ms-3">
+                                                <input class="form-check-input" type="radio" id="Other"
+                                                    name="radioGender" value=""
+                                                    {{ ($membership->gender_id !== 'M' && $membership->gender_id !== 'F') || ($membership->gender_id !== '1' && $membership->gender_id !== '2') ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="Other">Other</label>
+                                            </div>
                                         </div>
+                                        {{-- <div class="col-md-6 mx-auto py-2 d-flex justify-content-center align-items-center">
+                                                @foreach ($genders as $gender)
+                                                    <div class="form-check form-check-inline ms-3">
+                                                        <input class="form-check-input" type="radio" id="{{ $gender->name }}" name="radioGender" value="{{ $gender->id }}"
+                                                            {{ $membership->gender_id == $gender->id ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="{{ $gender->name }}">{{ $gender->description }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div> --}}
+
+
 
                                         <div class="col d-flex justify-content-center align-items-center my-3">
                                             <div class="form-check form-check-inline">
@@ -116,21 +133,21 @@
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" name="Name" id="Name"
-                                                    value="{{ $membership->name }}" placeholder="Name">
+                                                    value="{{ $membership->name ?? 'N/A' }}" placeholder="Name">
                                                 <label for="Name">Name</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" name="Surname" id="Surname"
-                                                    value="{{ $membership->surname }}" placeholder="Surname">
+                                                    value="{{ $membership->surname ?? 'N/A' }}" placeholder="Surname">
                                                 <label for="Surname">Surname</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" name="IDNumber"
-                                                    id="IDNumber" value="{{ $membership->id_number }}"
+                                                    id="IDNumber" value="{{ $membership->id_number ?? 'N/A' }}"
                                                     placeholder="Identity Number" maxlength="13">
                                                 <label for="IDNumber">Identity Number</label>
                                             </div>
@@ -138,7 +155,8 @@
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <input type="email" class="form-control" name="Email" id="Email"
-                                                    value="{{ $membership->primary_e_mail_address }}" placeholder="Email">
+                                                    value="{{ $membership->primary_e_mail_address ?? 'N/A' }}"
+                                                    placeholder="Email">
                                                 <label for="Email">Email</label>
                                             </div>
                                         </div>
@@ -146,7 +164,8 @@
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <input type="number" class="form-control" name="Telephone"
-                                                    id="Telephone" value="{{ $membership->primary_contact_number }}"
+                                                    id="Telephone"
+                                                    value="{{ $membership->primary_contact_number ?? 'N/A' }}"
                                                     placeholder="Telephone (Cell)" maxlength="10">
                                                 <label for="Telephone">Telephone (Cell)</label>
                                             </div>
@@ -155,14 +174,13 @@
                                             <div class="form-floating mb-3">
                                                 <input type="number" class="form-control" name="WorkTelephone"
                                                     id="WorkTelephone"
-                                                    value="{{ $membership->secondaty_contact_number }}"
+                                                    value="{{ $membership->secondaty_contact_number ?? 'N/A' }}"
                                                     placeholder="Telephone (Work)">
                                                 <label for="WorkTelephone">Telephone (Work)</label>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
-                                            <div
-                                                class="col-md-12 py-2 d-flex wrap w-50 mx-auto">
+                                            <div class="col-md-12 py-2 d-flex wrap w-50 mx-auto" style="max-width: 300px">
                                                 <div class="input-group">
                                                     <input type="text" onkeypress="return isNumberKey(event)"
                                                         class="form-control" name="inputDay" id="inputDay"
@@ -170,44 +188,31 @@
                                                         placeholder="DD" maxlength="2" size="2">
                                                     <span class="input-group-text px-2">/</span>
                                                     <input type="text" onkeypress="return isNumberKey(event)"
-                                                            class="form-control" name="inputMonth" id="inputMonth"
-                                                            value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->month }}"
-                                                            placeholder="MM" maxlength="2" size="2">
-                                                        <span class="input-group-text px-2">/</span>
-                                                        <input type="text" onkeypress="return isNumberKey(event)"
-                                                            class="form-control" name="inputYear" id="inputYear"
-                                                            value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->year }}"
-                                                            placeholder="YYYY" maxlength="4" size="4">
+                                                        class="form-control" name="inputMonth" id="inputMonth"
+                                                        value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->month }}"
+                                                        placeholder="MM" maxlength="2" size="2">
+                                                    <span class="input-group-text px-2">/</span>
+                                                    <input type="text" onkeypress="return isNumberKey(event)"
+                                                        class="form-control" name="inputYear" id="inputYear"
+                                                        value="{{ optional(dobBreakdown(optional($membership->person)->birth_date))->year }}"
+                                                        placeholder="YYYY" maxlength="4" size="4">
 
                                                 </div>
                                             </div>
                                             <div class="col-md-12 py-2">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="Married"
-                                                            name="marital_status" value="1"
-                                                            {{ optional($membership->person)->married_status == '1' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="Married">Married</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline ms-3">
-                                                        <input class="form-check-input" type="radio" id="Single"
-                                                            name="marital_status" value="2"
-                                                            {{ optional($membership->person)->married_status == '2' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="Single">Single</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline ms-3">
-                                                        <input class="form-check-input" type="radio" id="Widowed"
-                                                            name="marital_status" value="3"
-                                                            {{ optional($membership->person)->married_status == '3' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="Widowed">Widowed</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline ms-3">
-                                                        <input class="form-check-input" type="radio" id="Divorced"
-                                                            name="marital_status" value="4"
-                                                            {{ optional($membership->person)->married_status == '4' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="Divorced">Divorced</label>
-                                                    </div>
+                                                    @foreach ($marriageStatuses as $status)
+                                                        <div class="form-check form-check-inline ms-3">
+                                                            <input class="form-check-input" type="radio"
+                                                                id="{{ $status->name }}" name="marital_status"
+                                                                value="{{ $status->id }}"
+                                                                {{ optional($membership->person)->married_status == $status->id ? 'checked' : '' }}>
+                                                            <label class="form-check-label"
+                                                                for="{{ $status->name }}">{{ $status->description }}</label>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -240,69 +245,92 @@
                 </div>
                 <div class="tab-pane fade" id="pills-dependants" role="tabpanel" aria-labelledby="pills-dependants-tab">
                     <div class="col-sm-12 my-4">
-                        <div class="card h-100 mt-4 mt-md-0">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 mx-auto">
+                        <div class=" h-100 mt-4 mt-md-0">
+                            {{-- <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 mx-auto">
                                 <div class="bg-gradient-dark shadow-dark border-radius-lg pt-3 pb-2">
                                     <h6 class=" text-capitalize ps-3">Dependants</h6>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="card-body px-3 pt-4 pb-2">
                                 <div class="table-responsive p-0">
-                                    <table class="table table-bordered align-items-center justify-content-center mb-4"
-                                        id="datatable-dependant">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Name</th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">ID</th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Gender</th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Relationship
-                                                    </th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Date Of Birth
-                                                </th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Age</th>
-                                                <th class="text-uppercase text-dark text-md font-weight-bold">Manage</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($dependants as $dependant)
-                                                <tr>
-                                                    <td>
-                                                        <p class="text-sm font-weight-normal mb-0">
-                                                            {{ $dependant->personDep->screen_name ?? 'N/A'  }} </p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-normal mb-0">
-                                                            {{ $dependant->personDep->id_number ?? 'N/A' }}</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-normal mb-0">
-                                                            {{ $dependant->personDep->gender_id ?? 'N/A' }}</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-normal mb-0">
-                                                            {{ $dependant->person_relationship_id ?? 'N/A' }}</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="text-sm font-weight-normal mb-0">
-                                                            {{ substr($dependant->personDep->birth_date, 0, 10) ?? 'N/A' }}</p>
-                                                    </td>
-                                                    @php
-                                                        $age = ageFromDOB($dependant->personDep->birth_date);
-                                                    @endphp
-                                                    <td
-                                                        class="text-sm fw-bolder mx-auto my-1 pt-2 px-2 badge badge-sm {{ changeAgeBackground($age) }}">
-                                                        {{ $age ?? 'N/A' }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-link text-danger text-gradient p-0"
-                                                            href="/remove-dependant/{{ $dependant->secondary_person_id }}" disabled>
-                                                            <i class="material-icons text-sm">highlight_off</i>Remove
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                @if ($dependants->isEmpty())
+                                        <div class="alert alert-warning" role="alert">
+                                            <p class="text-center">No data available.</p>
+                                        </div>
+                                    @else
+                                <table class="table table-rounded table-row-dashed fs-6 g-5 gs-5">
+                                <thead>
+                                    <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-gray-300">
+                                        <th class="text-center">Manage</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">ID Number</th>
+                                        <th class="text-center">Gender</th>
+                                        <th class="text-center">Relationship</th>
+                                        <th class="text-center">Date Of Birth</th>
+                                        <th>Age</th>
 
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-light">
+                                    @foreach ($dependants as $dependant)
+                                        <tr>
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                            <a class="btn btn-link text-danger text-gradient p-0 "
+                                                                            href="/remove-dependant/{{ $dependant->secondary_person_id }}"
+                                                                            disabled>
+                                                                            <i class="material-icons text-sm">highlight_off</i>Remove
+                                                                        </a>
+                                            </td>
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                                <p class="text-sm font-weight-normal mb-0">
+                                                                            {{ $dependant->personDep->screen_name ?? 'N/A' }} </p>
+                                            </td>
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                                <p class="text-sm font-weight-normal mb-0">
+                                                                            {{ $dependant->personDep->id_number ?? 'N/A' }}</p>
+                                            </td>      
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                            <p class="text-sm font-weight-normal mb-0">
+                                                                            {{ $dependant->personDep->gender_id ?? 'N/A' }}</p>
+                                            </td>                      
+                                        
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                            <p class="text-sm font-weight-normal mb-0">
+                                                                            {{ $dependant->person_relationship_id ?? 'N/A' }}</p>
+                                            </td>
+                                            
+                                            <td class="text-m font-weight-normal pt-3 text-center">
+                                            <p class="text-sm font-weight-normal mb-0">
+                                                                            {{ substr($dependant->personDep->birth_date, 0, 10) ?? 'N/A' }}
+                                                                        </p>
+                                            </td>
+                                            
+                                            @php
+                                                                        $age = ageFromDOB($dependant->personDep->birth_date);
+                                                                    @endphp
+                                                                    
+                                                                
+                                            <td class="text-center text-sm fw-bolder mx-auto my-1 pt-2 px-2 badge badge-sm {{ changeAgeBackground($age) }}">
+                                                                        {{ $age ?? 'N/A' }} 
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                    <tr class="text-start text-dark fw-bold fs-7 text-uppercase bg-gray-300">
+                                        <th class="text-center">Manage</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">ID Number</th>
+                                        <th class="text-center">Gender</th>
+                                        <th class="text-center">Relationship</th>
+                                        <th class="text-center">Date of Birth</th>
+                                        <th>Age</th>
+                                    </tr>
+                                </tfoot>
+                                </table>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -396,42 +424,40 @@
         </div> --}}
                 </div>
                 <div class="tab-pane fade" id="pills-Addresses" role="tabpanel" aria-labelledby="pills-Addresses-tab">
-                            <div class="card">
-                                <div class="card-header pb-0 px-3 mx-auto">
-                                    <h6 class="mb-0 text-center">Addresses</h6>
+                    <div class="card">
+                        {{-- <div class="card-header pb-0 px-3 mx-auto">
+                            <h6 class="mb-0 text-center">Addresses</h6>
+                        </div> --}}
+                        <div class="card-body pt-4 p-3">
+                            @if ($addresses->isEmpty())
+                                <div class="alert alert-warning mx-auto" role="alert">
+                                    <p class="text-center">No data available.</p>
                                 </div>
-                                <div class="card-body pt-4 p-3">
-                                    <div class="row">
-                                        @foreach ($addresses as $address)
-                                            
-                                            <div class="list-group-item border-0 d-flex p-4 bg-gray-100 border-radius-lg col-6 my-1">
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-3 text-sm">Home</h6>
-                                                    <span class="mb-2 text-xs">Address Line 1: <span
-                                                            class="text-dark font-weight-bold ms-sm-2">{{ $address->line1 }}</span></span>
-                                                    <span class="mb-2 text-xs">Town/Suburb: <span
-                                                            class="text-dark ms-sm-2 font-weight-bold">{{ $address->suburb }}</span></span>
-                                                    <span class="mb-2 text-xs">City: <span
-                                                            class="text-dark ms-sm-2 font-weight-bold">{{ $address->city }}</span></span>
-                                                    <span class="mb-2 text-xs">Province: <span
-                                                            class="text-dark ms-sm-2 font-weight-bold">{{ $address->province }}</span></span>
-                                                    <span class="text-xs">Postal Code: <span
-                                                            class="text-dark ms-sm-2 font-weight-bold">{{ $address->ZIP }}</span></span>
-                                                </div>
-                                                <div class="ms-auto text-end">
-                                                    <a class="btn btn-link text-success text-gradient px-3 mb-0"
-                                                        href="#"><i
-                                                            class="material-icons text-sm me-2">location_on</i>View On
-                                                        Map</a>
-                                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                                        href="#"><i
-                                                            class="material-icons text-sm me-2">delete</i>Delete</a>
-                                                </div> 
+                            @else
+                                <div class="row">
+                                @foreach ($addresses as $address)
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <div class="list-group-item border-0 d-flex p-3 bg-gray-200 border-radius-lg">
+                                            <div class="d-flex flex-column">
+                                                <h6 class="mb-3 text-sm">Home</h6>
+                                                <span class="mb-2 text-xs">Address Line 1: <span class="text-dark font-weight-bold ms-sm-2">{{ $address->line1 }}</span></span>
+                                                <span class="mb-2 text-xs">Town/Suburb: <span class="text-dark ms-sm-2 font-weight-bold">{{ $address->suburb }}</span></span>
+                                                <span class="mb-2 text-xs">City: <span class="text-dark ms-sm-2 font-weight-bold">{{ $address->city }}</span></span>
+                                                <span class="mb-2 text-xs">Province: <span class="text-dark ms-sm-2 font-weight-bold">{{ $address->province }}</span></span>
+                                                <span class="text-xs">Postal Code: <span class="text-dark ms-sm-2 font-weight-bold">{{ $address->ZIP }}</span></span>
                                             </div>
-                                        @endforeach
+                                            <div class="ms-auto text-end">
+                                                <a class="btn btn-link text-success text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">location_on</i>View On Map</a>
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">delete</i>Delete</a>
+                                            </div>
+                                        </div>
                                     </div>
+                                @endforeach
                                 </div>
-                            </div>
+
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -440,8 +466,6 @@
 @endsection
 
 @push('scripts')
-
-
     <!-- Materialize JS and Initialization -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
     {{-- <script>
@@ -605,7 +629,7 @@
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date
@@ -627,7 +651,7 @@
 
             if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (
                     id_date == IDNumber.substring(4, 6)))) {
-                error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
+                error.append('<p>SA ID number not valid</p>');
                 correct = false;
             }
 

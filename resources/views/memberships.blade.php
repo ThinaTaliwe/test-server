@@ -468,12 +468,12 @@
                                 <a class="btn btn-sm btn-icon btn-success" data-bs-toggle="modal" title="View"
                                     data-bs-target="#exampleModal2" data-bs-id="{{ $membership->id }}"><i
                                         class="bi bi-eye-fill fs-4 me-0"></i> </a>
-                                {{-- <a class="btn btn-sm btn-icon btn-warning" href="/edit-member/{{ $membership->id }}"
+                                <a class="btn btn-sm btn-icon btn-warning" href="/edit-member/{{ $membership->id }}"
                                     style="text-decoration: none;" data-bs-toggle="tooltip" title="Edit"><i
-                                        class="bi bi-pencil-fill fs-4 me-0"></i> </a> --}}
-                                         <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="modal" title="Edit"
-                                    data-bs-target="#exampleModal3" data-bs-id="{{ $membership->id }}"><i
                                         class="bi bi-pencil-fill fs-4 me-0"></i> </a>
+                                         {{-- <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="modal" title="Edit"
+                                    data-bs-target="#exampleModal3" data-bs-id="{{ $membership->id }}"><i
+                                        class="bi bi-pencil-fill fs-4 me-0"></i> </a> --}}
                                 </a>
                                 <a class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip" title="Remove"
                                     href="#" onclick="deleteConfirm('/cancel-member/{{ $membership->id }}')"
@@ -514,7 +514,7 @@
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center">
                                 <span
-                                    class="badge badge-light-primary fs-7 fw-bold">{{ $statuses[$membership->bu_membership_status_id] }}</span>
+                                    class="badge badge-light-primary fs-7 fw-bold">{{ $statuses[$membership->bu_membership_status_id] ?? 'Unknown Status' }}</span>
                                 {{-- <span class="badge badge-light-primary fs-7 fw-bold">{{ $membership->status }}</span> --}}
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center">
@@ -586,7 +586,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog custom-modal-size fixed">
             <div class="modal-content">
                 <div class="modal-header">
@@ -603,25 +603,24 @@
         </div>
     </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            ...
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
     <div class="modal fade" id="editMembershipModal" tabindex="-1" aria-labelledby="editMembershipLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl">
@@ -1399,6 +1398,51 @@
             });
         </script>
 
+<script>
+    $(document).ready(function() {
+        $('#membershipForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: form.serialize(), // Serialize the form data
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.success,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    var errorHtml = '<ul>';
+
+                    $.each(errors, function(key, value) {
+                        errorHtml += '<li>' + value[0] + '</li>';
+                    });
+
+                    errorHtml += '</ul>';
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: errorHtml,
+                        showConfirmButton: true
+                    });
+                }
+            });
+        });
+    });
+</script>
+
         
 
         <script>
@@ -2154,7 +2198,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {{-- This is for the member form - Test --}}
     <script>
         function getDOB(IDNumber) {
-
             // first clear any left over error messages
             $('#error span').remove();
             //This clears the red x mark
@@ -2169,8 +2212,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("inputMonthDiv").classList.remove('is-valid');
             document.getElementById("inputDayDiv").classList.remove('is-valid');
 
-
-
             // store the error div, to save typing
             var error = $('#error');
 
@@ -2179,13 +2220,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date
             var tempDate = new Date(IDNumber.substring(0, 2), IDNumber.substring(2, 4) - 1, IDNumber.substring(4, 6));
-
-
 
             var id_date = tempDate.getDate();
             var id_month = tempDate.getMonth();
@@ -2201,16 +2240,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (
                     id_date == IDNumber.substring(4, 6)))) {
-                error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
+                error.append('<p>SA ID number not valid</p>');
                 correct = false;
             }
 
             // if no error found, hide the error message
             if (correct) {
                 error.css('display', 'none');
-
-
-
 
                 //This adds the green checkmark
                 document.getElementById("IDNumber").classList.add('is-valid');
@@ -2226,7 +2262,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // otherwise, show the error
             else {
                 error.css('display', 'block');
-
                 //This adds the green checkmark
                 document.getElementById("IDNumber").classList.add('is-invalid');
                 document.getElementById("inputYearDiv").classList.add('is-invalid');
@@ -2235,14 +2270,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             return false;
-
-
         }
 
         function isNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
     </script>
-
 
     @endpush

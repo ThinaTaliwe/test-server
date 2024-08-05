@@ -178,7 +178,9 @@
             }
         
             window.initAutocomplete = initAutocomplete;
-        </script>  
+        </script> 
+        
+         
             
         {{--End: Trying a modularized version of Google maps auto-complete --}}
         <style>
@@ -1370,12 +1372,82 @@
             </div>
         </div>
         <!--end::Activities drawer-->
+
+        <!-- Delete Confirmation Modal -->
+{{-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="POST" action="">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> --}}
+
 @endsection
 
 @section('drawer')
 @endsection
 
 @push('scripts')
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        
+        document.querySelectorAll('.btn-delete').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var formAction = this.getAttribute('data-action');
+                var form = document.getElementById('deleteForm');
+                form.action = formAction;
+                deleteModal.show();
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        
+        document.querySelectorAll('.btn-delete-modal').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var formAction = this.getAttribute('data-action');
+                var form = document.getElementById('deleteForm');
+                form.action = formAction;
+                deleteModal.show();
+            });
+        });
+
+        document.querySelectorAll('.btn-delete-confirm').forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                var confirmAction = confirm('Are you sure you want to delete this item?');
+                if (confirmAction) {
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        });
+    });
+</script>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var button = document.getElementById('toggleDrawerButton');
@@ -1704,7 +1776,7 @@
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date
@@ -1726,7 +1798,7 @@
 
             if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (
                 id_date == IDNumber.substring(4, 6)))) {
-                error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
+                error.append('<p>SA ID number not valid</p>');
                 correct = false;
             }
 
@@ -1807,7 +1879,7 @@
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date

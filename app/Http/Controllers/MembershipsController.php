@@ -293,12 +293,16 @@ class MembershipsController extends Controller
             }
 
             return redirect()->back()->withSuccess('Membership updated successfully!');
+             //return response()->json(['success' => 'Membership updated successfully!']);
+           
         } else {
             Log::info('No changes detected for membership.', ['membership_id' => $membership->id]);
+             return response()->json(['error' => 'Membership not found!'], 404);
         }
         // If no changes were detected
         // return back()->with('info', 'No changes were detected.');
-        redirect()->back()->withInfo('No changes were detected');
+        //redirect()->back()->withInfo('No changes were detected');
+         return response(null, 204); // No Content response
     }
 
     public function show($id, Request $request)
@@ -327,9 +331,12 @@ class MembershipsController extends Controller
             // Add other statuses as needed
         ];
 
+         $genders = Gender::all();
+         $marriageStatuses = MarriageStatus::all();
+
         // dd($billings);
         // return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
-        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses]);
+        return view('view-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'payments' => $payments, 'billings' => $billings, 'statuses' => $statuses, 'genders' => $genders, 'marriageStatuses' => $marriageStatuses]);   
     }
 
 
@@ -367,15 +374,27 @@ class MembershipsController extends Controller
         $disabled = '';
 
         $genders = DB::select('select * from gender');
+        $genderMap = [];
+            foreach ($genders as $gender) {
+                $genderMap[$gender->id] = $gender->name;
+            }
 
         $marriages = DB::select('select * from marriage_status');
 
         $billings = DB::select('select * from membership_payment_receipts');
 
+
+
         $relationships = PersonRelationship::all(); // Fetch all relationships
+        // Convert relationships to an associative array for easy lookup
+    $relationshipMap = [];
+    foreach ($relationships as $relationship) {
+        $relationshipMap[$relationship->id] = $relationship->name;
+    }
+
         //$genders = Gender::all(); // Fetch all genders
 
-        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings, 'relationships' => $relationships, 'genders' => $genders, 'comments' => $comments])->with('success', 'Updated Successfully!!!!!');
+        return view('edit-member', ['membership' => $membership, 'dis' => $disabled, 'dependants' => $dependants, 'memtypes' => $memtypes, 'countries' => $countries, 'addresses' => $addresses, 'memAdd' => $memAdd, 'genders' => $genders, 'marriages' => $marriages, 'billings' => $billings, 'relationships' => $relationships, 'genders' => $genders, 'comments' => $comments, 'genderMap' => $genderMap, 'relationshipMap' => $relationshipMap])->with('success', 'Updated Successfully!');
     }
 
     /**

@@ -355,6 +355,7 @@ Route::controller(MembershipsController::class)->group(function () {
         ->middleware(['auth'])
         ->name('edit-member');
 
+
      /**
      * Route for updating a member. This handles the form submission from the edit page.
      */
@@ -529,6 +530,7 @@ Route::put('comments/{id}', [CommentController::class, 'update']);
 Route::get('/chart-data', [HomeController::class, 'getChartData']);
 Route::get('/chart-data2', [HomeController::class, 'getChartData2']);
 
+Route::get('/dependant/{id}/main-member', [DependantsController::class, 'mainMember'])->name('dependant.main-member');
 
 
 require __DIR__ . '/auth.php';

@@ -409,7 +409,7 @@
                                                                     @foreach ($dropdownBuMemTyp as $type)
                                                                         <option value="{{ $type->id }}"
                                                                             {{ old('bu_membership_type_id', $item['main']->membership_type ?? '') == $type->name ? 'selected' : '' }}>
-                                                                            {{ $type->id }}. {{ $type->name }} -
+                                                                            {{ $type->name }} -
                                                                             {{ $type->description }}
                                                                         </option>
                                                                     @endforeach
@@ -856,7 +856,7 @@
                                                             </option>
                                                             @foreach ($paymentmethods as $paymentmethod)
                                                                 <option value="{{ $paymentmethod->id }}">
-                                                                    {{ $paymentmethod->name }}
+                                                                    {{ $paymentmethod->historic_ref }}.{{ $paymentmethod->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -2669,19 +2669,19 @@
                             <!-- First Accordion Item for Membership Details -->
                             {{-- <h3 class="card-title">Main Record ID: {{ $item['membershipId'] }}</h3> --}}
 
-                            <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_1">
+                            <h2 class="accordion-header" id="kt_accordion_{{ $loop->index }}_header_side1">
                                 <button class="accordion-button fs-4 fw-semibold{{ $loop->first ? '' : ' collapsed' }}"
                                     type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#kt_accordion_{{ $loop->index }}_body_1"
+                                    data-bs-target="#kt_accordion_{{ $loop->index }}_body_side1"
                                     aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                    aria-controls="kt_accordion_{{ $loop->index }}_body_1">
+                                    aria-controls="kt_accordion_{{ $loop->index }}_body_side1">
                                     Membership Details
                                 </button>
 
                             </h2>
-                            <div id="kt_accordion_{{ $loop->index }}_body_1"
+                            <div id="kt_accordion_{{ $loop->index }}_body_side1"
                                 class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
-                                aria-labelledby="kt_accordion_{{ $loop->index }}_header_1"
+                                aria-labelledby="kt_accordion_{{ $loop->index }}_header_side1"
                                 data-bs-parent="#kt_accordion_{{ $loop->index }}">
                                 <div class="accordion-body">
                                     <!-- Accordion content for Membership Details -->

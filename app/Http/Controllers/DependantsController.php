@@ -9,10 +9,10 @@ use App\Models\MembershipPaymentReceipt;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\PersonRelationship;
 
 use App\Models\User;
 use App\Notifications\PersonStatusNotification;
-
 
 /**
  * Dependants Controller
@@ -32,16 +32,18 @@ class DependantsController extends Controller
     public function index()
     {
         $dependants = Dependant::all();
-        return view('dependants', ['dependants' => $dependants]);
-    }
+        
+        $relationships = PersonRelationship::all(); // Fetch all relationships
+        //$memberships = Membership::all();
 
+        return view('dependants', ['dependants' => $dependants, 'relationships' => $relationships]);
+    }
     
     public function indexx()
     {
         $payments = MembershipPaymentReceipt::all(); // Make sure you have the Address model created and it is properly linked to your database table
         return response()->json($payments);
     }
-
 
     /**
      * Store a newly created dependant in storage.
@@ -124,5 +126,30 @@ class DependantsController extends Controller
         
         // Redirect back with success message
         return redirect()->back()->withSuccess('Dependant Has Been Removed!');
+    }
+
+    /**
+     * Display the main member for a given dependant.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mainMember($id)
+    {
+        // Fetch the dependant along with the main person and their memberships
+        $dependant = Dependant::with(['personMain.membership'])->findOrFail($id);
+
+        // Check if main person and their membership exist
+        if ($dependant->personMain && $dependant->personMain->membership) {
+            // Assuming we want the first membership's ID
+            $mainMemberId = $dependant->personMain->membership->first()->id;
+
+            // You can redirect or perform other actions based on the main member's ID
+            // Redirect to a specific route, for example
+            return redirect()->route('edit-member', ['id' => $mainMemberId]);
+        } else {
+            // Handle cases where the main person or their memberships do not exist
+            return redirect()->back()->with('error', 'No main member found for this dependant.');
+        }
     }
 }

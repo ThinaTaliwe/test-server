@@ -32,6 +32,7 @@
         <div class="card-header">
             <h3 class="card-title text-dark fs-1 mx-auto">Dependants</h3>
         </div>
+        
         <div class="card-body">
 
             <!--begin::Wrapper-->
@@ -206,9 +207,13 @@
                                 @endif
                             </td>
                             <td class="text-m font-weight-normal pt-3 text-center">
-                                    {{ $dependant->personMain->screen_name ?? 'N/A' }}
-                                {{-- <a href="/view-member/{{ $dependant->personMain->membership->first()->id }}">
+                            {{-- @dump($dependant->personMain->membership->first()->id) --}}
+                                    {{-- {{ $dependant->personMain->screen_name ?? 'N/A' }} --}}
+                                {{-- <a href="/edit-member/2">
                                     {{ $dependant->personMain->screen_name ?? 'N/A' }}</a> --}}
+                                    {{-- <a href="/edit-member/{{ $dependant->personMain->membership->first()->id }}">
+                                    {{ $dependant->personMain->screen_name ?? 'N/A' }}</a> --}}
+                                    <a href="{{ route('dependant.main-member', ['id' => $dependant->id]) }}">{{ $dependant->personMain->screen_name ?? 'N/A' }}</a>
                             </td>
 
                             {{--}} <td class="text-center w-5 font-weight-normal">
@@ -331,4 +336,5 @@
             KTDependantsDatatables.init();
         });
     </script>
+    
 @endpush

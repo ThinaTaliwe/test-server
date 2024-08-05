@@ -27,6 +27,8 @@
 
 		<!--end::Global Stylesheets Bundle-->
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+
+
 		<!-- Styles Start-->
 		@stack('styles')
 		<!-- Styles End-->
@@ -85,7 +87,6 @@
         <!--end::Javascript-->
 
 
-
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
@@ -96,6 +97,8 @@
     </script>
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 	</body>
 <!--end::Body-->
 </html>

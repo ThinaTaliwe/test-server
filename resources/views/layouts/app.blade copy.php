@@ -1217,7 +1217,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF1KOXQsWQgBsFdgoKlPAa38C
                 var fullDate = id_date + "-" + (id_month + 1) + "-" + id_year;
 
                 if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (id_date == IDNumber.substring(4, 6)))) {
-                    error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
+                    error.append('<p>SA ID number not valid</p>');
                     correct = false;
                 }
 

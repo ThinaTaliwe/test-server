@@ -801,7 +801,7 @@
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date
@@ -825,7 +825,7 @@
 
             if (!((tempDate.getYear() == IDNumber.substring(0, 2)) && (id_month == IDNumber.substring(2, 4) - 1) && (
                     id_date == IDNumber.substring(4, 6)))) {
-                error.append('<p>SA ID number does not appear to be authentic - date part not valid</p>');
+                error.append('<p>SA ID number not valid</p>');
                 correct = false;
             }
 
@@ -900,7 +900,7 @@
 
             // SA ID Number have to be 13 digits, so check the length
             if (IDNumber.length != 13 || !isNumber(IDNumber)) {
-                error.append('<p>SA ID number does not appear to be authentic - input not a valid number</p>');
+                error.append('<p>SA ID number not a valid number</p>');
                 correct = false;
             }
             // get first 6 digits as a valid date

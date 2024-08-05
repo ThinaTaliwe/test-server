@@ -501,8 +501,8 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -851,6 +851,8 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'App\\Jobs\\RunPythonScript' => __DIR__ . '/../..' . '/app/Jobs/RunPythonScript.php',
         'App\\Models\\Address' => __DIR__ . '/../..' . '/app/Models/Address.php',
         'App\\Models\\AddressType' => __DIR__ . '/../..' . '/app/Models/AddressType.php',
+        'App\\Models\\Bank' => __DIR__ . '/../..' . '/app/Models/Bank.php',
+        'App\\Models\\BankAccountType' => __DIR__ . '/../..' . '/app/Models/BankAccountType.php',
         'App\\Models\\Bu' => __DIR__ . '/../..' . '/app/Models/Bu.php',
         'App\\Models\\BuGender' => __DIR__ . '/../..' . '/app/Models/BuGender.php',
         'App\\Models\\BuMembershipRegion' => __DIR__ . '/../..' . '/app/Models/BuMembershipRegion.php',
@@ -875,6 +877,7 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'App\\Models\\FuneralCheck' => __DIR__ . '/../..' . '/app/Models/FuneralCheck.php',
         'App\\Models\\FuneralChecklistItems' => __DIR__ . '/../..' . '/app/Models/FuneralChecklistItems.php',
         'App\\Models\\FuneralCosts' => __DIR__ . '/../..' . '/app/Models/FuneralCosts.php',
+        'App\\Models\\FuneralHasPayout' => __DIR__ . '/../..' . '/app/Models/FuneralHasPayout.php',
         'App\\Models\\FuneralHasTransactions' => __DIR__ . '/../..' . '/app/Models/FuneralHasTransactions.php',
         'App\\Models\\Gba' => __DIR__ . '/../..' . '/app/Models/Gba.php',
         'App\\Models\\GbaDeaths' => __DIR__ . '/../..' . '/app/Models/GbaDeaths.php',
@@ -904,9 +907,12 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\Module' => __DIR__ . '/../..' . '/app/Models/Module.php',
         'App\\Models\\OneoModel' => __DIR__ . '/../..' . '/app/Models/OneoModel.php',
+        'App\\Models\\PaymentMethod' => __DIR__ . '/../..' . '/app/Models/PaymentMethod.php',
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\Person' => __DIR__ . '/../..' . '/app/Models/Person.php',
+        'App\\Models\\PersonBankDetails' => __DIR__ . '/../..' . '/app/Models/PersonBankDetails.php',
         'App\\Models\\PersonDetail' => __DIR__ . '/../..' . '/app/Models/PersonDetail.php',
+        'App\\Models\\PersonHasAddress' => __DIR__ . '/../..' . '/app/Models/PersonHasAddress.php',
         'App\\Models\\PersonHasFuneral' => __DIR__ . '/../..' . '/app/Models/PersonHasFuneral.php',
         'App\\Models\\PersonHasLanguage' => __DIR__ . '/../..' . '/app/Models/PersonHasLanguage.php',
         'App\\Models\\PersonHasPerson' => __DIR__ . '/../..' . '/app/Models/PersonHasPerson.php',

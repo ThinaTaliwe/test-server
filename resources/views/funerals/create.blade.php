@@ -466,62 +466,44 @@
 
                         <div class="card-body pt-0">
                             <!--begin::Items-->
-                            <div class="py-2">
-                                @foreach ($checklist_items as $item)
-                                    <input type="hidden" id="funeral_id_{{ $item->id }}" name="funeral_id[]"
-                                        value="{{ $item->funeral_id }}">
-                                    <input type="hidden" id="funeral_checklist_id_{{ $item->id }}"
-                                        name="funeral_checklist_id[]" value="{{ $item->funeral_checklist_id }}">
-                                    <input type="hidden" id="bu_id_{{ $item->id }}" name="bu_id[]"
-                                        value="{{ $item->bu_id }}">
-                                    <!--begin::Item-->
-                                    <div class="d-flex flex-stack">
-                                        <div class="d-flex">
-                                            <div class="d-flex flex-column">
-                                                <a href="#"
-                                                    class="fs-5 text-gray-900 text-hover-primary fw-bold">{{ $item->name }}</a>
-                                                <div class="fs-7 fw-semibold text-muted">Completed: <span
-                                                        id="dated_completed_{{ $item->id }}">Not completed</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-end">
-                                            <!--begin::Switch-->
-                                            <label
-                                                class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                                <!--begin::Input-->
-                                                <input class="form-check-input checklist-checkbox"
-                                                    id="{{ $item->id }}_checkbox"
-                                                    name="checklist[{{ $item->id }}][completed]" type="checkbox"
-                                                    data-item-id="{{ $item->id }}" />
-                                                <!--end::Input-->
-                                                <!--begin::Label-->
-                                                <span class="form-check-label fw-semibold text-muted"
-                                                    for="{{ $item->id }}_checkbox"></span>
-                                                <!--end::Label-->
-                                            </label>
-                                            <!--end::Switch-->
-                                        </div>
-                                    </div>
-                                    <!--begin::Input group-->
-                                    <div class="input-group input-group-solid mt-2">
-                                        <span class="fs-7 input-group-text">Notes</span>
-                                        <textarea class="form-control note-textarea" id="{{ $item->id }}_note"
-                                            name="checklist[{{ $item->id }}][note]" aria-label="Notes" rows="1"
-                                            data-item-id="{{ $item->id }}"></textarea>
-                                    </div>
-                                    <input type="hidden" id="hidden_dated_completed_{{ $item->id }}"
-                                        name="checklist[{{ $item->id }}][dated_completed]" value="">
-                                    <input type="hidden" id="hidden_note_{{ $item->id }}"
-                                        name="checklist[{{ $item->id }}][note]" value="">
-                                    <div class="separator separator-dashed my-5"></div>
-                                    <!--end::Item-->
-                                @endforeach
-                                @if ($checklist_items->isEmpty())
-                                    <h4>No Checklist items available</h4>
-                                @endif
-                            </div>
-                            <!--end::Items-->
+<div class="py-2">
+    @foreach ($checklist_items as $item)
+        <div class="d-flex flex-stack">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
+                    <a href="#"
+                        class="fs-5 text-gray-900 text-hover-primary fw-bold">{{ $item->name }}</a>
+                    <div class="fs-7 fw-semibold text-muted">
+                        Completed: <span id="dated_completed_{{ $item->id }}">
+                            {{ $item->completed ? $item->completed_date : 'Not completed' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                    <input class="form-check-input checklist-checkbox"
+                        id="{{ $item->id }}_checkbox"
+                        name="checklist[{{ $item->id }}][completed]" type="checkbox"
+                        data-item-id="{{ $item->id }}" {{ $item->completed ? 'checked' : '' }}>
+                    <span class="form-check-label fw-semibold text-muted"
+                        for="{{ $item->id }}_checkbox"></span>
+                </label>
+            </div>
+        </div>
+        <div class="input-group input-group-solid mt-2">
+            <span class="fs-7 input-group-text">Notes</span>
+            <textarea class="form-control note-textarea" id="{{ $item->id }}_note"
+                name="checklist[{{ $item->id }}][note]" aria-label="Notes" rows="1">{{ $item->note }}</textarea>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+    @endforeach
+    @if ($checklist_items->isEmpty())
+        <h4>No Checklist items available</h4>
+    @endif
+</div>
+<!--end::Items-->
+
                         </div>
 
                     </div>
@@ -5269,18 +5251,6 @@
 <!-- End Combined Script for Deleting Beneficiaries and Shortfalls, and Handling Shortfall Payment Modal -->
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
 
     <script>
@@ -5297,6 +5267,11 @@
 
 
 
+{{-- start::script for checklist --}}
+
+
+
+{{-- end::script for checklist --}}
 
 
     {{-- This is for accordion header validation colour change --}}
