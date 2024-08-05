@@ -201,6 +201,7 @@ return [
 
         App\Providers\GBAServiceProvider::class,
         Intervention\Image\Laravel\ServiceProvider::class,
+        jeremykenedy\LaravelLogger\LaravelLoggerServiceProvider::class,
         
 
     ],

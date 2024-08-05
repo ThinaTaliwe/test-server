@@ -10,7 +10,6 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -19,6 +18,7 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
@@ -34,15 +34,16 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'f57d353b41eb2e234b26064d63d8c5dd' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Filesystem/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'e1a17643783834a6272bfd60662b63d2' => __DIR__ . '/..' . '/laravellux/html/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
+        '65be70a72cd59c06e456f6762b75a0ae' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Logic/helpers.php',
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '6b34c85f7b1ad6faa15aa12109e030f2' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/functions.php',
-        '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
@@ -53,6 +54,10 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'v' => 
         array (
             'voku\\' => 5,
+        ),
+        'j' => 
+        array (
+            'jeremykenedy\\LaravelLogger\\' => 27,
         ),
         'Z' => 
         array (
@@ -108,13 +113,11 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
             'Svg\\' => 4,
             'Spatie\\WelcomeNotification\\' => 27,
             'Spatie\\Permission\\' => 18,
-            'Spatie\\LaravelPackageTools\\' => 27,
             'Spatie\\LaravelIgnition\\' => 23,
             'Spatie\\Ignition\\' => 16,
             'Spatie\\FlareClient\\' => 19,
             'Spatie\\ErrorSolutions\\' => 22,
             'Spatie\\Backtrace\\' => 17,
-            'Spatie\\Activitylog\\' => 19,
             'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
@@ -171,6 +174,12 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
             'Laravel\\Prompts\\' => 16,
+            'LaravelLux\\Html\\' => 16,
+        ),
+        'J' => 
+        array (
+            'Jaybizzle\\LaravelCrawlerDetect\\' => 31,
+            'Jaybizzle\\CrawlerDetect\\' => 24,
         ),
         'I' => 
         array (
@@ -240,6 +249,10 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'voku\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'jeremykenedy\\LaravelLogger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src',
         ),
         'ZipStream\\' => 
         array (
@@ -401,19 +414,15 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-permission/src',
         ),
-        'Spatie\\LaravelPackageTools\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/spatie/laravel-package-tools/src',
-        ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
-            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
-            1 => __DIR__ . '/..' . '/spatie/ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -426,10 +435,6 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'Spatie\\Backtrace\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/backtrace/src',
-        ),
-        'Spatie\\Activitylog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/spatie/laravel-activitylog/src',
         ),
         'Sabberworm\\CSS\\' => 
         array (
@@ -595,6 +600,18 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'Laravel\\Prompts\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/prompts/src',
+        ),
+        'LaravelLux\\Html\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravellux/html/src',
+        ),
+        'Jaybizzle\\LaravelCrawlerDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaybizzle/laravel-crawler-detect/src',
+        ),
+        'Jaybizzle\\CrawlerDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
         ),
         'Intervention\\Image\\Laravel\\' => 
         array (
@@ -4122,6 +4139,20 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'Intervention\\Image\\Typography\\FontFactory' => __DIR__ . '/..' . '/intervention/image/src/Typography/FontFactory.php',
         'Intervention\\Image\\Typography\\Line' => __DIR__ . '/..' . '/intervention/image/src/Typography/Line.php',
         'Intervention\\Image\\Typography\\TextBlock' => __DIR__ . '/..' . '/intervention/image/src/Typography/TextBlock.php',
+        'Jaybizzle\\CrawlerDetect\\CrawlerDetect' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/CrawlerDetect.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\AbstractProvider' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/AbstractProvider.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Crawlers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Crawlers.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Exclusions' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Exclusions.php',
+        'Jaybizzle\\CrawlerDetect\\Fixtures\\Headers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Headers.php',
+        'Jaybizzle\\LaravelCrawlerDetect\\Facades\\LaravelCrawlerDetect' => __DIR__ . '/..' . '/jaybizzle/laravel-crawler-detect/src/Facades/LaravelCrawlerDetect.php',
+        'Jaybizzle\\LaravelCrawlerDetect\\LaravelCrawlerDetectServiceProvider' => __DIR__ . '/..' . '/jaybizzle/laravel-crawler-detect/src/LaravelCrawlerDetectServiceProvider.php',
+        'LaravelLux\\Html\\Componentable' => __DIR__ . '/..' . '/laravellux/html/src/Componentable.php',
+        'LaravelLux\\Html\\Eloquent\\FormAccessible' => __DIR__ . '/..' . '/laravellux/html/src/Eloquent/FormAccessible.php',
+        'LaravelLux\\Html\\FormBuilder' => __DIR__ . '/..' . '/laravellux/html/src/FormBuilder.php',
+        'LaravelLux\\Html\\FormFacade' => __DIR__ . '/..' . '/laravellux/html/src/FormFacade.php',
+        'LaravelLux\\Html\\HtmlBuilder' => __DIR__ . '/..' . '/laravellux/html/src/HtmlBuilder.php',
+        'LaravelLux\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravellux/html/src/HtmlFacade.php',
+        'LaravelLux\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravellux/html/src/HtmlServiceProvider.php',
         'Laravel\\Prompts\\Concerns\\Colors' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Colors.php',
         'Laravel\\Prompts\\Concerns\\Cursor' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Cursor.php',
         'Laravel\\Prompts\\Concerns\\Erase' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Erase.php',
@@ -7601,24 +7632,6 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
-        'Spatie\\Activitylog\\ActivityLogStatus' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/ActivityLogStatus.php',
-        'Spatie\\Activitylog\\ActivityLogger' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/ActivityLogger.php',
-        'Spatie\\Activitylog\\ActivitylogServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/ActivitylogServiceProvider.php',
-        'Spatie\\Activitylog\\CauserResolver' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/CauserResolver.php',
-        'Spatie\\Activitylog\\CleanActivitylogCommand' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/CleanActivitylogCommand.php',
-        'Spatie\\Activitylog\\Contracts\\Activity' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Contracts/Activity.php',
-        'Spatie\\Activitylog\\Contracts\\LoggablePipe' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Contracts/LoggablePipe.php',
-        'Spatie\\Activitylog\\EventLogBag' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/EventLogBag.php',
-        'Spatie\\Activitylog\\Exceptions\\CouldNotLogActivity' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Exceptions/CouldNotLogActivity.php',
-        'Spatie\\Activitylog\\Exceptions\\CouldNotLogChanges' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Exceptions/CouldNotLogChanges.php',
-        'Spatie\\Activitylog\\Exceptions\\InvalidConfiguration' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Exceptions/InvalidConfiguration.php',
-        'Spatie\\Activitylog\\Facades\\CauserResolver' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Facades/CauserResolver.php',
-        'Spatie\\Activitylog\\Facades\\LogBatch' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Facades/LogBatch.php',
-        'Spatie\\Activitylog\\LogBatch' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/LogBatch.php',
-        'Spatie\\Activitylog\\LogOptions' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/LogOptions.php',
-        'Spatie\\Activitylog\\Models\\Activity' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Models/Activity.php',
-        'Spatie\\Activitylog\\Traits\\CausesActivity' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Traits/CausesActivity.php',
-        'Spatie\\Activitylog\\Traits\\LogsActivity' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/Traits/LogsActivity.php',
         'Spatie\\Backtrace\\Arguments\\ArgumentReducers' => __DIR__ . '/..' . '/spatie/backtrace/src/Arguments/ArgumentReducers.php',
         'Spatie\\Backtrace\\Arguments\\ProvidedArgument' => __DIR__ . '/..' . '/spatie/backtrace/src/Arguments/ProvidedArgument.php',
         'Spatie\\Backtrace\\Arguments\\ReduceArgumentPayloadAction' => __DIR__ . '/..' . '/spatie/backtrace/src/Arguments/ReduceArgumentPayloadAction.php',
@@ -7681,6 +7694,7 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'Spatie\\ErrorSolutions\\SolutionProviders\\Laravel\\ViewNotFoundSolutionProvider' => __DIR__ . '/..' . '/spatie/error-solutions/src/SolutionProviders/Laravel/ViewNotFoundSolutionProvider.php',
         'Spatie\\ErrorSolutions\\SolutionProviders\\MergeConflictSolutionProvider' => __DIR__ . '/..' . '/spatie/error-solutions/src/SolutionProviders/MergeConflictSolutionProvider.php',
         'Spatie\\ErrorSolutions\\SolutionProviders\\UndefinedPropertySolutionProvider' => __DIR__ . '/..' . '/spatie/error-solutions/src/SolutionProviders/UndefinedPropertySolutionProvider.php',
+        'Spatie\\ErrorSolutions\\Solutions\\Concerns\\IsProvidedByFlare' => __DIR__ . '/..' . '/spatie/error-solutions/src/Solutions/Concerns/IsProvidedByFlare.php',
         'Spatie\\ErrorSolutions\\Solutions\\Laravel\\GenerateAppKeySolution' => __DIR__ . '/..' . '/spatie/error-solutions/src/Solutions/Laravel/GenerateAppKeySolution.php',
         'Spatie\\ErrorSolutions\\Solutions\\Laravel\\LivewireDiscoverSolution' => __DIR__ . '/..' . '/spatie/error-solutions/src/Solutions/Laravel/LivewireDiscoverSolution.php',
         'Spatie\\ErrorSolutions\\Solutions\\Laravel\\MakeViewVariableOptionalSolution' => __DIR__ . '/..' . '/spatie/error-solutions/src/Solutions/Laravel/MakeViewVariableOptionalSolution.php',
@@ -7857,12 +7871,9 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'Spatie\\LaravelIgnition\\Support\\LaravelVersion' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/Support/LaravelVersion.php',
         'Spatie\\LaravelIgnition\\Support\\RunnableSolutionsGuard' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/Support/RunnableSolutionsGuard.php',
         'Spatie\\LaravelIgnition\\Support\\SentReports' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/Support/SentReports.php',
+        'Spatie\\LaravelIgnition\\Support\\StringComparator' => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition/Support/StringComparator.php',
         'Spatie\\LaravelIgnition\\Views\\BladeSourceMapCompiler' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/Views/BladeSourceMapCompiler.php',
         'Spatie\\LaravelIgnition\\Views\\ViewExceptionMapper' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/Views/ViewExceptionMapper.php',
-        'Spatie\\LaravelPackageTools\\Commands\\InstallCommand' => __DIR__ . '/..' . '/spatie/laravel-package-tools/src/Commands/InstallCommand.php',
-        'Spatie\\LaravelPackageTools\\Exceptions\\InvalidPackage' => __DIR__ . '/..' . '/spatie/laravel-package-tools/src/Exceptions/InvalidPackage.php',
-        'Spatie\\LaravelPackageTools\\Package' => __DIR__ . '/..' . '/spatie/laravel-package-tools/src/Package.php',
-        'Spatie\\LaravelPackageTools\\PackageServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-package-tools/src/PackageServiceProvider.php',
         'Spatie\\Permission\\Commands\\CacheReset' => __DIR__ . '/..' . '/spatie/laravel-permission/src/Commands/CacheReset.php',
         'Spatie\\Permission\\Commands\\CreatePermission' => __DIR__ . '/..' . '/spatie/laravel-permission/src/Commands/CreatePermission.php',
         'Spatie\\Permission\\Commands\\CreateRole' => __DIR__ . '/..' . '/spatie/laravel-permission/src/Commands/CreateRole.php',
@@ -11335,6 +11346,20 @@ class ComposerStaticInitb07902c46fcb72d2c2a7609b1f0d4804
         'ZipStream\\Zip64\\ExtendedInformationExtraField' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Zip64/ExtendedInformationExtraField.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
         'ZipStream\\Zs\\ExtendedInformationExtraField' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Zs/ExtendedInformationExtraField.php',
+        'jeremykenedy\\LaravelLogger\\App\\Http\\Controllers\\LaravelLoggerController' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Http/Controllers/LaravelLoggerController.php',
+        'jeremykenedy\\LaravelLogger\\App\\Http\\Middleware\\LogActivity' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Http/Middleware/LogActivity.php',
+        'jeremykenedy\\LaravelLogger\\App\\Http\\Traits\\ActivityLogger' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Http/Traits/ActivityLogger.php',
+        'jeremykenedy\\LaravelLogger\\App\\Http\\Traits\\IpAddressDetails' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Http/Traits/IpAddressDetails.php',
+        'jeremykenedy\\LaravelLogger\\App\\Http\\Traits\\UserAgentDetails' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Http/Traits/UserAgentDetails.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogAuthenticated' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogAuthenticated.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogAuthenticationAttempt' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogAuthenticationAttempt.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogFailedLogin' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogFailedLogin.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogLockout' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogLockout.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogPasswordReset' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogPasswordReset.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogSuccessfulLogin' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogSuccessfulLogin.php',
+        'jeremykenedy\\LaravelLogger\\App\\Listeners\\LogSuccessfulLogout' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Listeners/LogSuccessfulLogout.php',
+        'jeremykenedy\\LaravelLogger\\App\\Models\\Activity' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/App/Models/Activity.php',
+        'jeremykenedy\\LaravelLogger\\LaravelLoggerServiceProvider' => __DIR__ . '/..' . '/jeremykenedy/laravel-logger/src/LaravelLoggerServiceProvider.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
     );
 

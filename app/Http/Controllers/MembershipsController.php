@@ -40,8 +40,10 @@ use App\Exports\MembershipsExport;
 use App\Models\User;
 use App\Notifications\PersonStatusNotification;
 
+
 class MembershipsController extends Controller
 {
+
     public $statuses = [
         1 => 'Active',
         2 => 'Inactive',
@@ -387,10 +389,10 @@ class MembershipsController extends Controller
 
         $relationships = PersonRelationship::all(); // Fetch all relationships
         // Convert relationships to an associative array for easy lookup
-    $relationshipMap = [];
-    foreach ($relationships as $relationship) {
-        $relationshipMap[$relationship->id] = $relationship->name;
-    }
+        $relationshipMap = [];
+        foreach ($relationships as $relationship) {
+            $relationshipMap[$relationship->id] = $relationship->name;
+        }
 
         //$genders = Gender::all(); // Fetch all genders
 
