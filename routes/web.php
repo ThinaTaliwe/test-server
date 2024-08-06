@@ -532,20 +532,25 @@ Route::get('/chart-data2', [HomeController::class, 'getChartData2']);
 
 Route::get('/dependant/{id}/main-member', [DependantsController::class, 'mainMember'])->name('dependant.main-member');
 
-Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity']], function () {
+///Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity']], function () {
 
-    // Dashboards
-    Route::get('/activity', [LaravelLoggerController::class, 'howAccessLog'])->name('activity');
-    Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
 
-    // Drill Downs
-    Route::get('/log/{id}', [LaravelLoggerController::class, 'showAccessLogEntry']);
-    Route::get('/cleared/log/{id}', [LaravelLoggerController::class, 'showClearedAccessLogEntry']);
+   /// Route::get('/activity', [LaravelLoggerController::class, 'howAccessLog'])->name('activity');
+   /// Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
 
-    // Forms
-    Route::delete('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
-    Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
-    Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
+
+  ///  Route::get('/log/{id}', [LaravelLoggerController::class, 'showAccessLogEntry']);
+   /// Route::get('/cleared/log/{id}', [LaravelLoggerController::class, 'showClearedAccessLogEntry']);
+
+ 
+  ///  Route::delete('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
+  ///  Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
+  ///  Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
+///}); 
+
+// In web.php
+Route::get('/test-logger', function () {
+    return view('vendor.LaravelLogger.logger.partials.activity-table');
 });
 
 require __DIR__ . '/auth.php';
