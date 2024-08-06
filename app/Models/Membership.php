@@ -20,8 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable; // Import Notifiable trait
-use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\LogOptions;
+use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 
 
 /**
@@ -35,6 +34,9 @@ use App\Models\LogOptions;
  */
 class Membership extends Model
 {
+
+    use HasFactory, SoftDeletes, Notifiable, ActivityLogger;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -50,7 +52,7 @@ class Membership extends Model
     public $table = 'membership';
     protected $connection = 'mysql';
 
-    use HasFactory, SoftDeletes, Notifiable, LogsActivity;
+    
 
     /**
      * Get the person associated with the membership.
@@ -100,14 +102,5 @@ class Membership extends Model
     public function type()
     {
         return $this->belongsTo(BuMembershipType::class, 'bu_membership_type_id');
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['name', 'status']) // Specify the attributes you want to log
-            ->useLogName('membershipLog')    // Optional: customize the log name
-            ->logOnlyDirty()              // Optional: Log only changed attributes
-            ->dontSubmitEmptyLogs();      // Optional: Don't log empty logs
     }
 }

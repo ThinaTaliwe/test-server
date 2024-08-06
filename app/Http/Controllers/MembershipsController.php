@@ -43,6 +43,7 @@ use App\Notifications\PersonStatusNotification;
 
 class MembershipsController extends Controller
 {
+   
 
     public $statuses = [
         1 => 'Active',
@@ -84,6 +85,7 @@ class MembershipsController extends Controller
 
         //dd($maritalStatuses);
 
+        //ActivityLogger::activity("User just requested Memberships page");
 
         //dd($memberships);
         return view('memberships', [

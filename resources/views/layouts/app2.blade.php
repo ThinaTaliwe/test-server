@@ -564,6 +564,7 @@
                             {{-- ['url' => '/reports', 'title' => __('All Reports')], --}}
                             ['url' => '/report', 'title' => __('Memberships')],
                             ['url' => '/api/rowdetails', 'title' => __('Debit Orders')],
+                            ['url' => '/person', 'title' => __('More Repots')],
                             {{-- ['url' => '/pivotScroll', 'title' => __('Scroll')], --}}
                             {{-- ['url' => '/pivotTables', 'title' => __('Table')], --}}
                             {{-- ['url' => '/reporting', 'title' => __('messages.real_time_updates')], --}}
