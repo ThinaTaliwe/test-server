@@ -384,7 +384,7 @@
             var modal = document.getElementById('kt_modal_stacked_2');
 
             modal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch('') // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('dependantsBody');
@@ -418,7 +418,7 @@
             var modal = document.getElementById('kt_modal_stacked_3');
 
             modal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/addressData') // Adjust the API endpoint as needed
+                fetch('') // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('addressesBody');
@@ -451,7 +451,7 @@
             var paymentModal = document.getElementById('kt_modal_stacked_4');
 
             paymentModal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch('') // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('billingHistoryBody');

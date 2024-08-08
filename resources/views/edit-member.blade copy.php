@@ -1342,7 +1342,7 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: 'http://192.168.1.7/memberAddressData', // Adjust this if your URL is different
+                url: '', // Adjust this if your URL is different
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -1368,7 +1368,7 @@
                                                 $(this).closest('tr').remove();
                                                 // Add AJAX call to delete the record from the server here if needed
                                                 $.ajax({
-                                                    url: 'http://192.168.1.7/deleteMemberAddress/' +
+                                                    url: '' +
                                                         itemId,
                                                     type: 'DELETE',
                                                     headers: {
@@ -1412,9 +1412,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var paymentModal = document.getElementById('kt_modal_stacked_4');
-
+             var dependantsDataUrl = "<?php echo env('DEPENDANTS_DATA_URL'); ?>";
             paymentModal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch(dependantsDataUrl) // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('billingHistoryBody');
@@ -3022,7 +3022,7 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: 'http://192.168.1.7/memberAddressData', // Adjust this if your URL is different
+                url: '', // Adjust this if your URL is different
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -3048,7 +3048,7 @@
                                                 $(this).closest('tr').remove();
                                                 // Add AJAX call to delete the record from the server here if needed
                                                 $.ajax({
-                                                    url: 'http://192.168.1.7/deleteMemberAddress/' +
+                                                    url: '' +
                                                         itemId,
                                                     type: 'DELETE',
                                                     headers: {
@@ -3092,9 +3092,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var paymentModal = document.getElementById('kt_modal_stacked_4');
-
+             var dependantsDataUrl = "<?php echo env('DEPENDANTS_DATA_URL'); ?>";
             paymentModal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch(dependantsDataUrl) // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('billingHistoryBody');

@@ -542,7 +542,7 @@
             var modal = document.getElementById('kt_modal_stacked_2');
 
             modal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch('') // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('dependantsBody');
@@ -575,8 +575,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             var modal = document.getElementById('kt_modal_stacked_3');
 
+        var addressDataUrl = "<?php echo env('ADDRESS_DATA_URL'); ?>";
+        console.log(addressDataUrl); // This will log the value from the .env file
+
             modal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/addressData') // Adjust the API endpoint as needed
+                fetch(addressDataUrl) // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('addressesBody');

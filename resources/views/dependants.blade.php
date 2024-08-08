@@ -213,7 +213,14 @@
                                     {{ $dependant->personMain->screen_name ?? 'N/A' }}</a> --}}
                                     {{-- <a href="/edit-member/{{ $dependant->personMain->membership->first()->id }}">
                                     {{ $dependant->personMain->screen_name ?? 'N/A' }}</a> --}}
-                                    <a href="{{ route('dependant.main-member', ['id' => $dependant->id]) }}">{{ $dependant->personMain->screen_name ?? 'N/A' }}</a>
+                                    <a href="{{ route('dependant.main-member', ['id' => $dependant->id]) }}">
+    @if($dependant->personMain && $dependant->personMain->screen_name)
+         {{ $dependant->personMain->screen_name }} <i class="bi bi-check-circle text-success fs-4"></i>
+    @else
+       N/A <i class="bi bi-x-circle text-danger fs-4"></i> 
+    @endif
+</a>
+
                             </td>
 
                             {{--}} <td class="text-center w-5 font-weight-normal">

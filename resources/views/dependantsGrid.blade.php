@@ -44,9 +44,9 @@
                 currency: 'ZAR'
             }).format(value);
         }
-
+         var dependantsDataUrl = "<?php echo env('DEPENDANTS_DATA_URL'); ?>";
         $.ajax({
-            url: 'http://192.168.1.7/dependantsData',
+            url: dependantsDataUrl,
             method: 'GET',
             success: function(data) {
                 initializeComponents(data);

@@ -24,7 +24,7 @@
   <!-- Template Main CSS File -->
   <link href="assets/landingassets/css/main.css" rel="stylesheet">
 
-   <style>
+   {{-- <style>
         .logo img {
             width: 90px; /* Increase width as needed */
             height: auto; /* Maintain aspect ratio */
@@ -34,7 +34,7 @@
                 width: 60px; /* Smaller size for mobile view */
             }
         }
-    </style>
+    </style> --}}
 </head>
 
 <body class="index-page">
@@ -45,7 +45,7 @@
       <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/landingassets/img/logo.png" alt=""> -->
-        <h1 class="text-center ms-8 fs-1"><img src="/img/GBA-LOGO-white.png" class="card-img-top" alt="Logo"></h1>
+        <img src="/img/GBA-LOGO.png" class="card-img-top" alt="Logo">
       </a>
 
       <!-- Nav Menu -->

@@ -271,11 +271,43 @@
             display: none !important;
         }
     </style> --}}
+
+ <script>
+        function getDOB(idNumber) {
+            if (idNumber.length === 13) {
+                let year = idNumber.substring(0, 2);
+                let month = idNumber.substring(2, 4);
+                let day = idNumber.substring(4, 6);
+
+                // If the year is greater than the current year, then it must be from the 1900s
+                year = (year < new Date().getFullYear() % 100) ? `20${year}` : `19${year}`;
+
+                const dob = new Date(`${year}-${month}-${day}`);
+                const age = calculateAge(dob);
+
+                document.getElementById('age').value = age; // Set the age in the age input field
+            } else {
+                document.getElementById('age').value = ''; // Clear the age input if the ID number is invalid
+            }
+        }
+
+        function calculateAge(dob) {
+            const diffMs = Date.now() - dob.getTime();
+            const ageDt = new Date(diffMs);
+
+            return Math.abs(ageDt.getUTCFullYear() - 1970);
+        }
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
 @endpush
 
 @section('row_content')
 
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -291,7 +323,7 @@
                 @endif
             </ul>
         </div>
-    @endif
+    @endif --}}
 
     <div class="card shadow mb-10">
         <div class="card-header">
@@ -815,14 +847,15 @@
                                                         </div>
                                                         <span class="px-2"></span>
                                                         <div id="inputMonthDiv"
-                                                            class="form-floating @error('inputMonth') is-invalid @enderror">
+                                                            class="form-floating">
 
                                                             <input type="text" onkeypress="return isNumberKey(event)"
                                                                 class="form-control" name="inputMonth" id="inputMonth"
+                                                                
                                                                 value="{{ old('inputMonth') }}" placeholder=""
                                                                 maxlength="2" size="2" required>
-                                                            <label for="inputMonth" class="fs-4 text-gray-600"><span
-                                                                    class="text-danger">*</span>Month</label>
+                                                            <label for="inputMonth" class="fs-4 text-gray-600">MM<span
+                                                                    class="text-danger">*</span></label>
 
                                                         </div>
                                                         {{-- @error('inputMonth')
@@ -841,6 +874,21 @@
                                                             <label for="inputYear" class="fs-4 text-gray-600">Year<span
                                                                     class="text-danger">*</span></label>
                                                             @error('inputYear')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong style="color: red;">{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <span class="px-2"></span>
+                                                       
+                                                        <div id="ageDiv" class="form-floating" >
+
+                                                            <input type="text" onkeypress="return isNumberKey(event)"
+                                                                class="form-control" name="age" id="age"
+                                                                value="{{  old('age') }}" placeholder=""
+                                                                maxlength="4" size="3" readonly>
+                                                            <label for="age" class="fs-4 text-gray-600">Age</label>
+                                                            @error('age')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong style="color: red;">{{ $message }}</strong>
                                                                 </span>

@@ -51,6 +51,7 @@ use App\Http\Controllers\FuneralController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserBuController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\LaravelLoggerController;
 
 // to be deleted
 use App\Http\Controllers\GbaFormsController;
@@ -546,11 +547,7 @@ Route::get('/dependant/{id}/main-member', [DependantsController::class, 'mainMem
   ///  Route::delete('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
   ///  Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
   ///  Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
-///}); 
+///});
 
-// In web.php
-Route::get('/test-logger', function () {
-    return view('vendor.LaravelLogger.logger.partials.activity-table');
-});
 
 require __DIR__ . '/auth.php';

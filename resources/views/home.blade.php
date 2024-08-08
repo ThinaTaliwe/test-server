@@ -152,7 +152,7 @@
     {{-- </div> --}}
     <!--end::Col-->
 
- <!--begin::Col-->
+    <!--begin::Col-->
     <div class="col-xxl-4 col-md-4 mb-4">
         <!--begin::List Widget 5-->
         <div class="card h-md-100   shadow-lg" data-intro="The Services Schedule." data-step="4">

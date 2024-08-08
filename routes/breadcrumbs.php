@@ -46,8 +46,9 @@ Breadcrumbs::for('view-member', function ($trail, $id) {
     $trail->push(__('breadcrumbs.View Member'), route('view-member', $id));
 });
 
+
 Breadcrumbs::for('edit-member', function ($trail, $id) {
-    $trail->parent('home');
+    $trail->parent('memberships');
     $trail->push(__('breadcrumbs.Edit Member'), route('edit-member', $id));
 });
 

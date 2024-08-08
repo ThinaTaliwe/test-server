@@ -143,9 +143,10 @@
                 currency: 'ZAR'
             }).format(value);
         }
+        var membershipsDataUrl = "<?php echo env('MEMBERSHIPS_DATA_URL'); ?>";
 
         $.ajax({
-            url: 'http://192.168.1.7/membershipsData',
+            url: membershipsDataUrl,
             method: 'GET',
             success: function(data) {
                 initializeComponents(data);

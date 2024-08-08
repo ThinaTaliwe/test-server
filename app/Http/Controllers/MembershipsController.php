@@ -372,8 +372,24 @@ class MembershipsController extends Controller
         });
         // End Comments functionality [Thina]
 
+       try {
+    $response = Http::get(env('MEMBER_ADDRESS_URL'));
+    if ($response->successful()) {
+        $memAdd = $response->json();
+    } else {
+        // Handle error response
+        Log::error('Failed to retrieve member address data', ['response' => $response->body()]);
+        // Optionally, you can set a default value or handle the failure accordingly
+        $memAdd = [];
+    }
+} catch (Exception $e) {
+    // Handle exceptions
+    Log::error('Error occurred while retrieving member address data', ['exception' => $e->getMessage()]);
+    // Optionally, you can set a default value or handle the exception accordingly
+    $memAdd = [];
+}
+
         //Siya to Thina - Bro why are you using this? Its not good practice
-        $memAdd = Http::get('http://192.168.1.7/memberAddressData')->json();
 
         $disabled = '';
 

@@ -1737,6 +1737,7 @@
             var Year = IDNumber.substring(0, 2);
             var Month = IDNumber.substring(2, 4);
             var Day = IDNumber.substring(4, 6);
+            
 
             var cutoff = (new Date()).getFullYear() - 2000;
 
@@ -1745,7 +1746,7 @@
             document.getElementById("inputYear").value += Y;
             document.getElementById("inputMonth").value += Month;
             document.getElementById("inputDay").value += Day;
-
+            
         }
     </script>
 
@@ -1783,10 +1784,19 @@
             // get first 6 digits as a valid date
             var tempDate = new Date(IDNumber.substring(0, 2), IDNumber.substring(2, 4) - 1, IDNumber.substring(4, 6));
 
-
-            var id_date = tempDate.getDate();
+           var id_date = tempDate.getDate();
             var id_month = tempDate.getMonth();
             var id_year = tempDate.getFullYear();
+            
+
+            var currentYear = new Date().getFullYear();
+            let age = currentYear - id_year;
+            console.log('last two of current yrea: ', (currentYear.toString()).substring(2, 4));
+            if ((IDNumber.substring(0, 2)) >= 00 && (IDNumber.substring(0, 2)) <= (currentYear.toString()).substring(2, 4)) {
+                age = age - 100;
+                console.log(':::::::::::-100:', age);
+            }
+            console.log('Update Age >= 2000: ', age);
 
             var Year = IDNumber.substring(0, 2);
 
@@ -1808,17 +1818,23 @@
             if (correct) {
                 error.css('display', 'none');
 
-
                 //This adds the green checkmark
                 document.getElementById("IDNumber").classList.add('is-valid');
                 document.getElementById("inputYearDiv").classList.add('is-valid');
                 document.getElementById("inputMonthDiv").classList.add('is-valid');
                 document.getElementById("inputDayDiv").classList.add('is-valid');
 
+                // Clear the input fields
+                document.getElementById("inputYear").value = '';
+                document.getElementById("inputMonth").value = '';
+                document.getElementById("inputDay").value = '';
+                document.getElementById("age").value = '';
+
                 // and put together a result message
                 document.getElementById("inputYear").value += Y;
                 document.getElementById("inputMonth").value += (id_month + 1);
                 document.getElementById("inputDay").value += id_date;
+                document.getElementById("age").value = age;
             }
             // otherwise, show the error
             else {
@@ -1832,8 +1848,6 @@
             }
 
             return false;
-
-
         }
 
         function isNumber(n) {
@@ -1855,7 +1869,6 @@
             document.getElementById("inputYearDep").value = "";  // Clear existing content
             document.getElementById("inputMonthDep").value = "";  // Clear existing content
             document.getElementById("inputDayDep").value = "";  // Clear existing content
-
 
 
 

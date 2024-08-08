@@ -56,7 +56,8 @@
                 <div class="mt-2 text-center">
 
                     <div class="card-header p-0 position-relative mt-n4 z-index-1">
-                        <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto">
+                    <a href="javascript:history.back()" class="my-auto text-decoration-none btn"><p class="text-dark fs-3"> << Back </p></a>
+                        <div class="bg-gradient-success shadow-success border-radius-lg pt-3 pb-2 mx-auto ">
                             <div class="nav-wrapper position-relative end-0 mx-2 mx-auto">
                                 <ul class="nav nav-pills nav-fill p-1 fs-1 fw-1" id="myTabs" role="tablist">
                                     <li class="nav-item">
@@ -1506,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         $(document).ready(function() {
             $.ajax({
-                url: 'http://192.168.1.7/memberAddressData', // Adjust this if your URL is different
+                url: '', // Adjust this if your URL is different
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -1532,8 +1533,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 $(this).closest('tr').remove();
                                                 // Add AJAX call to delete the record from the server here if needed
                                                 $.ajax({
-                                                    url: 'http://192.168.1.7/deleteMemberAddress/' +
-                                                        itemId,
+                                                    url: ,
                                                     type: 'DELETE',
                                                     headers: {
                                                         'X-CSRF-TOKEN': $(
@@ -1576,9 +1576,9 @@ document.addEventListener('DOMContentLoaded', function () {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var paymentModal = document.getElementById('kt_modal_stacked_4');
-
+ var dependantsDataUrl = "<?php echo env('DEPENDANTS_DATA_URL'); ?>";
             paymentModal.addEventListener('shown.bs.modal', function() {
-                fetch('http://192.168.1.7/dependantsData') // Adjust the API endpoint as needed
+                fetch(dependantsDataUrl) // Adjust the API endpoint as needed
                     .then(response => response.json())
                     .then(data => {
                         const tbody = document.getElementById('billingHistoryBody');

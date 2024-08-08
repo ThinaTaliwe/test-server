@@ -33,6 +33,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('scripts')
@@ -45,7 +46,7 @@
 
          myJQuery(document).ready(function($) {
             // The URL from which to fetch the data
-            var url = 'http://192.168.1.7/logs';
+            var url = "<?php echo env('LOGS_URL'); ?>";
 
             // AJAX request to fetch the data
             $.ajax({
